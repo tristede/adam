@@ -1,0 +1,887 @@
+:root{
+  color-scheme: dark;
+  --bg: #05071f;
+  --bg-soft: #080d37;
+  --card-bg: rgba(22,28,92,0.45);
+  --card-border: rgba(140,160,255,0.16);
+  --text: #ffffff;
+  --text-dim: rgba(255,255,255,0.72);
+  --text-faint: rgba(255,255,255,0.5);
+  --accent: #4650ff;
+  --accent-strong: #5b63ff;
+  --accent-sky: #a3aeff;
+  /* le favori, unique, se distingue du bleu des « mis en avant » */
+  --accent-favori: #ffb27f;
+  --accent-border: rgba(120,140,255,0.35);
+  --accent-soft: rgba(70,80,255,0.16);
+  --line: rgba(140,160,255,0.14);
+  --line-strong: rgba(140,160,255,0.28);
+  --radius-lg: 0px;
+  --radius-md: 0px;
+  --maxw: 1120px;
+  --font: "Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-title: "Schoolbell", cursive;
+  --font-script: "Homemade Apple", cursive;
+  --font-display: "Baloo 2", ui-sans-serif, system-ui, sans-serif;
+}
+
+*,*::before,*::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  *,*::before,*::after{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+body{
+  margin:0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,svg{ display:block; max-width:100%; }
+a{ color: inherit; text-decoration:none; }
+::selection{ background: var(--accent); color: #fff; }
+
+.wrap{ max-width: var(--maxw); margin: 0 auto; padding: 0 28px; position:relative; z-index:1; }
+
+h1,h2,h3{ font-family: var(--font-title); font-weight: 400; letter-spacing:0; margin:0; text-wrap: balance; color: var(--text); }
+
+.grad-text{
+  background: linear-gradient(to right, var(--accent-sky) 0%, var(--accent-strong) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.eyebrow{
+  font-size: 13px; font-weight:600; letter-spacing: 0.04em;
+  color: var(--text-faint);
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-bottom: 14px;
+}
+.eyebrow::before{
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent-sky); flex:none;
+  animation: eyebrow-blink 2.2s ease-in-out infinite;
+}
+@keyframes eyebrow-blink{
+  0%, 100%{
+    box-shadow:
+      0 0 4px 1px rgba(180,225,255,0.9),
+      0 0 10px 4px rgba(127,196,255,0.7),
+      0 0 22px 8px rgba(127,196,255,0.4);
+    opacity: 1;
+  }
+  50%{
+    box-shadow:
+      0 0 2px 0px rgba(180,225,255,0.4),
+      0 0 5px 1px rgba(127,196,255,0.25),
+      0 0 10px 3px rgba(127,196,255,0.12);
+    opacity: 0.65;
+  }
+}
+
+/* ---------- Scramble-to-decrypt hover (Schoolbell handwriting -> readable) ---------- */
+/* the element itself always keeps its natural cursive font — only the
+   characters that have actually resolved to "readable" get an explicit
+   override, so the wave genuinely reads as part-cursive/part-clear while
+   it's mid-flight instead of the whole line snapping font at once. */
+.scramble{ cursor: default; }
+.scramble .plain-readable{
+  font-family: var(--font) !important;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.scramble .dud{
+  color: var(--accent-sky);
+  font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, monospace;
+  text-shadow: 0 0 8px rgba(127,196,255,0.5);
+}
+
+/* Le fond est piloté par des variables plutôt qu'écrit en dur : chaque
+   portfolio choisit ses couleurs et sa texture depuis ses données, sans qu'on
+   touche à cette feuille. Les valeurs ci-dessous restent les valeurs par
+   défaut — un thème absent ou incomplet n'efface donc rien. */
+.topo-bg{
+  position: fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    radial-gradient(ellipse 100% 60% at 50% -10%, var(--halo, rgba(90,100,255,0.16)), rgba(0,0,0,0) 60%),
+    linear-gradient(160deg, var(--bg-soft) 0%, var(--bg) 50%, var(--bg-deep, #030514) 100%);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+/* the topographic texture rides on top of the gradient at low opacity, so the
+   gradient still does the colour work underneath */
+.topo-bg::after{
+  content: ""; position: absolute; inset: 0;
+  background: var(--bg-image, url('images/bg-hor.webp')) center/cover no-repeat;
+  opacity: var(--bg-image-opacity, 0.55);
+}
+/* portrait screens get the vertical artwork so it isn't stretched */
+@media (max-aspect-ratio: 1/1){
+  .topo-bg::after{ background-image: var(--bg-image-vertical, url('images/bg-vert.webp')); }
+}
+
+/* ---------- Nav (floating glass pill, blue-tinted) ---------- */
+.site-nav{
+  position: sticky; top: 12px; z-index: 50;
+  width: fit-content; max-width: calc(100vw - 32px);
+  margin: 0 auto 0;
+  display:flex; align-items:center; gap: 36px;
+  padding: 10px 16px 10px 32px;
+  border-radius: 9999px;
+  background: rgba(18,22,80,0.55);
+  background-image: linear-gradient(rgba(140,160,255,0.08), rgba(140,160,255,0.02));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 24px 60px -24px rgba(0,0,10,0.7);
+  backdrop-filter: blur(28px) saturate(1.8);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8);
+  transform: translateZ(0);
+  will-change: transform;
+}
+.logo{ font-family: var(--font-display); font-weight:700; font-size: 15px; white-space:nowrap; }
+nav.links{ display:flex; align-items:center; gap: 20px; }
+nav.links a{ color: rgba(255,255,255,0.72); font-size: 13.6px; font-weight:500; transition: color .15s ease; white-space:nowrap; }
+nav.links a:hover, nav.links a.current{ color: var(--text); }
+
+.btn{
+  font-family: var(--font-display); font-weight: 600; font-size: 14px;
+  padding: 12px 24px; border-radius: var(--radius-md);
+  display:inline-flex; align-items:center; gap:8px;
+  border: 1px solid var(--line-strong);
+  cursor: pointer; color: var(--text);
+  transition: transform .15s ease, border-color .15s ease, background .15s ease;
+}
+.btn:active{ transform: scale(0.97); }
+.btn-primary{
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+  border: 1px solid rgba(120,140,255,0.5);
+  box-shadow: 0 10px 24px -10px rgba(70,80,255,0.55);
+}
+.btn-primary:hover{ filter: brightness(1.08); }
+.btn-ghost{ border-color: var(--line-strong); background: transparent; }
+.btn-ghost:hover{ color: var(--accent-sky); }
+.pill-btn{
+  display:inline-flex; align-items:center; gap:7px;
+  font-family: var(--font-display);
+  font-weight:600; font-size: 13.5px; padding: 7px 16px; border-radius: 0;
+  border: 1px solid var(--accent-border); color: var(--text); white-space:nowrap;
+  transition: border-color .15s ease, background .15s ease;
+}
+.pill-btn:hover{ background: var(--accent-soft); }
+/* le menu du header garde son style pilule, seul endroit du site qui la conserve */
+.site-nav .pill-btn{ border-radius: 100px; }
+
+.tag{
+  font-size: 12px; font-weight:500; color: var(--accent-sky);
+  background: rgba(18,22,80,0.5); border: 1px solid rgba(127,196,255,0.4);
+  padding: 2px 10px; border-radius: 0; user-select:none;
+}
+
+/* ---------- Hero / Accueil ---------- */
+.hero{ padding: 96px 0 88px; text-align:center; }
+.hero h1{ font-family: var(--font-title); font-size: clamp(48px, 8vw, 76px); line-height:1.1; margin-bottom: 6px; }
+.hero .role{ font-size: 18px; color: var(--text-dim); font-weight:500; margin-bottom: 26px; }
+.hero .bio{
+  font-family: var(--font-script); font-weight:400;
+  max-width: 52ch; margin: 0 auto 30px; color: var(--text); font-size: clamp(15px, 1.8vw, 19px); line-height:1.5;
+}
+.social-row{ display:flex; gap: 14px; justify-content:center; margin-bottom: 44px; }
+.social-row a{
+  width:42px; height:42px; border-radius:50%; border:1px solid var(--line-strong);
+  display:flex; align-items:center; justify-content:center; color: var(--text-dim);
+  transition: all .15s ease;
+}
+.social-row a:hover{ color: var(--accent-sky); }
+
+/* solid blue CTA buttons (matches Adobe Portfolio), Bastien's rounded/lift interaction */
+.nav-cards{
+  display:grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  max-width: 900px; margin: 0 auto;
+}
+.nav-cards-2{ grid-template-columns: repeat(2, 1fr); max-width: 900px; gap: 64px; }
+/* dark HUD-panel CTA — compact square-ish card, thin edge, faint ambient glow */
+.nav-card{
+  position: relative; isolation: isolate;
+  background: rgba(6,9,28,0.88);
+  border: 1px solid rgba(140,160,255,0.22);
+  border-radius: var(--radius-md);
+  box-shadow: 0 16px 32px -20px rgba(0,0,10,0.85);
+  padding: 32px 34px; text-align:left;
+  /* always visible — --py is a live scroll-driven parallax offset, updated in JS */
+  transform: rotate(var(--tilt, 0deg)) translateY(var(--py, 0px));
+  transition: transform .2s ease-out, border-color .25s ease, background .2s ease, box-shadow .2s ease;
+  display:flex; flex-direction:column; gap: 8px; align-items:flex-start;
+}
+.nav-card:nth-child(1){ --tilt: -1.2deg; }
+.nav-card:nth-child(2){ --tilt: 1.2deg; }
+.nav-card::before{
+  content:""; position:absolute; inset:-14px; z-index:-1; border-radius: inherit;
+  background: radial-gradient(circle at 22% 18%, rgba(70,90,255,0.28), rgba(70,90,255,0) 70%);
+  filter: blur(20px);
+  opacity: 0.3;
+  transition: opacity .3s ease;
+}
+.nav-card .nc-icon{
+  width: 46px; height: 46px; border-radius: 0;
+  background: var(--accent-soft); color: var(--accent-sky);
+  display:flex; align-items:center; justify-content:center;
+}
+.nav-card .nc-icon svg{ width: 24px; height: 24px; }
+.nav-card:hover{ transform: rotate(0deg) scale(1.04) translateY(var(--py, 0px)); border-color: rgba(140,160,255,0.45); }
+.nav-card:hover::before{ opacity: 0.5; }
+.nav-card .nc-title{
+  font-family: var(--font-display); font-weight:700; font-size: 17px;
+  text-transform: uppercase; letter-spacing: 0.05em; color: #fff;
+}
+.nav-card .nc-sub{ font-size: 14.5px; color: var(--text-dim); }
+
+/* ---------- Sections ---------- */
+/* Moins d'air sous une section que dessus : le trait de separation a besoin
+   de respirer avant le titre suivant, les cartes n'en ont pas besoin apres.
+   A 84px de chaque cote, les 168px de vide donnaient l'impression que la
+   page s'arretait la. */
+/* Ni trait ni grand vide entre les sections : ce sont des parties d'une meme
+   page, pas des pages separees. Le titre suffit a marquer le changement. */
+section.projects-section{
+  padding: clamp(34px, 3.6vw, 48px) 0 clamp(20px, 2.4vw, 30px);
+  position:relative; z-index:1;
+}
+.section-head{ margin-bottom: 40px; max-width: 640px; }
+.section-head .kicker{ color: var(--text-faint); font-size:13px; font-weight:600; letter-spacing:0.04em; margin-bottom:10px; display:block; }
+.section-head h1,
+.section-head h2{ font-size: clamp(22px, 2.6vw, 29px); margin-bottom: 10px; }
+.section-head p{ color: var(--text-dim); font-size: 15.5px; }
+.section-head.sub h2{ font-size: clamp(18px, 2vw, 22px); }
+.back-link{ margin-bottom: 28px; }
+
+.grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 20px 28px; }
+
+/* Filtres par tag. Un groupe reste affiché si l'un de ses projets porte le tag :
+   le filtre sert à trouver, pas à faire disparaître une entité qui contient
+   pourtant ce qu'on cherche.
+   Dix-neuf pastilles en permanence poussaient la grille hors de l'écran : elles
+   se déplient à la demande, et le bouton porte le filtre actif. */
+.filter-zone{ margin-bottom: 24px; }
+.filter-toggle{
+  font-family: var(--font); font-size:13.5px; font-weight:600;
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 16px; border-radius:0; cursor:pointer;
+  color: var(--text); background: transparent;
+  border:1px solid var(--line-strong);
+  transition: border-color .15s ease, background .15s ease;
+}
+.filter-toggle svg{ width:15px; height:15px; }
+.filter-toggle.is-active{ border-color: var(--accent-sky); background: var(--accent-soft); }
+.filter-chosen{
+  font-size:12px; font-weight:700; color:#fff;
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+  padding:2px 9px; border-radius:0;
+}
+.tag-filters.is-closed{ display:none; }
+.tag-filters{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.tag-filter{
+  font-family: var(--font); font-size:13px; font-weight:600;
+  display:inline-flex; align-items:center; gap:7px;
+  padding:6px 14px; border-radius:0; cursor:pointer;
+  color: var(--text-dim);
+  background: transparent; border:1px solid var(--line-strong);
+  transition: color .15s ease, border-color .15s ease, background .15s ease;
+}
+.tag-filter:hover{ color: var(--text); }
+.tag-filter.is-on{
+  color: #fff; border-color: transparent;
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+}
+.tag-count{ font-size:11px; opacity:.7; font-variant-numeric: tabular-nums; }
+
+/* Un groupe se lit comme un paquet de cartes : deux feuilles décalées derrière
+   la carte disent d'un coup d'œil qu'il y en a plusieurs dessous. `.card` masque
+   ce qui déborde, d'où le conteneur — sans lui les feuilles seraient rognées par
+   la carte elle-même. */
+.card-deck{ position: relative; }
+/* la carte remplit son conteneur : les feuilles se calent sur `inset: 0`, et
+   sans ça elles dépassaient sous une carte plus courte que sa rangée */
+.card-deck > .card{ position: relative; z-index: 2; height: 100%; }
+.deck-sheet{
+  position:absolute; inset:0; z-index:1;
+  border-radius: var(--radius-lg);
+  background: var(--card-bg); border:1px solid var(--card-border);
+  pointer-events:none; opacity:0;
+  transition: transform .25s ease, opacity .4s ease;
+}
+/* les feuilles apparaissent avec la carte, pas avant elle */
+.card-deck:has(.card.in) .deck-sheet-1{ opacity:.75; }
+.card-deck:has(.card.in) .deck-sheet-2{ opacity:.45; }
+.deck-sheet-1{ transform: translate(7px, 7px) rotate(1.1deg); }
+.deck-sheet-2{ transform: translate(14px, 14px) rotate(2.3deg); }
+
+/* et le badge le nomme, avec le compte a la place de l'annee */
+.card-group .medium-label{ color: var(--accent-favori); font-weight:700; }
+.card-group .year{ font-variant-numeric: tabular-nums; }
+
+.card{
+  background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);
+  overflow:hidden; display:flex; flex-direction:column;
+  opacity:0; transform: translateY(14px);
+  transition: opacity .5s ease, transform .5s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.card.in{ opacity:1; transform:none; }
+.card:hover{ transform: scale(1.03); box-shadow: 0 22px 44px -22px rgba(0,0,10,0.9); border-color: transparent; }
+.card .thumb{
+  aspect-ratio: 16/10; position:relative;
+  background: repeating-linear-gradient(90deg, #10164a 0 11%, #0c1140 11% 22%, #10164a 22% 33%, #161d5c 33% 44%, #10164a 44% 55%, #0c1140 55% 66%, #10164a 66% 77%, #161d5c 77% 88%, #10164a 88% 100%);
+  display:flex; align-items:center; justify-content:center;
+  border-bottom: 1px solid var(--card-border);
+}
+.card .thumb::before{
+  content:""; position:absolute; inset:0; z-index:1;
+  background: linear-gradient(180deg, rgba(8,11,48,0.1), rgba(8,11,48,0.78));
+}
+.card .thumb .icon{ position:relative; z-index:2; width:32px; height:32px; color: var(--accent-sky); opacity:0.9; }
+/* a real thumbnail image sits under the same dark gradient the generated
+   pattern gets, so the year/medium chips stay readable on any photo */
+.thumb-img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
+}
+.thumb.has-img::before{
+  background: linear-gradient(180deg, rgba(8,11,48,0.05), rgba(8,11,48,0.62));
+}
+.card .thumb .medium-label{
+  position:absolute; bottom:10px; left:12px; z-index:2;
+  font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; font-weight:600;
+  color: rgba(255,255,255,0.68);
+}
+.card .year{
+  position:absolute; top:10px; right:12px; z-index:2;
+  font-size: 11px; font-weight:600; color: rgba(255,255,255,0.85);
+  background: rgba(8,11,48,0.7); padding: 3px 8px; border-radius: 0;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+.card-body{ padding: 18px 18px 20px; display:flex; flex-direction:column; gap:10px; flex:1; }
+.card-body h3{ font-family: var(--font-display); font-size: 16px; font-weight:700; line-height:1.3; letter-spacing:0; }
+.card-body .desc{ font-size: 13.5px; color: var(--text-dim); line-height:1.5; flex:1; }
+.card-featured-label{
+  font-family: var(--font); font-size: 11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  color: var(--accent-sky);
+  display:inline-flex; align-items:center; gap:5px;
+}
+/* le favori est unique, « mis en avant » ne l'est pas : une couleur distincte
+   évite qu'on les confonde d'un coup d'œil */
+.card-featured-label.is-favori{ color: var(--accent-favori); }
+/* inline SVG marks sized to the text they sit next to */
+.ui-ico{ width:11px; height:11px; flex:none; }
+.ui-arrow{ width:15px; height:15px; flex:none; }
+.tag-featured{ display:inline-flex; align-items:center; gap:5px; }
+.tag-featured .ui-ico{ width:10px; height:10px; }
+.card-tags{ display:flex; flex-wrap:wrap; gap:6px; }
+.card-tags .tag{ font-size: 11px; padding: 2px 9px; }
+
+/* ---------- Page détail d'un projet (projet.html) ---------- */
+.detail-wrap{ max-width: 760px; padding-top: 20px; padding-bottom: 60px; }
+.detail-meta-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 14px; }
+.detail-title{ font-size: clamp(26px, 4vw, 38px); margin-bottom: 16px; }
+.detail-tags{ margin-bottom: 22px; }
+.detail-tags .tag{ font-size: 12px; }
+.detail-desc{ font-size: 16px; line-height:1.7; color: var(--text-dim); max-width: 62ch; margin-bottom: 28px; white-space: pre-line; }
+
+/* ---------- Photos "collées au mur" (masking tape, sans cadre polaroid) ----------
+   Inspiré du traitement polaroid d'oasisforest.be, mais on ne garde que le
+   ruban : pas de cadre blanc, l'image est posée directement sur le fond. */
+/* The gallery breaks out of the 760px reading column to span the full window,
+   so the photos read as a wall rather than a list. Masonry-style columns let
+   every image keep its own proportions — nothing is ever cropped. */
+/* Real flex columns rather than CSS `columns`: multicol builds a fragmentation
+   context that clips anything sticking out of an item (Safari cropped the tape
+   at the photo's edge), and it mixed badly with the full-bleed margins in
+   Firefox. Columns are filled by JS instead — nothing is ever clipped. */
+/* A wall of posters: every photo keeps the SAME width whatever the screen, and
+   they simply wrap across the full width. Staggered top margins break the rows
+   so it reads as pinned-up prints rather than a grid. */
+.detail-gallery{
+  margin-left: calc(50% - 50vw + var(--sbw, 0px) / 2);
+  margin-right: calc(50% - 50vw + var(--sbw, 0px) / 2);
+  /* Le mur doit prendre la largeur de l'écran : 60 px de marge de chaque côté
+     retiraient 120 px au placement, assez pour renvoyer une affiche à la ligne
+     et creuser un vide derrière elle. */
+  padding: 0 clamp(16px, 2.4vw, 36px);
+  margin-top: 56px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 46px 38px;
+}
+/* Mur de posters : chaque élément est placé par script.js à l'endroit le plus
+   haut où il tient, pour que rien ne laisse de vide derrière lui. Le flux flex
+   ci-dessus reste la mise en page de repli — colonne unique sur mobile, et
+   affichage correct si le script ne s'exécute pas. */
+.detail-gallery.is-packed{ display: block; position: relative; }
+.detail-gallery.is-packed > *{
+  position: absolute; top: 0; left: 0;
+  margin: 0;   /* les décalages verticaux sont repris dans le calcul */
+}
+.photo{
+  position: relative;
+  width: min(300px, 100%);
+  flex: 0 0 auto;
+  margin: 0;
+  transition: transform .25s ease, filter .25s ease;
+}
+
+/* ---------- Three preset sizes, chosen per asset in /admin.html ---------- */
+.photo.size-sm{ width: min(200px, 100%); }
+.photo.size-md{ width: min(300px, 100%); }
+.photo.size-lg{ width: min(460px, 100%); }
+/* the tape scales with the poster so it stays proportionate */
+.photo.size-sm::before{ width: 108px; height: 26px; margin-left: -54px; top: -13px; }
+.photo.size-lg::before{ width: 210px; height: 50px; margin-left: -105px; top: -25px; }
+
+/* videos, sites and documents get the same three widths, centred.
+   Embeds share the .photo class for the tape, so their width must be reset —
+   otherwise the poster widths above would win. */
+.detail-embed.photo{ width: auto; }
+.detail-embed.size-sm{ max-width: 420px; margin-left:auto; margin-right:auto; }
+.detail-embed.size-md{ max-width: 640px; margin-left:auto; margin-right:auto; }
+.detail-embed.size-lg{ max-width: 960px; margin-left:auto; margin-right:auto; }
+.detail-audio.size-sm{ max-width: 420px; margin-left:auto; margin-right:auto; }
+.detail-audio.size-md{ max-width: 640px; margin-left:auto; margin-right:auto; }
+.detail-audio.size-lg{ max-width: 960px; margin-left:auto; margin-right:auto; }
+.detail-webwrap.size-sm .detail-site-embed{ max-width: 480px; margin: 0 auto; }
+.detail-webwrap.size-md .detail-site-embed{ max-width: 760px; margin: 0 auto; }
+.detail-webwrap.size-lg .detail-site-embed{ max-width: 1100px; margin: 0 auto; }
+.detail-webwrap.size-sm iframe{ height: 340px; }
+.detail-webwrap.size-lg iframe{ height: 640px; }
+.detail-docwrap.size-sm .doc-viewer{ max-width: 460px; }
+.detail-docwrap.size-md .doc-viewer{ max-width: 720px; }
+.detail-docwrap.size-lg .doc-viewer{ max-width: 1000px; }
+.detail-docwrap.size-sm .doc-stage img{ max-height: 46vh; }
+.detail-docwrap.size-lg .doc-stage img{ max-height: 78vh; }
+/* vertical stagger — the wall shouldn't line up on a baseline */
+.photo-1{ margin-top: 38px; }
+.photo-2{ margin-top: 14px; }
+.photo-3{ margin-top: 52px; }
+/* four tape variants + slight rotations so no two photos look stamped alike */
+.photo::before{
+  content: ""; position: absolute; z-index: 2;
+  top: -19px; left: 50%;
+  width: 156px; height: 38px; margin-left: -78px;
+  background: url('images/tape/tape-1.webp') center/100% 100% no-repeat;
+  opacity: 0.94;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
+  pointer-events: none;
+}
+.photo-0{ transform: rotate(-1.4deg); }
+.photo-1{ transform: rotate(1.1deg); }
+.photo-2{ transform: rotate(0.7deg); }
+.photo-3{ transform: rotate(-0.9deg); }
+.photo-1::before{ background-image: url('images/tape/tape-2.webp'); transform: rotate(4deg); }
+.photo-2::before{ background-image: url('images/tape/tape-3.webp'); transform: rotate(-6deg); left: 38%; }
+.photo-3::before{ background-image: url('images/tape/tape-4.webp'); transform: rotate(3deg); left: 60%; }
+
+.photo img{
+  width:100%; height:auto; object-fit:contain;
+  border-radius: 0;
+  box-shadow: 0 18px 34px -14px rgba(0,0,6,0.8), 0 2px 6px rgba(0,0,6,0.4);
+  display:block;
+}
+/* only photos straighten on hover; videos must stay put under the cursor */
+.detail-gallery .photo:hover{ transform: rotate(0deg) scale(1.02); z-index: 3; }
+.detail-gallery .photo{ cursor: zoom-in; }
+
+/* ---------- Lightbox (full-screen image viewer) ---------- */
+.lightbox{
+  position: fixed; inset:0; z-index: 200;
+  display:none; align-items:center; justify-content:center; gap:8px;
+  padding: 40px 20px;
+  background: rgba(4,6,26,0.92);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.lightbox.is-open{ display:flex; }
+.lightbox img{
+  max-width: min(1200px, 92vw); max-height: 86vh;
+  width:auto; height:auto; object-fit:contain;
+  border-radius: var(--radius-md); border: 1px solid var(--card-border);
+  /* deterrent only — a screenshot still works */
+  user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; pointer-events:none;
+}
+.lightbox-close, .lightbox-nav{
+  background: rgba(18,22,80,0.7); color: var(--text);
+  border: 1px solid var(--line-strong); border-radius: 50%;
+  width: 44px; height: 44px; flex:none; cursor:pointer;
+  line-height:1; display:flex; align-items:center; justify-content:center;
+  transition: background .15s ease, border-color .15s ease;
+}
+.lightbox-close svg, .lightbox-nav svg{ width:20px; height:20px; display:block; }
+.lightbox-close:hover, .lightbox-nav:hover{ background: var(--accent); border-color: var(--accent-sky); }
+.lightbox-close{ position:absolute; top:20px; right:20px; }
+@media (max-width: 700px){
+  .lightbox{ padding: 20px 8px; gap:4px; }
+  .lightbox-close, .lightbox-nav{ width:38px; height:38px; }
+  .lightbox-close svg, .lightbox-nav svg{ width:17px; height:17px; }
+}
+/* videos get the same taped treatment, minus the zoom cursor and the hover
+   straighten (an iframe you're about to click shouldn't move under the mouse) */
+.detail-embed{ margin-top: 46px; }
+.detail-embed iframe, .detail-embed video{
+  width:100%; aspect-ratio: 16/9; border-radius: 0;
+  border: none; background: #000;
+  box-shadow: 0 18px 34px -14px rgba(0,0,6,0.8), 0 2px 6px rgba(0,0,6,0.4);
+  display:block;
+}
+/* Une vidéo TikTok est verticale, et son cadre officiel ajoute en-tête, légende
+   et lien musical sous la vidéo : le 16/9 des autres la couperait.
+   Le cadre est rendu à 325 px — la largeur où la carte de TikTok le remplit —
+   puis agrandi par un facteur que le mur calcule. Sans ça, un cadre plus large
+   n'élargit pas leur carte : il ajoute du blanc autour, et rien ici ne peut
+   restyler une iframe venue d'un autre domaine. */
+.detail-embed .tiktok-shell{
+  position: relative; width: 100%;
+  aspect-ratio: 325 / 578;
+  overflow: hidden;
+  border-radius: 0;
+  background: #000;
+  box-shadow: 0 18px 34px -14px rgba(0,0,6,0.8), 0 2px 6px rgba(0,0,6,0.4);
+}
+.detail-embed .tiktok-shell iframe.tiktok-embed-frame{
+  position: absolute; top: 0; left: 0;
+  width: 325px; height: 578px;
+  aspect-ratio: auto;
+  border: 0; box-shadow: none; border-radius: 0;
+  transform-origin: top left;
+  transform: scale(var(--tk-scale, 1));
+}
+.detail-gallery > .detail-embed.has-tiktok.size-sm{ width: min(325px, 100%); }
+.detail-gallery > .detail-embed.has-tiktok.size-md{ width: min(440px, 100%); }
+.detail-gallery > .detail-embed.has-tiktok.size-lg{ width: min(605px, 100%); }
+
+.detail-embed.photo{ cursor: default; }
+.detail-audio{ margin-top: 28px; }
+.detail-audio audio{ width:100%; }
+.detail-audio iframe{ width:100%; height:166px; border:none; border-radius: var(--radius-md); }
+
+.detail-site-embed{ margin-top: 28px; }
+.detail-site-embed iframe{
+  width:100%; height: 520px; border: 1px solid var(--card-border); border-radius: var(--radius-md);
+  background: #fff;
+}
+/* Légende sous un contenu. Sur un tirage scotché elle tient dans la largeur
+   fixe de la photo ; ailleurs elle se cale sous le bloc. Volontairement
+   discrète : elle précise, elle ne commente pas par-dessus l'image. */
+.asset-caption{
+  margin: 9px 0 0;
+  font-size: 12.5px; line-height: 1.45;
+  color: var(--text-dim);
+  text-align: center;
+  text-wrap: balance;
+}
+.detail-audio > .asset-caption,
+.detail-webwrap > .asset-caption,
+.detail-docwrap > .asset-caption{ margin-top: 12px; }
+
+.detail-embed-caption{ font-size: 12.5px; color: var(--text-faint); margin-top: 8px; }
+.detail-embed-caption a{ color: var(--accent-sky); }
+
+.detail-doc{ margin-top: 34px; }
+/* Pages are rendered at upload, but only ever ONE is on screen: a single
+   compact viewer with our own controls, identical in every browser. */
+.doc-viewer{
+  /* borderless: no frame, no plate — the page sits straight on the background */
+  position: relative;
+  max-width: 720px; margin-left: auto; margin-right: auto;
+  border: 0; background: transparent;
+}
+/* scotché au mur comme les photos. Le ruban se cale sur le haut du lecteur,
+   qui est aussi le haut de la page : .doc-stage aligne son image en flex-start
+   précisément pour que les deux ne se désolidarisent jamais. */
+.doc-viewer::before{
+  content: ""; position: absolute; z-index: 2;
+  top: -19px; left: 50%;
+  width: 156px; height: 38px; margin-left: -78px;
+  background: url('images/tape/tape-1.webp') center/100% 100% no-repeat;
+  opacity: 0.94;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
+  transform: rotate(-2.5deg);
+  pointer-events: none;
+}
+.doc-viewer:focus-visible{ outline: 2px solid var(--accent-sky); outline-offset: 3px; }
+.doc-stage{
+  position: relative;
+  /* fit-content pour que la scène épouse la page : les commandes se calent sur
+     les bords du document, pas sur ceux du lecteur, qui est bien plus large. */
+  width: fit-content; margin-left: auto; margin-right: auto;
+  display: flex; align-items: flex-start; justify-content: center;
+  min-height: 320px; max-height: 70vh; padding: 0;
+}
+.doc-stage img{
+  max-width: 100%; max-height: 66vh; width: auto; height: auto;
+  border-radius: 0; box-shadow: 0 12px 26px -14px rgba(0,0,6,0.9);
+}
+/* seul l'indicateur de page reste sous le document */
+.doc-bar{
+  display: flex; align-items: center; justify-content: center;
+  padding: 12px 2px 0; border-top: 0; background: transparent;
+}
+/* En surimpression sur la page : flèches sur les bords, plein écran en bas à
+   droite. Le fond translucide n'est pas un cadre — sans lui les icônes
+   disparaissent sur une page claire. Masqués tant que la page n'a pas ses
+   dimensions, sinon ils se posent sur une scène encore large de zéro. */
+.doc-nav{
+  position: absolute; z-index: 3;
+  width: 34px; height: 34px; flex: none; cursor: pointer;
+  visibility: hidden;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; border: 0;
+  background: rgba(6,9,32,0.66); color: #fff;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 18px -10px rgba(0,0,6,0.95);
+  transition: background .15s ease, opacity .15s ease;
+}
+.doc-viewer.is-ready .doc-nav{ visibility: visible; }
+.doc-prev{ left: 12px; top: 50%; margin-top: -17px; }
+.doc-next{ right: 12px; top: 50%; margin-top: -17px; }
+.doc-full{ right: 12px; bottom: 12px; }
+.doc-nav svg{ width: 16px; height: 16px; }
+.doc-nav:hover:not(:disabled){ background: var(--accent); }
+.doc-nav:disabled{ opacity: .35; cursor: default; }
+.doc-count{
+  font-size: 12.5px; font-weight: 600; color: var(--text-dim);
+  font-variant-numeric: tabular-nums; min-width: 62px; text-align: center;
+}
+/* =====================================================================
+   LE MUR — une seule règle de disposition pour tous les contenus.
+   Chaque contenu est une tuile dont la LARGEUR vient de sa taille S/M/L, et
+   les tuiles se rangent côte à côte jusqu'à manquer de place. Avant, seules
+   les photos avaient une largeur : tout le reste s'étalait sur 100 % et
+   s'empilait donc en colonne, S/M/L n'ayant aucun effet visible.
+   Les iframes ont besoin d'une hauteur en plus — rien dans leur contenu ne
+   peut la donner, il vient d'un autre domaine.
+   ===================================================================== */
+.detail-gallery > *{ flex: 0 0 auto; margin-left: 0; margin-right: 0; }
+
+/* document paginé (PDF converti) et carrousel : même lecteur, mêmes règles.
+   La largeur commande, pas la hauteur d'écran — sinon une page haute imposerait
+   sa taille à toute la rangée. */
+.detail-gallery > .detail-docwrap.size-sm,
+.detail-gallery > .detail-carousel.size-sm{ width: min(240px, 100%); }
+.detail-gallery > .detail-docwrap.size-md,
+.detail-gallery > .detail-carousel.size-md{ width: min(340px, 100%); }
+.detail-gallery > .detail-docwrap.size-lg,
+.detail-gallery > .detail-carousel.size-lg{ width: min(520px, 100%); }
+.detail-gallery > .detail-docwrap .detail-doc,
+.detail-gallery > .detail-carousel .detail-doc{ margin-top: 0; }
+.detail-gallery > .detail-docwrap .doc-viewer,
+.detail-gallery > .detail-carousel .doc-viewer{ max-width: 100%; }
+.detail-gallery > .detail-docwrap .doc-stage,
+.detail-gallery > .detail-carousel .doc-stage{ min-height: 0; max-height: none; }
+.detail-gallery > .detail-docwrap .doc-stage img,
+.detail-gallery > .detail-carousel .doc-stage img{ width: 100%; max-height: none; }
+
+/* document en ligne (Google Docs, Office, PDF non converti) : une iframe */
+.detail-gallery > .detail-docwrap.size-sm .detail-doc iframe{ height: 420px; }
+.detail-gallery > .detail-docwrap.size-md .detail-doc iframe{ height: 560px; }
+.detail-gallery > .detail-docwrap.size-lg .detail-doc iframe{ height: 720px; }
+
+/* bloc de texte : un contenu du mur, pour commenter une affiche à côté d'elle */
+.detail-gallery > .detail-textwrap.size-sm{ width: min(260px, 100%); }
+.detail-gallery > .detail-textwrap.size-md{ width: min(380px, 100%); }
+.detail-gallery > .detail-textwrap.size-lg{ width: min(560px, 100%); }
+.asset-text{
+  /* white-space garde les sauts de ligne saisis sans avoir à écrire de balises */
+  white-space: pre-wrap;
+  font-size: 15px; line-height: 1.6;
+  color: var(--text-dim);
+}
+
+/* vidéo */
+.detail-gallery > .detail-embed.size-sm{ width: min(280px, 100%); max-width: none; }
+.detail-gallery > .detail-embed.size-md{ width: min(420px, 100%); max-width: none; }
+.detail-gallery > .detail-embed.size-lg{ width: min(620px, 100%); max-width: none; }
+
+/* son */
+.detail-gallery > .detail-audio.size-sm{ width: min(300px, 100%); max-width: none; }
+.detail-gallery > .detail-audio.size-md{ width: min(420px, 100%); max-width: none; }
+.detail-gallery > .detail-audio.size-lg{ width: min(560px, 100%); max-width: none; }
+
+/* aperçu d'un site */
+.detail-gallery > .detail-webwrap.size-sm{ width: min(320px, 100%); }
+.detail-gallery > .detail-webwrap.size-md{ width: min(480px, 100%); }
+.detail-gallery > .detail-webwrap.size-lg{ width: min(700px, 100%); }
+.detail-gallery > .detail-webwrap .detail-site-embed{ max-width: 100%; margin: 0; }
+.detail-gallery > .detail-webwrap.size-sm iframe{ height: 260px; }
+.detail-gallery > .detail-webwrap.size-md iframe{ height: 780px; }
+.detail-gallery > .detail-webwrap.size-lg iframe{ height: 900px; }
+/* borderless: no frame and no white plate — the viewer sits straight on the
+   page background */
+/* Un document en ligne est scotché au mur comme tout le reste. Le ruban se pose
+   sur le bloc et non sur l'iframe : une iframe ne peut porter de ::before, son
+   contenu venant d'un autre domaine. */
+.detail-doc.is-embed{ position: relative; }
+.detail-doc.is-embed::before{
+  content: ""; position: absolute; z-index: 2;
+  top: -19px; left: 50%;
+  width: 156px; height: 38px; margin-left: -78px;
+  background: url('images/tape/tape-3.webp') center/100% 100% no-repeat;
+  opacity: 0.94;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
+  transform: rotate(2deg);
+  pointer-events: none;
+}
+
+/* Le cadre arrondi était le dernier reste de bordure côté site : supprimé, le
+   document affleure. Ce qu'on ne peut PAS retirer, c'est la page blanche et les
+   marges de Google : l'iframe vient d'un autre domaine, aucune règle d'ici ne
+   l'atteint. Pour un rendu réellement maîtrisé, exporter en PDF et passer par
+   le lecteur pagine. */
+.detail-doc iframe{
+  width:100%; height: 640px;
+  border: 0; border-radius: 0;
+  background: transparent;
+  display: block;
+}
+@media (max-width: 700px){ .detail-doc iframe{ height: 460px; } }
+@media (max-width: 700px){ .detail-site-embed iframe{ height: 380px; } }
+
+.detail-subprojects{ margin-top: 34px; }
+/* Le titre de la section est ce que voit le visiteur : c'est lui qui porte
+   le niveau, pas un intitule « Sections » qui n'existe que dans l'editeur. */
+.subproject-title{ font-size: clamp(20px, 2.2vw, 25px); margin-bottom: 6px; }
+.subproject{ padding: 26px 0 0; }
+.subproject:first-of-type{ padding-top: 0; }
+.subproject h3{ font-family: var(--font-display); font-size: 18px; margin: 8px 0 8px; }
+.subproject .detail-desc{ font-size: 14.5px; margin-bottom: 14px; }
+.subproject .detail-gallery{ margin-top: 14px; }
+.subproject .detail-embed{ margin-top: 14px; }
+.subproject .detail-audio{ margin-top: 14px; }
+
+/* ---------- Projet favori (single flagship project) ---------- */
+.favori-card{
+  display:grid; grid-template-columns: 1fr 1fr; align-items:stretch;
+  background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);
+  overflow:hidden;
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.favori-card:hover{
+  transform: scale(1.02);
+  box-shadow: 0 22px 44px -22px rgba(0,0,10,0.9);
+}
+.favori-card:hover .pill-btn{ background: var(--accent-soft); }
+.favori-card .thumb{
+  position:relative; min-height:280px;
+  background: repeating-linear-gradient(90deg, #10164a 0 11%, #0c1140 11% 22%, #10164a 22% 33%, #161d5c 33% 44%, #10164a 44% 55%, #0c1140 55% 66%, #10164a 66% 77%, #161d5c 77% 88%, #10164a 88% 100%);
+  display:flex; align-items:center; justify-content:center;
+}
+.favori-card .thumb::before{
+  content:""; position:absolute; inset:0; z-index:1;
+  background: linear-gradient(180deg, rgba(8,11,48,0.1), rgba(8,11,48,0.78));
+}
+.favori-card .thumb .icon{ position:relative; z-index:2; width:48px; height:48px; color: var(--accent-sky); opacity:0.9; }
+.favori-card .thumb .year{
+  position:absolute; top:14px; right:14px; z-index:2;
+  font-size: 11px; font-weight:600; color: rgba(255,255,255,0.85);
+  background: rgba(8,11,48,0.7); padding: 3px 8px; border-radius: 0;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+.favori-card .body{ padding: 36px; display:flex; flex-direction:column; gap:14px; justify-content:center; }
+.favori-card .body h2{ font-size: clamp(20px, 2.4vw, 26px); }
+.favori-card .body .desc{ color: var(--text-dim); font-size: 15px; line-height:1.6; }
+@media (max-width: 760px){
+  .favori-card{ grid-template-columns: 1fr; }
+  .favori-card .thumb{ min-height:200px; }
+  .favori-card .body{ padding: 28px; }
+}
+
+/* ---------- About ---------- */
+.about-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items:start; }
+.about-lede{ font-family: var(--font-script); font-weight:400; font-size: 22px; color: var(--text); line-height:1.4; }
+.about-lede + .about-lede{ margin-top: 14px; color: var(--text-dim); font-size:19px; }
+.skill-block{ margin-bottom: 18px; }
+.skill-block h4{ font-size: 12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color: var(--accent-sky); margin: 0 0 12px; }
+.skill-card{
+  background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);
+  padding: 16px 18px; margin-bottom: 10px;
+}
+.skill-card .name{ font-weight:700; font-size: 14.5px; margin-bottom: 3px; }
+.skill-card .detail{ font-size: 13px; color: var(--text-dim); line-height:1.5; }
+
+/* ---------- Parcours (timeline verticale) ---------- */
+.timeline{ position:relative; max-width: 640px; padding-left: 32px; padding-bottom: 10px; }
+.timeline::before{
+  content:""; position:absolute; left: 5px; top: 6px; bottom: 14px; width: 2px;
+  background: var(--line-strong);
+}
+.timeline::after{
+  content:""; position:absolute; left: 1px; bottom: 0;
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 8px solid var(--accent-sky);
+}
+.timeline-item{ position:relative; padding-bottom: 40px; }
+.timeline-item:last-child{ padding-bottom: 0; }
+.timeline-item::before{
+  content:""; position:absolute; left: -32px; top: 3px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--accent-sky);
+}
+.timeline-item.current::before{ background: var(--accent-sky); }
+.timeline-year{
+  font-family: var(--font-display); font-weight:700; font-size: 12.5px;
+  color: var(--accent-sky); letter-spacing: 0.04em; text-transform: uppercase;
+  display:block; margin-bottom: 6px;
+}
+.timeline-content h3{ font-family: var(--font-display); font-size: 17px; font-weight:700; margin-bottom: 4px; }
+.timeline-content p{ font-size: 14px; color: var(--text-dim); line-height:1.5; margin:0; }
+
+.stage-cta{
+  max-width: 420px; margin: 48px 0 0;
+  text-align:left;
+}
+.stage-cta h3{ font-size: clamp(19px, 2.4vw, 23px); margin: 10px 0 10px; }
+.stage-cta p{ color: var(--text-dim); font-size:14.5px; margin: 0 0 20px; }
+.stage-cta-actions{ display:flex; gap:12px; justify-content:flex-start; flex-wrap:wrap; }
+
+/* ---------- Footer / contact ---------- */
+footer{ border-top: 1px solid var(--line); padding: 92px 0 40px; position:relative; z-index:1; }
+.contact-band{ text-align:center; margin-bottom: 56px; }
+.contact-band h2{ font-size: clamp(22px, 3.2vw, 32px); margin: 14px 0 26px; }
+.contact-email{
+  font-family: var(--font-display);
+  font-size: clamp(16px, 2.4vw, 20px); font-weight:600;
+  color: var(--accent-sky); border-bottom: 1px solid transparent;
+}
+.contact-email:hover{ border-color: var(--accent-sky); }
+.foot-meta{
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
+  font-size: 12px; color: var(--text-faint);
+  padding-top: 26px; border-top: 1px solid var(--line);
+}
+.foot-left{ display:flex; align-items:center; flex-wrap:wrap; gap:10px; }
+/* discreet — this is a way in for Adam, not a call to action for visitors */
+.admin-link{
+  display:flex; align-items:center; justify-content:center;
+  width:26px; height:26px; border-radius:50%;
+  color: var(--text-faint); opacity:0.4;
+  transition: opacity .2s ease, color .2s ease;
+  flex:none;
+}
+.admin-link:hover{ opacity:1; color: var(--accent-sky); }
+
+@media (max-width: 860px){
+  .nav-cards{ grid-template-columns: 1fr; }
+  .about-grid{ grid-template-columns: 1fr; gap: 32px; }
+}
+@media (max-width: 640px){
+  .site-nav{ gap: 10px; padding: 8px 10px 8px 16px; }
+  nav.links{ gap: 10px; }
+  nav.links a{ font-size: 12px; }
+  .logo{ font-size: 13px; }
+  .pill-btn{ font-size: 12px; padding: 6px 12px; }
+}
+@media (max-width: 520px){
+  .wrap{ padding: 0 18px; }
+  section.projects-section{ padding: 60px 0; }
+  .hero{ padding: 56px 0 60px; }
+}

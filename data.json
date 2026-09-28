@@ -1,0 +1,1266 @@
+{
+  "site": {
+    "owner": "Adam",
+    "roleMain": "Création de contenu",
+    "roleAccent": "· Audiovisuel",
+    "bio": "Depuis petit, je suis passionné par la création de contenu et l'influence sur le web.\nAutodidacte, j'ai développé des compétences en graphisme, montage vidéo et mixage audio.",
+    "aboutParagraphs": [
+      "Depuis petit, la création de contenu et l'envie de raconter des choses en ligne m'occupent — d'abord en autodidacte, aujourd'hui avec la rigueur d'une formation en communication.",
+      "Je navigue entre le graphisme, le montage vidéo, le mixage audio et la gestion de communautés : des disciplines différentes, mais un même réflexe — comprendre à qui l'on parle avant de choisir comment le lui dire."
+    ],
+    "contactEmail": "PLACEHOLDER@email.com",
+    "linkedin": "https://www.linkedin.com/in/adam-d-3b2352240/",
+    "instagram": "https://www.instagram.com/_adamdrk",
+    "favoriProjectId": "projet-360-dei-belgique",
+    "timeline": [
+      {
+        "year": "2021",
+        "title": "CESS",
+        "desc": "Obtention du Certificat d'Enseignement Secondaire Supérieur.",
+        "current": false
+      },
+      {
+        "year": "2022",
+        "title": "1ère en Bachelier Informatique",
+        "desc": "Une première année d'études supérieures en informatique.",
+        "current": false
+      },
+      {
+        "year": "2023 — Aujourd'hui",
+        "title": "Réorientation : Bachelier en Communication",
+        "desc": "ISFSC, Bruxelles.",
+        "current": true
+      },
+      {
+        "year": "2025",
+        "title": "Stage — En Esprit",
+        "desc": "Stage de deuxième année : montage vidéo, community management, création de contenu.",
+        "current": false
+      }
+    ],
+    "sections": [
+      {
+        "id": "perso",
+        "kicker": "01 — Perso",
+        "title": "Projets perso",
+        "desc": "Des projets menés en dehors du cadre scolaire, par envie de créer."
+      },
+      {
+        "id": "academique",
+        "kicker": "02 — Académique",
+        "title": "Projets académiques",
+        "desc": "Travaux réalisés dans le cadre de ma formation en communication, stage compris."
+      }
+    ],
+    "groups": [
+      {
+        "id": "union-oasis-forest",
+        "kicker": "Club",
+        "title": "Union Oasis Forest",
+        "desc": "",
+        "thumb": "",
+        "featured": true
+      },
+      {
+        "id": "en-esprit",
+        "kicker": "Stage de 2e année",
+        "title": "Stage chez En Esprit",
+        "desc": "Réalisations produites durant mon stage chez En Esprit.",
+        "thumb": "",
+        "featured": true
+      }
+    ],
+    "theme": {
+      "bg": "#05071f",
+      "bgSoft": "#080d37",
+      "bgDeep": "#030514",
+      "accent": "#4650ff",
+      "accentStrong": "#5b63ff",
+      "accentSky": "#a3aeff",
+      "halo": "rgba(90,100,255,0.16)",
+      "bgImage": "images/bg-hor.webp",
+      "bgImageVertical": "images/bg-vert.webp",
+      "bgImageOpacity": 0.55
+    },
+    "kicker": "Étudiant en communication — Bruxelles",
+    "featuredKicker": "Sélection",
+    "featuredTitle": "Projets mis en avant",
+    "featuredSub": "Trois réalisations représentatives, tous mediums confondus.",
+    "aboutKicker": "À propos",
+    "aboutTitle": "Curieux de nature, touche-à-tout par passion",
+    "parcoursKicker": "Parcours",
+    "parcoursTitle": "Un chemin pas si linéaire",
+    "parcoursSub": "De l'informatique à la communication, jusqu'au terrain.",
+    "stageCta": {
+      "enabled": true,
+      "kicker": "Disponible dès 2026",
+      "title": "Stage de 3e recherché (2026 – 2027)",
+      "text": "Communication, création de contenu ou community management — CV et portfolio sur demande."
+    },
+    "skills": [
+      {
+        "group": "Cœur de métier",
+        "name": "Création de contenu",
+        "detail": "Affiches, miniatures, formats courts, pochettes — de l'idée au fichier livré."
+      },
+      {
+        "group": "Cœur de métier",
+        "name": "Community management",
+        "detail": "Ligne éditoriale, publications, veille et animation de communautés."
+      },
+      {
+        "group": "Également",
+        "name": "Graphisme & identité visuelle",
+        "detail": "Logos, cartes de visite, affiches — Photoshop / Illustrator."
+      },
+      {
+        "group": "Également",
+        "name": "Montage vidéo",
+        "detail": "Formats YouTube, reels/TikTok, reportages — Premiere Pro."
+      },
+      {
+        "group": "Également",
+        "name": "Audio",
+        "detail": "Écriture, enregistrement, mixage chant/rap, podcast."
+      }
+    ]
+  },
+  "projects": [
+    {
+      "id": "ilonka-club",
+      "title": "Ilonka Club",
+      "year": 2025,
+      "ctx": "perso",
+      "medium": "graphisme",
+      "tags": [
+        "Graphisme",
+        "Affiche"
+      ],
+      "desc": "Identité visuelle et affiche promotionnelle pour un showcase événementiel.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/ilonka-club-myportfolio-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/ilonka-club-myportfolio-1.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/ilonka-club-myportfolio-2.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/ilonka-club-myportfolio-3.webp",
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "id": "union-oasis-forest",
+      "title": "Union Oasis Forest",
+      "year": 2025,
+      "ctx": "perso",
+      "medium": "graphisme",
+      "tags": [
+        "Graphisme",
+        "Identité visuelle"
+      ],
+      "desc": "Création d'identité visuelle pour le projet Union Oasis Forest.",
+      "featured": false,
+      "thumb": "images/union-oasis-forest-miniature-1787866364017-0.webp",
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/union-oasis-forest-1787871728526-0.webp",
+          "hidden": false,
+          "pos": {
+            "x": 177,
+            "y": 0,
+            "w": 473
+          }
+        },
+        {
+          "type": "image",
+          "url": "images/union-oasis-forest-1787871738308-0.webp",
+          "hidden": false,
+          "pos": {
+            "x": 601,
+            "y": 80,
+            "w": 494
+          }
+        }
+      ],
+      "subProjects": [
+        {
+          "title": "Production de contenu sur les réseaux-sociaux",
+          "medium": "",
+          "desc": "",
+          "assets": [
+            {
+              "type": "video",
+              "url": "https://www.tiktok.com/embed/v2/7554688445604547872",
+              "hidden": false,
+              "size": "sm",
+              "pos": {
+                "x": 136,
+                "y": 13,
+                "w": 325
+              },
+              "caption": "Babyfutsal"
+            },
+            {
+              "type": "video",
+              "url": "https://www.tiktok.com/embed/v2/7542489276752219425",
+              "hidden": false,
+              "size": "sm",
+              "caption": "Récap' de match"
+            },
+            {
+              "type": "video",
+              "url": "https://www.tiktok.com/embed/v2/7556725924587244833",
+              "hidden": false,
+              "size": "sm",
+              "caption": "Détections jeunes"
+            }
+          ],
+          "link": ""
+        }
+      ],
+      "group": "union-oasis-forest",
+      "link": "https://www.tiktok.com/@oasisforestfutsal"
+    },
+    {
+      "id": "miniatures-youtube",
+      "title": "Miniatures YouTube",
+      "year": 2023,
+      "ctx": "perso",
+      "medium": "graphisme",
+      "tags": [
+        "Graphisme",
+        "Miniature"
+      ],
+      "desc": "Conception de miniatures pensées pour maximiser le taux de clic.",
+      "featured": false,
+      "longDesc": "",
+      "link": "",
+      "subProjects": [],
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/miniatures-youtube-1787746152153-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/miniatures-youtube-1787746157861-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/miniatures-youtube-1787746161417-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/miniatures-youtube-myportfolio-3.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/miniatures-youtube-myportfolio-4.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/miniatures-youtube-myportfolio-5.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/miniatures-youtube-myportfolio-6.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/miniatures-youtube-myportfolio-7.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/miniatures-youtube-myportfolio-8.webp",
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "id": "montage-video-style-youtube",
+      "title": "Montage vidéo style YouTube",
+      "year": 2025,
+      "ctx": "perso",
+      "medium": "video",
+      "tags": [
+        "Montage vidéo"
+      ],
+      "desc": "Montage dynamique dans les codes du format YouTube.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "web",
+          "url": "https://www-ccv.adobe.io/v1/player/ccv/BtVu4sQjmY5/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
+          "hidden": false,
+          "caption": "Best of d'un live IRL d'1h30"
+        },
+        {
+          "type": "web",
+          "url": "https://www-ccv.adobe.io/v1/player/ccv/-3RUXChiGI-/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
+          "hidden": false,
+          "caption": "Best of d'un live gaming de 2h"
+        }
+      ],
+      "thumb": "images/montage-video-style-youtube-thumb.webp"
+    },
+    {
+      "id": "ecriture-enregistrement-mixage-chant-rap",
+      "title": "Écriture, enregistrement & mixage chant/rap",
+      "year": 2025,
+      "ctx": "perso",
+      "medium": "audio",
+      "tags": [
+        "Audio",
+        "Composition"
+      ],
+      "desc": "De l'écriture à l'enregistrement jusqu'au mixage final.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "audio",
+          "url": "https://soundcloud.com/adamdrk/maquette-sorciere-proddovz2?utm_source=clipboard&utm_campaign=wtshare&utm_medium=widget&utm_content=https%253A%252F%252Fsoundcloud.com%252Fadamdrk%252Fmaquette-sorciere-proddovz2",
+          "hidden": false
+        },
+        {
+          "type": "audio",
+          "url": "https://soundcloud.com/adamdrk/maquette-ciel-turquoise-prod-1?utm_source=clipboard&utm_campaign=wtshare&utm_medium=widget&utm_content=https%253A%252F%252Fsoundcloud.com%252Fadamdrk%252Fmaquette-ciel-turquoise-prod-1",
+          "hidden": false
+        }
+      ],
+      "subProjects": [],
+      "thumb": "images/ecriture-enregistrement-mixage-chant-rap-miniature-1787928556958-0.webp"
+    },
+    {
+      "id": "artwork-rap-pochette-albums",
+      "title": "Artwork rap / pochette d'albums",
+      "year": 2025,
+      "ctx": "perso",
+      "medium": "graphisme",
+      "tags": [
+        "Graphisme",
+        "Pochette d'album"
+      ],
+      "desc": "Création de visuels de pochettes pour des projets rap.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778502245-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778504109-1.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778510294-3.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778512584-4.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778514676-5.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778516929-6.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778518647-7.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778520048-8.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778522077-9.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778524271-10.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778526092-11.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778528038-12.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778529909-13.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778531715-14.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-albums-myportfolio-6.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-albums-myportfolio-13.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-albums-myportfolio-14.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-albums-myportfolio-16.webp",
+          "hidden": false
+        }
+      ],
+      "subProjects": []
+    },
+    {
+      "id": "evenementiel-stand-zennit",
+      "title": "Événementiel : Stand Zennit",
+      "year": 2022,
+      "ctx": "perso",
+      "medium": "event",
+      "tags": [
+        "Événementiel"
+      ],
+      "desc": "Organisation et animation d'un stand lors d'un événement.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/evenementiel-stand-zennit-myportfolio-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/evenementiel-stand-zennit-myportfolio-1.webp",
+          "hidden": false
+        }
+      ],
+      "longDesc": "ZennIT Gaming est une organisation d'e-sports qui s'engage à promouvoir les e-sports en Belgique.\n\nLors de ces événements, j'ai invité les visiteurs à participer à un tournoi de jeu vidéo et les ai informés sur l'académie ZNT, spécialisée dans la formation de joueurs sur League of Legends.\n\nMade In Asia (septembre 2022) · GameForce (septembre 2022) · Made In Asia (mars 2023)"
+    },
+    {
+      "id": "community-management-easypermis",
+      "title": "Community management : easypermis.be",
+      "year": 2025,
+      "ctx": "perso",
+      "medium": "social",
+      "tags": [
+        "Community management",
+        "Réseaux sociaux"
+      ],
+      "desc": "Gestion de la ligne éditoriale et des publications.",
+      "featured": false,
+      "hidden": true,
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-1.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-2.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-3.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-4.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-5.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-6.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-7.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-8.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-9.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-10.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-11.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-12.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-13.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-14.webp",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://indd.adobe.com/embed/a026f782-05ab-497d-9c54-ec9ddb893eb9?startpage=1&allowFullscreen=true",
+          "hidden": false,
+          "caption": "Brochure complète (InDesign)"
+        }
+      ],
+      "link": "https://www.instagram.com/easypermis.be/"
+    },
+    {
+      "id": "reportage-video",
+      "title": "Production d'un reportage vidéo",
+      "year": 2025,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Vidéo",
+        "Reportage"
+      ],
+      "desc": "Réalisation d'un reportage vidéo de bout en bout.",
+      "featured": false,
+      "thumb": "images/production-d-un-reportage-video-miniature-1787835136197-0.webp",
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/production-d-un-reportage-video-1787864379342-0.webp",
+          "hidden": false,
+          "pos": {
+            "x": 53,
+            "y": 29,
+            "w": 594
+          },
+          "caption": "Timeline du projet"
+        },
+        {
+          "type": "video",
+          "url": "https://youtu.be/73Ggp19Jdec?t=919",
+          "hidden": false,
+          "pos": {
+            "x": 575,
+            "y": 97,
+            "w": 714
+          },
+          "caption": "Reportage réalisé dans le cadre du projet vidéo 2 à l'ISFSC"
+        },
+        {
+          "type": "image",
+          "url": "images/reportage-video-myportfolio-0.webp",
+          "hidden": false
+        }
+      ],
+      "subProjects": []
+    },
+    {
+      "id": "projet-360-dei-belgique",
+      "title": "Projet 360° : DEI-Belgique",
+      "year": 2025,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Vidéo 360°"
+      ],
+      "desc": "Campagne 360 de sensibilisation aux VEO",
+      "featured": false,
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/projet-360-dei-belgique-1787780827832-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-360-dei-belgique-1787830564823-0.webp",
+          "hidden": false,
+          "size": "lg"
+        },
+        {
+          "type": "image",
+          "url": "images/projet-360-dei-belgique-1787780479365-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-360-dei-belgique-myportfolio-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-360-dei-belgique-myportfolio-1.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-360-dei-belgique-myportfolio-3.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-360-dei-belgique-myportfolio-5.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-360-dei-belgique-myportfolio-6.webp",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://indd.adobe.com/embed/a744f41c-ae53-4376-872c-845f3aec9c94?startpage=1&allowFullscreen=true",
+          "hidden": false,
+          "caption": "Dossier stratégique complet (InDesign)"
+        }
+      ],
+      "subProjects": [
+        {
+          "title": "Multipage stratégique",
+          "medium": "",
+          "desc": "",
+          "assets": [
+            {
+              "type": "image",
+              "url": "images/projet-360-dei-belgique-multipage-strategique-1787781100008-0.webp",
+              "hidden": false,
+              "size": "lg",
+              "pos": {
+                "x": 132,
+                "y": 0,
+                "w": 460
+              }
+            },
+            {
+              "type": "doc",
+              "url": "docs/projet-360-dei-belgique-multipage-strategique-1787781719504-0.pdf",
+              "hidden": false,
+              "pages": [
+                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-0.jpg",
+                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-1.jpg",
+                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-2.jpg",
+                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-3.jpg",
+                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-4.jpg",
+                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-5.jpg",
+                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-6.jpg",
+                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-7.jpg",
+                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-8.jpg",
+                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-9.jpg",
+                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-10.jpg",
+                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-11.jpg"
+              ],
+              "size": "lg"
+            },
+            {
+              "type": "image",
+              "url": "images/projet-360-dei-belgique-multipage-strategique-1787781375450-0.webp",
+              "hidden": false,
+              "size": "lg",
+              "pos": {
+                "x": 36,
+                "y": 381,
+                "w": 460
+              }
+            }
+          ],
+          "link": ""
+        }
+      ],
+      "longDesc": "Dans le cadre du projet 2 à l'ISFSC, nous avons du réaliser une campagne 360' fictive pour un émetteur donné. Nous avons travailler sur une campagne de sensibilisation aux violences supposément éducative pour la DEI-Belgique.",
+      "thumb": "images/projet-360-dei-belgique-1787830564823-0.webp",
+      "link": "https://cms2433.commu.isfsc.be/"
+    },
+    {
+      "id": "carte-visite-echo-nexus",
+      "title": "Carte de visite : Echo Nexus",
+      "year": 2025,
+      "ctx": "academique",
+      "medium": "graphisme",
+      "tags": [
+        "Graphisme",
+        "Identité visuelle"
+      ],
+      "desc": "Design d'une carte de visite pour le projet Echo Nexus.",
+      "featured": false,
+      "thumb": "images/carte-de-visite-echo-nexus-miniature-1787840494032-0.webp",
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/carte-de-visite-echo-nexus-1787864765477-0.webp",
+          "hidden": false,
+          "size": "lg",
+          "pos": {
+            "x": 249,
+            "y": 0,
+            "w": 764
+          }
+        },
+        {
+          "type": "image",
+          "url": "images/carte-visite-echo-nexus-myportfolio-0.webp",
+          "hidden": false
+        }
+      ],
+      "subProjects": []
+    },
+    {
+      "id": "episode-podcast",
+      "title": "Réalisation d'un épisode de podcast",
+      "year": 2024,
+      "ctx": "academique",
+      "medium": "audio",
+      "tags": [
+        "Audio",
+        "Podcast"
+      ],
+      "desc": "Enregistrement, montage et mixage d'un épisode de podcast.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "audio",
+          "url": "https://soundcloud.com/adamdrk/pourquoi-tu-votes-anderlecht?utm_source=clipboard&utm_campaign=wtshare&utm_medium=widget&utm_content=https%253A%252F%252Fsoundcloud.com%252Fadamdrk%252Fpourquoi-tu-votes-anderlecht",
+          "hidden": false,
+          "pos": {
+            "x": 277,
+            "y": 0,
+            "w": 727
+          },
+          "caption": "Dans le contexte de ce projet, encadré par journaliste Himad Messoudi, nous nous entretiens des men avec les résidents d’Anderlecht, dans les quartiers de Saint-Guidon, Marius Renard et Peterbos sur les élections communales d’octobre 2024."
+        }
+      ],
+      "subProjects": [],
+      "thumb": "images/realisation-d-un-episode-de-podcast-miniature-1787865352278-0.webp"
+    },
+    {
+      "id": "projet-evenementiel-cinematek",
+      "title": "Projet évènementiel : Cinematek",
+      "year": 2023,
+      "ctx": "academique",
+      "medium": "event",
+      "tags": [
+        "Événementiel"
+      ],
+      "desc": "Conception d'un projet événementiel autour de la Cinematek.",
+      "featured": false,
+      "thumb": "images/projet-evenementiel-cinematek-miniature-1787835145937-0.webp",
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/projet-evenementiel-cinematek-myportfolio-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-evenementiel-cinematek-myportfolio-1.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-evenementiel-cinematek-myportfolio-2.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-evenementiel-cinematek-myportfolio-3.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-evenementiel-cinematek-myportfolio-4.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-evenementiel-cinematek-myportfolio-5.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-evenementiel-cinematek-myportfolio-6.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-evenementiel-cinematek-myportfolio-7.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/projet-evenementiel-cinematek-myportfolio-8.webp",
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "id": "articles-presse",
+      "title": "Écriture d'articles de presse",
+      "year": 2025,
+      "ctx": "academique",
+      "medium": "ecrit",
+      "tags": [
+        "Rédaction"
+      ],
+      "desc": "Rédaction d'articles dans un cadre journalistique.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "doc",
+          "url": "https://docs.google.com/document/d/e/2PACX-1vTYKJySMkgsxDHJtsHlcqAw3R4OdHJ7pKAgIIK6ibIPfU1WZtr92o04bLXakzMtV4qLgIR5Z12EbAgn/pub",
+          "hidden": false,
+          "caption": "Article long, réalisé dans le cadre du projet \"Feuille verte\", encadré par Julie Nicosie. J'ai interviewé M. David Bol, fondateur de l'ISIT-BE.",
+          "size": "lg"
+        },
+        {
+          "type": "doc",
+          "url": "https://docs.google.com/document/d/e/2PACX-1vQsn2XagQwd6QKsJSUsv_3X_myQzpPFhR8gzOiXMBU_-FBcrKtq0-UlH9rK_Dwzzv0EFnHccMM15YIe/pub",
+          "hidden": false,
+          "size": "lg",
+          "caption": "Article court réalisé dans le cadre du cours d'écriture journalistique, encadré par Bernard Buchel. J'ai interviewé un jeune des quartiers difficiles d'Anderlecht."
+        },
+        {
+          "type": "doc",
+          "url": "https://docs.google.com/document/d/e/2PACX-1vRpzcLCgPWJbAi7kRZGKylBzIqzvU0QeMsWJnss-a3rfQxK58lmUMRq9Bigp6-4Gk5cLqiatVhCPhPJ/pub",
+          "hidden": false,
+          "size": "lg",
+          "caption": "Article court réalisé dans le cadre du cours d'écriture journalistique, encadré par Bernard Buchel. J'ai interviewé le fondateur de Team Oasis Forest, club de futsal évoluant en ligue belge."
+        }
+      ],
+      "subProjects": [],
+      "thumb": "images/ecriture-d-articles-de-presse-miniature-1787834916089-0.webp"
+    },
+    {
+      "id": "melo-de-la-semaine",
+      "title": "La mélo de la semaine",
+      "year": 2025,
+      "ctx": "stage",
+      "group": "en-esprit",
+      "medium": "audio",
+      "tags": [
+        "Audio",
+        "Contenu récurrent"
+      ],
+      "desc": "Format audio récurrent réalisé durant le stage.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "web",
+          "url": "https://www.instagram.com/p/DKHXL3tM8wC/embed",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://www.instagram.com/p/DJjMcxOsgQz/embed",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://www.instagram.com/p/DJRPmJHMz49/embed",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://www.instagram.com/p/DKZb46BMedS/embed",
+          "hidden": false
+        }
+      ],
+      "thumb": "images/melo-de-la-semaine-thumb.webp"
+    },
+    {
+      "id": "montage-video-long-format",
+      "title": "Montage vidéo : long format",
+      "year": 2025,
+      "ctx": "stage",
+      "group": "en-esprit",
+      "medium": "video",
+      "tags": [
+        "Montage vidéo"
+      ],
+      "desc": "Montage d'un contenu vidéo au format long.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=aLJaS7N3UiU",
+          "hidden": false
+        },
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=W05gURdlCUE",
+          "hidden": false
+        },
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=yT7vIwk19Eo",
+          "hidden": false
+        },
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=n9jMD1HbyQU",
+          "hidden": false
+        },
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=H5qDkSosgdM",
+          "hidden": false
+        }
+      ],
+      "thumb": "images/montage-video-long-format-thumb.webp"
+    },
+    {
+      "id": "post-actualite",
+      "title": "Post d'actualité",
+      "year": 2025,
+      "ctx": "stage",
+      "group": "en-esprit",
+      "medium": "social",
+      "tags": [
+        "Réseaux sociaux"
+      ],
+      "desc": "Création de publications d'actualité pour les réseaux.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "web",
+          "url": "https://www.instagram.com/p/DIyZLpls-Fe/embed",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://www.instagram.com/p/DIyzhtwgFEu/embed",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://www.instagram.com/p/DI3jMVIMoIW/embed",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://www.instagram.com/p/DJByY1wM3bv/embed",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://www.instagram.com/p/DJC_NbvMKtE/embed",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://www.instagram.com/p/DJIK5Ddsr3e/embed",
+          "hidden": false
+        }
+      ],
+      "thumb": "images/post-actualite-thumb.webp"
+    },
+    {
+      "id": "thumbnails-youtube",
+      "title": "Thumbnails YouTube",
+      "year": 2025,
+      "ctx": "stage",
+      "group": "en-esprit",
+      "medium": "graphisme",
+      "tags": [
+        "Graphisme",
+        "Miniature"
+      ],
+      "desc": "Conception de miniatures YouTube pour la structure.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-1.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-2.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-3.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-4.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-5.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-6.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-7.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-8.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-9.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-10.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-11.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-12.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-13.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-14.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-15.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/thumbnails-youtube-myportfolio-16.webp",
+          "hidden": false
+        }
+      ],
+      "longDesc": "Comparaison entre les anciennes et les nouvelles miniatures."
+    },
+    {
+      "id": "reel-tiktok",
+      "title": "Reel / TikTok",
+      "year": 2025,
+      "ctx": "stage",
+      "group": "en-esprit",
+      "medium": "video",
+      "tags": [
+        "Vidéo",
+        "Format court"
+      ],
+      "desc": "Réalisation de formats courts pour Reels et TikTok.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "web",
+          "url": "https://www-ccv.adobe.io/v1/player/ccv/7rCRX4cxf8i/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://www-ccv.adobe.io/v1/player/ccv/EU_nmajCpvc/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://www-ccv.adobe.io/v1/player/ccv/Tg6qn5fhsD9/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://www-ccv.adobe.io/v1/player/ccv/RSVWdjjnC9I/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://www-ccv.adobe.io/v1/player/ccv/VocC94c79EA/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "id": "logo-vectoriel",
+      "title": "Création d'un logo vectoriel",
+      "year": 2025,
+      "ctx": "stage",
+      "group": "en-esprit",
+      "medium": "graphisme",
+      "tags": [
+        "Graphisme",
+        "Logo"
+      ],
+      "desc": "Conception d'un logo vectoriel pour un besoin interne.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/logo-vectoriel-myportfolio-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/logo-vectoriel-myportfolio-1.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/logo-vectoriel-myportfolio-2.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/logo-vectoriel-myportfolio-3.webp",
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "id": "campagne-avanttout-fictive",
+      "title": "Campagne #AvantTout (Fictive)",
+      "year": 2026,
+      "ctx": "perso",
+      "medium": "graphisme",
+      "tags": [],
+      "desc": "Campagne fictive de promotion du futsal à Bruxelles",
+      "featured": false,
+      "hidden": false,
+      "longDesc": "",
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/campagne-avanttout-fictive-1787872605962-0.webp",
+          "hidden": false,
+          "pos": {
+            "x": 251,
+            "y": 0,
+            "w": 381
+          },
+          "size": "lg"
+        },
+        {
+          "type": "image",
+          "url": "images/campagne-avanttout-fictive-1787872615050-0.webp",
+          "hidden": false,
+          "pos": {
+            "x": 653,
+            "y": 80,
+            "w": 389
+          }
+        },
+        {
+          "type": "doc",
+          "url": "docs/campagne-avanttout-fictive-1787911658330-0.pdf",
+          "hidden": false,
+          "pages": [
+            "images/campagne-avanttout-fictive-1787928634030-0.jpg",
+            "images/campagne-avanttout-fictive-1787928634030-1.jpg",
+            "images/campagne-avanttout-fictive-1787928634030-2.jpg",
+            "images/campagne-avanttout-fictive-1787928634030-3.jpg",
+            "images/campagne-avanttout-fictive-1787928634030-4.jpg",
+            "images/campagne-avanttout-fictive-1787928634030-5.jpg",
+            "images/campagne-avanttout-fictive-1787928634030-6.jpg",
+            "images/campagne-avanttout-fictive-1787928634030-7.jpg",
+            "images/campagne-avanttout-fictive-1787928634030-8.jpg",
+            "images/campagne-avanttout-fictive-1787928634030-9.jpg"
+          ],
+          "pos": {
+            "x": 143,
+            "y": 661,
+            "w": 984
+          }
+        }
+      ],
+      "link": "",
+      "thumb": "",
+      "subProjects": []
+    }
+  ]
+}

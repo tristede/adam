@@ -1,0 +1,3811 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin — Portfolio Adam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: dark;
+  --bg: #0a0713;
+  --bg-soft: #1a1030;
+  --panel: rgba(45,30,75,0.55);
+  --panel-border: rgba(210,180,240,0.18);
+  --text: #ffffff;
+  --text-dim: rgba(255,255,255,0.72);
+  --text-faint: rgba(255,255,255,0.5);
+  --accent: #8659c9;
+  --accent-strong: #9a6ad9;
+  --accent-sky: #cbb3ec;
+  --danger: #ff6b6b;
+  --ok: #6bffa0;
+  --line: rgba(210,180,240,0.16);
+  --radius: 12px;
+  --font: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+*,*::before,*::after{ box-sizing:border-box; }
+body{
+  margin:0; min-height:100vh;
+  background:
+    radial-gradient(ellipse 100% 50% at 50% -10%, rgba(110,80,220,0.24), rgba(0,0,0,0) 60%),
+    linear-gradient(160deg, var(--bg-soft) 0%, var(--bg) 60%, #060409 100%);
+  color: var(--text); font-family: var(--font); font-size:15px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+a{ color: var(--accent-sky); }
+.wrap{ max-width: 880px; margin:0 auto; padding: 40px 24px 100px; }
+h1{ font-family: var(--font-display); font-size: clamp(22px,3.6vw,28px); margin:0 0 6px; text-transform: uppercase; letter-spacing: 0.02em; }
+h2{ font-family: var(--font-display); font-size: 18px; margin: 0 0 14px; }
+.subtitle{ color: var(--text-dim); margin: 0 0 32px; }
+.panel{
+  background: var(--panel); border: 1px solid var(--panel-border); border-radius: 0;
+  padding: 24px; margin-bottom: 20px;
+  backdrop-filter: blur(20px) saturate(1.6); -webkit-backdrop-filter: blur(20px) saturate(1.6);
+}
+label{ display:block; font-size:12.5px; font-weight:600; color: var(--text-dim); margin: 14px 0 5px; letter-spacing:0.02em; }
+label:first-child{ margin-top:0; }
+input[type="text"], input[type="email"], input[type="url"], input[type="number"], input[type="password"], textarea, select{
+  width:100%; padding: 9px 12px; border-radius: 0; border: 1px solid var(--line);
+  background: rgba(20,12,35,0.5); color: var(--text); font-family: var(--font); font-size:14px;
+}
+textarea{ min-height: 70px; resize: vertical; line-height:1.45; }
+input:focus, textarea:focus, select:focus{ outline: 2px solid var(--accent-sky); outline-offset:1px; }
+.row{ display:flex; gap:14px; flex-wrap:wrap; }
+.row > *{ flex:1; min-width:140px; }
+.check-row{ display:flex; align-items:center; gap:8px; margin-top:14px; }
+.check-row input{ width:auto; }
+.check-row label{ margin:0; }
+
+button{
+  font-family: var(--font-display); font-weight:600; font-size:14px; cursor:pointer;
+  border-radius: 0; padding: 10px 18px; border: 1px solid var(--line); color: var(--text);
+  background: rgba(255,255,255,0.04); transition: filter .15s ease, transform .1s ease;
+}
+button:hover{ filter: brightness(1.15); }
+button:active{ transform: scale(0.98); }
+button.primary{
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+  border-color: rgba(190,150,225,0.5); box-shadow: 0 8px 20px -10px rgba(134,89,201,0.6);
+}
+button.danger{ border-color: rgba(255,107,107,0.4); color: var(--danger); background: rgba(255,107,107,0.08); }
+button.ghost{ background: transparent; }
+button:disabled{ opacity:0.5; cursor:not-allowed; }
+
+.status{ font-size:13.5px; margin-top:12px; min-height: 18px; }
+.status.ok{ color: var(--ok); }
+.status.err{ color: var(--danger); }
+
+.topbar{ display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom: 28px; }
+.topbar .actions{ display:flex; gap:10px; flex-wrap:wrap; }
+
+.project-item{
+  display:flex; justify-content:space-between; align-items:center; gap:12px;
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: 0; margin-bottom:8px;
+  background: rgba(20,12,35,0.35);
+}
+.project-item .meta{ font-size:12.5px; color: var(--text-faint); margin-top:2px; }
+.project-item .title{ font-weight:600; }
+.project-item .tags-inline{ display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+.project-item .tags-inline span{
+  font-size:11px; color: var(--accent-sky); background: rgba(60,35,95,0.6);
+  border:1px solid rgba(203,179,236,0.35); padding:1px 8px; border-radius: 0;
+}
+.project-item .btns{ display:flex; gap:8px; flex-shrink:0; }
+.star{ color: #ffd479; margin-right:6px; }
+
+.form-box{ border-top: 1px dashed var(--line); margin-top:16px; padding-top:16px; }
+.sticky-save{
+  position: sticky; bottom: 16px; display:flex; justify-content:center; margin-top: 24px; z-index: 10;
+}
+.sticky-save-inner{
+  display:flex; align-items:center; gap:14px; background: rgba(0,0,0,0.3);
+  border:1px solid rgba(255,255,255,0.1); border-radius: 0; padding: 10px 12px 10px 22px;
+  backdrop-filter: blur(20px); box-shadow: 0 20px 50px -20px rgba(0,0,10,0.7);
+}
+/* the button inside this pill needs to be a pill itself, not the standard
+   10px-radius rectangle — a square button in an oval capsule looked wrong */
+.sticky-save-inner button{ border-radius: 0; }
+/* l'etat est dans la pastille : il doit rester lisible sans l'etirer sans fin */
+.sticky-save-inner .status{ margin:0; max-width: 46ch; text-align:right; }
+.hidden{ display:none !important; }
+.small{ font-size:12.5px; color: var(--text-faint); }
+
+.hidden-badge{
+  font-size:10.5px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+  color: var(--text-faint); border:1px solid var(--line); border-radius: 0;
+  padding:1px 8px; margin-left:6px; vertical-align:middle;
+}
+.is-hidden-asset{ opacity:0.5; }
+/* icons render at text size, aligned with whatever label sits beside them */
+button svg{ display:block; }
+button{ display:inline-flex; align-items:center; justify-content:center; gap:7px; }
+.ui-arrow{ width:15px; height:15px; flex:none; }
+.project-item .btns button{ padding:8px 10px; display:inline-flex; align-items:center; justify-content:center; }
+.star{ display:inline-flex; vertical-align:-2px; }
+.star svg{ width:13px; height:13px; }
+.asset-badge svg{ width:18px; height:18px; }
+.asset-badge{
+  width:64px; height:44px; flex:none; border-radius: 0; border:1px solid var(--line);
+  background: rgba(20,12,35,0.6); color: var(--accent-sky);
+  display:flex; align-items:center; justify-content:center; font-size:17px;
+}
+.asset-url{
+  font-size:12px; color: var(--text-dim);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width: 340px;
+}
+.carousel-strip{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; max-width:340px; }
+.carousel-cell{
+  position:relative; width:54px; height:54px; border-radius: 0; overflow:hidden;
+  border:1px solid var(--line); flex:none;
+}
+.carousel-cell img{ width:100%; height:100%; object-fit:cover; display:block; }
+.carousel-cell-n{
+  position:absolute; left:3px; bottom:2px; font-size:10px; font-weight:700;
+  color:#fff; text-shadow:0 1px 3px rgba(0,0,0,0.9);
+}
+.carousel-cell-btns{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center; gap:2px;
+  background:rgba(20,10,35,0.72); opacity:0; transition:opacity .15s ease;
+}
+.carousel-cell:hover .carousel-cell-btns{ opacity:1; }
+.carousel-cell-btns button{ padding:2px; width:16px; height:16px; border-radius: 0; }
+.carousel-cell-btns button svg{ width:11px; height:11px; }
+
+.stale-admin{
+  position:fixed; left:50%; bottom:18px; transform:translateX(-50%); z-index:999;
+  max-width:min(680px, calc(100vw - 32px));
+  padding:11px 18px; border-radius: 0;
+  background:rgba(255,178,127,0.16); border:1px solid rgba(255,178,127,0.55);
+  color:#ffd9bd; font-size:13.5px; font-weight:600; text-align:center;
+  backdrop-filter:blur(12px);
+}
+.color-field{
+  width:100%; height:40px; padding:3px; cursor:pointer;
+  background: rgba(255,255,255,0.04);
+  border:1px solid var(--panel-border); border-radius: 0;
+}
+.asset-caption-input{
+  margin-top:5px; width:100%; max-width:340px;
+  padding:5px 8px; font:inherit; font-size:12.5px;
+  color: var(--text); background: rgba(255,255,255,0.04);
+  border:1px solid var(--line); border-radius: 0;
+}
+.asset-caption-input::placeholder{ color: var(--text-faint); font-style:italic; }
+.asset-caption-input:focus{ outline:none; border-color: var(--accent-sky); }
+
+/* ---------- Visual (WYSIWYG) editing view ---------- */
+.view-switch{
+  display:inline-flex; padding:3px; border-radius: 0;
+  border:1px solid var(--line); background: rgba(20,12,35,0.5);
+}
+.view-tab{
+  border:none; background:transparent; border-radius: 0;
+  padding:7px 16px; font-size:13.5px;
+}
+.view-tab.is-active{
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+  box-shadow: 0 6px 16px -8px rgba(134,89,201,0.7);
+}
+.visual-bar{
+  display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:12px 16px; margin-bottom:12px;
+  border:1px solid var(--panel-border); border-radius: 0; background: var(--panel);
+}
+.visual-bar-left{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.visual-bar button{ padding:7px 14px; font-size:13px; }
+.visual-hint{ text-align:right; }
+.visual-frame-wrap{
+  border:1px solid var(--panel-border); border-radius: 0; overflow:hidden;
+  background: var(--bg); height: calc(100vh - 250px); min-height: 480px;
+}
+#visual-frame{ width:100%; height:100%; border:none; display:block; }
+/* full-bleed: the visual view needs more room than the 880px form column */
+body.visual-mode .wrap{ max-width: 1400px; }
+
+    /* Bandeau du bac a sable. Il doit se voir sans discuter : quelqu'un qui
+       croirait modifier un vrai site serait mal traite. */
+    #demo-bandeau{
+      display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+      background: rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1);
+      border-radius: 0; padding:8px 14px; margin-bottom:18px; font-size:12.5px;
+    }
+    #demo-bandeau span{ flex:1; min-width:260px; }
+    #demo-bandeau button{ padding: 6px 12px; font-size:12.5px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="login-screen" class="panel">
+    <h1>Panneau d'édition</h1>
+    <p class="subtitle">Portfolio d'Adam — modifie les textes, le projet favori, les projets mis en avant, et ajoute/supprime des projets, sans toucher au code.</p>
+
+    <button class="primary" id="oauth-login-btn" type="button" style="width:100%; padding:13px; font-size:15px;">
+      Se connecter avec GitHub
+    </button>
+    <div class="status" id="oauth-status" style="text-align:center;"></div>
+  </div>
+
+  <div id="editor-screen" class="hidden">
+    <!-- Visible seulement en mode demonstration (config.json : "demo": true). -->
+    <div id="demo-bandeau" class="hidden">
+      <span><strong>Bac à sable.</strong> Changez ce que vous voulez : tout reste dans cet onglet,
+      rien n'est enregistré nulle part. Fermez la page et il n'en reste rien.</span>
+      <button class="ghost" id="demo-reset" type="button">Tout remettre à zéro</button>
+    </div>
+    <div class="topbar">
+      <div>
+        <h1 style="margin-bottom:2px;">Panneau d'édition</h1>
+        <p class="small" style="margin:0;">Connecté à <strong id="repo-label"></strong></p>
+      </div>
+      <div class="actions">
+        <div class="view-switch">
+          <button class="view-tab is-active" id="view-visual-btn" type="button">Vue visuelle</button>
+          <button class="view-tab" id="view-form-btn" type="button">Liste</button>
+        </div>
+        <a href="https://adam.nocturnz.xyz/" target="_blank" rel="noopener"><button class="ghost" type="button">Voir le site <svg class="ui-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 16L18 6M9.5 6H18v8.5"/></svg></button></a>
+        <button class="ghost" id="reload-btn" type="button">Recharger depuis GitHub</button>
+        <button class="ghost" id="logout-btn" type="button">Se déconnecter</button>
+      </div>
+    </div>
+
+    <div id="visual-view">
+      <div class="visual-bar">
+        <div class="visual-bar-left">
+          <button class="ghost" id="visual-home-btn" type="button">⌂ Accueil</button>
+          <button class="ghost" id="visual-back-btn" type="button" disabled><svg class="ui-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5M11 6l-6 6 6 6"/></svg> Retour</button>
+          <span class="small" id="visual-location">Accueil</span>
+        </div>
+        <span class="small visual-hint">Clique sur un texte pour l'éditer · clique une vignette pour ouvrir le projet</span>
+      </div>
+      <div class="visual-frame-wrap">
+        <iframe id="visual-frame" title="Aperçu éditable du site"></iframe>
+      </div>
+    </div>
+
+    <div id="form-view" class="hidden">
+
+    <div class="panel">
+      <h2>Textes du site</h2>
+      <div class="row">
+        <div>
+          <label for="f-owner">Prénom affiché</label>
+          <input type="text" id="f-owner">
+        </div>
+        <div>
+          <label for="f-kicker">Sous-titre (au-dessus du prénom)</label>
+          <input type="text" id="f-kicker">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="f-role-main">Accroche — partie principale</label>
+          <input type="text" id="f-role-main">
+        </div>
+        <div>
+          <label for="f-role-accent">Accroche — partie colorée</label>
+          <input type="text" id="f-role-accent">
+        </div>
+      </div>
+      <label for="f-bio">Bio (page d'accueil)</label>
+      <textarea id="f-bio"></textarea>
+      <p class="small" style="margin:4px 0 0;">Un retour à la ligne dans le texte devient un vrai saut de ligne affiché.</p>
+
+      <label for="f-about-kicker" style="margin-top:14px;">À propos — kicker</label>
+      <input type="text" id="f-about-kicker">
+      <label for="f-about-title">À propos — titre</label>
+      <input type="text" id="f-about-title">
+      <label for="f-about-0">À propos — 1er paragraphe</label>
+      <textarea id="f-about-0"></textarea>
+      <label for="f-about-1">À propos — 2e paragraphe</label>
+      <textarea id="f-about-1"></textarea>
+
+      <div class="row">
+        <div>
+          <label for="f-email">Email de contact</label>
+          <input type="email" id="f-email">
+        </div>
+        <div>
+          <label for="f-linkedin">Lien LinkedIn</label>
+          <input type="url" id="f-linkedin">
+        </div>
+        <div>
+          <label for="f-instagram">Lien Instagram</label>
+          <input type="url" id="f-instagram">
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Section « Projets mis en avant » (accueil)</h2>
+      <div class="row">
+        <div>
+          <label for="f-featured-kicker">Kicker</label>
+          <input type="text" id="f-featured-kicker">
+        </div>
+        <div>
+          <label for="f-featured-title">Titre</label>
+          <input type="text" id="f-featured-title">
+        </div>
+      </div>
+      <label for="f-featured-sub">Sous-texte</label>
+      <textarea id="f-featured-sub"></textarea>
+    </div>
+
+    <div class="panel">
+      <h2>Pages « Projets perso » / « Projets académiques »</h2>
+      <p class="small" style="margin-top:-6px;">Ce texte alimente aussi les 2 cartes de l'accueil qui mènent à ces pages.</p>
+      <div class="row">
+        <div>
+          <label for="f-section-perso-kicker">Perso — kicker</label>
+          <input type="text" id="f-section-perso-kicker">
+        </div>
+        <div>
+          <label for="f-section-perso-title">Perso — titre</label>
+          <input type="text" id="f-section-perso-title">
+        </div>
+      </div>
+      <label for="f-section-perso-desc">Perso — description</label>
+      <textarea id="f-section-perso-desc"></textarea>
+      <div class="row" style="margin-top:10px;">
+        <div>
+          <label for="f-section-academique-kicker">Académique — kicker</label>
+          <input type="text" id="f-section-academique-kicker">
+        </div>
+        <div>
+          <label for="f-section-academique-title">Académique — titre</label>
+          <input type="text" id="f-section-academique-title">
+        </div>
+      </div>
+      <label for="f-section-academique-desc">Académique — description</label>
+      <textarea id="f-section-academique-desc"></textarea>
+    </div>
+
+    <div class="panel">
+      <h2>Encart « Stage recherché » (sous le parcours)</h2>
+      <label class="row" style="align-items:center; gap:8px; display:flex;">
+        <input type="checkbox" id="f-stagecta-enabled" style="width:auto;">
+        Afficher cet encart sur le site
+      </label>
+      <div class="row">
+        <div>
+          <label for="f-stagecta-kicker">Kicker</label>
+          <input type="text" id="f-stagecta-kicker">
+        </div>
+        <div>
+          <label for="f-stagecta-title">Titre</label>
+          <input type="text" id="f-stagecta-title">
+        </div>
+      </div>
+      <label for="f-stagecta-text">Texte</label>
+      <textarea id="f-stagecta-text"></textarea>
+    </div>
+
+    <!-- Apparence : les couleurs et la texture vivent dans les données, pas dans
+         la feuille de style. Chaque portfolio a donc la sienne. -->
+    <div class="panel">
+      <h2>Apparence</h2>
+      <p class="small" style="margin-top:-6px;">Les couleurs s'appliquent à tout le site. L'aperçu se met à jour tout de suite.</p>
+
+      <div class="grid-2">
+        <div>
+          <label for="th-bg">Fond</label>
+          <input type="color" id="th-bg" class="color-field">
+        </div>
+        <div>
+          <label for="th-bgSoft">Haut du dégradé</label>
+          <input type="color" id="th-bgSoft" class="color-field">
+        </div>
+        <div>
+          <label for="th-accent">Couleur principale</label>
+          <input type="color" id="th-accent" class="color-field">
+        </div>
+        <div>
+          <label for="th-accentSky">Couleur claire (liens, titres)</label>
+          <input type="color" id="th-accentSky" class="color-field">
+        </div>
+        <div>
+          <label for="th-text">Couleur du texte</label>
+          <input type="color" id="th-text" class="color-field">
+        </div>
+      </div>
+
+      <label for="th-opacity" style="margin-top:14px;">Intensité de la texture de fond</label>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <input type="range" id="th-opacity" min="0" max="1" step="0.05" style="flex:1;">
+        <span class="small" id="th-opacity-val" style="min-width:3ch;"></span>
+      </div>
+
+      <label for="th-stars" style="margin-top:14px;">Intensité du ciel étoilé</label>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <input type="range" id="th-stars" min="0" max="1" step="0.05" style="flex:1;">
+        <span class="small" id="th-stars-val" style="min-width:3ch;"></span>
+      </div>
+      <label for="th-starColor" style="margin-top:14px;">Couleur des étoiles</label>
+      <input type="color" id="th-starColor" class="color-field">
+
+      <label style="margin-top:14px;">Image de fond</label>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="ghost" id="th-bg-upload-btn" type="button">Envoyer une image…</button>
+        <button class="ghost" id="th-bg-clear-btn" type="button">Retirer l'image</button>
+      </div>
+      <input type="file" id="th-bg-upload" accept="image/*" class="hidden">
+      <div class="status" id="th-bg-status"></div>
+      <div class="asset-url" id="th-bg-current" style="margin-top:6px;"></div>
+
+      <button class="ghost" id="th-reset-btn" type="button" style="margin-top:16px;">Revenir aux couleurs d'origine</button>
+    </div>
+
+    <div class="panel">
+      <h2>Projet favori</h2>
+      <label for="f-favori">Favori (projet ou groupe) en haut de la page d'accueil</label>
+      <select id="f-favori"></select>
+    </div>
+
+    <div class="panel">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h2 style="margin:0;">Parcours <span class="small" id="timeline-count"></span></h2>
+        <button class="primary" id="add-timeline-btn" type="button">+ Ajouter une étape</button>
+      </div>
+      <div class="row">
+        <div>
+          <label for="f-parcours-kicker">Kicker</label>
+          <input type="text" id="f-parcours-kicker">
+        </div>
+        <div>
+          <label for="f-parcours-title">Titre</label>
+          <input type="text" id="f-parcours-title">
+        </div>
+      </div>
+      <label for="f-parcours-sub">Sous-texte</label>
+      <textarea id="f-parcours-sub"></textarea>
+      <p class="small" style="margin:14px 0 14px;">Affiché dans l'ordre ci-dessous, du plus ancien au plus récent. Une seule étape "en cours" à la fois (affichée avec un point plus vif sur la ligne du temps).</p>
+      <div id="timeline-list"></div>
+
+      <div class="form-box hidden" id="timeline-form-box">
+        <h2 id="timeline-form-title">Ajouter une étape</h2>
+        <div class="row">
+          <div>
+            <label for="tf-year">Année (libre — ex: "2025" ou "2023 — Aujourd'hui")</label>
+            <input type="text" id="tf-year">
+          </div>
+          <div class="check-row" style="margin-top:26px;">
+            <input type="checkbox" id="tf-current">
+            <label for="tf-current">Étape "en cours"</label>
+          </div>
+        </div>
+        <label for="tf-title">Titre</label>
+        <input type="text" id="tf-title">
+        <label for="tf-desc">Description</label>
+        <textarea id="tf-desc"></textarea>
+        <div style="margin-top:16px; display:flex; gap:10px;">
+          <button class="primary" id="tf-save-btn" type="button">Enregistrer cette étape</button>
+          <button class="ghost" id="tf-cancel-btn" type="button">Annuler</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h2 style="margin:0;">Projets <span class="small" id="project-count"></span></h2>
+        <button class="primary" id="add-project-btn" type="button">+ Ajouter un projet</button>
+      </div>
+      <p class="small" style="margin:0 0 14px;">L'étoile marque les projets mis en avant sur l'accueil (section "Projets mis en avant").</p>
+
+      <div class="row" style="margin-bottom:16px; align-items:flex-end;">
+        <div>
+          <label for="filter-search" style="margin-top:0;">Recherche</label>
+          <input type="text" id="filter-search" placeholder="Titre, tag...">
+        </div>
+        <div style="max-width:180px;">
+          <label for="filter-ctx" style="margin-top:0;">Catégorie</label>
+          <select id="filter-ctx">
+            <option value="">Toutes</option>
+            <option value="perso">Perso</option>
+            <option value="academique">Académique</option>
+            <option value="stage">Stage</option>
+          </select>
+        </div>
+        <div style="max-width:180px;">
+          <label for="filter-medium" style="margin-top:0;">Médium</label>
+          <select id="filter-medium">
+            <option value="">Tous</option>
+            <option value="graphisme">Graphisme</option>
+            <option value="video">Vidéo</option>
+            <option value="audio">Audio</option>
+            <option value="web">Site web</option>
+            <option value="social">Réseaux sociaux</option>
+            <option value="event">Événementiel</option>
+            <option value="ecrit">Écrit</option>
+          </select>
+        </div>
+        <div style="flex:0;">
+          <button class="ghost" id="filter-reset-btn" type="button" style="margin-top:0; white-space:nowrap;">Réinitialiser</button>
+        </div>
+      </div>
+
+      <div id="project-list"></div>
+
+      <div class="form-box hidden" id="project-form-box">
+        <h2 id="project-form-title">Ajouter un projet</h2>
+        <div class="row">
+          <div>
+            <label for="pf-title">Titre</label>
+            <input type="text" id="pf-title">
+          </div>
+          <div>
+            <label for="pf-year">Année</label>
+            <input type="number" id="pf-year" value="2025">
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="pf-ctx">Catégorie</label>
+            <select id="pf-ctx">
+              <option value="perso">Projets perso</option>
+              <option value="academique">Projets académiques</option>
+              <option value="stage">Stage</option>
+            </select>
+          </div>
+          <div>
+            <label for="pf-medium">Médium</label>
+            <select id="pf-medium">
+              <option value="graphisme">Graphisme</option>
+              <option value="video">Vidéo</option>
+              <option value="audio">Audio</option>
+              <option value="web">Site web</option>
+              <option value="social">Réseaux sociaux</option>
+              <option value="event">Événementiel</option>
+              <option value="ecrit">Écrit</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="pf-group">Groupe (optionnel)</label>
+            <select id="pf-group"></select>
+          </div>
+          <div style="display:flex; align-items:flex-end;">
+            <button class="ghost" id="pf-new-group-btn" type="button">+ Nouveau groupe</button>
+          </div>
+        </div>
+        <p class="small" style="margin:0 0 12px;">Un club, une agence — plusieurs projets rassemblés sous une seule carte (comme « Union Oasis Forest »), avec leur propre page.</p>
+        <label for="pf-tags">Tags (séparés par des virgules)</label>
+        <input type="text" id="pf-tags" placeholder="Graphisme, Affiche">
+        <label for="pf-desc">Description courte (affichée sur la vignette)</label>
+        <textarea id="pf-desc"></textarea>
+        <div class="check-row">
+          <input type="checkbox" id="pf-featured">
+          <label for="pf-featured">Mis en avant sur l'accueil</label>
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="pf-hidden">
+          <label for="pf-hidden">Masquer ce projet (invisible sur le site, conservé ici)</label>
+        </div>
+
+        <p class="small" style="margin:18px 0 4px;">Ce qui suit est optionnel — affiché uniquement sur la page détail du projet (accessible en cliquant sur sa vignette).</p>
+
+        <label for="pf-longdesc">Description longue (page détail — si vide, la description courte est réutilisée)</label>
+        <textarea id="pf-longdesc"></textarea>
+
+        <div class="form-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h2 style="margin:0; font-size:15px;">Contenus du projet <span class="small" id="pf-assets-count"></span></h2>
+            <div style="display:flex; gap:8px;">
+              <button class="ghost" id="pf-add-image-btn" type="button">+ Image</button>
+              <button class="ghost" id="pf-add-video-btn" type="button">+ Vidéo</button>
+              <button class="ghost" id="pf-add-audio-btn" type="button">+ Audio</button>
+              <button class="ghost" id="pf-add-web-btn" type="button">+ Site web</button>
+              <button class="ghost" id="pf-add-doc-btn" type="button">+ Document</button>
+              <button class="ghost" id="pf-add-doclink-btn" type="button">+ Doc en ligne</button>
+              <button class="ghost" id="pf-add-carousel-btn" type="button">+ Carrousel</button>
+              <button class="ghost" id="pf-add-text-btn" type="button">+ Texte</button>
+            </div>
+          </div>
+          <p class="small" style="margin:0 0 12px;">Images, vidéos et audio affichés sur la page détail. L'œil masque un contenu sans le supprimer.</p>
+          <input type="file" id="pf-images-upload" accept="image/*" multiple class="hidden">
+          <div class="status" id="pf-images-upload-status"></div>
+          <div id="pf-assets-list"></div>
+        </div>
+
+        <label for="pf-thumb">Miniature (image de la vignette, avant de cliquer)</label>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <select id="pf-thumb" style="flex:1;"></select>
+          <button class="ghost" id="pf-thumb-upload-btn" type="button" style="white-space:nowrap;">Envoyer une image…</button>
+        </div>
+        <input type="file" id="pf-thumb-upload" accept="image/*" class="hidden">
+        <div class="status" id="pf-thumb-upload-status"></div>
+        <div id="pf-thumb-preview" style="margin-top:10px;"></div>
+        <p class="small" style="margin:6px 0 0;">La miniature peut être une image dédiée, qui n'apparaît pas dans les contenus ci-dessus.</p>
+
+        <label for="pf-link">Lien externe (site web à visiter — affiché aussi en aperçu intégré sur la page détail)</label>
+        <input type="url" id="pf-link" placeholder="https://...">
+
+        <div class="form-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h2 style="margin:0; font-size:15px;">Sections <span class="small" id="subproject-count"></span></h2>
+            <button class="ghost" id="add-subproject-btn" type="button">+ Ajouter une section</button>
+          </div>
+          <p class="small" style="margin:0 0 12px;">Ex: « Refonte graphique », « Community management » — des sections affichées à l'intérieur de la page de ce projet.</p>
+          <div id="subproject-list"></div>
+
+          <div class="form-box hidden" id="subproject-form-box">
+            <h2 id="subproject-form-title" style="font-size:15px;">Ajouter une section</h2>
+            <div class="row">
+              <div>
+                <label for="spf-title">Titre</label>
+                <input type="text" id="spf-title">
+              </div>
+              <div>
+                <label for="spf-medium">Médium (optionnel)</label>
+                <select id="spf-medium">
+                  <option value="">—</option>
+                  <option value="graphisme">Graphisme</option>
+                  <option value="video">Vidéo</option>
+                  <option value="audio">Audio</option>
+                  <option value="web">Site web</option>
+                  <option value="social">Réseaux sociaux</option>
+                  <option value="event">Événementiel</option>
+                  <option value="ecrit">Écrit</option>
+                </select>
+              </div>
+            </div>
+            <label for="spf-desc">Description</label>
+            <textarea id="spf-desc"></textarea>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin:16px 0 8px;">
+              <strong style="font-size:13.5px;">Contenus <span class="small" id="spf-assets-count"></span></strong>
+              <div style="display:flex; gap:8px;">
+                <button class="ghost" id="spf-add-image-btn" type="button">+ Image</button>
+                <button class="ghost" id="spf-add-video-btn" type="button">+ Vidéo</button>
+                <button class="ghost" id="spf-add-audio-btn" type="button">+ Audio</button>
+                <button class="ghost" id="spf-add-web-btn" type="button">+ Site web</button>
+                <button class="ghost" id="spf-add-doc-btn" type="button">+ Document</button>
+                <button class="ghost" id="spf-add-doclink-btn" type="button">+ Doc en ligne</button>
+              <button class="ghost" id="spf-add-carousel-btn" type="button">+ Carrousel</button>
+              <button class="ghost" id="spf-add-text-btn" type="button">+ Texte</button>
+              </div>
+            </div>
+            <input type="file" id="spf-images-upload" accept="image/*" multiple class="hidden">
+            <div class="status" id="spf-images-upload-status"></div>
+            <div id="spf-assets-list"></div>
+            <label for="spf-link">Lien externe</label>
+            <input type="url" id="spf-link" placeholder="https://...">
+            <div style="margin-top:14px; display:flex; gap:10px;">
+              <button class="primary" id="spf-save-btn" type="button">Enregistrer cette section</button>
+              <button class="ghost" id="spf-cancel-btn" type="button">Annuler</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px; display:flex; gap:10px;">
+          <button class="primary" id="pf-save-btn" type="button">Enregistrer ce projet</button>
+          <button class="ghost" id="pf-cancel-btn" type="button">Annuler</button>
+        </div>
+      </div>
+    </div>
+
+    </div><!-- /#form-view -->
+
+    <input type="file" id="visual-image-upload" accept="image/*" multiple class="hidden">
+    <input type="file" id="doc-upload" accept=".pdf,application/pdf" multiple class="hidden">
+
+    <!-- Le message d'état vit DANS la barre flottante. Placé après elle, il ne
+         devenait visible qu'au bas absolu de la page : sur une page de projet
+         longue, on ne voyait jamais ni le compte à rebours ni la confirmation. -->
+    <div class="sticky-save">
+      <div class="sticky-save-inner">
+        <span class="small" id="save-hint">Les modifications restent locales tant que tu n'as pas cliqué ici.</span>
+        <span class="status" id="save-status"></span>
+        <button class="primary" id="save-btn" type="button">Enregistrer sur GitHub</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  // Depot et relais d'authentification : lus dans config.json, pas ecrits ici.
+  // Creer un autre portfolio revient alors a copier le depot et a changer ce
+  // fichier — le moteur ne connait plus personne en particulier. Les valeurs
+  // ci-dessous ne servent que de repli si config.json manque ou n'est pas encore
+  // arrive, pour qu'une copie incomplete ne laisse pas un panneau muet.
+  var REPO_OWNER = 'tristede';
+  var REPO_NAME = 'portfolio';
+  var BRANCH = 'main';
+  // Vide pour un portfolio seul a la racine de son depot. Ce portfolio-ci
+  // partage le depot avec la vitrine Starx et vit dans /adam — d'ou le champ
+  // config.json "basePath", qui prefixe tout chemin ecrit sur GitHub.
+  var BASE_PATH = '';
+  var DATA_PATH = BASE_PATH + 'data.json';
+  var TOKEN_KEY = 'portfolio_admin_pat_v1';
+
+  // GitHub Pages sert admin.html avec max-age=600 : on peut donc travailler
+  // dix minutes dans une version perimee sans que rien ne le signale — une
+  // fonction annoncee comme livree parait alors simplement absente. Le panneau
+  // compare donc ce qu'il execute a ce que le serveur sert, et le dit.
+  var ADMIN_BUILD = '2026-09-15-a';
+  (function watchAdminVersion(){
+    setTimeout(function(){
+      fetch('admin.html', { cache: 'no-store' })
+        .then(function(r){ return r.text(); })
+        .then(function(fresh){
+          var m = fresh.match(/var ADMIN_BUILD = '([^']+)'/);
+          if (!m || m[1] === ADMIN_BUILD) return;
+          var bar = document.createElement('div');
+          bar.className = 'stale-admin';
+          bar.textContent = 'Une version plus recente du panneau est en ligne. Recharge avec Cmd+Shift+R — sinon tu travailles sur l\'ancienne.';
+          document.body.appendChild(bar);
+        })
+        .catch(function(){});
+    }, 1500);
+  })();
+
+  // ---- "Se connecter avec GitHub" (OAuth via a self-hosted sveltia-cms-auth
+  // Cloudflare Worker — see README). The worker holds its own GITHUB_CLIENT_ID
+  // server-side; the client only ever needs the worker's own /auth endpoint,
+  // never GitHub's authorize URL directly (the worker sets a CSRF cookie on
+  // /auth before redirecting to GitHub itself). Left empty until that Worker
+  // exists; the manual-token login below always works as a fallback. ----
+  var OAUTH_WORKER_URL = 'https://portfolioadamxbc.tristederk.workers.dev';
+
+  // ---- icon set: line SVGs on currentColor, no emoji anywhere in the UI ----
+  function svg(paths, extra){
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+      'stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true"' +
+      (extra || '') + '>' + paths + '</svg>';
+  }
+  var ICON = {
+    eye: svg('<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/>'),
+    eyeOff: svg('<path d="M10.6 6.1A9.9 9.9 0 0 1 12 5.5c6.4 0 10 6.5 10 6.5a17.7 17.7 0 0 1-3.3 4.1M6.2 7.9A17.6 17.6 0 0 0 2 12s3.6 6.5 10 6.5c1.5 0 2.8-.3 4-.9"/><path d="M3 3l18 18"/>'),
+    starFilled: svg('<path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="currentColor"/>'),
+    star: svg('<path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>'),
+    heart: svg('<path d="M12 20s-7-4.4-7-9.2A4 4 0 0 1 12 8a4 4 0 0 1 7 2.8C19 15.6 12 20 12 20z"/>'),
+    image: svg('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M3 16l5-4 4 3.5 3-2.5 6 5"/>'),
+    close: svg('<path d="M6 6l12 12M18 6L6 18"/>'),
+    up: svg('<path d="M12 19V5M6 11l6-6 6 6"/>'),
+    down: svg('<path d="M12 5v14M18 13l-6 6-6-6"/>'),
+    dotFilled: svg('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.6" fill="currentColor"/>'),
+    dot: svg('<circle cx="12" cy="12" r="8"/>'),
+    tag: svg('<path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0l-7-7A2 2 0 0 1 3 12.2V4.6A1.6 1.6 0 0 1 4.6 3h7.6a2 2 0 0 1 1.4.6l7 7a2 2 0 0 1 0 2.8z"/><circle cx="7.8" cy="7.8" r="1.3" fill="currentColor" stroke="none"/>'),
+    sliders: svg('<path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/>'),
+    folder: svg('<path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4.2l2 2.4h8.8A1.5 1.5 0 0 1 21 9.9v7.6A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z"/>'),
+    link: svg('<path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.6-2.6a4 4 0 0 0-5.7-5.7l-1.3 1.3"/><path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.6 2.6a4 4 0 0 0 5.7 5.7l1.3-1.3"/>'),
+    calendar: svg('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'),
+    play: svg('<path d="M8 5.5l10 6.5-10 6.5z"/>'),
+    music: svg('<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>'),
+    check: svg('<path d="M20 6L9 17l-5-5"/>'),
+    chevronLeft: svg('<path d="M15 5l-7 7 7 7"/>'),
+    chevronRight: svg('<path d="M9 5l7 7-7 7"/>'),
+    globe: svg('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.4 2.6 3.7 5.7 3.7 9s-1.3 6.4-3.7 9c-2.4-2.6-3.7-5.7-3.7-9s1.3-6.4 3.7-9z"/>'),
+    file: svg('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>')
+  };
+  // slightly larger variant for the in-page (non-frame) lists
+  function iconHTML(name){ return '<span class="ico">' + (ICON[name] || '') + '</span>'; }
+  var OAUTH_SCOPE = 'public_repo';
+
+  var state = { site: {}, projects: [] };
+  var editingIndex = -1; // -1 = adding new
+
+  function $(id){ return document.getElementById(id); }
+
+  function getToken(){ try { return localStorage.getItem(TOKEN_KEY) || ''; } catch(e){ return ''; } }
+  function setToken(t){ try { localStorage.setItem(TOKEN_KEY, t); } catch(e){} }
+  function clearToken(){ try { localStorage.removeItem(TOKEN_KEY); } catch(e){} }
+
+  function b64ToUtf8(b64){
+    return decodeURIComponent(Array.prototype.map.call(atob(b64), function(c){
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+  }
+  function utf8ToB64(str){
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(_, p1){
+      return String.fromCharCode('0x' + p1);
+    }));
+  }
+
+  function ghRequest(path, options){
+    options = options || {};
+    var token = getToken();
+    var headers = Object.assign({
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/vnd.github+json'
+    }, options.headers || {});
+    return fetch('https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + path, Object.assign({}, options, { headers: headers }))
+      .then(function(res){
+        if (!res.ok){
+          return res.text().then(function(body){
+            var msg = 'Erreur GitHub (' + res.status + ')';
+            try { var j = JSON.parse(body); if (j.message) msg += ' : ' + j.message; } catch(e){}
+            throw new Error(msg);
+          });
+        }
+        return res.json();
+      });
+  }
+
+  function loadData(){
+    return ghRequest('/contents/' + DATA_PATH + '?ref=' + BRANCH).then(function(file){
+      // Retenu pour saveData() : un onglet resté ouvert (donc jamais rechargé)
+      // garde ce sha en mémoire même si data.json change sur GitHub entre-temps
+      // — c'est ce qui permet de repérer une sauvegarde partie de données perimées.
+      state.loadedSha = file.sha;
+      return JSON.parse(b64ToUtf8(file.content));
+    });
+  }
+
+  // Le sommet de branche que CETTE session d'édition a créé. Tant qu'il est
+  // encore le sommet, l'écriture suivante le REMPLACE au lieu de s'empiler
+  // dessus : même contenu, un seul commit. C'est ce qui évite qu'une session de
+  // travail — un envoi d'image puis cinq enregistrements — produise six commits,
+  // donc six reconstructions de GitHub Pages.
+  var sessionCommitSha = null;
+  // le parent de ce commit : il sert a reconnaitre une lecture de reference en
+  // retard sur notre propre ecriture, sans jamais supposer ou est le sommet
+  var sessionCommitParent = null;
+
+  // Toutes les écritures passent par cette file. Deux envois lancés de près —
+  // une miniature pendant que des images finissent de partir, un enregistrement
+  // pendant un envoi — lisaient le MÊME sommet, et le second se faisait rejeter
+  // (« Update is not a fast forward »). Réessayer ne faisait que rejouer la
+  // course ; les mettre à la queue leu leu la supprime. Seul le commit est
+  // sérialisé : l'envoi des blobs, lui, reste parallèle.
+  var writeQueue = Promise.resolve();
+  function queueWrite(run){
+    // `then(run, run)` : l'échec d'une écriture ne doit pas bloquer les suivantes
+    var task = writeQueue.then(run, run);
+    writeQueue = task.catch(function(){});
+    return task;
+  }
+
+  function commitEntries(entries, message){
+    return queueWrite(function(){ return commitEntriesNow(entries, message, 0); });
+  }
+
+  // entries : [{ path, mode, type, sha }], des blobs déjà créés.
+  function commitEntriesNow(entries, message, attempt, lastTree){
+    attempt = attempt || 0;
+    // On relit TOUJOURS la reference. Une version precedente faisait confiance
+    // a ce qu'on venait d'ecrire pour eviter une lecture en retard — mais le
+    // test « est-ce mon commit ? » comparait alors une valeur a elle-meme, donc
+    // toujours vrai : chaque enregistrement amendait, et ecrasait EN FORCE tout
+    // ce qui etait arrive entre-temps. Deux commits ont ete detruits ainsi.
+    // La lecture en retard se detecte autrement, sans jamais rien supposer :
+    // si la reference renvoie le PARENT de notre dernier commit, elle montre
+    // l'etat d'avant notre propre ecriture. Tout autre sommet appartient a
+    // quelqu'un d'autre, et on empile dessus.
+    return ghRequest('/git/ref/heads/' + BRANCH)
+      .then(function(ref){
+        var tipSha = ref.object.sha;
+        if (sessionCommitSha && sessionCommitParent && tipSha === sessionCommitParent){
+          tipSha = sessionCommitSha;   // lecture en retard, avérée
+        }
+        return tipSha;
+      })
+      .then(function(tipSha){
+        // un commit se lit par son empreinte : immuable, donc jamais perime
+        return ghRequest('/git/commits/' + tipSha).then(function(tip){
+          // On n'amende QUE notre propre commit, et seulement s'il est encore
+          // le sommet. Tout autre commit au-dessus signifie que quelqu'un a
+          // poussé entre-temps : on ne réécrit jamais le travail d'un autre.
+          var amend = (tipSha === sessionCommitSha && tip.parents && tip.parents.length === 1);
+          var parent = amend ? tip.parents[0].sha : tipSha;
+          // base_tree reste l'arbre du sommet, amendement ou non : il porte
+          // déjà les fichiers envoyés plus tôt dans la session, qui doivent
+          // survivre au remplacement du commit.
+          return ghRequest('/git/trees', {
+            method: 'POST',
+            body: JSON.stringify({ base_tree: tip.tree.sha, tree: entries })
+          })
+          .then(function(tree){
+            return ghRequest('/git/commits', {
+              method: 'POST',
+              body: JSON.stringify({ message: message, tree: tree.sha, parents: [parent] })
+            });
+          })
+          .then(function(newCommit){
+            lastTree = newCommit.tree && newCommit.tree.sha;
+            return ghRequest('/git/refs/heads/' + BRANCH, {
+              method: 'PATCH',
+              body: JSON.stringify({ sha: newCommit.sha, force: amend })
+            }).then(function(){
+              sessionCommitSha = newCommit.sha;
+              sessionCommitParent = parent;
+              return newCommit;
+            });
+          });
+        });
+      })
+      .catch(function(err){
+        var raced = /fast forward|422|409/i.test(err.message || '');
+        if (!raced) throw err;
+
+        // Avant de reessayer ou d'echouer : notre ecriture a-t-elle deja abouti ?
+        // Un rejet peut arriver APRES que la reference ait bouge comme on le
+        // voulait. Annoncer un echec pousse alors a refaire le geste, et c'est
+        // ainsi qu'une meme image se retrouve commitee deux fois.
+        return ghRequest('/git/ref/heads/' + BRANCH)
+          .then(function(ref){ return ghRequest('/git/commits/' + ref.object.sha); })
+          .then(function(tip){
+            if (lastTree && tip.tree && tip.tree.sha === lastTree){
+              sessionCommitSha = tip.sha;
+              sessionCommitParent = (tip.parents && tip.parents[0]) ? tip.parents[0].sha : null;
+              return tip;   // c'etait deja fait : ne pas alarmer, ne pas refaire
+            }
+            // La file ecarte les courses avec nous-memes ; reste celles avec
+            // l'exterieur — un commit pousse depuis ailleurs entre notre lecture
+            // et notre ecriture. On recommence sur le nouveau sommet ; les
+            // blobs, eux, restent valides.
+            // La fenetre a couvrir est celle d'une poussee faite ailleurs
+            // pendant qu'on ecrivait — depuis un autre onglet, ou depuis un
+            // terminal. Quelques secondes suffisent, mais il en faut vraiment
+            // quelques-unes : cinq essais rapides pouvaient encore echouer.
+            if (attempt < 8){
+              sessionCommitSha = sessionCommitParent = null; // ce qui est au-dessus n'est plus a nous
+              // rappel direct, SANS repasser par la file : on y est deja, et s'y
+              // remettre attendrait la fin de la tache courante, donc soi-meme
+              var wait = Math.min(1600, 300 * (attempt + 1)) + Math.floor(Math.random() * 400);
+              return new Promise(function(r){ setTimeout(r, wait); })
+                .then(function(){ return commitEntriesNow(entries, message, attempt + 1, lastTree); });
+            }
+            throw new Error(err.message +
+              '\n\nUne autre ecriture a pris la main pendant l\'envoi. Rien n\'est perdu : reclique.');
+          });
+      });
+  }
+
+  function saveData(data, message){
+    // Cet onglet a pu rester ouvert longtemps sans jamais être rechargé : son
+    // `state` en mémoire date alors du dernier loadData(), pas d'aujourd'hui.
+    // Écrire tel quel remplacerait TOUT data.json — donc effacerait tout ce
+    // qui a été ajouté sur GitHub depuis (par un autre onglet, ou en direct
+    // via git) sans le moindre avertissement. Un vrai cas vécu : un groupe
+    // coché « en avant » depuis un onglet resté ouvert a ainsi effacé trois
+    // projets migrés entre-temps. On revérifie donc le sha juste avant
+    // d'écrire, et on refuse si data.json a bougé depuis le chargement.
+    return ghRequest('/contents/' + DATA_PATH + '?ref=' + BRANCH).then(function(file){
+      if (state.loadedSha && file.sha !== state.loadedSha){
+        throw new Error(
+          'data.json a changé sur GitHub depuis l\'ouverture de cette page ' +
+          '(un autre onglet ou un push direct). Enregistrer maintenant ' +
+          'effacerait ce changement. Clique « Recharger », reporte tes ' +
+          'modifications, puis réessaie.'
+        );
+      }
+      var content = utf8ToB64(JSON.stringify(data, null, 2) + '\n');
+      return ghRequest('/git/blobs', {
+        method: 'POST',
+        body: JSON.stringify({ content: content, encoding: 'base64' })
+      }).then(function(blob){
+        return commitEntries([{ path: DATA_PATH, mode: '100644', type: 'blob', sha: blob.sha }], message)
+          .then(function(result){
+            state.loadedSha = blob.sha;
+            return result;
+          });
+      });
+    });
+  }
+
+  // ---- image upload: convert to WebP client-side (canvas), then commit the
+  // file straight to the repo via the same Contents API used for data.json —
+  // no server involved, GitHub IS the file host. ----
+  function fileToWebpBase64(file, maxDim){
+    return createImageBitmap(file).then(function(bitmap){
+      var scale = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height));
+      var w = Math.max(1, Math.round(bitmap.width * scale));
+      var h = Math.max(1, Math.round(bitmap.height * scale));
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(bitmap, 0, 0, w, h);
+      return new Promise(function(resolve, reject){
+        canvas.toBlob(function(blob){
+          if (!blob){ reject(new Error('Conversion WebP impossible sur ce navigateur.')); return; }
+          var reader = new FileReader();
+          reader.onload = function(){ resolve(reader.result.split(',')[1]); };
+          reader.onerror = function(){ reject(new Error('Lecture du fichier impossible.')); };
+          reader.readAsDataURL(blob);
+        }, 'image/webp', 0.85);
+      });
+    });
+  }
+
+  function uploadProjectImage(file, idHint, index){
+    return uploadImagesBatch([file], idHint).then(function(paths){ return paths[0]; });
+  }
+
+  // Uploading N images through the Contents API means N sequential commits,
+  // which crawls once you pick a dozen files. The Git Data API instead lets us
+  // push every image as a blob (in parallel) and land them in ONE commit.
+  // repo path -> data: URL of the bytes we just uploaded, so the editor can
+  // show an image before GitHub Pages has published it
+  var freshUploads = {};
+
+  function fileToRawBase64(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){ resolve(reader.result.split(',')[1]); };
+      reader.onerror = function(){ reject(new Error('Lecture du fichier impossible.')); };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // kind: 'image' converts to WebP under images/; 'doc' commits the file as-is
+  // under docs/, keeping its original extension.
+  function uploadImagesBatch(files, idHint, onProgress, kind){
+    var isDoc = kind === 'doc';
+    var stamp = Date.now();
+    var slug = slugify(idHint || 'projet');
+    var done = 0;
+    var total = files.length;
+    function report(step){ if (onProgress) onProgress(done, total, step); }
+
+    // 1. convert + upload each file as a blob, a few at a time
+    var entries = new Array(total);
+    var pendingB64 = new Array(total);
+    // Le chemin ecrit dans le depot (prefixe par BASE_PATH) et celui que les
+    // pages publiques resolvent depuis leur propre dossier (jamais prefixe)
+    // ne sont pas le meme chemin des que ce portfolio ne vit pas a la racine
+    // du depot — d'ou les deux tableaux au lieu d'un seul `path`.
+    var relPaths = new Array(total);
+    var next = 0;
+    function worker(){
+      if (next >= total) return Promise.resolve();
+      var i = next++;
+      // a plain object with .b64 is already-encoded content (rendered PDF
+      // pages) — nothing to convert, just commit it
+      var prep = files[i] && files[i].b64 !== undefined
+        ? Promise.resolve(files[i].b64)
+        : (isDoc ? fileToRawBase64(files[i]) : fileToWebpBase64(files[i], 1920));
+      return prep
+        .then(function(b64){
+          pendingB64[i] = b64;
+          return ghRequest('/git/blobs', {
+            method: 'POST',
+            body: JSON.stringify({ content: b64, encoding: 'base64' })
+          });
+        })
+        .then(function(blob){
+          var raw = files[i];
+          var isPreEncoded = raw && raw.b64 !== undefined;
+          var ext = isPreEncoded ? (raw.ext || '.webp')
+            : (isDoc ? ((raw.name.match(/\.[a-z0-9]+$/i) || ['.pdf'])[0].toLowerCase()) : '.webp');
+          var dir = isPreEncoded ? (raw.dir || 'images/') : (isDoc ? 'docs/' : 'images/');
+          var relPath = dir + slug + '-' + stamp + '-' + i + ext;
+          relPaths[i] = relPath;
+          entries[i] = { path: BASE_PATH + relPath, mode: '100644', type: 'blob', sha: blob.sha };
+          // GitHub Pages needs ~a minute to serve the new file, so keep the
+          // local bytes around and show those in the editor meanwhile.
+          // PDFs render reliably from a blob: URL, images from a data: URL
+          freshUploads[relPath] = (isDoc && !isPreEncoded)
+            ? URL.createObjectURL(raw)
+            : 'data:' + (ext === '.webp' ? 'image/webp' : 'application/pdf') + ';base64,' + pendingB64[i];
+          done++; report('upload');
+          return worker();
+        });
+    }
+    var lanes = [];
+    for (var k = 0; k < Math.min(4, total); k++) lanes.push(worker());
+
+    // Le commit passe par commitEntries, comme l'enregistrement : c'est ce qui
+    // permet à l'envoi et aux enregistrements qui suivent de se fondre dans un
+    // seul commit au lieu de s'empiler.
+    return Promise.all(lanes)
+      .then(function(){
+        report('commit');
+        return commitEntries(entries,
+          'Ajoute ' + total + ' ' + (isDoc ? 'document' : 'image') + (total > 1 ? 's' : '') + ' (' + slug + ')');
+      })
+      .then(function(){
+        // data.json now sits on a newer commit; its blob sha is unchanged, so
+        // the pending save still applies cleanly.
+        return relPaths.map(function(p){
+          // En demonstration rien n'est publie : un chemin de depot ne menerait
+          // nulle part. On rend les octets, qui s'affichent partout.
+          return MODE_DEMO ? (freshUploads[p] || p) : p;
+        });
+      });
+  }
+
+  function slugify(str){
+    return str.toLowerCase()
+      .normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'projet';
+  }
+  function uniqueId(base){
+    var id = base, n = 2;
+    var existingIds = state.projects.map(function(p){ return p.id; });
+    while (existingIds.indexOf(id) !== -1 && (editingIndex === -1 || state.projects[editingIndex].id !== id)){
+      id = base + '-' + n; n++;
+    }
+    return id;
+  }
+
+  var CTX_LABEL = { perso: 'Perso', academique: 'Académique', stage: 'Stage' };
+  var MEDIUM_LABEL = { graphisme:'Graphisme', video:'Vidéo', audio:'Audio', web:'Site web', social:'Réseaux sociaux', event:'Événementiel', ecrit:'Écrit' };
+
+  function projectMatchesFilter(p){
+    var ctx = $('filter-ctx').value;
+    var medium = $('filter-medium').value;
+    var q = $('filter-search').value.trim().toLowerCase();
+    if (ctx && p.ctx !== ctx) return false;
+    if (medium && p.medium !== medium) return false;
+    if (q){
+      var haystack = (p.title + ' ' + (p.tags||[]).join(' ') + ' ' + (p.desc||'')).toLowerCase();
+      if (haystack.indexOf(q) === -1) return false;
+    }
+    return true;
+  }
+
+  function renderProjectList(){
+    $('project-count').textContent = '(' + state.projects.length + ')';
+    var list = $('project-list');
+    list.innerHTML = '';
+    var visibleCount = 0;
+    state.projects.forEach(function(p, i){
+      if (!projectMatchesFilter(p)) return;
+      visibleCount++;
+      var row = document.createElement('div');
+      row.className = 'project-item';
+      row.innerHTML =
+        '<div>' +
+          '<div class="title">' + (p.featured ? '<span class="star">' + ICON.starFilled + '</span>' : '') + escapeHtml(p.title) +
+            (p.hidden ? ' <span class="hidden-badge">masqué</span>' : '') + '</div>' +
+          '<div class="meta">' + p.year + ' · ' + (CTX_LABEL[p.ctx]||p.ctx) + ' · ' + (MEDIUM_LABEL[p.medium]||p.medium) + '</div>' +
+          '<div class="tags-inline">' + (p.tags||[]).map(function(t){ return '<span>#'+escapeHtml(t)+'</span>'; }).join('') + '</div>' +
+        '</div>' +
+        '<div class="btns">' +
+          '<button class="ghost" data-action="edit" data-i="'+i+'" type="button">Modifier</button>' +
+          '<button class="danger" data-action="delete" data-i="'+i+'" type="button">Supprimer</button>' +
+        '</div>';
+      list.appendChild(row);
+    });
+    if (visibleCount === 0 && state.projects.length > 0){
+      list.innerHTML = '<p class="small">Aucun projet ne correspond aux filtres.</p>';
+    }
+    if (state.projects.length > 0 && visibleCount !== state.projects.length){
+      $('project-count').textContent = '(' + visibleCount + ' / ' + state.projects.length + ')';
+    }
+    list.querySelectorAll('button[data-action="edit"]').forEach(function(b){
+      b.addEventListener('click', function(){ openProjectForm(+b.dataset.i); });
+    });
+    list.querySelectorAll('button[data-action="delete"]').forEach(function(b){
+      b.addEventListener('click', function(){ deleteProject(+b.dataset.i); });
+    });
+    renderFavoriSelect();
+  }
+
+  function renderFavoriSelect(){
+    var sel = $('f-favori');
+    var current = sel.value ||
+      (state.site.favoriGroupId ? 'group:' + state.site.favoriGroupId : state.site.favoriProjectId);
+    var groupOptions = siteGroups().map(function(g){
+      return '<option value="group:'+g.id+'">[Groupe] ' + escapeHtml(g.title) + '</option>';
+    }).join('');
+    var projectOptions = state.projects.map(function(p){
+      return '<option value="'+p.id+'">' + escapeHtml(p.title) + ' (' + p.year + ')</option>';
+    }).join('');
+    sel.innerHTML = groupOptions + projectOptions;
+    var valide = siteGroups().map(function(g){ return 'group:'+g.id; })
+      .concat(state.projects.map(function(p){ return p.id; }));
+    if (current && valide.indexOf(current) !== -1) sel.value = current;
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
+  }
+
+  // ---- sub-projects: sections nested inside a project's detail page (e.g.
+  // "Refonte graphique", "Community management" under one umbrella project).
+  // Held in a working array scoped to whichever project form is currently
+  // open, and written into that project's `subProjects` field on save. ----
+  var currentSubProjects = [];
+  var subEditingIndex = -1;
+
+  function renderSubProjectList(){
+    $('subproject-count').textContent = currentSubProjects.length ? '(' + currentSubProjects.length + ')' : '';
+    var list = $('subproject-list');
+    list.innerHTML = '';
+    currentSubProjects.forEach(function(sp, i){
+      var row = document.createElement('div');
+      row.className = 'project-item';
+      row.innerHTML =
+        '<div>' +
+          '<div class="title">' + escapeHtml(sp.title) + '</div>' +
+          '<div class="meta">' + (MEDIUM_LABEL[sp.medium] || sp.medium || 'Sans médium') + '</div>' +
+        '</div>' +
+        '<div class="btns">' +
+          '<button class="ghost" data-action="edit" data-i="' + i + '" type="button">Modifier</button>' +
+          '<button class="danger" data-action="delete" data-i="' + i + '" type="button">Supprimer</button>' +
+        '</div>';
+      list.appendChild(row);
+    });
+    list.querySelectorAll('button[data-action="edit"]').forEach(function(b){
+      b.addEventListener('click', function(){ openSubProjectForm(+b.dataset.i); });
+    });
+    list.querySelectorAll('button[data-action="delete"]').forEach(function(b){
+      b.addEventListener('click', function(){
+        if (!confirm('Supprimer cette section ?')) return;
+        currentSubProjects.splice(+b.dataset.i, 1);
+        renderSubProjectList();
+      });
+    });
+  }
+
+  function openSubProjectForm(index){
+    subEditingIndex = index;
+    var box = $('subproject-form-box');
+    box.classList.remove('hidden');
+    if (index === -1){
+      $('subproject-form-title').textContent = 'Ajouter une section';
+      $('spf-title').value = ''; $('spf-medium').value = ''; $('spf-desc').value = '';
+      $('spf-link').value = '';
+      currentSubAssets = [];
+    } else {
+      var sp = currentSubProjects[index];
+      $('subproject-form-title').textContent = 'Modifier la section';
+      $('spf-title').value = sp.title; $('spf-medium').value = sp.medium || ''; $('spf-desc').value = sp.desc || '';
+      $('spf-link').value = sp.link || '';
+      currentSubAssets = assetsOf(sp);
+    }
+    renderSubAssets();
+    $('spf-images-upload').value = '';
+    setStatus($('spf-images-upload-status'), '', '');
+    box.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+
+  // renvoie true si le formulaire a bien été appliqué à l'état — « Enregistrer
+  // sur GitHub » s'en sert pour ne pas publier en laissant une saisie de côté
+  function saveSubProjectForm(){
+    var title = $('spf-title').value.trim();
+    if (!title){ alert('Le titre de la section est obligatoire.'); return false; }
+    var sp = {
+      title: title,
+      medium: $('spf-medium').value,
+      desc: $('spf-desc').value.trim(),
+      assets: currentSubAssets,
+      link: $('spf-link').value.trim()
+    };
+    if (subEditingIndex === -1) currentSubProjects.push(sp);
+    else currentSubProjects[subEditingIndex] = sp;
+    $('subproject-form-box').classList.add('hidden');
+    subEditingIndex = -1;
+    renderSubProjectList();
+    return true;
+  }
+
+  // the thumbnail dropdown is populated from whatever is currently listed in
+  // the images textarea, so it stays in sync after an upload or a manual edit.
+  // ---- assets: one list per project (and per sub-project), each entry being
+  // { type: 'image'|'video'|'audio', url, hidden }. Older records that stored
+  // images[]/videoUrl/audioUrl separately are folded into this shape on load,
+  // exactly like the public site does. ----
+  var currentAssets = [];
+  var currentSubAssets = [];
+
+  function assetsOf(obj){
+    if (Array.isArray(obj.assets)) return JSON.parse(JSON.stringify(obj.assets));
+    var out = [];
+    (obj.images || []).forEach(function(u){ out.push({ type: 'image', url: u, hidden: false }); });
+    if (obj.videoUrl) out.push({ type: 'video', url: obj.videoUrl, hidden: false });
+    if (obj.audioUrl) out.push({ type: 'audio', url: obj.audioUrl, hidden: false });
+    return out;
+  }
+
+  var ASSET_LABEL = { image: 'Image', video: 'Vidéo', audio: 'Audio', web: 'Site web', doc: 'Document', carousel: 'Carrousel', text: 'Texte' };
+  var ASSET_ICON = { video: ICON.play, audio: ICON.music, web: ICON.globe, doc: ICON.file, carousel: ICON.image, text: ICON.file };
+  // three preset display sizes; the button cycles S -> M -> L
+  var SIZE_ORDER = ['sm', 'md', 'lg'];
+  var SIZE_LABEL = { sm: 'S', md: 'M', lg: 'L' };
+  var SIZE_TITLE = { sm: 'Petit', md: 'Moyen', lg: 'Grand' };
+  function nextSize(cur){
+    return SIZE_ORDER[(SIZE_ORDER.indexOf(cur || 'md') + 1) % SIZE_ORDER.length];
+  }
+
+  function renderAssetList(listId, countId, assets, afterChange){
+    var list = $(listId);
+    $(countId).textContent = assets.length ? '(' + assets.length + ')' : '';
+    list.innerHTML = '';
+    if (!assets.length){
+      list.innerHTML = '<p class="small" style="margin:0;">Aucun contenu pour l\'instant — utilise les boutons ci-dessus.</p>';
+      return;
+    }
+    assets.forEach(function(a, i){
+      var row = document.createElement('div');
+      row.className = 'project-item' + (a.hidden ? ' is-hidden-asset' : '');
+      row.innerHTML =
+        '<div style="display:flex; align-items:center; gap:12px; min-width:0;">' +
+          (a.type === 'image'
+            ? '<img src="' + escapeHtml(a.url) + '" alt="" style="width:64px; height:44px; object-fit:cover; border-radius:6px; border:1px solid var(--line); flex:none;">'
+            : '<span class="asset-badge">' + (ASSET_ICON[a.type] || ICON.file) + '</span>') +
+          '<div style="min-width:0;">' +
+            '<div class="meta">' + ASSET_LABEL[a.type] +
+              (a.type === 'carousel' ? ' · ' + (a.urls || []).length + ' photo' + ((a.urls || []).length > 1 ? 's' : '') : '') +
+              (a.hidden ? ' · masqué' : '') + '</div>' +
+            (a.type === 'carousel'
+              ? '<div class="carousel-strip" data-strip-i="' + i + '"></div>'
+              : a.type === 'text'
+                ? '<div class="asset-url">' + escapeHtml((a.text || '').slice(0, 60) || '(texte vide — écris-le dans la vue visuelle)') + '</div>'
+                : '<div class="asset-url">' + escapeHtml(a.url) + '</div>') +
+            // écrit directement dans l'asset à la frappe : re-rendre la liste
+            // à chaque touche ferait perdre le focus au champ
+            '<input class="asset-caption-input" type="text" data-caption-i="' + i + '"' +
+              ' placeholder="Légende (facultatif)" value="' + escapeHtml(a.caption || '') + '">' +
+          '</div>' +
+        '</div>' +
+        '<div class="btns">' +
+          '<button class="ghost" data-act="up" data-i="' + i + '" type="button"' + (i === 0 ? ' disabled' : '') + ' title="Monter">' + ICON.up + '</button>' +
+          '<button class="ghost" data-act="down" data-i="' + i + '" type="button"' + (i === assets.length - 1 ? ' disabled' : '') + ' title="Descendre">' + ICON.down + '</button>' +
+          (a.type === 'doc' && !(a.pages && a.pages.length) && /\.pdf($|\?|#)/i.test(a.url || '')
+            ? '<button class="ghost" data-act="convert" data-i="' + i + '" type="button" title="Convertir en pages">PDF</button>' : '') +
+          '<button class="ghost" data-act="size" data-i="' + i + '" type="button" title="Taille : ' + (SIZE_TITLE[a.size || 'md']) + '">' + SIZE_LABEL[a.size || 'md'] + '</button>' +
+          (a.type === 'carousel' || a.type === 'text' ? '' :
+            '<button class="ghost" data-act="url" data-i="' + i + '" type="button" title="Changer l\'adresse du contenu">' + ICON.link + '</button>') +
+          '<button class="ghost" data-act="toggle" data-i="' + i + '" type="button" title="' + (a.hidden ? 'Afficher' : 'Masquer') + '">' + (a.hidden ? ICON.eyeOff : ICON.eye) + '</button>' +
+          '<button class="danger" data-act="del" data-i="' + i + '" type="button" title="Retirer">' + ICON.close + '</button>' +
+        '</div>';
+      list.appendChild(row);
+    });
+    // Bande de vignettes d'un carrousel : c'est ici qu'on ordonne les photos et
+    // qu'on en retire, la vue liste ayant la place que la surimpression n'a pas.
+    list.querySelectorAll('.carousel-strip').forEach(function(strip){
+      var a = assets[+strip.dataset.stripI];
+      (a.urls || []).forEach(function(u, k){
+        var cell = document.createElement('div');
+        cell.className = 'carousel-cell';
+        cell.innerHTML =
+          '<img src="' + escapeHtml(u) + '" alt="">' +
+          '<div class="carousel-cell-btns">' +
+            '<button class="ghost" data-c="up" type="button"' + (k === 0 ? ' disabled' : '') + ' title="Avancer">' + ICON.up + '</button>' +
+            '<button class="ghost" data-c="down" type="button"' + (k === a.urls.length - 1 ? ' disabled' : '') + ' title="Reculer">' + ICON.down + '</button>' +
+            '<button class="danger" data-c="del" type="button" title="Retirer cette photo">' + ICON.close + '</button>' +
+          '</div>' +
+          '<span class="carousel-cell-n">' + (k + 1) + '</span>';
+        cell.querySelectorAll('button[data-c]').forEach(function(b){
+          b.addEventListener('click', function(){
+            var act = b.dataset.c, tmp;
+            if (act === 'del'){
+              if (a.urls.length <= 1){ alert('Dernière photo du carrousel — retire le carrousel entier.'); return; }
+              if (!confirm('Retirer la photo ' + (k + 1) + ' du carrousel ?')) return;
+              a.urls.splice(k, 1);
+            }
+            else if (act === 'up' && k > 0){ tmp = a.urls[k-1]; a.urls[k-1] = a.urls[k]; a.urls[k] = tmp; }
+            else if (act === 'down' && k < a.urls.length - 1){ tmp = a.urls[k+1]; a.urls[k+1] = a.urls[k]; a.urls[k] = tmp; }
+            if (afterChange) afterChange();
+          });
+        });
+        strip.appendChild(cell);
+      });
+    });
+
+    list.querySelectorAll('input[data-caption-i]').forEach(function(input){
+      input.addEventListener('input', function(){
+        var a = assets[+input.dataset.captionI];
+        var v = input.value.trim();
+        if (v) a.caption = v; else delete a.caption;
+      });
+    });
+    list.querySelectorAll('button[data-act]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var i = +b.dataset.i, act = b.dataset.act, tmp;
+        if (act === 'convert'){
+          convertExistingPdf(assets[i], $('pf-title').value.trim() || 'document',
+            function(msg, kind){ setStatus($('pf-images-upload-status'), msg, kind); },
+            function(){ if (afterChange) afterChange(); });
+          return;
+        }
+        if (act === 'url'){ if (!editAssetUrl(assets[i])) return; }
+        else if (act === 'size') assets[i].size = nextSize(assets[i].size);
+        else if (act === 'toggle') assets[i].hidden = !assets[i].hidden;
+        else if (act === 'del'){ if (!confirm('Retirer ce contenu du projet ?')) return; assets.splice(i, 1); }
+        else if (act === 'up' && i > 0){ tmp = assets[i-1]; assets[i-1] = assets[i]; assets[i] = tmp; }
+        else if (act === 'down' && i < assets.length - 1){ tmp = assets[i+1]; assets[i+1] = assets[i]; assets[i] = tmp; }
+        if (afterChange) afterChange();
+      });
+    });
+  }
+
+  function renderProjectAssets(){
+    renderAssetList('pf-assets-list', 'pf-assets-count', currentAssets, function(){
+      renderProjectAssets();
+      refreshThumbOptions();
+    });
+  }
+  function renderSubAssets(){
+    renderAssetList('spf-assets-list', 'spf-assets-count', currentSubAssets, renderSubAssets);
+  }
+
+  var ASSET_PROMPT = {
+    video: 'Lien vidéo — YouTube, Vimeo, TikTok (adresse ou bloc d\'intégration), ou fichier .mp4 :',
+    audio: 'Lien audio (SoundCloud ou fichier .mp3/.wav) :',
+    web: 'Adresse du site à intégrer (https://…) :',
+    doc: 'Lien du document (PDF, Google Docs/Slides, Word…) :'
+  };
+  // TikTok fournit un <blockquote> de plusieurs milliers de caracteres, avec le
+  // texte de la legende et un script. Le garder tel quel gonflerait data.json et
+  // y ferait entrer du balisage tiers : on n'en retient que l'adresse
+  // d'integration. Le site sait lire les deux formes, mais autant stocker la
+  // propre. Rendu inchange pour tout le reste.
+  function normalizeAssetUrl(value){
+    var v = String(value || '').trim();
+    var iframe = v.match(/<iframe[^>]+src=["']([^"']+)["']/i);
+    if (iframe) return iframe[1];
+    var tik = v.match(/data-video-id=["'](\d+)["']/) ||
+              v.match(/tiktok\.com\/(?:@[\w.-]+\/video|embed(?:\/v2)?)\/(\d+)/);
+    if (tik) return 'https://www.tiktok.com/embed/v2/' + tik[1];
+    return v;
+  }
+
+  function promptAsset(type, assets, rerender){
+    var url = prompt(ASSET_PROMPT[type] || 'Adresse :', '');
+    if (!url) return;
+    assets.push({ type: type, url: normalizeAssetUrl(url), hidden: false });
+    rerender();
+  }
+
+  // documents are committed as-is (no conversion), through the same one-commit
+  // batch path the images use
+  function pickAndUploadDocs(assets, hintFn, rerender, statusEl){
+    pendingDocTarget = { assets: assets, hint: hintFn, rerender: rerender, statusEl: statusEl };
+    $('doc-upload').click();
+  }
+  var pendingDocTarget = null;
+
+  // Converts a PDF that is already in the repo (uploaded before the page
+  // conversion existed) without asking for the file again.
+  function convertExistingPdf(asset, hint, say, done){
+    if (!/\.pdf($|\?|#)/i.test(asset.url || '')){
+      say('Ce document n\'est pas un PDF.', 'err');
+      return;
+    }
+    say('Récupération du PDF…');
+    fetch(asset.url, { cache: 'no-store' })
+      .then(function(r){
+        if (!r.ok) throw new Error('PDF introuvable (' + r.status + ')');
+        return r.blob();
+      })
+      .then(function(blob){
+        var file = new File([blob], (asset.url.split('/').pop() || 'document.pdf'), { type: 'application/pdf' });
+        return pdfToPageImages(file, function(n, total){ say('Conversion… page ' + n + '/' + total); });
+      })
+      .then(function(pages){
+        if (!pages.length) throw new Error('Aucune page rendue.');
+        var payload = pages.map(function(p){ return { b64: p.b64, ext: '.webp', dir: 'images/' }; });
+        return uploadImagesBatch(payload, hint, function(d, t, step){
+          say(step === 'commit' ? 'Enregistrement…' : 'Envoi… (' + d + '/' + t + ')');
+        }, 'doc');
+      })
+      .then(function(paths){
+        asset.pages = paths;
+        say('Converti (' + paths.length + ' pages)', 'ok');
+        done();
+      })
+      .catch(function(err){ say('Échec de la conversion : ' + err.message, 'err'); });
+  }
+
+  // ---- PDF -> page images -------------------------------------------------
+  // Browsers each impose their own PDF viewer chrome (toolbars we can't style
+  // or hide). Rendering the pages to WebP once, at upload, gives the same
+  // result everywhere and needs no viewer at all on the public site. pdf.js is
+  // loaded here only, never on the site itself.
+  var PDFJS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+  var PDFJS_WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  var pdfjsReady = null;
+  function loadPdfJs(){
+    if (pdfjsReady) return pdfjsReady;
+    pdfjsReady = new Promise(function(resolve, reject){
+      if (window.pdfjsLib){ resolve(window.pdfjsLib); return; }
+      var s = document.createElement('script');
+      s.src = PDFJS_URL;
+      s.onload = function(){
+        if (!window.pdfjsLib){ reject(new Error('pdf.js indisponible')); return; }
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+        resolve(window.pdfjsLib);
+      };
+      s.onerror = function(){ reject(new Error('Impossible de charger le convertisseur PDF.')); };
+      document.head.appendChild(s);
+    });
+    return pdfjsReady;
+  }
+
+  // returns [{ b64, width, height }] — one entry per page
+  function pdfToPageImages(file, onPage){
+    return loadPdfJs()
+      .then(function(lib){ return file.arrayBuffer().then(function(buf){ return lib.getDocument({ data: buf }).promise; }); })
+      .then(function(pdf){
+        var pages = [];
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        function renderPage(n){
+          if (n > pdf.numPages) return Promise.resolve(pages);
+          return pdf.getPage(n).then(function(page){
+            var base = page.getViewport({ scale: 1 });
+            var scale = Math.min(2, 1600 / base.width);
+            var vp = page.getViewport({ scale: scale });
+            canvas.width = Math.round(vp.width);
+            canvas.height = Math.round(vp.height);
+            return page.render({ canvasContext: ctx, viewport: vp }).promise.then(function(){
+              pages.push({ b64: canvas.toDataURL('image/webp', 0.82).split(',')[1] });
+              if (onPage) onPage(n, pdf.numPages);
+              return renderPage(n + 1);
+            });
+          });
+        }
+        return renderPage(1);
+      });
+  }
+
+  // the thumbnail can be any image asset OR a dedicated upload that never
+  // appears in the project's contents — hence the extra "(image dédiée)" entry.
+  function refreshThumbOptions(preferred){
+    var sel = $('pf-thumb');
+    var current = preferred !== undefined ? preferred : sel.value;
+    var imgs = currentAssets.filter(function(a){ return a.type === 'image'; }).map(function(a){ return a.url; });
+    var html = '<option value="">Première image visible (par défaut)</option>' +
+      imgs.map(function(src){ return '<option value="' + escapeHtml(src) + '">' + escapeHtml(src) + '</option>'; }).join('');
+    if (current && imgs.indexOf(current) === -1){
+      html += '<option value="' + escapeHtml(current) + '">' + escapeHtml(current) + ' (image dédiée)</option>';
+    }
+    sel.innerHTML = html;
+    sel.value = current || '';
+    renderThumbPreview();
+  }
+
+  function renderThumbPreview(){
+    var chosen = $('pf-thumb').value;
+    if (!chosen){
+      var firstVisible = currentAssets.filter(function(a){ return a.type === 'image' && !a.hidden; })[0];
+      chosen = firstVisible ? firstVisible.url : '';
+    }
+    var box = $('pf-thumb-preview');
+    box.innerHTML = chosen
+      ? '<img src="' + escapeHtml(chosen) + '" alt="Aperçu de la miniature" style="width:190px; aspect-ratio:16/10; object-fit:cover; border-radius:8px; border:1px solid var(--line);">'
+      : '<p class="small" style="margin:0;">Aucune image — la vignette affichera le motif généré et l\'icône du médium.</p>';
+  }
+
+  // Un groupe rassemble plusieurs projets sous une seule carte (voir
+  // groupCardHTML/renderProjectsPage dans script.js) ; il vit dans
+  // state.site.groups — seul systeme de regroupement du site desormais.
+  function siteGroups(){
+    if (!Array.isArray(state.site.groups)) state.site.groups = [];
+    return state.site.groups;
+  }
+
+  function refreshGroupOptions(selected){
+    var sel = $('pf-group');
+    var html = '<option value="">Aucun — projet indépendant</option>' +
+      siteGroups().map(function(g){
+        return '<option value="' + escapeHtml(g.id) + '">' + escapeHtml(g.title || g.id) + '</option>';
+      }).join('');
+    sel.innerHTML = html;
+    sel.value = selected || '';
+  }
+
+  $('pf-new-group-btn').addEventListener('click', function(){
+    var title = prompt('Titre du nouveau groupe :', '');
+    if (!title || !title.trim()) return;
+    title = title.trim();
+    var groups = siteGroups();
+    var base = slugify(title) || 'groupe', id = base, n = 2;
+    while (groups.some(function(g){ return g.id === id; })){ id = base + '-' + (n++); }
+    groups.push({ id: id, kicker: '', title: title, desc: '', thumb: '' });
+    refreshGroupOptions(id);
+  });
+
+  function openProjectForm(index){
+    editingIndex = index;
+    var box = $('project-form-box');
+    box.classList.remove('hidden');
+    if (index === -1){
+      $('project-form-title').textContent = 'Ajouter un projet';
+      $('pf-title').value = ''; $('pf-year').value = new Date().getFullYear();
+      $('pf-ctx').value = 'perso'; $('pf-medium').value = 'graphisme';
+      refreshGroupOptions('');
+      $('pf-tags').value = ''; $('pf-desc').value = ''; $('pf-featured').checked = false;
+      $('pf-hidden').checked = false;
+      $('pf-longdesc').value = ''; $('pf-link').value = '';
+      currentSubProjects = [];
+      currentAssets = [];
+      renderProjectAssets();
+      refreshThumbOptions('');
+    } else {
+      var p = state.projects[index];
+      $('project-form-title').textContent = 'Modifier le projet';
+      $('pf-title').value = p.title; $('pf-year').value = p.year;
+      $('pf-ctx').value = p.ctx; $('pf-medium').value = p.medium;
+      refreshGroupOptions(p.group || '');
+      $('pf-tags').value = (p.tags||[]).join(', '); $('pf-desc').value = p.desc || '';
+      $('pf-featured').checked = !!p.featured;
+      $('pf-hidden').checked = !!p.hidden;
+      $('pf-longdesc').value = p.longDesc || '';
+      $('pf-link').value = p.link || '';
+      currentSubProjects = JSON.parse(JSON.stringify(p.subProjects || []));
+      currentAssets = assetsOf(p);
+      renderProjectAssets();
+      refreshThumbOptions(p.thumb || '');
+    }
+    $('pf-images-upload').value = '';
+    $('pf-thumb-upload').value = '';
+    setStatus($('pf-images-upload-status'), '', '');
+    setStatus($('pf-thumb-upload-status'), '', '');
+    $('subproject-form-box').classList.add('hidden');
+    subEditingIndex = -1;
+    renderSubProjectList();
+    box.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+
+  // renvoie true si le formulaire a bien été appliqué à l'état — voir
+  // saveSubProjectForm pour la raison
+  function saveProjectForm(){
+    var title = $('pf-title').value.trim();
+    if (!title){ alert('Le titre est obligatoire.'); return false; }
+    var p = {
+      id: editingIndex === -1 ? uniqueId(slugify(title)) : state.projects[editingIndex].id,
+      title: title,
+      year: parseInt($('pf-year').value, 10) || new Date().getFullYear(),
+      ctx: $('pf-ctx').value,
+      medium: $('pf-medium').value,
+      tags: $('pf-tags').value.split(',').map(function(t){ return t.trim(); }).filter(Boolean),
+      desc: $('pf-desc').value.trim(),
+      featured: $('pf-featured').checked,
+      hidden: $('pf-hidden').checked,
+      longDesc: $('pf-longdesc').value.trim(),
+      assets: currentAssets,
+      link: $('pf-link').value.trim(),
+      thumb: $('pf-thumb').value,
+      subProjects: currentSubProjects
+    };
+    // absent plutot que vide : un projet sans groupe n'a jamais porte ce
+    // champ (voir data.json), et group === '' passerait quand meme le test
+    // groupsOf(site).filter(p => p.group === g.id) pour un id vide accidentel
+    var groupVal = $('pf-group').value;
+    if (groupVal) p.group = groupVal;
+    if (editingIndex === -1) state.projects.push(p);
+    else state.projects[editingIndex] = p;
+    $('project-form-box').classList.add('hidden');
+    editingIndex = -1;
+    renderProjectList();
+    return true;
+  }
+
+  function deleteProject(index){
+    var p = state.projects[index];
+    if (!confirm('Supprimer "' + p.title + '" ? (à confirmer avec "Enregistrer sur GitHub" ensuite)')) return;
+    state.projects.splice(index, 1);
+    renderProjectList();
+  }
+
+  // site.sections : un tableau de {id, kicker, title, desc} — cherche par id,
+  // cree l'entree au vol si elle n'existe pas encore (ancien data.json).
+  function section(id){
+    var sections = state.site.sections || (state.site.sections = []);
+    var sec = sections.filter(function(s){ return s.id === id; })[0];
+    if (!sec){ sec = { id: id, kicker: '', title: '', desc: '' }; sections.push(sec); }
+    return sec;
+  }
+
+  function fillFormsFromState(){
+    var s = state.site;
+    $('f-owner').value = s.owner || '';
+    $('f-kicker').value = s.kicker || '';
+    $('f-role-main').value = s.roleMain || '';
+    $('f-role-accent').value = s.roleAccent || '';
+    $('f-bio').value = s.bio || '';
+    $('f-about-kicker').value = s.aboutKicker || '';
+    $('f-about-title').value = s.aboutTitle || '';
+    $('f-about-0').value = (s.aboutParagraphs && s.aboutParagraphs[0]) || '';
+    $('f-about-1').value = (s.aboutParagraphs && s.aboutParagraphs[1]) || '';
+    $('f-email').value = s.contactEmail || '';
+    $('f-linkedin').value = s.linkedin || '';
+    $('f-instagram').value = s.instagram || '';
+
+    $('f-featured-kicker').value = s.featuredKicker || '';
+    $('f-featured-title').value = s.featuredTitle || '';
+    $('f-featured-sub').value = s.featuredSub || '';
+
+    $('f-parcours-kicker').value = s.parcoursKicker || '';
+    $('f-parcours-title').value = s.parcoursTitle || '';
+    $('f-parcours-sub').value = s.parcoursSub || '';
+
+    var secPerso = section('perso'), secAcad = section('academique');
+    $('f-section-perso-kicker').value = secPerso.kicker || '';
+    $('f-section-perso-title').value = secPerso.title || '';
+    $('f-section-perso-desc').value = secPerso.desc || '';
+    $('f-section-academique-kicker').value = secAcad.kicker || '';
+    $('f-section-academique-title').value = secAcad.title || '';
+    $('f-section-academique-desc').value = secAcad.desc || '';
+
+    var cta = s.stageCta || (s.stageCta = {});
+    $('f-stagecta-enabled').checked = cta.enabled !== false;
+    $('f-stagecta-kicker').value = cta.kicker || '';
+    $('f-stagecta-title').value = cta.title || '';
+    $('f-stagecta-text').value = cta.text || '';
+
+    if (!Array.isArray(state.site.timeline)) state.site.timeline = [];
+    if (!Array.isArray(state.site.skills)) state.site.skills = [];
+    remplirTheme();
+    renderTimelineList();
+    renderProjectList();
+  }
+
+  // Un formulaire encore ouvert contient une saisie qui n'est PAS dans l'état :
+  // « Enregistrer ce projet » est ce qui l'y verse. Publier sans passer par là
+  // jetait la saisie en silence — changer la miniature puis cliquer directement
+  // « Enregistrer sur GitHub » ne publiait rien. On applique donc les
+  // formulaires ouverts avant de publier, du plus imbriqué au moins imbriqué.
+  // Renvoie false si une validation echoue : il ne faut alors rien publier.
+  function applyOpenForms(){
+    if (!$('subproject-form-box').classList.contains('hidden')){
+      if (saveSubProjectForm() === false) return false;
+    }
+    if (!$('project-form-box').classList.contains('hidden')){
+      if (saveProjectForm() === false) return false;
+    }
+    return true;
+  }
+
+  // Apparence. Le theme vit dans les donnees ; le site le lit et le pose en
+  // variables CSS. L'apercu recoit l'etat non enregistre, il se met donc a jour
+  // sans qu'on ait rien a lui dire de plus.
+  var THEME_DEFAUT = {
+    bg: '#080b30', bgSoft: '#0d1454', bgDeep: '#05071f',
+    accent: '#4650ff', accentStrong: '#5b63ff', accentSky: '#7fc4ff',
+    text: '#ffffff',
+    halo: 'rgba(90,100,255,0.22)',
+    bgImage: 'images/bg-hor.webp', bgImageVertical: 'images/bg-vert.webp',
+    bgImageOpacity: 0.55,
+    starRgb: '255, 255, 255', starsOpacity: 0
+  };
+  var CHAMPS_COULEUR = ['bg', 'bgSoft', 'accent', 'accentSky', 'text'];
+
+  function theme(){
+    if (!state.site.theme) state.site.theme = Object.assign({}, THEME_DEFAUT);
+    return state.site.theme;
+  }
+
+  // « accentStrong » n'a pas son champ : une variante claire de la couleur
+  // principale suffit, et demander deux teintes proches n'aide personne.
+  function eclaircir(hex, part){
+    var m = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex || '');
+    if (!m) return hex;
+    var c = [1,2,3].map(function(i){
+      var v = parseInt(m[i], 16);
+      return Math.round(v + (255 - v) * part);
+    });
+    return '#' + c.map(function(v){ return ('0' + v.toString(16)).slice(-2); }).join('');
+  }
+
+  // --star-rgb attend « r, g, b » : le nuancier du navigateur ne parle qu'hexa.
+  function versTriplet(hex){
+    var m = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex || '');
+    return m ? [1,2,3].map(function(i){ return parseInt(m[i], 16); }).join(', ') : '255, 255, 255';
+  }
+  function versHex(triplet){
+    var p = String(triplet || '').split(',').map(function(v){ return parseInt(v, 10); });
+    if (p.length !== 3 || p.some(isNaN)) return '#ffffff';
+    return '#' + p.map(function(v){ return ('0' + Math.max(0, Math.min(255, v)).toString(16)).slice(-2); }).join('');
+  }
+
+  function remplirTheme(){
+    var t = theme();
+    CHAMPS_COULEUR.forEach(function(cle){
+      var el = $('th-' + cle);
+      if (el) el.value = /^#[\da-f]{6}$/i.test(t[cle] || '') ? t[cle] : (THEME_DEFAUT[cle] || '#000000');
+    });
+    var op = t.bgImageOpacity != null ? t.bgImageOpacity : 0.55;
+    $('th-opacity').value = op;
+    $('th-opacity-val').textContent = Math.round(op * 100) + '%';
+    // 0 est une valeur choisie, pas une valeur absente : on ne teste pas sa vérité
+    var et = t.starsOpacity != null ? t.starsOpacity : 0;
+    $('th-stars').value = et;
+    $('th-stars-val').textContent = Math.round(et * 100) + '%';
+    $('th-starColor').value = versHex(t.starRgb || '255, 255, 255');
+    $('th-bg-current').textContent = t.bgImage || '(aucune image)';
+  }
+
+  function majTheme(cle, valeur){
+    var t = theme();
+    t[cle] = valeur;
+    if (cle === 'accent') t.accentStrong = eclaircir(valeur, 0.18);
+    remplirTheme();
+    applyAndRefresh();
+  }
+
+  CHAMPS_COULEUR.forEach(function(cle){
+    var el = $('th-' + cle);
+    if (el) el.addEventListener('change', function(){ majTheme(cle, el.value); });
+  });
+
+  $('th-opacity').addEventListener('input', function(){
+    $('th-opacity-val').textContent = Math.round(this.value * 100) + '%';
+  });
+  $('th-opacity').addEventListener('change', function(){
+    majTheme('bgImageOpacity', parseFloat(this.value));
+  });
+
+  $('th-stars').addEventListener('input', function(){
+    $('th-stars-val').textContent = Math.round(this.value * 100) + '%';
+  });
+  $('th-stars').addEventListener('change', function(){
+    majTheme('starsOpacity', parseFloat(this.value));
+  });
+  $('th-starColor').addEventListener('change', function(){
+    majTheme('starRgb', versTriplet(this.value));
+  });
+
+  $('th-bg-upload-btn').addEventListener('click', function(){ $('th-bg-upload').click(); });
+  wireImageUploadInput('th-bg-upload', 'th-bg-status',
+    function(){ return 'fond'; },
+    function(paths){
+      var t = theme();
+      // une seule image : elle sert dans les deux orientations, faute de quoi il
+      // faudrait en demander deux a chaque changement de decor
+      t.bgImage = paths[0];
+      t.bgImageVertical = paths[0];
+      remplirTheme();
+      applyAndRefresh();
+      publishAfterUpload();
+    });
+
+  $('th-bg-clear-btn').addEventListener('click', function(){
+    var t = theme();
+    t.bgImage = ''; t.bgImageVertical = ''; t.bgImageOpacity = 0;
+    remplirTheme();
+    applyAndRefresh();
+  });
+
+  $('th-reset-btn').addEventListener('click', function(){
+    if (!confirm('Revenir aux couleurs et au fond d\'origine ?')) return;
+    state.site.theme = Object.assign({}, THEME_DEFAUT);
+    remplirTheme();
+    applyAndRefresh();
+  });
+
+  function collectStateFromForms(){
+    state.site.owner = $('f-owner').value.trim();
+    state.site.kicker = $('f-kicker').value.trim();
+    state.site.roleMain = $('f-role-main').value.trim();
+    state.site.roleAccent = $('f-role-accent').value.trim();
+    state.site.bio = $('f-bio').value;
+    state.site.aboutKicker = $('f-about-kicker').value.trim();
+    state.site.aboutTitle = $('f-about-title').value.trim();
+    state.site.aboutParagraphs = [ $('f-about-0').value, $('f-about-1').value ];
+    state.site.contactEmail = $('f-email').value.trim();
+    state.site.linkedin = $('f-linkedin').value.trim();
+    state.site.instagram = $('f-instagram').value.trim();
+
+    state.site.featuredKicker = $('f-featured-kicker').value.trim();
+    state.site.featuredTitle = $('f-featured-title').value.trim();
+    state.site.featuredSub = $('f-featured-sub').value.trim();
+
+    state.site.parcoursKicker = $('f-parcours-kicker').value.trim();
+    state.site.parcoursTitle = $('f-parcours-title').value.trim();
+    state.site.parcoursSub = $('f-parcours-sub').value.trim();
+
+    var secPerso = section('perso'), secAcad = section('academique');
+    secPerso.kicker = $('f-section-perso-kicker').value.trim();
+    secPerso.title = $('f-section-perso-title').value.trim();
+    secPerso.desc = $('f-section-perso-desc').value.trim();
+    secAcad.kicker = $('f-section-academique-kicker').value.trim();
+    secAcad.title = $('f-section-academique-title').value.trim();
+    secAcad.desc = $('f-section-academique-desc').value.trim();
+
+    var cta = state.site.stageCta || (state.site.stageCta = {});
+    cta.enabled = $('f-stagecta-enabled').checked;
+    cta.kicker = $('f-stagecta-kicker').value.trim();
+    cta.title = $('f-stagecta-title').value.trim();
+    cta.text = $('f-stagecta-text').value.trim();
+    var favVal = $('f-favori').value;
+    if (favVal.indexOf('group:') === 0){
+      state.site.favoriGroupId = favVal.slice(6);
+      delete state.site.favoriProjectId;
+    } else {
+      state.site.favoriProjectId = favVal;
+      delete state.site.favoriGroupId;
+    }
+    // state.site.timeline is kept up to date live by the timeline
+    // add/edit/delete/reorder handlers below — nothing to collect here.
+  }
+
+  var timelineEditingIndex = -1;
+
+  function renderTimelineList(){
+    var items = state.site.timeline || [];
+    $('timeline-count').textContent = '(' + items.length + ')';
+    var list = $('timeline-list');
+    list.innerHTML = '';
+    items.forEach(function(t, i){
+      var row = document.createElement('div');
+      row.className = 'project-item';
+      row.innerHTML =
+        '<div>' +
+          '<div class="title">' + (t.current ? '<span class="star">' + ICON.dotFilled + '</span>' : '') + escapeHtml(t.title) + '</div>' +
+          '<div class="meta">' + escapeHtml(t.year) + '</div>' +
+        '</div>' +
+        '<div class="btns">' +
+          '<button class="ghost" data-action="up" data-i="' + i + '" type="button"' + (i === 0 ? ' disabled' : '') + ' title="Monter">' + ICON.up + '</button>' +
+          '<button class="ghost" data-action="down" data-i="' + i + '" type="button"' + (i === items.length - 1 ? ' disabled' : '') + ' title="Descendre">' + ICON.down + '</button>' +
+          '<button class="ghost" data-action="edit" data-i="' + i + '" type="button">Modifier</button>' +
+          '<button class="danger" data-action="delete" data-i="' + i + '" type="button">Supprimer</button>' +
+        '</div>';
+      list.appendChild(row);
+    });
+    list.querySelectorAll('button[data-action="edit"]').forEach(function(b){
+      b.addEventListener('click', function(){ openTimelineForm(+b.dataset.i); });
+    });
+    list.querySelectorAll('button[data-action="delete"]').forEach(function(b){
+      b.addEventListener('click', function(){
+        if (!confirm('Supprimer cette étape du parcours ?')) return;
+        state.site.timeline.splice(+b.dataset.i, 1);
+        renderTimelineList();
+      });
+    });
+    list.querySelectorAll('button[data-action="up"]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var i = +b.dataset.i;
+        var arr = state.site.timeline;
+        if (i > 0){ var tmp = arr[i-1]; arr[i-1] = arr[i]; arr[i] = tmp; renderTimelineList(); }
+      });
+    });
+    list.querySelectorAll('button[data-action="down"]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var i = +b.dataset.i;
+        var arr = state.site.timeline;
+        if (i < arr.length - 1){ var tmp = arr[i+1]; arr[i+1] = arr[i]; arr[i] = tmp; renderTimelineList(); }
+      });
+    });
+  }
+
+  function openTimelineForm(index){
+    timelineEditingIndex = index;
+    var box = $('timeline-form-box');
+    box.classList.remove('hidden');
+    if (index === -1){
+      $('timeline-form-title').textContent = 'Ajouter une étape';
+      $('tf-year').value = ''; $('tf-title').value = ''; $('tf-desc').value = ''; $('tf-current').checked = false;
+    } else {
+      var t = state.site.timeline[index];
+      $('timeline-form-title').textContent = 'Modifier l\'étape';
+      $('tf-year').value = t.year; $('tf-title').value = t.title; $('tf-desc').value = t.desc || ''; $('tf-current').checked = !!t.current;
+    }
+    box.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+
+  function saveTimelineForm(){
+    var title = $('tf-title').value.trim();
+    var year = $('tf-year').value.trim();
+    if (!title || !year){ alert('Année et titre sont obligatoires.'); return; }
+    var t = { year: year, title: title, desc: $('tf-desc').value.trim(), current: $('tf-current').checked };
+    // only one "current" step at a time
+    if (t.current) state.site.timeline.forEach(function(x){ x.current = false; });
+    if (timelineEditingIndex === -1) state.site.timeline.push(t);
+    else state.site.timeline[timelineEditingIndex] = t;
+    $('timeline-form-box').classList.add('hidden');
+    timelineEditingIndex = -1;
+    renderTimelineList();
+  }
+
+  function setStatus(el, text, kind){
+    el.textContent = text;
+    el.className = 'status' + (kind ? ' ' + kind : '');
+    // dans la barre flottante, l'etat remplace la consigne : les deux cote a
+    // cote allongeraient la pastille au point de la faire deborder
+    if (el.id === 'save-status'){
+      var hint = document.getElementById('save-hint');
+      if (hint) hint.style.display = text ? 'none' : '';
+    }
+  }
+
+  function showEditor(){
+    $('login-screen').classList.add('hidden');
+    $('editor-screen').classList.remove('hidden');
+    // demarreDemo() remplace #repo-label par un message fixe (« Panneau de
+    // démonstration ») en detruisant l'element lui-meme, pour que rien ici ne
+    // l'ecrase — d'ou la garde : sans elle, la vue visuelle ne s'affichait
+    // jamais dans le bac a sable.
+    var repoLabel = $('repo-label');
+    if (repoLabel) repoLabel.textContent = REPO_OWNER + '/' + REPO_NAME;
+    // the visual editor is the default way in; the list view stays a click away
+    showView('visual');
+  }
+  function showLogin(){
+    $('editor-screen').classList.add('hidden');
+    $('login-screen').classList.remove('hidden');
+  }
+
+  function connectAndLoad(token, statusEl){
+    statusEl = statusEl || $('oauth-status');
+    setToken(token);
+    setStatus(statusEl, 'Connexion…', '');
+    return loadData().then(function(data){
+      state.site = data.site || {};
+      state.projects = data.projects || [];
+      fillFormsFromState();
+      showEditor();
+    }).catch(function(err){
+      setStatus(statusEl, err.message || 'Échec de connexion — vérifie le token.', 'err');
+    });
+  }
+
+  // ---- OAuth popup flow, compatible with the sveltia-cms-auth Worker protocol:
+  // popup announces itself with 'authorizing:github', we echo it back as a
+  // handshake ack, then it replies with 'authorization:github:success:{...}'
+  // (or an ':error:' variant) containing the real token. ----
+  function loginWithGithubOAuth(){
+    return new Promise(function(resolve, reject){
+      if (!OAUTH_WORKER_URL){
+        reject(new Error('OAuth pas configuré.'));
+        return;
+      }
+      var width = 600, height = 700;
+      var left = Math.round((screen.width - width) / 2);
+      var top = Math.round((screen.height - height) / 2);
+      // hit the worker's own /auth endpoint (NOT github.com's authorize URL
+      // directly) — it holds the client ID/secret server-side and sets a
+      // CSRF cookie before redirecting the popup on to GitHub itself.
+      var authUrl = OAUTH_WORKER_URL.replace(/\/$/, '') + '/auth' +
+        '?provider=github' +
+        '&site_id=' + encodeURIComponent(window.location.hostname) +
+        '&scope=' + encodeURIComponent(OAUTH_SCOPE);
+      var popup = window.open(authUrl, 'github-oauth', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left);
+      if (!popup){
+        reject(new Error('Le popup a été bloqué par le navigateur — autorise les popups pour ce site et réessaie.'));
+        return;
+      }
+
+      var settled = false;
+      function handleMessage(e){
+        var data = e.data;
+        console.log('[oauth] message from', e.origin, ':', data);
+        if (typeof data !== 'string') return;
+        if (data === 'authorizing:github'){
+          popup.postMessage('authorizing:github', '*');
+          return;
+        }
+        if (data.indexOf('authorization:github:success:') === 0){
+          settled = true;
+          window.removeEventListener('message', handleMessage);
+          var payload = JSON.parse(data.slice('authorization:github:success:'.length));
+          try { popup.close(); } catch(e2){}
+          resolve(payload.token);
+          return;
+        }
+        if (data.indexOf('authorization:github:error:') === 0){
+          settled = true;
+          window.removeEventListener('message', handleMessage);
+          var errPayload = JSON.parse(data.slice('authorization:github:error:'.length));
+          try { popup.close(); } catch(e2){}
+          reject(new Error(errPayload.error || 'Échec de connexion GitHub.'));
+          return;
+        }
+      }
+      window.addEventListener('message', handleMessage);
+
+      var closeCheck = setInterval(function(){
+        if (popup.closed){
+          clearInterval(closeCheck);
+          if (!settled){
+            window.removeEventListener('message', handleMessage);
+            reject(new Error('Fenêtre de connexion fermée avant la fin.'));
+          }
+        }
+      }, 500);
+    });
+  }
+
+  if (!OAUTH_WORKER_URL){
+    $('oauth-login-btn').disabled = true;
+  }
+
+  $('oauth-login-btn').addEventListener('click', function(){
+    setStatus($('oauth-status'), 'Connexion à GitHub…', '');
+    loginWithGithubOAuth().then(function(token){
+      return connectAndLoad(token, $('oauth-status'));
+    }).catch(function(err){
+      setStatus($('oauth-status'), err.message, 'err');
+    });
+  });
+
+  $('logout-btn').addEventListener('click', function(){
+    // La demonstration partage l'origine du vrai panneau : effacer le jeton
+    // deconnecterait Adam de son propre portfolio.
+    if (MODE_DEMO){ location.reload(); return; }
+    clearToken();
+    showLogin();
+    setStatus($('oauth-status'), '', '');
+  });
+
+  $('reload-btn').addEventListener('click', function(){
+    setStatus($('save-status'), MODE_DEMO ? 'Retour en arrière…' : 'Rechargement…', '');
+    loadData().then(function(data){
+      state.site = data.site || {};
+      state.projects = data.projects || [];
+      fillFormsFromState();
+      setStatus($('save-status'), (MODE_DEMO ? 'Revenu au dernier état appliqué.' : 'Recharge depuis GitHub — les modifications non enregistrées ont été perdues.'), 'ok');
+    }).catch(function(err){
+      setStatus($('save-status'), err.message, 'err');
+    });
+  });
+
+  $('filter-search').addEventListener('input', renderProjectList);
+  $('filter-ctx').addEventListener('change', renderProjectList);
+  $('filter-medium').addEventListener('change', renderProjectList);
+  $('filter-reset-btn').addEventListener('click', function(){
+    $('filter-search').value = ''; $('filter-ctx').value = ''; $('filter-medium').value = '';
+    renderProjectList();
+  });
+
+  // uploads each picked file (converted to WebP) and hands the resulting repo
+  // paths to `onUploaded` — used both for asset lists and the thumbnail slot.
+  function wireImageUploadInput(inputId, statusId, idHintFn, onUploaded){
+    $(inputId).addEventListener('change', function(e){
+      var files = Array.prototype.slice.call(e.target.files || []);
+      if (!files.length) return;
+      var statusEl = $(statusId);
+      var idHint = idHintFn() || 'projet';
+      var input = e.target;
+      input.disabled = true;
+
+      uploadImagesBatch(files, idHint, function(done, total, step){
+        setStatus(statusEl, step === 'commit'
+          ? 'Enregistrement des ' + total + ' images…'
+          : 'Conversion et envoi… (' + done + '/' + total + ')', '');
+      }).then(function(paths){
+        onUploaded(paths);
+        setStatus(statusEl, 'Envoyé (' + paths.length + ' image' + (paths.length > 1 ? 's' : '') + ')', 'ok');
+      }).catch(function(err){
+        setStatus(statusEl, 'Échec de l\'envoi : ' + err.message, 'err');
+      }).then(function(){
+        input.disabled = false;
+        input.value = '';
+      });
+    });
+  }
+
+  // Le même sélecteur de fichiers sert aux images séparées et au carrousel :
+  // seul ce drapeau, posé juste avant l'ouverture, décide de ce qu'on fabrique.
+  var nextUploadIsCarousel = false;
+
+  function pushUploaded(arr, paths){
+    if (nextUploadIsCarousel){
+      nextUploadIsCarousel = false;
+      arr.push({ type: 'carousel', urls: paths, hidden: false });
+    } else {
+      paths.forEach(function(p){ arr.push({ type: 'image', url: p, hidden: false }); });
+    }
+  }
+
+  wireImageUploadInput('pf-images-upload', 'pf-images-upload-status',
+    function(){ return $('pf-title').value.trim(); },
+    function(paths){
+      pushUploaded(currentAssets, paths);
+      renderProjectAssets();
+      refreshThumbOptions();
+      publishAfterUpload();
+    });
+
+  wireImageUploadInput('spf-images-upload', 'spf-images-upload-status',
+    function(){ return ($('pf-title').value.trim() || 'projet') + '-' + $('spf-title').value.trim(); },
+    function(paths){
+      pushUploaded(currentSubAssets, paths);
+      renderSubAssets();
+      publishAfterUpload();
+    });
+
+  // dedicated thumbnail image: uploaded like any other, but stored only in
+  // `thumb` so it never shows up among the project's visible contents.
+  wireImageUploadInput('pf-thumb-upload', 'pf-thumb-upload-status',
+    function(){ return ($('pf-title').value.trim() || 'projet') + '-miniature'; },
+    function(paths){ refreshThumbOptions(paths[0]); publishAfterUpload(); });
+
+  $('pf-thumb').addEventListener('change', renderThumbPreview);
+  $('pf-thumb-upload-btn').addEventListener('click', function(){ $('pf-thumb-upload').click(); });
+
+  $('pf-add-image-btn').addEventListener('click', function(){ $('pf-images-upload').click(); });
+  $('pf-add-carousel-btn').addEventListener('click', function(){
+    nextUploadIsCarousel = true; $('pf-images-upload').click();
+  });
+  $('pf-add-text-btn').addEventListener('click', function(){
+    currentAssets.push({ type: 'text', text: '', hidden: false, size: 'md' });
+    renderProjectAssets();
+  });
+  $('pf-add-video-btn').addEventListener('click', function(){ promptAsset('video', currentAssets, function(){ renderProjectAssets(); refreshThumbOptions(); }); });
+  $('pf-add-audio-btn').addEventListener('click', function(){ promptAsset('audio', currentAssets, function(){ renderProjectAssets(); refreshThumbOptions(); }); });
+
+  $('pf-add-web-btn').addEventListener('click', function(){ promptAsset('web', currentAssets, function(){ renderProjectAssets(); refreshThumbOptions(); }); });
+  $('pf-add-doc-btn').addEventListener('click', function(){
+    pickAndUploadDocs(currentAssets, function(){ return $('pf-title').value.trim(); },
+      function(){ renderProjectAssets(); refreshThumbOptions(); }, $('pf-images-upload-status'));
+  });
+  $('pf-add-doclink-btn').addEventListener('click', function(){
+    promptAsset('doc', currentAssets, function(){ renderProjectAssets(); refreshThumbOptions(); });
+  });
+
+  $('spf-add-image-btn').addEventListener('click', function(){ $('spf-images-upload').click(); });
+  $('spf-add-carousel-btn').addEventListener('click', function(){
+    nextUploadIsCarousel = true; $('spf-images-upload').click();
+  });
+  $('spf-add-text-btn').addEventListener('click', function(){
+    currentSubAssets.push({ type: 'text', text: '', hidden: false, size: 'md' });
+    renderSubAssets();
+  });
+  $('spf-add-video-btn').addEventListener('click', function(){ promptAsset('video', currentSubAssets, renderSubAssets); });
+  $('spf-add-audio-btn').addEventListener('click', function(){ promptAsset('audio', currentSubAssets, renderSubAssets); });
+  $('spf-add-web-btn').addEventListener('click', function(){ promptAsset('web', currentSubAssets, renderSubAssets); });
+  $('spf-add-doc-btn').addEventListener('click', function(){
+    pickAndUploadDocs(currentSubAssets, function(){ return ($('pf-title').value.trim() || 'projet') + '-' + $('spf-title').value.trim(); },
+      renderSubAssets, $('spf-images-upload-status'));
+  });
+  $('spf-add-doclink-btn').addEventListener('click', function(){
+    promptAsset('doc', currentSubAssets, renderSubAssets);
+  });
+
+  // shared handler for every "+ Document" file picker
+  $('doc-upload').addEventListener('change', function(e){
+    var files = Array.prototype.slice.call(e.target.files || []);
+    var target = pendingDocTarget;
+    pendingDocTarget = null;
+    e.target.value = '';
+    if (!files.length || !target) return;
+    var statusEl = target.statusEl;
+    var say = function(msg, kind){
+      if (statusEl) setStatus(statusEl, msg, kind || '');
+      else $('visual-location').textContent = msg;
+    };
+    var hint = target.hint();
+
+    // Each PDF becomes: the original file (kept for download) + one WebP per
+    // page. The site then shows the pages as images, identically everywhere.
+    var jobs = files.map(function(f){
+      var isPdf = /\.pdf$/i.test(f.name) || f.type === 'application/pdf';
+      if (!isPdf) return Promise.resolve({ original: f, pages: [] });
+      say('Conversion de « ' + f.name +' »…');
+      return pdfToPageImages(f, function(n, total){
+        say('Conversion de « ' + f.name + ' »… page ' + n + '/' + total);
+      }).then(function(pages){
+        return { original: f, pages: pages };
+      }).catch(function(err){
+        // conversion unavailable (offline, blocked CDN): fall back to the
+        // plain PDF rather than failing the whole upload
+        console.warn('Conversion PDF impossible, envoi du fichier brut :', err);
+        return { original: f, pages: [] };
+      });
+    });
+
+    Promise.all(jobs).then(function(results){
+      // one flat upload list, remembering which entry belongs to which doc
+      var payload = [];
+      var map = [];
+      results.forEach(function(r, docIndex){
+        payload.push(r.original);
+        map.push({ doc: docIndex, role: 'original' });
+        r.pages.forEach(function(p){
+          payload.push({ b64: p.b64, ext: '.webp', dir: 'images/' });
+          map.push({ doc: docIndex, role: 'page' });
+        });
+      });
+
+      return uploadImagesBatch(payload, hint, function(done, total, step){
+        say(step === 'commit' ? 'Enregistrement…' : 'Envoi… (' + done + '/' + total + ')');
+      }, 'doc').then(function(paths){
+        results.forEach(function(r, docIndex){
+          var original = null, pages = [];
+          paths.forEach(function(p, i){
+            if (map[i].doc !== docIndex) return;
+            if (map[i].role === 'original') original = p; else pages.push(p);
+          });
+          var asset = { type: 'doc', url: original, hidden: false };
+          if (pages.length) asset.pages = pages;
+          target.assets.push(asset);
+        });
+        var pageTotal = results.reduce(function(n, r){ return n + r.pages.length; }, 0);
+        say('Envoyé (' + results.length + ' document' + (results.length > 1 ? 's' : '') +
+            (pageTotal ? ', ' + pageTotal + ' page' + (pageTotal > 1 ? 's' : '') : '') + ')', 'ok');
+        target.rerender();
+        publishAfterUpload();
+      });
+    }).catch(function(err){
+      say('Échec de l\'envoi : ' + err.message, 'err');
+      if (!statusEl) alert('Échec de l\'envoi : ' + err.message);
+    });
+  });
+
+  $('add-subproject-btn').addEventListener('click', function(){ openSubProjectForm(-1); });
+  $('spf-save-btn').addEventListener('click', saveSubProjectForm);
+  $('spf-cancel-btn').addEventListener('click', function(){
+    $('subproject-form-box').classList.add('hidden');
+    subEditingIndex = -1;
+  });
+
+  $('add-project-btn').addEventListener('click', function(){ openProjectForm(-1); });
+  $('pf-save-btn').addEventListener('click', saveProjectForm);
+  $('pf-cancel-btn').addEventListener('click', function(){
+    $('project-form-box').classList.add('hidden');
+    editingIndex = -1;
+  });
+
+  $('add-timeline-btn').addEventListener('click', function(){ openTimelineForm(-1); });
+  $('tf-save-btn').addEventListener('click', saveTimelineForm);
+  $('tf-cancel-btn').addEventListener('click', function(){
+    $('timeline-form-box').classList.add('hidden');
+    timelineEditingIndex = -1;
+  });
+
+  // GitHub Pages reconstruit le site de son côté : « enregistré » ne veut pas
+  // dire « visible ». Plutôt que d'annoncer un délai au jugé, on interroge le
+  // fichier réellement publié jusqu'à ce qu'il corresponde à ce qu'on vient
+  // d'écrire. `cache: 'no-cache'` force la revalidation, sinon on relirait
+  // pendant dix minutes la copie en cache (max-age=600).
+  function waitUntilLive(expected, startedAt){
+    startedAt = startedAt || Date.now();
+    var elapsed = Math.round((Date.now() - startedAt) / 1000);
+    if (elapsed > 240) return Promise.resolve(false);
+    if (elapsed > 3){
+      setStatus($('save-status'), 'Enregistré. Publication en cours… (' + elapsed + ' s)', '');
+    }
+    return fetch('data.json?t=' + Date.now(), { cache: 'no-cache' })
+      .then(function(res){ return res.text(); })
+      .then(function(txt){ return txt.trim() === expected.trim(); })
+      .catch(function(){ return false; })
+      .then(function(live){
+        if (live) return true;
+        return new Promise(function(r){ setTimeout(r, 4000); })
+          .then(function(){ return waitUntilLive(expected, startedAt); });
+      });
+  }
+
+  function publishState(){
+    if (!applyOpenForms()) return Promise.resolve(false);  // saisie invalide : ne rien publier
+    collectStateFromForms();
+    var btn = $('save-btn');
+    var payload = { site: state.site, projects: state.projects };
+    var expected = JSON.stringify(payload, null, 2) + '\n';
+    btn.disabled = true;
+    setStatus($('save-status'), MODE_DEMO ? 'Application…' : 'Enregistrement sur GitHub…', '');
+    return saveData(payload, 'Mise à jour du contenu depuis /admin.html')
+      .then(function(){
+        // En demonstration il n'y a rien a attendre : waitUntilLive
+        // interrogerait le fichier du serveur, qui ne changera jamais, et
+        // annoncerait au bout de quatre minutes que « la publication tarde ».
+        if (MODE_DEMO){
+          setStatus($('save-status'), 'Appliqué — et toujours rien de publié.', 'ok');
+          btn.disabled = false;
+          return true;
+        }
+        setStatus($('save-status'), 'Enregistré. Publication en cours…', '');
+        btn.disabled = false;            // on peut continuer à travailler pendant la publication
+        return waitUntilLive(expected).then(function(live){
+          setStatus($('save-status'), live
+            ? 'En ligne — le site affiche cette version.'
+            : 'Enregistré, mais la publication tarde. Recharge le site dans une minute.',
+            live ? 'ok' : '');
+          return true;
+        });
+      })
+      .catch(function(err){
+        setStatus($('save-status'), err.message || 'Échec de l\'enregistrement.', 'err');
+        btn.disabled = false;
+        return false;
+      });
+  }
+
+  // Un envoi commite DEJA le fichier sur GitHub. Laisser son affectation en
+  // memoire cree un etat a moitie ecrit : l'image existe dans le depot, rien ne
+  // la designe, et un simple rechargement perd l'affectation sans un mot — c'est
+  // ainsi qu'une miniature a ete refaite trois fois, et que des fichiers sont
+  // restes orphelins. Un envoi enregistre donc dans la foulee.
+  function publishAfterUpload(){
+    setStatus($('save-status'), 'Envoi terminé — enregistrement…', '');
+    return publishState();
+  }
+
+  $('save-btn').addEventListener('click', function(){ publishState(); });
+
+  // =====================================================================
+  // Visual (WYSIWYG) editing view
+  //
+  // Renders the REAL site pages inside an iframe — same stylesheet, same
+  // script.js — but fed with the in-memory (unsaved) state via the
+  // window.__SITE_DATA__ hook script.js already supports. Editable texts are
+  // then made contenteditable from here, so nothing editor-specific ever
+  // ships in the public site code.
+  // =====================================================================
+  var visualNav = { page: 'index.html', projectId: null };
+  var pageCache = {};
+
+  function fetchPage(file){
+    if (pageCache[file]) return Promise.resolve(pageCache[file]);
+    return fetch(file, { cache: 'no-store' }).then(function(r){ return r.text(); }).then(function(html){
+      pageCache[file] = html;
+      return html;
+    });
+  }
+
+  // <br> is a real line break in the data model; everything else is text.
+  function readEditableText(el){
+    var out = '';
+    el.childNodes.forEach(function(node){
+      if (node.nodeType === 3) out += node.data;
+      else if (node.nodeName === 'BR') out += '\n';
+      else out += node.textContent;
+    });
+    return out.replace(/[ \t]*\n[ \t\n]*/g, '\n').replace(/[ \t]+/g, ' ').trim();
+  }
+
+  function buildFrameDoc(html, data, id, page){
+    var inject =
+      '<script>window.__SITE_DATA__ = ' + JSON.stringify(data).replace(/<\//g, '<\\/') + ';' +
+      'window.__EDIT_MODE__ = true;<\/script>' +
+      '<style>' +
+        '[data-edit]{ outline:1px dashed rgba(127,196,255,0.45); outline-offset:3px; border-radius:3px; cursor:text; transition: background .15s ease, outline-color .15s ease; }' +
+        '[data-edit]:hover{ background: rgba(127,196,255,0.10); outline-color: rgba(127,196,255,0.9); }' +
+        '[data-edit]:focus{ background: rgba(127,196,255,0.14); outline:2px solid var(--accent-sky); }' +
+        '.card{ cursor:pointer; position:relative; }' +
+        '.card:hover{ outline:2px solid var(--accent-sky); outline-offset:2px; }' +
+        // hidden things stay visible in the editor, visibly dimmed
+        '[data-project-hidden], [data-group-hidden], [data-asset-hidden], [data-stage-cta-hidden]{ opacity:0.42; }' +
+        '.ed-badge{ position:absolute; top:8px; left:8px; z-index:5; font-size:10px; font-weight:700;' +
+          'letter-spacing:0.06em; text-transform:uppercase; background:rgba(4,6,26,0.85); color:#fff;' +
+          'border:1px solid rgba(255,255,255,0.25); border-radius:999px; padding:2px 8px; }' +
+        // floating control clusters injected by the editor
+        '.ed-tools{ position:absolute; top:8px; right:8px; z-index:6; display:flex; gap:6px; opacity:0; transition:opacity .15s ease; }' +
+        '.ed-host{ position:relative; }' +
+        '.ed-host:hover .ed-tools, .ed-tools:focus-within{ opacity:1; }' +
+        '.ed-btn{ width:30px; height:30px; border-radius:50%; border:1px solid rgba(255,255,255,0.28);' +
+          'background:rgba(4,6,26,0.88); color:#fff; font-size:13px; line-height:1; cursor:pointer;' +
+          'display:flex; align-items:center; justify-content:center; padding:0; }' +
+        '.ed-btn:hover{ background:#4650ff; border-color:#7fc4ff; }' +
+        '.ed-btn.is-danger:hover{ background:#c53434; border-color:#ff8a8a; }' +
+        '.ed-btn-text{ font: 700 12px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing:.02em; }' +
+        '.ed-addbar{ display:flex; gap:8px; flex-wrap:wrap; margin:24px 0 4px; }' +
+        '.ed-add{ font-family:inherit; font-size:13px; font-weight:600; cursor:pointer; color:#fff;' +
+          'background:rgba(70,80,255,0.22); border:1px dashed rgba(127,196,255,0.7); border-radius:10px; padding:9px 16px; }' +
+        '.ed-add:hover{ background:rgba(70,80,255,0.4); border-style:solid; }' +
+        '.ed-draggable{ cursor:grab; }' +
+        '.ed-dragging{ opacity:.35; cursor:grabbing; }' +
+        // une légende vide n'a rien à afficher : dans l'éditeur elle doit
+        // quand même se voir et s\'attraper, sinon impossible de l\'écrire
+        // placement libre : on attrape l'affiche, on la pose ou on veut
+        '.detail-gallery > [data-asset-index]{ cursor:grab; }' +
+        '.ed-placing{ cursor:grabbing; opacity:.85; z-index:20; }' +
+        '.ed-placing, .detail-gallery > [data-asset-index]:hover{ outline:1px solid rgba(140,180,255,0.55); outline-offset:5px; }' +
+        // poignee de redimensionnement, en bas a droite
+        '.ed-resize{ position:absolute; right:-7px; bottom:-7px; width:16px; height:16px; z-index:21;' +
+          ' border-radius:50%; background:rgba(70,80,255,0.95); border:2px solid #fff;' +
+          ' cursor:nwse-resize; opacity:0; transition:opacity .15s ease; }' +
+        '.detail-gallery > [data-asset-index]:hover .ed-resize, .ed-placing .ed-resize{ opacity:1; }' +
+        // une affiche placee a la main se signale discretement
+        '.detail-gallery > [data-pos]{ box-shadow:0 0 0 1px rgba(255,178,127,0.45); }' +
+        '.asset-text[data-edit]{ outline:1px dashed rgba(255,255,255,0.22); outline-offset:6px; border-radius:3px; min-height:3em; }' +
+        '.asset-text.is-empty::before{ content:"Écris ton texte ici"; opacity:.5; font-style:italic; }' +
+        '.asset-text.is-empty:focus::before{ content:none; }' +
+        '.asset-caption.is-empty::before{ content:"Ajouter une légende"; opacity:.5; font-style:italic; }' +
+        '.asset-caption.is-empty:focus::before{ content:none; }' +
+        '.asset-caption[data-edit]{ outline:1px dashed rgba(255,255,255,0.22); outline-offset:3px; border-radius:3px; min-height:1em; }' +
+        '.asset-caption[data-edit]:focus{ outline:1px solid rgba(120,140,255,0.85); }' +
+      '</style>';
+    // projet.html et groupe.html lisent leur id dans la query string, qu'un
+    // frame srcdoc n'a pas — on le fournit donc directement.
+    if (id && page === 'groupe.html'){
+      inject += '<script>window.__GROUP_ID__ = ' + JSON.stringify(id) + ';<\/script>';
+    } else if (id){
+      inject += '<script>window.__PROJECT_ID__ = ' + JSON.stringify(id) + ';<\/script>';
+    }
+    return html.replace('<script src="script.js?v=2"><\/script>', inject + '<script src="script.js?v=2"><\/script>');
+  }
+
+  function bindEditable(el, getFn, setFn, multiline){
+    if (!el) return;
+    el.setAttribute('data-edit', '1');
+    el.setAttribute('contenteditable', 'plaintext-only');
+    el.setAttribute('spellcheck', 'false');
+    el.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' && !multiline){ e.preventDefault(); el.blur(); }
+      if (e.key === 'Escape'){ el.textContent = getFn(); el.blur(); }
+    });
+    el.addEventListener('blur', function(){
+      var value = multiline ? readEditableText(el) : el.textContent.trim();
+      if (value === getFn()) return;
+      setFn(value);
+      markDirty();
+    });
+  }
+
+  function markDirty(){
+    setStatus($('save-status'), MODE_DEMO
+      ? 'Modifié — clique « Appliquer les changements » pour voir le résultat.'
+      : 'Modifié — clique « Enregistrer sur GitHub » pour publier.', '');
+    fillFormsFromState();
+  }
+
+  function wireHomeEditing(doc){
+    var s = state.site;
+
+    bindEditable(doc.getElementById('js-role-main'),
+      function(){ return s.roleMain || ''; }, function(v){ s.roleMain = v; });
+    bindEditable(doc.getElementById('js-role-accent'),
+      function(){ return s.roleAccent || ''; }, function(v){ s.roleAccent = v; });
+    bindEditable(doc.getElementById('js-bio'),
+      function(){ return s.bio || ''; }, function(v){ s.bio = v; }, true);
+
+    doc.querySelectorAll('[data-about-index]').forEach(function(el){
+      var i = +el.getAttribute('data-about-index');
+      bindEditable(el,
+        function(){ return (s.aboutParagraphs && s.aboutParagraphs[i]) || ''; },
+        function(v){
+          if (!Array.isArray(s.aboutParagraphs)) s.aboutParagraphs = [];
+          s.aboutParagraphs[i] = v;
+        }, true);
+    });
+
+    bindEditable(doc.getElementById('js-owner'),
+      function(){ return s.owner || ''; }, function(v){ s.owner = v; });
+    bindEditable(doc.getElementById('js-kicker'),
+      function(){ return s.kicker || ''; }, function(v){ s.kicker = v; });
+
+    bindEditable(doc.getElementById('js-featured-kicker'),
+      function(){ return s.featuredKicker || ''; }, function(v){ s.featuredKicker = v; });
+    bindEditable(doc.getElementById('js-featured-title'),
+      function(){ return s.featuredTitle || ''; }, function(v){ s.featuredTitle = v; });
+    bindEditable(doc.getElementById('js-featured-sub'),
+      function(){ return s.featuredSub || ''; }, function(v){ s.featuredSub = v; }, true);
+
+    bindEditable(doc.getElementById('js-parcours-kicker'),
+      function(){ return s.parcoursKicker || ''; }, function(v){ s.parcoursKicker = v; });
+    bindEditable(doc.getElementById('js-parcours-title'),
+      function(){ return s.parcoursTitle || ''; }, function(v){ s.parcoursTitle = v; });
+    bindEditable(doc.getElementById('js-parcours-sub'),
+      function(){ return s.parcoursSub || ''; }, function(v){ s.parcoursSub = v; }, true);
+
+    bindEditable(doc.getElementById('js-about-kicker'),
+      function(){ return s.aboutKicker || ''; }, function(v){ s.aboutKicker = v; });
+    bindEditable(doc.getElementById('js-about-title'),
+      function(){ return s.aboutTitle || ''; }, function(v){ s.aboutTitle = v; });
+
+    // 2 cartes de nav (accueil) : meme donnee que les en-tetes des pages de
+    // listing (site.sections), voir wireProjectsPageEditing.
+    doc.querySelectorAll('[data-section-card]').forEach(function(el){
+      var sec = section(el.getAttribute('data-section-card'));
+      bindEditable(el.querySelector('.nc-title'), function(){ return sec.title || ''; }, function(v){ sec.title = v; });
+      bindEditable(el.querySelector('.nc-sub'), function(){ return sec.desc || ''; }, function(v){ sec.desc = v; }, true);
+    });
+
+    // Encart "stage recherche" : reste visible (dimme) meme desactive, pour
+    // pouvoir le rallumer — memes conventions qu'un projet/groupe masque.
+    var stageCta = doc.getElementById('js-stage-cta');
+    if (stageCta){
+      var cta = s.stageCta || (s.stageCta = {});
+      bindEditable(stageCta.querySelector('#js-stage-cta-title'),
+        function(){ return cta.title || ''; }, function(v){ cta.title = v; });
+      bindEditable(stageCta.querySelector('#js-stage-cta-text'),
+        function(){ return cta.text || ''; }, function(v){ cta.text = v; }, true);
+      edTools(doc, stageCta, [
+        edButton(doc, cta.enabled === false ? 'eyeOff' : 'eye',
+          cta.enabled === false ? 'Afficher cet encart sur le site' : 'Masquer cet encart du site', false, function(){
+            cta.enabled = cta.enabled === false;
+            applyAndRefresh();
+          })
+      ]);
+    }
+
+    doc.querySelectorAll('.contact-email').forEach(function(el){
+      bindEditable(el,
+        function(){ return s.contactEmail || ''; },
+        function(v){ s.contactEmail = v; el.setAttribute('href', 'mailto:' + v); });
+    });
+
+    // the social icons are 42px circles — too small to host a button, so the
+    // icon itself opens the prompt (links are inert in the editor anyway)
+    function bindSocial(sel, label, key){
+      doc.querySelectorAll(sel).forEach(function(el){
+        el.style.cursor = 'pointer';
+        el.title = 'Modifier le lien ' + label;
+        el.setAttribute('data-edit', '1');
+        el.addEventListener('click', function(e){
+          e.preventDefault(); e.stopPropagation();
+          var v = prompt('Lien ' + label + ' :', s[key] || '');
+          if (v === null) return;
+          s[key] = v.trim(); applyAndRefresh();
+        });
+      });
+    }
+    bindSocial('.js-linkedin-link', 'LinkedIn', 'linkedin');
+    bindSocial('.js-instagram-link', 'Instagram', 'instagram');
+
+    var timeline = s.timeline || (s.timeline = []);
+    timeline.forEach(function(t, i){
+      var item = doc.querySelectorAll('#js-timeline .timeline-item')[i];
+      if (!item) return;
+      bindEditable(item.querySelector('.timeline-year'),
+        function(){ return t.year || ''; }, function(v){ t.year = v; });
+      bindEditable(item.querySelector('h3'),
+        function(){ return t.title || ''; }, function(v){ t.title = v; });
+      bindEditable(item.querySelector('p'),
+        function(){ return t.desc || ''; }, function(v){ t.desc = v; }, true);
+
+      edTools(doc, item, [
+        edButton(doc, 'up', 'Monter', false, function(){
+          if (i === 0) return;
+          var tmp = timeline[i-1]; timeline[i-1] = timeline[i]; timeline[i] = tmp; applyAndRefresh();
+        }),
+        edButton(doc, 'down', 'Descendre', false, function(){
+          if (i >= timeline.length - 1) return;
+          var tmp = timeline[i+1]; timeline[i+1] = timeline[i]; timeline[i] = tmp; applyAndRefresh();
+        }),
+        edButton(doc, t.current ? 'dotFilled' : 'dot', t.current ? 'Étape en cours' : 'Marquer comme étape en cours', false, function(){
+          var wasCurrent = t.current;
+          timeline.forEach(function(x){ x.current = false; });
+          t.current = !wasCurrent;
+          applyAndRefresh();
+        }),
+        edButton(doc, 'close', 'Supprimer cette étape', true, function(){
+          if (!confirm('Supprimer « ' + t.title +' » du parcours ?')) return;
+          timeline.splice(i, 1); applyAndRefresh();
+        })
+      ]);
+    });
+
+    var tlRoot = doc.getElementById('js-timeline');
+    if (tlRoot){
+      var tlBar = doc.createElement('div');
+      tlBar.className = 'ed-addbar';
+      var tlAdd = doc.createElement('button');
+      tlAdd.type = 'button'; tlAdd.className = 'ed-add'; tlAdd.textContent = '+ Étape du parcours';
+      tlAdd.addEventListener('click', function(e){
+        e.preventDefault(); e.stopPropagation();
+        var year = prompt('Année (ex: "2025" ou "2023 — Aujourd\'hui") :', '');
+        if (!year) return;
+        var title = prompt('Titre de l\'étape :', '');
+        if (!title) return;
+        timeline.push({ year: year.trim(), title: title.trim(), desc: '', current: false });
+        applyAndRefresh();
+      });
+      tlBar.appendChild(tlAdd);
+      tlRoot.parentNode.appendChild(tlBar);
+    }
+
+    // Competences ("Coeur de metier" / "Egalement") : groupe libre plutot que
+    // deux blocs figes — modifier le titre d'un groupe renomme d'un coup
+    // toutes les competences qui le partagent.
+    var skills = s.skills || (s.skills = []);
+    doc.querySelectorAll('#js-skills .skill-block').forEach(function(block){
+      var h4 = block.querySelector('h4');
+      if (!h4) return;
+      var groupRef = { name: h4.textContent };
+      bindEditable(h4, function(){ return groupRef.name; }, function(v){
+        skills.forEach(function(sk){ if (sk.group === groupRef.name) sk.group = v; });
+        groupRef.name = v;
+      });
+    });
+    doc.querySelectorAll('#js-skills [data-skill-index]').forEach(function(card){
+      var i = +card.getAttribute('data-skill-index');
+      var sk = skills[i];
+      if (!sk) return;
+      bindEditable(card.querySelector('.name'), function(){ return sk.name || ''; }, function(v){ sk.name = v; });
+      bindEditable(card.querySelector('.detail'), function(){ return sk.detail || ''; }, function(v){ sk.detail = v; }, true);
+      edTools(doc, card, [
+        edButton(doc, 'up', 'Monter', false, function(){
+          if (i === 0) return;
+          var tmp = skills[i-1]; skills[i-1] = skills[i]; skills[i] = tmp; applyAndRefresh();
+        }),
+        edButton(doc, 'down', 'Descendre', false, function(){
+          if (i >= skills.length - 1) return;
+          var tmp = skills[i+1]; skills[i+1] = skills[i]; skills[i] = tmp; applyAndRefresh();
+        }),
+        edButton(doc, 'close', 'Supprimer cette compétence', true, function(){
+          if (!confirm('Supprimer « ' + sk.name + ' » ?')) return;
+          skills.splice(i, 1); applyAndRefresh();
+        })
+      ]);
+    });
+    var skillsRoot = doc.getElementById('js-skills');
+    if (skillsRoot){
+      var skBar = doc.createElement('div');
+      skBar.className = 'ed-addbar';
+      var skAdd = doc.createElement('button');
+      skAdd.type = 'button'; skAdd.className = 'ed-add'; skAdd.textContent = '+ Compétence';
+      skAdd.addEventListener('click', function(e){
+        e.preventDefault(); e.stopPropagation();
+        var dernierGroupe = skills.length ? skills[skills.length - 1].group : '';
+        var group = prompt('Groupe (ex : "Cœur de métier") :', dernierGroupe || '');
+        if (group === null) return;
+        var name = prompt('Nom de la compétence :', '');
+        if (!name) return;
+        var detail = prompt('Détail (optionnel) :', '') || '';
+        skills.push({ group: group.trim(), name: name.trim(), detail: detail.trim() });
+        applyAndRefresh();
+      });
+      skBar.appendChild(skAdd);
+      skillsRoot.parentNode.insertBefore(skBar, skillsRoot.nextSibling);
+    }
+
+    // favourite block: un projet OU un groupe entier, meme carte — memes
+    // champs bindes au bon objet selon lequel est actif (voir applyFavori()
+    // dans script.js : un groupe favori prime sur un projet favori).
+    var fav = doc.getElementById('js-favori');
+    if (fav){
+      var favG = siteGroups().filter(function(g){ return g.id === s.favoriGroupId; })[0];
+      var favObj = favG || state.projects.filter(function(p){ return p.id === s.favoriProjectId; })[0] || state.projects[0];
+      if (favObj){
+        bindEditable(fav.querySelector('h2'), function(){ return favObj.title || ''; }, function(v){ favObj.title = v; });
+        bindEditable(fav.querySelector('.desc'), function(){ return favObj.desc || ''; }, function(v){ favObj.desc = v; }, true);
+        edTools(doc, fav, [ edButton(doc, 'heart', 'Choisir un autre favori', false, function(){
+          var choice = pickFavori('Favori affiché en haut de l\'accueil :');
+          if (!choice) return;
+          if (choice.type === 'group'){ s.favoriGroupId = choice.item.id; delete s.favoriProjectId; }
+          else { s.favoriProjectId = choice.item.id; delete s.favoriGroupId; }
+          applyAndRefresh();
+        }) ]);
+      }
+    }
+  }
+
+  // small numbered picker — a <select> can't live inside the frame's own
+  // layout without disturbing it, so a prompt list keeps this simple. Les
+  // groupes d'abord (peu nombreux, faciles a reperer), puis les projets.
+  function pickFavori(title){
+    var options = siteGroups().map(function(g){ return { type: 'group', item: g, label: '[Groupe] ' + g.title }; })
+      .concat(state.projects.map(function(p){ return { type: 'project', item: p, label: p.title }; }));
+    var lines = options.map(function(o, i){ return (i + 1) + '. ' + o.label; }).join('\n');
+    var raw = prompt(title + '\n\n' + lines + '\n\nNuméro :', '');
+    if (!raw) return null;
+    var idx = parseInt(raw, 10) - 1;
+    return options[idx] || null;
+  }
+
+  // En-tete des pages "Projets perso" / "Projets académiques" — vit dans
+  // site.sections, lu par la meme cle que data-projects-page (voir script.js).
+  function wireProjectsPageEditing(doc){
+    doc.querySelectorAll('[data-section-head]').forEach(function(el){
+      var sec = section(el.getAttribute('data-section-head'));
+      bindEditable(el.querySelector('.kicker'), function(){ return sec.kicker || ''; }, function(v){ sec.kicker = v; });
+      bindEditable(el.querySelector('h1'), function(){ return sec.title || ''; }, function(v){ sec.title = v; });
+      bindEditable(el.querySelector('p'), function(){ return sec.desc || ''; }, function(v){ sec.desc = v; }, true);
+    });
+  }
+
+  function wireCardEditing(doc){
+    doc.querySelectorAll('.card').forEach(function(card){
+      // les cartes de groupe (.card-group) ne sont pas des projets — meme si
+      // leur id de groupe coincide parfois avec l'id d'un vrai projet (ex.
+      // "union-oasis-forest" existe des deux cotes), c'est wireGroupCardEditing
+      // qui s'en occupe, plus bas.
+      if (card.classList.contains('card-group')) return;
+      var href = card.getAttribute('href') || '';
+      var m = href.match(/[?&]id=([^&]+)/);
+      if (!m) return;
+      var id = decodeURIComponent(m[1]);
+      var p = state.projects.filter(function(x){ return x.id === id; })[0];
+      if (!p) return;
+      bindEditable(card.querySelector('h3'), function(){ return p.title || ''; }, function(v){ p.title = v; });
+      bindEditable(card.querySelector('.desc'), function(){ return p.desc || ''; }, function(v){ p.desc = v; }, true);
+
+      bindEditable(card.querySelector('.year'), function(){ return String(p.year || ''); },
+        function(v){ p.year = parseInt(v, 10) || p.year; });
+
+      edTools(doc, card, [
+        edButton(doc, p.hidden ? 'eyeOff' : 'eye', p.hidden ? 'Afficher ce projet sur le site' : 'Masquer ce projet du site', false, function(){
+          p.hidden = !p.hidden;
+          applyAndRefresh();
+        }),
+        edButton(doc, p.featured ? 'starFilled' : 'star', p.featured ? 'Retirer des projets mis en avant' : 'Mettre en avant sur l\'accueil', false, function(){
+          p.featured = !p.featured;
+          applyAndRefresh();
+        }),
+        edButton(doc, 'heart', 'Définir comme projet favori', false, function(){
+          state.site.favoriProjectId = p.id;
+          // un seul favori actif a la fois
+          delete state.site.favoriGroupId;
+          applyAndRefresh();
+        }),
+        edButton(doc, 'image', 'Changer la miniature (envoyer une image)', false, function(){
+          pendingUpload = { owner: p, hint: p.title + '-miniature', thumbOnly: true };
+          $('visual-image-upload').click();
+        }),
+        edButton(doc, 'close', 'Supprimer ce projet', true, function(){
+          if (!confirm('Supprimer définitivement « ' + p.title + ' » ?\n(pour le retirer du site sans le perdre, utilise plutot le bouton oeil)')) return;
+          state.projects = state.projects.filter(function(x){ return x.id !== p.id; });
+          applyAndRefresh();
+        })
+      ]);
+      if (p.hidden) edBadge(doc, card, 'masqué');
+    });
+
+    wireGroupCardEditing(doc);
+    wireUnifiedAddButton(doc);
+    wireDragReorder(doc);
+  }
+
+  // Glisser une carte (projet ou groupe) pour changer son ordre d'affichage
+  // sur projets*.html. Les groupes gardent leur ordre dans site.groups, les
+  // projets libres le leur dans state.projects — reordonnerArraySelonIds ne
+  // touche qu'aux elements presents dans le nouvel ordre donne, sans deranger
+  // le reste (les projets d'une autre categorie, par exemple).
+  function reordonnerArraySelonIds(arr, idsDansNouvelOrdre){
+    var positions = [];
+    arr.forEach(function(item, i){ if (idsDansNouvelOrdre.indexOf(item.id) !== -1) positions.push(i); });
+    var parId = {};
+    arr.forEach(function(item){ parId[item.id] = item; });
+    idsDansNouvelOrdre.forEach(function(id, k){ if (parId[id]) arr[positions[k]] = parId[id]; });
+  }
+
+  function wireDragReorder(doc){
+    var host = doc.querySelector('[data-projects-page]');
+    var grid = host ? host.querySelector('.grid') : null;
+    if (!grid) return;
+
+    function idEtTypeDe(item){
+      var a = item.matches('a.card') ? item : item.querySelector('a.card');
+      if (!a) return null;
+      var href = a.getAttribute('href') || '';
+      var m = href.match(/[?&]id=([^&]+)/);
+      if (!m) return null;
+      return { id: decodeURIComponent(m[1]), type: a.classList.contains('card-group') ? 'group' : 'project' };
+    }
+
+    var dragEl = null;
+    Array.prototype.forEach.call(grid.children, function(item){
+      item.setAttribute('draggable', 'true');
+      item.classList.add('ed-draggable');
+      item.addEventListener('dragstart', function(e){
+        dragEl = item;
+        item.classList.add('ed-dragging');
+        try { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', ''); } catch(err){}
+      });
+      item.addEventListener('dragend', function(){
+        item.classList.remove('ed-dragging');
+        dragEl = null;
+      });
+      item.addEventListener('dragover', function(e){
+        if (!dragEl || dragEl === item) return;
+        e.preventDefault();
+        var rect = item.getBoundingClientRect();
+        var avant = (e.clientX - rect.left) < rect.width / 2;
+        grid.insertBefore(dragEl, avant ? item : item.nextSibling);
+      });
+    });
+
+    grid.addEventListener('drop', function(e){ e.preventDefault(); });
+    grid.addEventListener('dragover', function(e){ e.preventDefault(); });
+    grid.addEventListener('dragend', function(){
+      if (!dragEl) return;
+      var groupIds = [], projectIds = [];
+      Array.prototype.forEach.call(grid.children, function(item){
+        var it = idEtTypeDe(item);
+        if (!it) return;
+        (it.type === 'group' ? groupIds : projectIds).push(it.id);
+      });
+      reordonnerArraySelonIds(siteGroups(), groupIds);
+      reordonnerArraySelonIds(state.projects, projectIds);
+      applyAndRefresh();
+    });
+  }
+
+  // Une carte de groupe (.card-group) affiche g.title/g.desc — jamais un
+  // projet, meme quand son id de groupe coincide par hasard avec l'id d'un
+  // vrai projet (ex. "union-oasis-forest" existe des deux cotes). Titre/
+  // description au clic, miniature et suppression au survol, comme sur la
+  // page du groupe (wireGroupDetailEditing) — pas d'oeil/etoile/coeur, ca ne
+  // s'applique qu'a un projet.
+  function wireGroupCardEditing(doc){
+    var groups = siteGroups();
+    doc.querySelectorAll('.card-group').forEach(function(card){
+      var href = card.getAttribute('href') || '';
+      var m = href.match(/[?&]id=([^&]+)/);
+      if (!m) return;
+      var id = decodeURIComponent(m[1]);
+      var g = groups.filter(function(x){ return x.id === id; })[0];
+      if (!g) return;
+
+      bindEditable(card.querySelector('h3'), function(){ return g.title || ''; }, function(v){ g.title = v; });
+      bindEditable(card.querySelector('.desc'), function(){ return g.desc || ''; }, function(v){ g.desc = v; }, true);
+
+      edTools(doc, card, [
+        edButton(doc, g.hidden ? 'eyeOff' : 'eye', g.hidden ? 'Afficher ce groupe sur le site' : 'Masquer ce groupe et ses projets du site', false, function(){
+          g.hidden = !g.hidden;
+          applyAndRefresh();
+        }),
+        edButton(doc, g.featured ? 'starFilled' : 'star', g.featured ? 'Retirer des projets mis en avant' : 'Mettre ce groupe en avant sur l\'accueil', false, function(){
+          g.featured = !g.featured;
+          applyAndRefresh();
+        }),
+        edButton(doc, 'heart', 'Définir ce groupe comme favori', false, function(){
+          state.site.favoriGroupId = g.id;
+          // un seul favori actif a la fois
+          delete state.site.favoriProjectId;
+          applyAndRefresh();
+        }),
+        edButton(doc, 'image', 'Changer la miniature du groupe (envoyer une image)', false, function(){
+          pendingUpload = { owner: g, hint: g.title + '-miniature', thumbOnly: true };
+          $('visual-image-upload').click();
+        }),
+        edButton(doc, 'close', 'Supprimer ce groupe', true, function(){
+          deleteGroup(g);
+        })
+      ]);
+      if (g.hidden) edBadge(doc, card, 'masqué');
+    });
+  }
+
+  // Supprime un groupe : ses projets redeviennent independants (jamais
+  // supprimes). afterDelete() s'execute avant le rafraichissement — utilise
+  // pour quitter la page du groupe qui vient de disparaitre.
+  function deleteGroup(g, afterDelete){
+    var groups = siteGroups();
+    var membres = state.projects.filter(function(p){ return p.group === g.id; });
+    var msg = membres.length
+      ? 'Supprimer le groupe « ' + g.title + ' » ?\n\n' + membres.length + ' projet(s) redeviendront indépendants (retirés du groupe, pas supprimés).'
+      : 'Supprimer le groupe « ' + g.title + ' » ?';
+    if (!confirm(msg)) return;
+    membres.forEach(function(p){ delete p.group; });
+    groups.splice(groups.indexOf(g), 1);
+    if (afterDelete) afterDelete();
+    applyAndRefresh();
+  }
+
+  // "+ Nouveau projet" sous la grille de projets.html — le seul endroit ou un
+  // projet "vit" desormais (categorie = simple etiquette, plus une page).
+  function wireUnifiedAddButton(doc){
+    var host = doc.querySelector('[data-projects-page]');
+    if (!host) return;
+    // un nouveau projet ajoute depuis projets-perso.html/projets-academiques.html
+    // nait deja dans la bonne categorie ; depuis projets.html (aucun perimetre), perso par defaut
+    var scope = host.getAttribute('data-projects-page') || 'perso';
+    var bar = doc.createElement('div');
+    bar.className = 'ed-addbar';
+
+    var bProjet = doc.createElement('button');
+    bProjet.type = 'button'; bProjet.className = 'ed-add'; bProjet.textContent = '+ Nouveau projet';
+    bProjet.addEventListener('click', function(e){
+      e.preventDefault(); e.stopPropagation();
+      var title = prompt('Titre du nouveau projet :', '');
+      if (!title) return;
+      var base = slugify(title), id = base, n = 2;
+      while (state.projects.some(function(x){ return x.id === id; })){ id = base + '-' + n; n++; }
+      state.projects.push({
+        id: id, title: title.trim(), year: new Date().getFullYear(), ctx: scope,
+        medium: 'graphisme', tags: [], desc: '', featured: false, hidden: false,
+        longDesc: '', assets: [], link: '', thumb: '', subProjects: []
+      });
+      applyAndRefresh();
+    });
+
+    var bGroupe = doc.createElement('button');
+    bGroupe.type = 'button'; bGroupe.className = 'ed-add'; bGroupe.textContent = '+ Nouveau groupe';
+    bGroupe.addEventListener('click', function(e){
+      e.preventDefault(); e.stopPropagation();
+      var title = prompt('Titre du nouveau groupe :', '');
+      if (!title || !title.trim()) return;
+      title = title.trim();
+      var groups = siteGroups();
+      var base = slugify(title) || 'groupe', id = base, n = 2;
+      while (groups.some(function(g){ return g.id === id; })){ id = base + '-' + (n++); }
+      groups.push({ id: id, kicker: '', title: title, desc: '', thumb: '' });
+      applyAndRefresh();
+    });
+
+    bar.appendChild(bProjet);
+    bar.appendChild(bGroupe);
+    host.appendChild(bar);
+  }
+
+  // ---- Groupe (page groupe.html) — titre/description au clic, suppression
+  // au survol, comme une section principale ; les projets qu'il contient
+  // restent editables via wireCardEditing.
+  function wireGroupDetailEditing(doc, groupId){
+    var groups = siteGroups();
+    var g = groups.filter(function(x){ return x.id === groupId; })[0];
+    if (!g) return;
+
+    bindEditable(doc.querySelector('[data-group-kicker]'),
+      function(){ return g.kicker || ''; }, function(v){ g.kicker = v; });
+    bindEditable(doc.querySelector('[data-group-title]'),
+      function(){ return g.title || ''; }, function(v){ g.title = v; });
+    bindEditable(doc.querySelector('[data-group-desc]'),
+      function(){ return g.desc || ''; }, function(v){ g.desc = v; }, true);
+
+    var head = doc.querySelector('.section-head');
+    edTools(doc, head, [
+      edButton(doc, 'close', 'Supprimer ce groupe', true, function(){
+        deleteGroup(g, function(){ visualNav = { page: 'projets.html', projectId: null }; });
+      })
+    ]);
+  }
+
+  // ---- floating controls injected over the rendered site ----
+  function edButton(doc, iconName, title, danger, onClick){
+    var b = doc.createElement('button');
+    b.type = 'button';
+    b.className = 'ed-btn' + (danger ? ' is-danger' : '');
+    b.innerHTML = ICON[iconName] || ICON.dot;
+    b.title = title;
+    b.setAttribute('aria-label', title);
+    b.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); onClick(); });
+    return b;
+  }
+
+  // same chrome as edButton but showing a letter rather than an icon
+  function edTextButton(doc, label, title, onClick){
+    var b = doc.createElement('button');
+    b.type = 'button';
+    b.className = 'ed-btn ed-btn-text';
+    b.textContent = label;
+    b.title = title;
+    b.setAttribute('aria-label', title);
+    b.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); onClick(); });
+    return b;
+  }
+
+  function edTools(doc, host, buttons){
+    host.classList.add('ed-host');
+    var wrap = doc.createElement('div');
+    wrap.className = 'ed-tools';
+    // un bouton peut être null : certaines actions n'ont pas de sens sur tous
+    // les types de contenu (l'adresse unique d'un carrousel, par exemple)
+    buttons.filter(Boolean).forEach(function(b){ wrap.appendChild(b); });
+    host.appendChild(wrap);
+    return wrap;
+  }
+
+  function edBadge(doc, host, text){
+    var s = doc.createElement('span');
+    s.className = 'ed-badge';
+    s.textContent = text;
+    host.appendChild(s);
+  }
+
+  // any structural change re-renders the frame so the site reflects it at once
+  // Chaque modification reconstruit l'iframe. Sans memoriser le defilement, on
+  // repart du haut de la page a chaque geste : impossible de composer.
+  var visualScroll = 0;
+  function applyAndRefresh(){
+    var frame = $('visual-frame');
+    try { visualScroll = frame.contentWindow.scrollY || 0; } catch(e){ visualScroll = 0; }
+    markDirty();
+    openVisual(visualNav.page, visualNav.projectId);
+  }
+
+  // owner is the project or sub-project the assets belong to
+  function ensureAssets(owner){
+    if (!Array.isArray(owner.assets)) owner.assets = assetsOf(owner);
+    delete owner.images; delete owner.videoUrl; delete owner.audioUrl;
+    return owner.assets;
+  }
+
+  // Changer l'adresse d'un contenu en ligne — vidéo, son, site, document —
+  // sans devoir le retirer puis le remettre. Partagé par les deux vues.
+  // Renvoie true si quelque chose a change.
+  function editAssetUrl(a){
+    var v = prompt('Adresse du contenu (colle un lien ou le bloc <iframe> fourni) :', a.url || '');
+    if (v === null) return false;
+    v = normalizeAssetUrl(v);
+    if (!v){ alert('Une adresse est nécessaire — pour retirer le contenu, utilise le bouton supprimer.'); return false; }
+    if (v === a.url) return false;
+    // les pages d'un PDF converti appartiennent à l'ANCIEN fichier : les garder
+    // afficherait l'ancien document sous la nouvelle adresse
+    if (a.pages && a.pages.length){
+      delete a.pages;
+      alert('Adresse remplacée. Les pages du PDF précédent ont été retirées — reconvertis avec le bouton « PDF » si le nouveau document en est un.');
+    }
+    a.url = v;
+    return true;
+  }
+
+  var pendingUpload = null;
+  function visualAddImage(owner, hint){
+    pendingUpload = { owner: owner, hint: hint };
+    $('visual-image-upload').click();
+  }
+
+  // ---- Placement libre ------------------------------------------------------
+  // Une affiche qu'on glisse retient sa position : elle ne sera plus jamais
+  // rangee automatiquement. Celles qu'on n'a jamais touchees continuent de se
+  // placer seules dans ce qui reste — c'est ce qui evite d'avoir a composer un
+  // projet entier pour pouvoir en deplacer une.
+  var SNAP = 8;   // aimantation, en pixels de composition
+
+  // L'echelle est celle que script.js vient d'appliquer : il la depose sur la
+  // galerie. La recalculer ici ferait diverger les deux au moindre changement de
+  // regle, et un geste de souris se traduirait par une position fausse.
+  function galleryScale(gallery){
+    var s = parseFloat(gallery.getAttribute('data-scale'));
+    return (isFinite(s) && s > 0) ? s : 1;
+  }
+
+  // Les positions decident de ce qu'on lit en premier ; l'ordre du tableau doit
+  // les suivre, sinon l'empilement sur mobile et la vue liste racontent autre
+  // chose que la composition.
+  function sortByReadingOrder(gallery, assets){
+    var order = {};
+    gallery.querySelectorAll('[data-asset-index]').forEach(function(n){
+      order[n.getAttribute('data-asset-index')] = n.offsetTop * 10000 + n.offsetLeft;
+    });
+    var keyed = assets.map(function(a, i){ return { a: a, k: order[i], i: i }; });
+    keyed.sort(function(p, q){
+      if (p.k === undefined || q.k === undefined) return p.i - q.i;
+      return p.k - q.k;
+    });
+    var sorted = keyed.map(function(x){ return x.a; });
+    assets.length = 0;
+    Array.prototype.push.apply(assets, sorted);
+  }
+
+  function wireFreePlacement(doc, node, a, assets){
+    var gallery = node.parentNode;
+    if (!gallery || !gallery.classList.contains('detail-gallery')) return;
+    var win = doc.defaultView;
+
+    var handle = doc.createElement('div');
+    handle.className = 'ed-resize';
+    handle.title = 'Redimensionner';
+    node.appendChild(handle);
+
+    function beginDrag(e, mode){
+      if (e.button) return;
+      e.preventDefault(); e.stopPropagation();
+      var scale = galleryScale(gallery);
+      var startX = e.clientX, startY = e.clientY;
+      // offsetLeft/Top/Width et non getBoundingClientRect : les affiches sont
+      // legerement pivotees, et le rect englobant d'un element tourne est plus
+      // large que lui. Mesure apres mesure, la difference derivait.
+      var baseX = node.offsetLeft / scale;
+      var baseY = node.offsetTop / scale;
+      var baseW = node.offsetWidth / scale;
+
+      // aretes des autres affiches, pour l'aimantation
+      var edgesX = [0], edgesY = [0];
+      gallery.querySelectorAll('[data-asset-index]').forEach(function(other){
+        if (other === node) return;
+        edgesX.push(other.offsetLeft / scale, (other.offsetLeft + other.offsetWidth) / scale);
+        edgesY.push(other.offsetTop / scale, (other.offsetTop + other.offsetHeight) / scale);
+      });
+      function snap(v, edges){
+        for (var i = 0; i < edges.length; i++){
+          if (Math.abs(v - edges[i]) < SNAP) return edges[i];
+        }
+        return v;
+      }
+
+      node.classList.add('ed-placing');
+      function onMove(ev){
+        var dx = (ev.clientX - startX) / scale;
+        var dy = (ev.clientY - startY) / scale;
+        if (mode === 'move'){
+          var x = snap(Math.max(0, baseX + dx), edgesX);
+          var y = snap(Math.max(0, baseY + dy), edgesY);
+          node.style.left = (x * scale) + 'px';
+          node.style.top = (y * scale) + 'px';
+          node.__pos = { x: Math.round(x), y: Math.round(y), w: Math.round(baseW) };
+        } else {
+          var w = Math.max(80, snap(baseW + dx, edgesX.map(function(v){ return v - baseX; })));
+          node.style.width = (w * scale) + 'px';
+          node.__pos = { x: Math.round(baseX), y: Math.round(baseY), w: Math.round(w) };
+        }
+      }
+      function onUp(){
+        win.removeEventListener('mousemove', onMove);
+        win.removeEventListener('mouseup', onUp);
+        node.classList.remove('ed-placing');
+        if (!node.__pos) return;
+        a.pos = node.__pos;
+        sortByReadingOrder(gallery, assets);
+        applyAndRefresh();
+      }
+      win.addEventListener('mousemove', onMove);
+      win.addEventListener('mouseup', onUp);
+    }
+
+    node.addEventListener('mousedown', function(e){
+      // les commandes et les textes editables gardent leur clic
+      if (e.target.closest('.ed-btn, .ed-tools, .ed-resize, [contenteditable]')) return;
+      beginDrag(e, 'move');
+    });
+    handle.addEventListener('mousedown', function(e){ beginDrag(e, 'resize'); });
+  }
+
+  function wireAssetControls(doc, scope, owner, hint){
+    var assets = ensureAssets(owner);
+    scope.querySelectorAll('[data-asset-index]').forEach(function(node){
+      var i = +node.getAttribute('data-asset-index');
+      var a = assets[i];
+      if (!a) return;
+
+      wireFreePlacement(doc, node, a, assets);
+
+      // Le corps d'un bloc de texte s'écrit au clic, comme tous les textes du
+      // site. Rendu même vide en mode édition, sinon il n'y aurait rien à
+      // cliquer pour commencer à écrire.
+      var body = node.querySelector('[data-asset-text]');
+      if (body){
+        bindEditable(body,
+          function(){ return a.text || ''; },
+          function(v){
+            a.text = v;
+            body.classList.toggle('is-empty', !v.trim());
+          }, true);
+      }
+
+      // La légende s'édite au clic, comme les autres textes du site. script.js
+      // la rend même vide en mode édition, justement pour qu'il y ait quelque
+      // chose à cliquer ; le site public, lui, n'affiche que celles remplies.
+      var cap = node.querySelector('[data-asset-caption]');
+      if (cap){
+        bindEditable(cap,
+          function(){ return a.caption || ''; },
+          function(v){
+            if (v) a.caption = v; else delete a.caption;
+            cap.classList.toggle('is-empty', !v);
+          }, true);
+      }
+
+      // an <img> can't host children — wrap it so the tools have a container
+      var host = node;
+      if (node.tagName === 'IMG'){
+        var wrap = doc.createElement('div');
+        wrap.style.position = 'relative';
+        node.parentNode.insertBefore(wrap, node);
+        wrap.appendChild(node);
+        host = wrap;
+      }
+
+      var btns = [
+        edButton(doc, 'up', 'Déplacer avant', false, function(){
+          if (i === 0) return;
+          var tmp = assets[i-1]; assets[i-1] = assets[i]; assets[i] = tmp; applyAndRefresh();
+        }),
+        edButton(doc, 'down', 'Déplacer après', false, function(){
+          if (i >= assets.length - 1) return;
+          var tmp = assets[i+1]; assets[i+1] = assets[i]; assets[i] = tmp; applyAndRefresh();
+        }),
+        edTextButton(doc, SIZE_LABEL[a.size || 'md'], 'Taille : ' + SIZE_TITLE[a.size || 'md'] + ' (cliquer pour changer)', function(){
+          a.size = nextSize(a.size);
+          applyAndRefresh();
+        }),
+        edButton(doc, a.hidden ? 'eyeOff' : 'eye', a.hidden ? 'Afficher sur le site' : 'Masquer du site', false, function(){
+          a.hidden = !a.hidden;
+          applyAndRefresh();
+        }),
+        // rendre au rangement automatique ce qu'on a place a la main
+        (a.pos ? edButton(doc, 'sliders', 'Replacer automatiquement (annule le placement à la main)', false, function(){
+          delete a.pos;
+          applyAndRefresh();
+        }) : null),
+        // un carrousel porte des `urls`, pas une `url` : ses photos se gèrent
+        // par ses propres boutons, pas par cette adresse unique
+        (a.type === 'carousel' || a.type === 'text' ? null : edButton(doc, 'link', 'Changer l\'adresse du contenu', false, function(){
+          if (editAssetUrl(a)) applyAndRefresh();
+        })),
+        edButton(doc, 'close', 'Retirer ce contenu', true, function(){
+          if (!confirm('Retirer ce contenu du projet ?')) return;
+          assets.splice(i, 1);
+          applyAndRefresh();
+        })
+      ];
+      if (a.type === 'image'){
+        btns.unshift(edButton(doc, 'starFilled', 'Utiliser comme miniature', false, function(){
+          owner.thumb = a.url;
+          applyAndRefresh();
+        }));
+      }
+      // Un carrousel ne montre qu'une photo à la fois : les commandes agissent
+      // donc sur celle qui est AFFICHÉE. Son rang se lit dans le compteur du
+      // lecteur (« 3 / 7 »), seul endroit où l'éditeur peut savoir où en est la
+      // lecture — l'index vit dans une closure de script.js.
+      if (a.type === 'carousel'){
+        var shownIndex = function(){
+          var c = node.querySelector('.doc-count');
+          var m = c && c.textContent.match(/(\d+)\s*\//);
+          return m ? (+m[1] - 1) : 0;
+        };
+        btns.unshift(
+          edButton(doc, 'image', 'Ajouter des photos au carrousel', false, function(){
+            pendingUpload = { owner: owner, hint: hint, addTo: a };
+            $('visual-image-upload').click();
+          }),
+          edButton(doc, 'close', 'Retirer la photo affichée', true, function(){
+            var k = shownIndex();
+            if ((a.urls || []).length <= 1){
+              alert('Dernière photo du carrousel — retire le carrousel entier avec le bouton supprimer.');
+              return;
+            }
+            if (!confirm('Retirer la photo ' + (k + 1) + ' du carrousel ?')) return;
+            a.urls.splice(k, 1);
+            applyAndRefresh();
+          })
+        );
+      }
+      if (a.type === 'doc' && !(a.pages && a.pages.length) && /\.pdf($|\?|#)/i.test(a.url || '')){
+        btns.unshift(edTextButton(doc, 'PDF', 'Convertir en pages (rendu identique sur tous les navigateurs)', function(){
+          convertExistingPdf(a, hint, function(msg){ $('visual-location').textContent = msg; }, applyAndRefresh);
+        }));
+      }
+      edTools(doc, host, btns);
+      if (a.hidden) edBadge(doc, host, 'masqué');
+    });
+  }
+
+  function wireAddBar(doc, anchor, owner, hint){
+    var bar = doc.createElement('div');
+    bar.className = 'ed-addbar';
+    [
+      ['+ Image', function(){ visualAddImage(owner, hint); }],
+      ['+ Vidéo', function(){
+        var url = prompt('Lien vidéo — YouTube, Vimeo, TikTok (adresse ou bloc d\'intégration), ou fichier .mp4 :', '');
+        if (!url) return;
+        ensureAssets(owner).push({ type: 'video', url: normalizeAssetUrl(url), hidden: false });
+        applyAndRefresh();
+      }],
+      ['+ Audio', function(){
+        var url = prompt('Lien audio (SoundCloud ou fichier .mp3/.wav) :', '');
+        if (!url) return;
+        ensureAssets(owner).push({ type: 'audio', url: url.trim(), hidden: false });
+        applyAndRefresh();
+      }],
+      ['+ Site web', function(){
+        var url = prompt('Adresse du site à intégrer (https://…) :', '');
+        if (!url) return;
+        ensureAssets(owner).push({ type: 'web', url: url.trim(), hidden: false });
+        applyAndRefresh();
+      }],
+      // No confirm() before opening the picker: a modal dialog ends the user
+      // activation, and the browser then silently refuses to open a file
+      // dialog — which is why this button did nothing in the visual view.
+      ['+ Document', function(){
+        pendingDocTarget = {
+          assets: ensureAssets(owner), hint: function(){ return hint; },
+          rerender: applyAndRefresh, statusEl: null
+        };
+        $('doc-upload').click();
+      }],
+      ['+ Doc en ligne', function(){
+        var url = prompt('Lien du document (PDF, Google Docs/Slides, Word…) :', '');
+        if (!url) return;
+        ensureAssets(owner).push({ type: 'doc', url: url.trim(), hidden: false });
+        applyAndRefresh();
+      }],
+      ['+ Texte', function(){
+        ensureAssets(owner).push({ type: 'text', text: '', hidden: false, size: 'md' });
+        applyAndRefresh();
+      }],
+      // plusieurs photos envoyées d'un coup deviennent UN contenu, pas N
+      ['+ Carrousel', function(){
+        pendingUpload = { owner: owner, hint: hint, carousel: true };
+        $('visual-image-upload').click();
+      }]
+    ].forEach(function(pair){
+      var b = doc.createElement('button');
+      b.type = 'button';
+      b.className = 'ed-add';
+      b.textContent = pair[0];
+      b.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); pair[1](); });
+      bar.appendChild(b);
+    });
+    anchor.appendChild(bar);
+    return bar;
+  }
+
+  function wireDetailEditing(doc, projectId){
+    var p = state.projects.filter(function(x){ return x.id === projectId; })[0];
+    if (!p) return;
+    bindEditable(doc.querySelector('.detail-title'), function(){ return p.title || ''; }, function(v){ p.title = v; });
+    var mainDesc = doc.querySelector('.detail-wrap > .detail-desc');
+    bindEditable(mainDesc,
+      function(){ return p.longDesc || p.desc || ''; },
+      function(v){ p.longDesc = v; }, true);
+
+    var wrap = doc.querySelector('.detail-wrap');
+    var subsRoot = doc.querySelector('.detail-subprojects');
+
+    // project-level assets are everything before the sub-projects block
+    wireAssetControls(doc, subsRoot ? sliceBefore(doc, wrap, subsRoot) : wrap, p, p.title);
+    var addAnchor = doc.createElement('div');
+    if (subsRoot) wrap.insertBefore(addAnchor, subsRoot); else wrap.appendChild(addAnchor);
+    wireAddBar(doc, addAnchor, p, p.title);
+
+    // ---- project metadata that isn't plain inline text ----
+    var metaRow = doc.querySelector('.detail-meta-row');
+    if (metaRow){
+      edTools(doc, metaRow, [
+        // La miniature ne se choisissait qu'en cliquant l'étoile d'une image
+        // existante : un projet qui n'a encore aucune image n'avait donc aucun
+        // moyen d'en recevoir une depuis sa page.
+        edButton(doc, 'image', 'Changer la miniature (envoyer une image)', false, function(){
+          pendingUpload = { owner: p, hint: p.title + '-miniature', thumbOnly: true };
+          $('visual-image-upload').click();
+        }),
+        edButton(doc, 'tag', 'Modifier les tags', false, function(){
+          var v = prompt('Tags, séparés par des virgules :', (p.tags || []).join(', '));
+          if (v === null) return;
+          p.tags = v.split(',').map(function(t){ return t.trim(); }).filter(Boolean);
+          applyAndRefresh();
+        }),
+        edButton(doc, 'sliders', 'Changer le médium', false, function(){
+          var keys = Object.keys(MEDIUM_LABEL);
+          var lines = keys.map(function(k, n){ return (n + 1) + '. ' + MEDIUM_LABEL[k]; }).join('\n');
+          var raw = prompt('Médium du projet :\n\n' + lines + '\n\nNuméro :', '');
+          if (!raw) return;
+          var k = keys[parseInt(raw, 10) - 1];
+          if (k){ p.medium = k; applyAndRefresh(); }
+        }),
+        // la liste vient des groupes, qui sont desormais modifiables depuis
+        // le formulaire du projet : la figer ici rendrait tout groupe cree
+        // inatteignable
+        edButton(doc, 'folder', 'Changer de groupe', false, function(){
+          var groups = siteGroups();
+          var lines = '0. Aucun (projet indépendant)\n' +
+            groups.map(function(g, n){ return (n + 1) + '. ' + g.title; }).join('\n');
+          var raw = prompt('Groupe du projet :\n\n' + lines + '\n\nNuméro :', '');
+          if (raw === null) return;
+          var n = parseInt(raw, 10);
+          if (n === 0){ delete p.group; applyAndRefresh(); return; }
+          var g = groups[n - 1];
+          if (g){ p.group = g.id; applyAndRefresh(); }
+        }),
+        edButton(doc, 'link', 'Lien externe (site à visiter)', false, function(){
+          var v = prompt('Lien externe du projet (laisse vide pour retirer) :', p.link || '');
+          if (v === null) return;
+          p.link = v.trim(); applyAndRefresh();
+        }),
+        edButton(doc, 'calendar', 'Changer l\'année', false, function(){
+          var v = prompt('Année du projet :', String(p.year || ''));
+          if (v === null) return;
+          var n = parseInt(v, 10);
+          if (n){ p.year = n; applyAndRefresh(); }
+        })
+      ]);
+    }
+
+    // ---- sub-projects ----
+    var subs = p.subProjects || (p.subProjects = []);
+    doc.querySelectorAll('.subproject').forEach(function(node, i){
+      var sp = subs[i];
+      if (!sp) return;
+      bindEditable(node.querySelector('h3'), function(){ return sp.title || ''; }, function(v){ sp.title = v; });
+      bindEditable(node.querySelector('.detail-desc'), function(){ return sp.desc || ''; }, function(v){ sp.desc = v; }, true);
+      wireAssetControls(doc, node, sp, p.title + '-' + sp.title);
+      wireAddBar(doc, node, sp, p.title + '-' + sp.title);
+
+      edTools(doc, node, [
+        edButton(doc, 'up', 'Monter', false, function(){
+          if (i === 0) return;
+          var tmp = subs[i-1]; subs[i-1] = subs[i]; subs[i] = tmp; applyAndRefresh();
+        }),
+        edButton(doc, 'down', 'Descendre', false, function(){
+          if (i >= subs.length - 1) return;
+          var tmp = subs[i+1]; subs[i+1] = subs[i]; subs[i] = tmp; applyAndRefresh();
+        }),
+        edButton(doc, 'sliders', 'Changer le médium de la section', false, function(){
+          var keys = Object.keys(MEDIUM_LABEL);
+          var lines = keys.map(function(k, n){ return (n + 1) + '. ' + MEDIUM_LABEL[k]; }).join('\n');
+          var raw = prompt('Médium de la section (vide = aucun) :\n\n' + lines + '\n\nNuméro :', '');
+          if (raw === null) return;
+          sp.medium = keys[parseInt(raw, 10) - 1] || '';
+          applyAndRefresh();
+        }),
+        edButton(doc, 'link', 'Lien externe de la section', false, function(){
+          var v = prompt('Lien externe (vide pour retirer) :', sp.link || '');
+          if (v === null) return;
+          sp.link = v.trim(); applyAndRefresh();
+        }),
+        edButton(doc, 'close', 'Supprimer cette section', true, function(){
+          if (!confirm('Supprimer la section « ' + sp.title + ' » ?')) return;
+          subs.splice(i, 1); applyAndRefresh();
+        })
+      ]);
+    });
+
+    // "+ Nouvelle section" — appended after the sub-projects block, or at the end
+    // of the page when the project has none yet.
+    var subAnchor = doc.querySelector('.detail-subprojects') || wrap;
+    var subBar = doc.createElement('div');
+    subBar.className = 'ed-addbar';
+    var subAdd = doc.createElement('button');
+    subAdd.type = 'button'; subAdd.className = 'ed-add'; subAdd.textContent = '+ Nouvelle section';
+    subAdd.addEventListener('click', function(e){
+      e.preventDefault(); e.stopPropagation();
+      var title = prompt('Titre de la section (ex: « Refonte graphique ») :', '');
+      if (!title) return;
+      subs.push({ title: title.trim(), medium: '', desc: '', assets: [], link: '' });
+      applyAndRefresh();
+    });
+    subBar.appendChild(subAdd);
+    subAnchor.appendChild(subBar);
+  }
+
+  // a lightweight "scope" holding only the asset nodes that sit before a
+  // boundary element — sub-project assets must not be treated as the
+  // parent project's own.
+  function sliceBefore(doc, root, boundary){
+    var fake = { querySelectorAll: function(sel){
+      return Array.prototype.filter.call(root.querySelectorAll(sel), function(n){
+        return !boundary.contains(n);
+      });
+    }};
+    return fake;
+  }
+
+  // Freshly uploaded images point at a repo path GitHub Pages hasn't published
+  // yet, so they'd render broken for the first minute. Swap in the bytes we
+  // still hold from the upload — the markup keeps the real path.
+  function applyFreshPreviews(doc){
+    if (!Object.keys(freshUploads).length) return;
+    doc.querySelectorAll('img').forEach(function(img){
+      var src = img.getAttribute('src') || '';
+      if (freshUploads[src]) img.src = freshUploads[src];
+    });
+    // documents are embedded in an iframe, same substitution
+    doc.querySelectorAll('.detail-doc iframe').forEach(function(f){
+      var src = f.getAttribute('src') || '';
+      if (freshUploads[src]) f.src = freshUploads[src];
+    });
+  }
+
+  // links inside the frame must never navigate the frame away from our
+  // injected document — project links re-render in place, the rest is inert.
+  function interceptLinks(doc){
+    doc.addEventListener('click', function(e){
+      if (!e.target.closest) return;
+      // this runs in the capture phase, so it would otherwise swallow clicks
+      // on the editor's own buttons before they ever reach them
+      if (e.target.closest('.ed-tools, .ed-btn, .ed-add')){ e.preventDefault(); return; }
+      // clicking an editable text inside a link (the favourite-project card is
+      // itself a link) must start editing, not navigate
+      if (e.target.closest('[contenteditable]')){ e.preventDefault(); return; }
+      var a = e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.indexOf('projet.html') === 0){
+        e.preventDefault();
+        var m = href.match(/[?&]id=([^&]+)/);
+        if (m) openVisual('projet.html', decodeURIComponent(m[1]));
+        return;
+      }
+      if (href.indexOf('groupe.html') === 0){
+        e.preventDefault();
+        var mg = href.match(/[?&]id=([^&]+)/);
+        if (mg) openVisual('groupe.html', decodeURIComponent(mg[1]));
+        return;
+      }
+      if (href.indexOf('projets-perso.html') === 0){ e.preventDefault(); openVisual('projets-perso.html'); return; }
+      if (href.indexOf('projets-academiques.html') === 0){ e.preventDefault(); openVisual('projets-academiques.html'); return; }
+      if (href.indexOf('projets.html') === 0){ e.preventDefault(); openVisual('projets.html'); return; }
+      if (href.indexOf('index.html') === 0){ e.preventDefault(); openVisual('index.html'); return; }
+      if (href.charAt(0) === '#') return; // in-page anchors are fine
+      e.preventDefault(); // external links / CV / admin: inert while editing
+    }, true);
+  }
+
+  var PAGE_LABEL = {
+    'index.html': 'Accueil',
+    'projets-perso.html': 'Projets perso',
+    'projets-academiques.html': 'Projets académiques',
+    'projets.html': 'Projets (tous)'
+  };
+
+  function openVisual(page, id){
+    visualNav = { page: page, projectId: id || null };
+    var frame = $('visual-frame');
+    var label = page === 'projet.html'
+      ? 'Projet — ' + ((state.projects.filter(function(p){ return p.id === id; })[0] || {}).title || id)
+      : page === 'groupe.html'
+      ? 'Groupe — ' + ((siteGroups().filter(function(g){ return g.id === id; })[0] || {}).title || id)
+      : (PAGE_LABEL[page] || page);
+    $('visual-location').textContent = label;
+    $('visual-back-btn').disabled = (page === 'index.html');
+
+    fetchPage(page).then(function(html){
+      frame.srcdoc = buildFrameDoc(html, { site: state.site, projects: state.projects }, id, page);
+      frame.onload = function(){
+        var doc = frame.contentDocument;
+        // script.js renders from a resolved promise, so the content may not
+        // exist yet at load time — wait for it rather than guessing a delay.
+        var tries = 0;
+        (function waitForRender(){
+          var ready = page === 'projet.html'
+            ? doc.querySelector('.detail-title, .detail-wrap')
+            : doc.querySelector('#js-bio, .card, .grid');
+          if (!ready && tries++ < 60){ setTimeout(waitForRender, 50); return; }
+          applyFreshPreviews(doc);
+          interceptLinks(doc);
+          if (page === 'projet.html') wireDetailEditing(doc, id);
+          else {
+            if (page === 'index.html') wireHomeEditing(doc);
+            if (page === 'groupe.html') wireGroupDetailEditing(doc, id);
+            wireProjectsPageEditing(doc);
+            wireCardEditing(doc);
+          }
+          // rendre le defilement apres le placement, sinon la page n'est pas
+          // encore assez haute pour qu'il s'applique
+          if (visualScroll){
+            try { frame.contentWindow.scrollTo(0, visualScroll); } catch(e){}
+            setTimeout(function(){
+              try { frame.contentWindow.scrollTo(0, visualScroll); } catch(e){}
+            }, 120);
+          }
+        })();
+      };
+    }).catch(function(err){
+      $('visual-location').textContent = 'Erreur : ' + err.message;
+    });
+  }
+
+  function showView(which){
+    var visual = which === 'visual';
+    $('form-view').classList.toggle('hidden', visual);
+    $('visual-view').classList.toggle('hidden', !visual);
+    $('view-form-btn').classList.toggle('is-active', !visual);
+    $('view-visual-btn').classList.toggle('is-active', visual);
+    document.body.classList.toggle('visual-mode', visual);
+    if (visual) openVisual(visualNav.page, visualNav.projectId);
+  }
+
+  // image picked from inside the visual editor: same WebP conversion + commit
+  // as the form view, then either appended as an asset or set as thumbnail.
+  $('visual-image-upload').addEventListener('change', function(e){
+    var files = Array.prototype.slice.call(e.target.files || []);
+    var target = pendingUpload;
+    pendingUpload = null;
+    e.target.value = '';
+    if (!files.length || !target) return;
+
+    uploadImagesBatch(files, target.hint || 'projet', function(done, total, step){
+      $('visual-location').textContent = step === 'commit'
+        ? 'Enregistrement des ' + total + ' images…'
+        : 'Envoi des images… (' + done + '/' + total + ')';
+    }).then(function(paths){
+      if (target.thumbOnly){
+        target.owner.thumb = paths[0];
+      } else if (target.addTo){
+        // photos ajoutées à un carrousel existant
+        target.addTo.urls = (target.addTo.urls || []).concat(paths);
+      } else if (target.carousel){
+        // l'envoi entier fait UN contenu, pas un par photo
+        ensureAssets(target.owner).push({ type: 'carousel', urls: paths, hidden: false });
+      } else {
+        var arr = ensureAssets(target.owner);
+        paths.forEach(function(u){ arr.push({ type: 'image', url: u, hidden: false }); });
+      }
+      applyAndRefresh();
+      publishAfterUpload();
+    }).catch(function(err){
+      alert('Échec de l\'envoi : ' + err.message);
+      openVisual(visualNav.page, visualNav.projectId);
+    });
+  });
+
+  $('view-form-btn').addEventListener('click', function(){ showView('form'); });
+  $('view-visual-btn').addEventListener('click', function(){
+    collectStateFromForms(); // carry over anything typed in the form view
+    showView('visual');
+  });
+  $('visual-home-btn').addEventListener('click', function(){ openVisual('index.html'); });
+  // meme regle que pageForCtx()/linkForProject() dans script.js
+  function pageForCtx(ctx){
+    return (ctx === 'academique' || ctx === 'stage') ? 'projets-academiques.html' : 'projets-perso.html';
+  }
+
+  $('visual-back-btn').addEventListener('click', function(){
+    if (visualNav.page === 'projet.html'){
+      // le groupe du projet s'il en a un, sinon la page de sa categorie
+      var p = state.projects.filter(function(x){ return x.id === visualNav.projectId; })[0];
+      if (p && p.group) openVisual('groupe.html', p.group);
+      else openVisual(pageForCtx(p && p.ctx));
+    } else if (visualNav.page === 'groupe.html'){
+      openVisual('projets.html');
+    } else {
+      openVisual('index.html');
+    }
+  });
+
+  // ---- Mode demonstration ----------------------------------------------
+  // Un bac a sable : le visiteur modifie tout ce qu'il veut, et rien ne part.
+  // Tout le trafic GitHub passe par ghRequest — le detourner suffit donc a
+  // garantir qu'aucun octet ne quitte l'onglet, sans toucher au reste du
+  // panneau. L'etat vit dans une variable : fermer la page remet a zero.
+  var MODE_DEMO = false;
+
+  function demarreDemo(){
+    MODE_DEMO = true;
+    var publie = null;      // le data.json du bac a sable, en texte
+    var publieSha = 'demo'; // suit `publie` : saveData() compare les sha, un
+                             // sha fige aurait fait echouer son controle d'ecart
+                             // des le deuxieme enregistrement de la session
+    var n = 0;
+    var sha = function(prefixe){ return prefixe + '-' + (++n); };
+
+    ghRequest = function(chemin, options){
+      options = options || {};
+      var methode = (options.method || 'GET').toUpperCase();
+      var corps = null;
+      try { corps = options.body ? JSON.parse(options.body) : null; } catch(e){}
+
+      if (methode === 'GET' && chemin.indexOf('/contents/' + DATA_PATH) === 0){
+        var source = publie
+          ? Promise.resolve(publie)
+          : fetch('data.json', { cache: 'no-cache' }).then(function(r){ return r.text(); })
+              .then(function(txt){ publie = txt; return txt; });
+        return source.then(function(txt){ return { content: utf8ToB64(txt), sha: publieSha }; });
+      }
+
+      // Le contenu de data.json passe par la creation de blob avant d'etre
+      // commite : c'est la qu'on le retient. Les images, elles, sont du binaire
+      // que le decodage rejette — d'ou le try.
+      if (methode === 'POST' && chemin === '/git/blobs'){
+        var shaBlob = sha('blob');
+        try {
+          var texte = corps.encoding === 'base64' ? b64ToUtf8(corps.content) : corps.content;
+          var objet = JSON.parse(texte);
+          if (objet && objet.projects && objet.site){ publie = texte; publieSha = shaBlob; }
+        } catch(e){}
+        return Promise.resolve({ sha: shaBlob });
+      }
+
+      if (methode === 'GET' && chemin.indexOf('/git/ref/') === 0)
+        return Promise.resolve({ object: { sha: 'demo-tip' } });
+      if (methode === 'GET' && chemin.indexOf('/git/commits/') === 0)
+        return Promise.resolve({ sha: 'demo-tip', tree: { sha: 'demo-tree' } });
+      if (methode === 'POST' && chemin === '/git/trees')
+        return Promise.resolve({ sha: sha('tree') });
+      if (methode === 'POST' && chemin === '/git/commits')
+        return Promise.resolve({ sha: 'demo-tip' });
+      if (methode === 'PATCH' && chemin.indexOf('/git/refs/') === 0)
+        return Promise.resolve({ object: { sha: 'demo-tip' } });
+
+      return Promise.resolve({});
+    };
+
+    // Rien ne doit parler de GitHub dans un bac a sable : un visiteur qui lit
+    // « Enregistrer sur GitHub » croit publier quelque chose.
+    $('demo-bandeau').classList.remove('hidden');
+    $('demo-reset').addEventListener('click', function(){ location.reload(); });
+    $('logout-btn').textContent = 'Quitter le bac à sable';
+    $('save-btn').textContent = 'Appliquer les changements';
+    $('reload-btn').textContent = 'Annuler mes changements';
+    $('repo-label').parentNode.innerHTML = 'Panneau de démonstration — aucune connexion, aucune publication';
+    document.title = 'Bac à sable — un portfolio Starx';
+    // « Voir le site » ouvrirait le fichier du serveur, donc la demonstration
+    // d'origine, sans les changements du visiteur — ceux-ci ne vivent que dans
+    // cet onglet. L'apercu visuel du panneau est deja le site : le bouton n'a
+    // rien a ajouter, il n'aurait qu'a decevoir.
+    var voirLeSite = document.querySelector('.topbar .actions a[href*="github.io"]');
+    if (voirLeSite) voirLeSite.remove();
+
+    // On n'appelle pas connectAndLoad : il ecrirait un jeton dans le stockage
+    // que le vrai panneau partage.
+    return loadData().then(function(data){
+      state.site = data.site || {};
+      state.projects = data.projects || [];
+      fillFormsFromState();
+      showEditor();
+    });
+  }
+
+  // La configuration doit etre lue AVANT toute requete : se connecter d'abord
+  // irait interroger le depot de repli, pas celui de ce portfolio.
+  fetch('config.json', { cache: 'no-cache' })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .catch(function(){ return null; })
+    .then(function(cfg){
+      if (cfg){
+        if (cfg.owner) REPO_OWNER = cfg.owner;
+        if (cfg.repo) REPO_NAME = cfg.repo;
+        if (cfg.branch) BRANCH = cfg.branch;
+        if (cfg.oauthWorker) OAUTH_WORKER_URL = cfg.oauthWorker;
+        if (cfg.basePath !== undefined){ BASE_PATH = cfg.basePath; DATA_PATH = BASE_PATH + 'data.json'; }
+      }
+      if (cfg && cfg.demo){ demarreDemo(); return; }
+      $('repo-label').textContent = REPO_OWNER + '/' + REPO_NAME;
+      // auto-connect if a token from a previous OAuth login is still stored
+      var existing = getToken();
+      if (existing) connectAndLoad(existing, $('oauth-status'));
+    });
+})();
+</script>
+</body>
+</html>

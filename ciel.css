@@ -1,0 +1,86 @@
+/* Le ciel etoile, seul dans son fichier : la vitrine et les portfolios le
+   partagent alors qu'ils n'ont plus la meme feuille de style. Eteint par
+   defaut — une page l'allume avec --stars-opacity. */
+
+/* ---------- Ciel étoilé ---------- */
+/* Un plafond de voiture de luxe : des points nets et fixes, pas des halos qui
+   dérivent. Six calques superposés scintillent à des rythmes sans multiple
+   commun — c'est ce décalage qui empêche l'œil de percevoir une pulsation
+   d'ensemble, et donc de reconnaître une animation.
+   Aucun script : la vitrine, qui ne charge pas script.js, l'obtient aussi. */
+:root{
+  --star-rgb: 255,255,255;
+  --stars-opacity: 0;
+  /* Toutes les étoiles ont la même taille : ce sont des points de fibre optique
+     identiques, et seule leur luminosité change. Des diamètres variés donnent
+     des taches floues au lieu d'un plafond. */
+  --star-d: radial-gradient(circle, rgba(var(--star-rgb),1) 0 32%, rgba(var(--star-rgb),.30) 46%, rgba(var(--star-rgb),0) 62%);
+  --star-a: radial-gradient(circle, rgba(var(--star-rgb),.78) 0 30%, rgba(var(--star-rgb),.22) 44%, rgba(var(--star-rgb),0) 60%);
+  --star-b: radial-gradient(circle, rgba(var(--star-rgb),.52) 0 28%, rgba(var(--star-rgb),.14) 42%, rgba(var(--star-rgb),0) 58%);
+  --star-c: radial-gradient(circle, rgba(var(--star-rgb),.30) 0 26%, rgba(var(--star-rgb),0) 54%);
+}
+.starfield{
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  opacity: var(--stars-opacity, 0);
+}
+.starfield span{ position:absolute; inset:0; display:block; }
+.starfield::before, .starfield::after,
+.starfield span::before, .starfield span::after{
+  content:""; position:absolute; inset:0;
+}
+.starfield, .starfield::before, .starfield::after,
+.starfield span, .starfield span::before, .starfield span::after{
+  background-repeat: no-repeat;
+}
+/* Le calque du fond ne bouge jamais : c'est lui qui tient la voûte pendant que
+   les autres respirent. */
+.starfield::before      { animation: scintille 6.5s  ease-in-out infinite; animation-delay: -1.1s; }
+.starfield::after       { animation: scintille 9.1s  ease-in-out infinite; animation-delay: -4.3s; }
+.starfield span         { animation: scintille 4.7s  ease-in-out infinite; animation-delay: -2.6s; }
+.starfield span::before { animation: scintille-doux 12.3s ease-in-out infinite; animation-delay: -7.9s; }
+.starfield span::after  { animation: scintille-doux 15.2s ease-in-out infinite; animation-delay: -3.4s; }
+
+@keyframes scintille{ 0%,100%{ opacity:1 } 50%{ opacity:.28 } }
+/* les grosses étoiles ne clignotent pas, elles respirent */
+@keyframes scintille-doux{ 0%,100%{ opacity:1 } 50%{ opacity:.62 } }
+
+/* Sur un écran étroit, les mêmes pourcentages resserrent tout : deux calques
+   partent, la densité redevient celle d'un ciel. */
+@media (max-width: 700px){
+  .starfield span::before, .starfield::after{ display:none; }
+}
+@media (prefers-reduced-motion: reduce){
+  .starfield::before, .starfield::after,
+  .starfield span, .starfield span::before, .starfield span::after{ animation: none; }
+}
+
+.starfield{
+  background-image: var(--star-c),var(--star-c),var(--star-c),var(--star-b),var(--star-b),var(--star-b),var(--star-c),var(--star-b),var(--star-c),var(--star-c),var(--star-c),var(--star-b),var(--star-c),var(--star-c),var(--star-c),var(--star-c),var(--star-b),var(--star-b),var(--star-c),var(--star-b),var(--star-b),var(--star-b),var(--star-b),var(--star-b),var(--star-c),var(--star-c),var(--star-c),var(--star-c),var(--star-c),var(--star-b);
+  background-position: 91.5% 91.1%,44.1% 85.4%,92.7% 35.1%,56.6% 1.4%,13.2% 6.0%,39.9% 11.4%,55.6% 21.4%,22.8% 4.6%,29.6% 76.8%,72.9% 21.8%,52.7% 64.3%,10.4% 8.9%,93.1% 98.3%,72.9% 11.8%,54.8% 70.8%,97.9% 63.1%,81.3% 97.2%,45.7% 34.8%,35.8% 84.7%,9.8% 34.8%,26.0% 42.5%,26.9% 87.0%,87.6% 38.4%,68.6% 55.6%,69.2% 6.1%,72.3% 48.9%,49.6% 13.4%,54.7% 43.4%,68.5% 17.3%,77.3% 58.0%;
+  background-size: 3.2px 3.2px;
+}
+.starfield::before{
+  background-image: var(--star-d),var(--star-d),var(--star-d),var(--star-b),var(--star-d),var(--star-b),var(--star-c),var(--star-c),var(--star-d),var(--star-d),var(--star-c),var(--star-d),var(--star-a),var(--star-c),var(--star-c),var(--star-a),var(--star-a),var(--star-b),var(--star-c),var(--star-c),var(--star-d),var(--star-d),var(--star-d),var(--star-d);
+  background-position: 47.5% 7.8%,74.6% 34.3%,72.6% 98.0%,46.4% 48.3%,97.3% 34.1%,58.4% 34.4%,67.0% 22.2%,44.4% 20.0%,96.4% 77.1%,65.8% 59.5%,8.6% 97.5%,81.3% 31.2%,82.3% 50.3%,54.0% 36.1%,74.8% 65.8%,84.6% 26.3%,31.3% 17.3%,77.9% 26.6%,13.7% 83.8%,12.5% 31.7%,28.0% 9.3%,1.7% 99.7%,85.0% 18.1%,60.6% 58.0%;
+  background-size: 3.2px 3.2px;
+}
+.starfield::after{
+  background-image: var(--star-b),var(--star-b),var(--star-b),var(--star-a),var(--star-c),var(--star-c),var(--star-a),var(--star-a),var(--star-b),var(--star-a),var(--star-b),var(--star-b),var(--star-b),var(--star-a),var(--star-b),var(--star-b),var(--star-b),var(--star-a),var(--star-c),var(--star-a),var(--star-b),var(--star-a);
+  background-position: 6.4% 75.4%,27.1% 13.3%,49.0% 36.7%,9.8% 90.1%,83.1% 63.8%,51.8% 56.4%,40.3% 17.5%,78.5% 87.2%,80.0% 57.7%,60.0% 51.7%,35.9% 16.1%,64.4% 13.2%,94.9% 29.8%,52.0% 19.6%,95.8% 70.7%,37.9% 3.5%,19.8% 17.5%,18.2% 8.7%,79.4% 44.2%,5.2% 57.3%,9.9% 62.4%,75.7% 79.5%;
+  background-size: 3.2px 3.2px;
+}
+.starfield span{
+  background-image: var(--star-c),var(--star-d),var(--star-b),var(--star-c),var(--star-c),var(--star-c),var(--star-c),var(--star-c),var(--star-b),var(--star-c),var(--star-b),var(--star-b),var(--star-c),var(--star-c),var(--star-c),var(--star-d),var(--star-d),var(--star-c),var(--star-c),var(--star-b);
+  background-position: 14.5% 26.7%,13.9% 50.6%,87.3% 31.2%,14.1% 95.2%,34.1% 12.5%,3.1% 75.6%,87.1% 0.2%,41.8% 47.5%,49.7% 3.9%,88.5% 58.3%,40.3% 34.6%,49.6% 81.0%,62.4% 5.1%,25.2% 68.9%,42.2% 22.3%,94.4% 47.3%,82.8% 39.9%,91.4% 17.7%,69.7% 77.1%,79.5% 18.2%;
+  background-size: 3.2px 3.2px;
+}
+.starfield span::before{
+  background-image: var(--star-c),var(--star-c),var(--star-b),var(--star-b),var(--star-c),var(--star-c),var(--star-a),var(--star-c),var(--star-c),var(--star-c),var(--star-c),var(--star-c),var(--star-c),var(--star-b),var(--star-b),var(--star-c),var(--star-c),var(--star-a);
+  background-position: 35.6% 26.9%,56.2% 99.7%,80.9% 70.2%,91.6% 10.7%,68.1% 63.5%,2.0% 24.4%,5.3% 65.0%,97.6% 26.2%,14.2% 62.2%,96.4% 17.2%,27.0% 28.8%,1.9% 30.9%,10.3% 53.7%,87.4% 66.1%,8.4% 15.9%,44.1% 56.8%,7.6% 49.6%,34.2% 4.6%;
+  background-size: 3.2px 3.2px;
+}
+.starfield span::after{
+  background-image: var(--star-d),var(--star-d),var(--star-d),var(--star-a),var(--star-a),var(--star-a),var(--star-d),var(--star-a),var(--star-a),var(--star-d),var(--star-a),var(--star-d);
+  background-position: 78.7% 64.4%,70.5% 13.6%,29.4% 60.7%,89.4% 81.0%,83.1% 11.0%,97.2% 58.7%,51.0% 30.3%,5.7% 1.9%,78.9% 95.9%,33.2% 49.0%,25.0% 79.0%,55.8% 74.6%;
+  background-size: 3.2px 3.2px;
+}

@@ -1,0 +1,60 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projets perso — Adam</title>
+<meta name="description" content="Les projets personnels d&#39;Adam, group&#233;s par entit&#233;.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schoolbell&family=Homemade+Apple&family=Baloo+2:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="../ciel.css">
+
+<div class="topo-bg"></div>
+<div class="starfield" aria-hidden="true"><span></span></div>
+
+<header class="site-nav">
+  <nav class="links">
+    <a href="index.html#mis-en-avant">Projets</a>
+    <a href="index.html#apropos">À propos</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+  <a class="pill-btn" href="cv.pdf" download aria-label="Télécharger le CV (PDF)">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+    CV
+  </a>
+</header>
+
+<main>
+  <section class="projects-section" style="border-top:none;">
+    <div class="wrap">
+      <div class="section-head" data-section-head="perso">
+        <span class="kicker">01 — Perso</span>
+        <h1>Projets perso</h1>
+        <p>Des projets menés en dehors du cadre scolaire, par envie de créer.</p>
+      </div>
+      <!-- les filtres et la grille sont construits par script.js -->
+      <div id="js-tag-filters"></div>
+    </div>
+    <div class="wrap" data-projects-page="perso"></div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-band">
+      <span class="eyebrow" style="justify-content:center; display:flex;">Contact</span>
+      <h2>Un projet à monter, <span class="grad-text">une image à créer ?</span></h2>
+      <a class="contact-email js-contact-email-link" href="mailto:PLACEHOLDER@email.com">PLACEHOLDER@email.com</a>
+    </div>
+    <div class="foot-meta">
+      <div class="foot-left">
+        <span>© <span id="year"></span> Adam</span>
+        <span>Bruxelles, Belgique</span>
+      </div>
+      <a href="admin.html" class="admin-link" aria-label="Panneau d'édition" title="Panneau d'édition">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="7.5" cy="15.5" r="4.5" stroke="currentColor" stroke-width="1.6"/><path d="M11 12l9-9M15 4l3 3M18 1l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js?v=2"></script>
