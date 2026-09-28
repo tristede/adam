@@ -8,10 +8,16 @@
       "Je suis un enfant d'internet. J'ai eu un PC entre les mains très jeune, et j'ai grandi devant les premières vidéos du web. À 11-12 ans, j'enregistrais déjà mes parties de jeux vidéo et je faisais mes propres miniatures… sans avoir le droit de poster quoi que ce soit.",
       "Après un détour par l'informatique, j'ai choisi une voie qui me ressemble : la communication, à l'ISFSC. Je me définis comme un créatif volatile — je passe du montage vidéo au graphisme, de l'écriture au mixage de morceaux à la cuisine. J'ai du mal à me fixer sur un seul médium, mais c'est ce qui me permet de faire des liens que d'autres ne font pas."
     ],
-    "contactEmail": "PLACEHOLDER@email.com",
+    "contactEmail": "adam@nocturnz.xyz",
     "socialLinks": [
-      { "platform": "linkedin", "url": "https://www.linkedin.com/in/adamxbc/" },
-      { "platform": "instagram", "url": "https://www.instagram.com/_adamdrk" }
+      {
+        "platform": "linkedin",
+        "url": "https://www.linkedin.com/in/adamxbc/"
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/_adamdrk"
+      }
     ],
     "favoriProjectId": "projet-360-dei-belgique",
     "timeline": [
@@ -220,7 +226,11 @@
           "url": "https://www.tiktok.com/embed/v2/7554688445604547872",
           "hidden": false,
           "size": "sm",
-          "pos": { "x": 0, "y": 0, "w": 325 },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "w": 325
+          },
           "caption": "Babyfutsal"
         },
         {
@@ -228,14 +238,22 @@
           "url": "https://www.tiktok.com/embed/v2/7542489276752219425",
           "hidden": false,
           "size": "sm",
-          "pos": { "x": 363, "y": 0, "w": 325 },
+          "pos": {
+            "x": 363,
+            "y": 0,
+            "w": 325
+          },
           "caption": "Récap' de match"
         },
         {
           "type": "video",
           "url": "https://www.tiktok.com/embed/v2/7556725924587244833",
           "hidden": false,
-          "pos": { "x": 726, "y": 0, "w": 325 },
+          "pos": {
+            "x": 726,
+            "y": 0,
+            "w": 325
+          },
           "size": "sm",
           "caption": "Détections jeunes"
         }
@@ -657,13 +675,16 @@
       "id": "projet-360-dei-belgique",
       "title": "Projet 360° : DEI-Belgique",
       "year": 2025,
+      "current": false,
       "ctx": "academique",
       "medium": "video",
       "tags": [
-        "Vidéo 360°"
+        "Campagne 360"
       ],
       "desc": "Campagne 360 de sensibilisation aux VEO",
       "featured": false,
+      "hidden": false,
+      "longDesc": "Dans le cadre du projet 2 à l'ISFSC, nous avons du réaliser une campagne 360' fictive pour un émetteur donné. Nous avons travailler sur une campagne de sensibilisation aux violences supposément éducative pour la DEI-Belgique.",
       "assets": [
         {
           "type": "image",
@@ -713,6 +734,8 @@
           "caption": "Dossier stratégique complet (InDesign)"
         }
       ],
+      "link": "https://cms2433.commu.isfsc.be/",
+      "thumb": "images/projet-360-dei-belgique-1787830564823-0.webp",
       "subProjects": [
         {
           "title": "Multipage stratégique",
@@ -764,10 +787,7 @@
           ],
           "link": ""
         }
-      ],
-      "longDesc": "Dans le cadre du projet 2 à l'ISFSC, nous avons du réaliser une campagne 360' fictive pour un émetteur donné. Nous avons travailler sur une campagne de sensibilisation aux violences supposément éducative pour la DEI-Belgique.",
-      "thumb": "images/projet-360-dei-belgique-1787830564823-0.webp",
-      "link": "https://cms2433.commu.isfsc.be/"
+      ]
     },
     {
       "id": "carte-visite-echo-nexus",
