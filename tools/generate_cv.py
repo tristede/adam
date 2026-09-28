@@ -15,13 +15,15 @@ l'admin (data.json) — voir CONTEXTE.md si ça change.
 Écrit cv.pdf. Le bouton "CV" du site (cv.pdf, avec `download`) le sert
 déjà sur toutes les pages — rien d'autre à brancher.
 """
-import os, io
+import os, io, re
 from PIL import Image
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import simpleSplit, ImageReader
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPDF
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "cv.pdf")
@@ -107,40 +109,37 @@ for i, line in enumerate(contact):
     cy -= 14
 
 
-def social_icon_linkedin(cx, cy, r, url):
-    c.saveState()
-    c.setStrokeColorRGB(*ACCENT_SKY)
-    c.setLineWidth(1)
-    c.circle(cx, cy, r, stroke=1, fill=0)
-    c.setFillColorRGB(*ACCENT_SKY)
-    c.setFont("Helvetica-Bold", r * 0.95)
-    c.drawCentredString(cx, cy - r * 0.35, "in")
-    c.restoreState()
-    c.linkURL(url, (cx - r, cy - r, cx + r, cy + r), relative=0)
+# Memes traces SVG que la rangee d'icones du site (script.js, SOCIAL_ICONS) —
+# un vrai glyphe vectoriel plutot qu'une forme approximee a la main, pour que
+# CV/lettre/site soient visuellement la meme identite.
+ACCENT_SKY_HEX = "#%02x%02x%02x" % tuple(round(v * 255) for v in ACCENT_SKY)
+SOCIAL_SVG = {
+    "linkedin": '<svg width="{s}" height="{s}" viewBox="0 0 24 24" fill="none">'
+                '<path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 8.98h4v12.02H3V8.98zm7 0h3.8v1.64h.05c.53-.98 1.83-2.02 3.77-2.02 4.03 0 4.78 2.53 4.78 5.82v6.58h-4v-5.84c0-1.39-.03-3.18-1.98-3.18-1.98 0-2.29 1.5-2.29 3.08v5.94h-4V8.98z" fill="{color}"/></svg>',
+    "instagram": '<svg width="{s}" height="{s}" viewBox="0 0 24 24" fill="none">'
+                 '<rect x="3" y="3" width="18" height="18" rx="5" stroke="{color}" stroke-width="1.6"/>'
+                 '<circle cx="12" cy="12" r="4" stroke="{color}" stroke-width="1.6"/>'
+                 '<circle cx="17.2" cy="6.8" r="1.1" fill="{color}"/></svg>',
+}
 
 
-def social_icon_instagram(cx, cy, r, url):
-    c.saveState()
-    c.setStrokeColorRGB(*ACCENT_SKY)
-    c.setLineWidth(1)
-    s = r * 1.7
-    c.roundRect(cx - s / 2, cy - s / 2, s, s, s * 0.28, stroke=1, fill=0)
-    c.circle(cx, cy, r * 0.55, stroke=1, fill=0)
-    c.setFillColorRGB(*ACCENT_SKY)
-    c.circle(cx + s * 0.27, cy + s * 0.27, r * 0.13, stroke=0, fill=1)
-    c.restoreState()
-    c.linkURL(url, (cx - s / 2, cy - s / 2, cx + s / 2, cy + s / 2), relative=0)
+def social_icon(x, cy, size, url, platform):
+    markup = SOCIAL_SVG[platform].format(s=size, color=ACCENT_SKY_HEX)
+    drawing = svg2rlg(io.BytesIO(markup.encode("utf-8")))
+    renderPDF.draw(drawing, c, x, cy - size / 2)
+    c.linkURL(url, (x, cy - size / 2, x + size, cy + size / 2), relative=0)
 
 
-# icônes réseaux, sous les coordonnées — l'email est déjà indiqué au-dessus,
-# pas besoin de répéter l'adresse LinkedIn en toutes lettres
-icon_r = 8
-icon_gap = 11
-icons_cy = cy - 18
-icon_x_2 = W - MARGIN - icon_r
-icon_x_1 = icon_x_2 - (2 * icon_r + icon_gap)
-social_icon_linkedin(icon_x_1, icons_cy, icon_r, "https://www.linkedin.com/in/adamxbc/")
-social_icon_instagram(icon_x_2, icons_cy, icon_r, "https://www.instagram.com/_adamdrk")
+# icônes réseaux, cote a cote sous les coordonnées (pas de cercle autour :
+# juste le glyphe) — l'email est déjà indiqué au-dessus, pas besoin de
+# répéter l'adresse LinkedIn en toutes lettres
+icon_size = 13
+icon_gap = 10
+icon_cy = cy - 7
+icon_x_instagram = W - MARGIN - icon_size
+icon_x_linkedin = icon_x_instagram - icon_gap - icon_size
+social_icon(icon_x_linkedin, icon_cy, icon_size, "https://www.linkedin.com/in/adamxbc/", "linkedin")
+social_icon(icon_x_instagram, icon_cy, icon_size, "https://www.instagram.com/_adamdrk", "instagram")
 
 # ---- pitch (bordure gauche façon citation ; police cursive du site, comme
 # la bio de la page d'accueil) ----
@@ -293,8 +292,9 @@ ly = entry(LX, ly, "2017 — 2022", "CESS général — option sciences économi
            "Athénée Joseph Bracops", [])
 
 # ---- encart jobs étudiants (hors expériences liées à la com) : plus de
-# place en bas de cette colonne qu'à droite, une fois les compétences ajoutées
-ly -= 6
+# place en bas de cette colonne qu'à droite, une fois les compétences ajoutées.
+# Meme ecart que celui laisse par entry() au-dessus de "FORMATIONS" (son
+# gap_after de 22pt) : pas de correction manuelle supplementaire ici.
 ly = insert_card(LX, ly, "Jobs étudiants", [
     ("2022 — Aujourd'hui", "Hôte d'accueil", "Basic-Fit"),
     ("2025 — 2026", "Technicien de surface", "Hôpital Erasme (ISS)"),
@@ -335,15 +335,6 @@ voir_plus_w = c.stringWidth(voir_plus, "Helvetica-Bold", 9)
 c.linkURL("https://adam.nocturnz.xyz/projets.html",
           (RX, ry - 2, RX + voir_plus_w, ry + 9), relative=0)
 ry -= 13
-
-# ---- pied de page ----
-c.setStrokeColorRGB(*LINE)
-c.setLineWidth(0.6)
-c.line(MARGIN, 40, W - MARGIN, 40)
-c.setFillColorRGB(*TEXT_FAINT)
-c.setFont("Helvetica", 8.5)
-c.drawString(MARGIN, 26, "Portfolio complet, projets détaillés : adam.nocturnz.xyz")
-c.drawRightString(W - MARGIN, 26, "Bruxelles, Belgique")
 
 c.save()
 print("Écrit :", OUT, "—", os.path.getsize(OUT) // 1024, "Ko")

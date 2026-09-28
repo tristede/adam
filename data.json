@@ -11,7 +11,8 @@
     "contactEmail": "PLACEHOLDER@email.com",
     "socialLinks": [
       { "platform": "linkedin", "url": "https://www.linkedin.com/in/adamxbc/" },
-      { "platform": "instagram", "url": "https://www.instagram.com/_adamdrk" }
+      { "platform": "instagram", "url": "https://www.instagram.com/_adamdrk" },
+      { "platform": "email" }
     ],
     "favoriProjectId": "projet-360-dei-belgique",
     "timeline": [

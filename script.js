@@ -188,30 +188,33 @@
     twitch: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 3h15l-1 12-4 4H10l-2 2H6v-2H3V6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13 8v4M17 8v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
     discord: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="9" width="18" height="8" rx="4" stroke="currentColor" stroke-width="1.6"/><path d="M8 11.5v3M6.5 13h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="12" r="1" fill="currentColor"/><circle cx="18" cy="14" r="1" fill="currentColor"/></svg>',
     behance: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M3 7h5.5c1.9 0 3 1 3 2.5 0 1.1-.6 1.8-1.5 2.1 1.2.3 2 1.1 2 2.5 0 1.8-1.4 2.9-3.4 2.9H3V7z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M15 12.2c.2-1.6 1.5-2.7 3.2-2.7 2 0 3.3 1.4 3.3 3.6v.4h-5.4c.1 1.2 1 2 2.2 2 .9 0 1.5-.3 1.9-.9l1.1.9c-.6 1-1.7 1.6-3.1 1.6-2.1 0-3.5-1.5-3.5-3.5v-.1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M15.5 8h4" stroke="currentColor" stroke-width="1.4"/></svg>',
+    email: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M4 6.5l8 6 8-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     custom: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.6-2.6a4 4 0 0 0-5.7-5.7l-1.3 1.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.6 2.6a4 4 0 0 0 5.7 5.7l1.3-1.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
   };
-  var SOCIAL_LABELS = { linkedin:'LinkedIn', instagram:'Instagram', tiktok:'TikTok', youtube:'YouTube', x:'X (Twitter)', facebook:'Facebook', github:'GitHub', twitch:'Twitch', discord:'Discord', behance:'Behance' };
+  var SOCIAL_LABELS = { linkedin:'LinkedIn', instagram:'Instagram', tiktok:'TikTok', youtube:'YouTube', x:'X (Twitter)', facebook:'Facebook', github:'GitHub', twitch:'Twitch', discord:'Discord', behance:'Behance', email:'Email' };
 
   // reconstruit les icones a chaque rendu (au lieu d'en garder en dur dans la
   // page) : ajouter/retirer un reseau dans /admin.html suffit, aucune page a
-  // toucher. Inserees avant l'icone email, qui elle reste geree a part
-  // (site.contactEmail alimente aussi le bandeau de contact du footer).
+  // toucher. L'email est une entree comme une autre (platform:'email') : son
+  // adresse vient de site.contactEmail plutot que d'un champ url a elle,
+  // pour rester la seule source utilisee aussi par le bandeau de contact.
   function applySocialLinks(site){
     document.querySelectorAll('.social-row').forEach(function(row){
       row.querySelectorAll('[data-social-link]').forEach(function(el){ el.remove(); });
-      var emailAnchor = row.querySelector('.js-contact-email-link');
-      (site.socialLinks || []).forEach(function(link){
-        if (!link.url) return;
+      (site.socialLinks || []).forEach(function(link, i){
+        var isEmail = link.platform === 'email';
+        var url = isEmail ? (site.contactEmail ? 'mailto:' + site.contactEmail : '') : link.url;
+        if (!url) return;
         var a = document.createElement('a');
         a.setAttribute('data-social-link', '1');
-        a.href = link.url;
-        a.target = '_blank';
-        a.rel = 'noopener';
+        a.setAttribute('data-social-index', i);
+        a.setAttribute('data-social-platform', link.platform);
+        a.href = url;
+        if (!isEmail){ a.target = '_blank'; a.rel = 'noopener'; }
         var label = link.platform === 'custom' ? (link.label || 'Lien') : (SOCIAL_LABELS[link.platform] || link.platform);
         a.setAttribute('aria-label', label);
         a.innerHTML = SOCIAL_ICONS[link.platform] || SOCIAL_ICONS.custom;
-        if (emailAnchor) row.insertBefore(a, emailAnchor);
-        else row.appendChild(a);
+        row.appendChild(a);
       });
     });
   }
@@ -691,7 +694,7 @@
     var p = projects.filter(function(x){ return x.id === id; })[0];
 
     if (!p){
-      document.title = 'Projet introuvable — Adam';
+      document.title = 'Projet introuvable';
       container.innerHTML =
         '<div class="wrap" style="padding:80px 0; text-align:center;">' +
           '<h1 style="font-family:var(--font-display); font-size:22px; margin-bottom:12px;">Projet introuvable</h1>' +
@@ -701,7 +704,7 @@
       return;
     }
 
-    document.title = p.title + ' — Adam';
+    document.title = p.title;
 
     container.innerHTML =
       '<div class="wrap detail-wrap">' +
@@ -1213,7 +1216,7 @@
       container.innerHTML = '<div class="wrap" style="padding:60px 0;text-align:center;color:var(--text-dim);">Groupe introuvable.</div>';
       return;
     }
-    document.title = g.title + ' — Adam';
+    document.title = g.title;
     var shown = window.__EDIT_MODE__ ? projects : projects.filter(function(p){ return !p.hidden; });
     var list = shown.filter(function(p){ return p.group === g.id; });
     container.innerHTML =
