@@ -310,15 +310,14 @@ body.visual-mode .wrap{ max-width: 1400px; }
           <label for="f-email">Email de contact</label>
           <input type="email" id="f-email">
         </div>
-        <div>
-          <label for="f-linkedin">Lien LinkedIn</label>
-          <input type="url" id="f-linkedin">
-        </div>
-        <div>
-          <label for="f-instagram">Lien Instagram</label>
-          <input type="url" id="f-instagram">
-        </div>
       </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin:18px 0 4px;">
+        <label style="margin:0;">Réseaux sociaux <span class="small" id="social-links-count"></span></label>
+        <button class="primary" id="add-social-btn" type="button">+ Ajouter un lien</button>
+      </div>
+      <p class="small" style="margin:0 0 10px;">Icônes affichées sous la bio (page d'accueil), dans cet ordre, avant l'icône email.</p>
+      <div id="social-links-list"></div>
     </div>
 
     <div class="panel">
@@ -538,9 +537,19 @@ body.visual-mode .wrap{ max-width: 1400px; }
             <label for="pf-title">Titre</label>
             <input type="text" id="pf-title">
           </div>
+        </div>
+        <div class="row">
           <div>
-            <label for="pf-year">Année</label>
+            <label for="pf-year">Année de début</label>
             <input type="number" id="pf-year" value="2025">
+          </div>
+          <div>
+            <label for="pf-year-end">Année de fin (période, optionnel)</label>
+            <input type="number" id="pf-year-end" placeholder="vide = un an seul">
+          </div>
+          <div class="check-row" style="margin-top:26px;">
+            <input type="checkbox" id="pf-current">
+            <label for="pf-current">Toujours en cours</label>
           </div>
         </div>
         <div class="row">
@@ -1605,6 +1614,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
     if (index === -1){
       $('project-form-title').textContent = 'Ajouter un projet';
       $('pf-title').value = ''; $('pf-year').value = new Date().getFullYear();
+      $('pf-year-end').value = ''; $('pf-current').checked = false;
       $('pf-ctx').value = 'perso'; $('pf-medium').value = 'graphisme';
       refreshGroupOptions('');
       $('pf-tags').value = ''; $('pf-desc').value = ''; $('pf-featured').checked = false;
@@ -1618,6 +1628,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       var p = state.projects[index];
       $('project-form-title').textContent = 'Modifier le projet';
       $('pf-title').value = p.title; $('pf-year').value = p.year;
+      $('pf-year-end').value = p.yearEnd || ''; $('pf-current').checked = !!p.current;
       $('pf-ctx').value = p.ctx; $('pf-medium').value = p.medium;
       refreshGroupOptions(p.group || '');
       $('pf-tags').value = (p.tags||[]).join(', '); $('pf-desc').value = p.desc || '';
@@ -1649,6 +1660,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       id: editingIndex === -1 ? uniqueId(slugify(title)) : state.projects[editingIndex].id,
       title: title,
       year: parseInt($('pf-year').value, 10) || new Date().getFullYear(),
+      current: $('pf-current').checked,
       ctx: $('pf-ctx').value,
       medium: $('pf-medium').value,
       tags: $('pf-tags').value.split(',').map(function(t){ return t.trim(); }).filter(Boolean),
@@ -1666,6 +1678,10 @@ body.visual-mode .wrap{ max-width: 1400px; }
     // groupsOf(site).filter(p => p.group === g.id) pour un id vide accidentel
     var groupVal = $('pf-group').value;
     if (groupVal) p.group = groupVal;
+    // idem pour l'annee de fin : seule une periode explicite en porte une,
+    // et "en cours" la calcule a l'affichage plutot que de la figer ici
+    var yearEndVal = parseInt($('pf-year-end').value, 10);
+    if (yearEndVal) p.yearEnd = yearEndVal;
     if (editingIndex === -1) state.projects.push(p);
     else state.projects[editingIndex] = p;
     $('project-form-box').classList.add('hidden');
@@ -1702,8 +1718,6 @@ body.visual-mode .wrap{ max-width: 1400px; }
     $('f-about-0').value = (s.aboutParagraphs && s.aboutParagraphs[0]) || '';
     $('f-about-1').value = (s.aboutParagraphs && s.aboutParagraphs[1]) || '';
     $('f-email').value = s.contactEmail || '';
-    $('f-linkedin').value = s.linkedin || '';
-    $('f-instagram').value = s.instagram || '';
 
     $('f-featured-kicker').value = s.featuredKicker || '';
     $('f-featured-title').value = s.featuredTitle || '';
@@ -1729,8 +1743,16 @@ body.visual-mode .wrap{ max-width: 1400px; }
 
     if (!Array.isArray(state.site.timeline)) state.site.timeline = [];
     if (!Array.isArray(state.site.skills)) state.site.skills = [];
+    if (!Array.isArray(state.site.socialLinks)){
+      // migration depuis l'ancien schema a deux champs fixes (linkedin/instagram)
+      state.site.socialLinks = [];
+      if (s.linkedin) state.site.socialLinks.push({ platform: 'linkedin', url: s.linkedin });
+      if (s.instagram) state.site.socialLinks.push({ platform: 'instagram', url: s.instagram });
+      delete s.linkedin; delete s.instagram;
+    }
     remplirTheme();
     renderTimelineList();
+    renderSocialLinksList();
     renderProjectList();
   }
 
@@ -1877,8 +1899,8 @@ body.visual-mode .wrap{ max-width: 1400px; }
     state.site.aboutTitle = $('f-about-title').value.trim();
     state.site.aboutParagraphs = [ $('f-about-0').value, $('f-about-1').value ];
     state.site.contactEmail = $('f-email').value.trim();
-    state.site.linkedin = $('f-linkedin').value.trim();
-    state.site.instagram = $('f-instagram').value.trim();
+    // state.site.socialLinks is kept up to date live by the social-links
+    // add/delete/reorder/edit handlers below — nothing to collect here.
 
     state.site.featuredKicker = $('f-featured-kicker').value.trim();
     state.site.featuredTitle = $('f-featured-title').value.trim();
@@ -1958,6 +1980,83 @@ body.visual-mode .wrap{ max-width: 1400px; }
         var i = +b.dataset.i;
         var arr = state.site.timeline;
         if (i < arr.length - 1){ var tmp = arr[i+1]; arr[i+1] = arr[i]; arr[i] = tmp; renderTimelineList(); }
+      });
+    });
+  }
+
+  var SOCIAL_PLATFORMS = [
+    { value: 'linkedin', label: 'LinkedIn' },
+    { value: 'instagram', label: 'Instagram' },
+    { value: 'tiktok', label: 'TikTok' },
+    { value: 'youtube', label: 'YouTube' },
+    { value: 'x', label: 'X (Twitter)' },
+    { value: 'facebook', label: 'Facebook' },
+    { value: 'github', label: 'GitHub' },
+    { value: 'twitch', label: 'Twitch' },
+    { value: 'discord', label: 'Discord' },
+    { value: 'behance', label: 'Behance' },
+    { value: 'custom', label: 'Autre (lien personnalisé)' }
+  ];
+  function platformLabel(v){
+    var p = SOCIAL_PLATFORMS.filter(function(x){ return x.value === v; })[0];
+    return p ? p.label : v;
+  }
+
+  function renderSocialLinksList(){
+    var items = state.site.socialLinks || (state.site.socialLinks = []);
+    $('social-links-count').textContent = '(' + items.length + ')';
+    var list = $('social-links-list');
+    list.innerHTML = '';
+    items.forEach(function(link, i){
+      var row = document.createElement('div');
+      row.className = 'project-item';
+      var options = SOCIAL_PLATFORMS.map(function(p){
+        return '<option value="' + p.value + '"' + (p.value === link.platform ? ' selected' : '') + '>' + escapeHtml(p.label) + '</option>';
+      }).join('');
+      row.innerHTML =
+        '<div style="flex:1; display:flex; flex-wrap:wrap; gap:8px; align-items:center;">' +
+          '<select data-role="platform" style="width:auto;">' + options + '</select>' +
+          '<input type="url" data-role="url" placeholder="https://..." value="' + escapeHtml(link.url || '') + '" style="flex:1; min-width:180px;">' +
+          (link.platform === 'custom'
+            ? '<input type="text" data-role="label" placeholder="Nom (ex : Behance)" value="' + escapeHtml(link.label || '') + '" style="width:160px;">'
+            : '') +
+        '</div>' +
+        '<div class="btns">' +
+          '<button class="ghost" data-action="up" data-i="' + i + '" type="button"' + (i === 0 ? ' disabled' : '') + ' title="Monter">' + ICON.up + '</button>' +
+          '<button class="ghost" data-action="down" data-i="' + i + '" type="button"' + (i === items.length - 1 ? ' disabled' : '') + ' title="Descendre">' + ICON.down + '</button>' +
+          '<button class="danger" data-action="delete" data-i="' + i + '" type="button">Supprimer</button>' +
+        '</div>';
+      list.appendChild(row);
+    });
+    list.querySelectorAll('select[data-role="platform"]').forEach(function(sel, i){
+      sel.addEventListener('change', function(){
+        items[i].platform = sel.value;
+        renderSocialLinksList();
+      });
+    });
+    list.querySelectorAll('input[data-role="url"]').forEach(function(inp, i){
+      inp.addEventListener('input', function(){ items[i].url = inp.value.trim(); });
+    });
+    list.querySelectorAll('input[data-role="label"]').forEach(function(inp, i){
+      inp.addEventListener('input', function(){ items[i].label = inp.value.trim(); });
+    });
+    list.querySelectorAll('button[data-action="delete"]').forEach(function(b){
+      b.addEventListener('click', function(){
+        if (!confirm('Supprimer le lien ' + platformLabel(items[+b.dataset.i].platform) + ' ?')) return;
+        items.splice(+b.dataset.i, 1);
+        renderSocialLinksList();
+      });
+    });
+    list.querySelectorAll('button[data-action="up"]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var i = +b.dataset.i;
+        if (i > 0){ var tmp = items[i-1]; items[i-1] = items[i]; items[i] = tmp; renderSocialLinksList(); }
+      });
+    });
+    list.querySelectorAll('button[data-action="down"]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var i = +b.dataset.i;
+        if (i < items.length - 1){ var tmp = items[i+1]; items[i+1] = items[i]; items[i] = tmp; renderSocialLinksList(); }
       });
     });
   }
@@ -2331,6 +2430,10 @@ body.visual-mode .wrap{ max-width: 1400px; }
   });
 
   $('add-timeline-btn').addEventListener('click', function(){ openTimelineForm(-1); });
+  $('add-social-btn').addEventListener('click', function(){
+    state.site.socialLinks.push({ platform: 'linkedin', url: '' });
+    renderSocialLinksList();
+  });
   $('tf-save-btn').addEventListener('click', saveTimelineForm);
   $('tf-cancel-btn').addEventListener('click', function(){
     $('timeline-form-box').classList.add('hidden');
@@ -2497,7 +2600,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
     } else if (id){
       inject += '<script>window.__PROJECT_ID__ = ' + JSON.stringify(id) + ';<\/script>';
     }
-    return html.replace('<script src="script.js?v=2"><\/script>', inject + '<script src="script.js?v=2"><\/script>');
+    return html.replace('<script src="script.js?v=3"><\/script>', inject + '<script src="script.js?v=3"><\/script>');
   }
 
   function bindEditable(el, getFn, setFn, multiline){
@@ -2746,6 +2849,28 @@ body.visual-mode .wrap{ max-width: 1400px; }
     }
   }
 
+  // Annee/periode d'un projet : plus qu'un simple nombre depuis que le site
+  // affiche une periode ("2025-2026") ou une periode ouverte ("en cours"),
+  // d'ou 3 questions successives plutot qu'un unique prompt pre-remplie.
+  function editProjectPeriod(p){
+    var v = prompt('Année de début :', String(p.year || ''));
+    if (v === null) return;
+    var n = parseInt(v, 10);
+    if (!n) return;
+    p.year = n;
+    p.current = confirm('Ce projet est-il toujours en cours ?\n\nOK = oui · Annuler = non');
+    if (p.current){
+      delete p.yearEnd;
+    } else {
+      var ve = prompt('Année de fin (laisser vide si un an seul) :', p.yearEnd ? String(p.yearEnd) : '');
+      if (ve !== null){
+        var ne = parseInt(ve, 10);
+        if (ne) p.yearEnd = ne; else delete p.yearEnd;
+      }
+    }
+    applyAndRefresh();
+  }
+
   // small numbered picker — a <select> can't live inside the frame's own
   // layout without disturbing it, so a prompt list keeps this simple. Les
   // groupes d'abord (peu nombreux, faciles a reperer), puis les projets.
@@ -2786,8 +2911,14 @@ body.visual-mode .wrap{ max-width: 1400px; }
       bindEditable(card.querySelector('h3'), function(){ return p.title || ''; }, function(v){ p.title = v; });
       bindEditable(card.querySelector('.desc'), function(){ return p.desc || ''; }, function(v){ p.desc = v; }, true);
 
-      bindEditable(card.querySelector('.year'), function(){ return String(p.year || ''); },
-        function(v){ p.year = parseInt(v, 10) || p.year; });
+      // plus un simple nombre en texte libre depuis que la pastille peut
+      // afficher une periode : interceptLinks() bloque la navigation du clic
+      // sur .year, le prompt sequentiel (annee/en cours/fin) prend le relais.
+      var yearPill = card.querySelector('.year');
+      if (yearPill) yearPill.addEventListener('click', function(e){
+        e.preventDefault(); e.stopPropagation();
+        editProjectPeriod(p);
+      });
 
       edTools(doc, card, [
         edButton(doc, p.hidden ? 'eyeOff' : 'eye', p.hidden ? 'Afficher ce projet sur le site' : 'Masquer ce projet du site', false, function(){
@@ -3350,7 +3481,14 @@ body.visual-mode .wrap{ max-width: 1400px; }
       ['+ Site web', function(){
         var url = prompt('Adresse du site à intégrer (https://…) :', '');
         if (!url) return;
-        ensureAssets(owner).push({ type: 'web', url: url.trim(), hidden: false });
+        url = url.trim();
+        ensureAssets(owner).push({ type: 'web', url: url, hidden: false });
+        // le bouton "Visiter le site" (en haut de la page detail) vient de ce
+        // meme champ, et l'aperçu en direct ne se declenche que pour un projet
+        // medium "web" (script.js) — remplir `link` ici seulement dans ce cas,
+        // sinon un simple embed (InDesign, Behance...) heriterait a tort d'un
+        // bouton "Visiter le site" vers une adresse d'integration technique.
+        if (!owner.link && owner.medium === 'web') owner.link = url;
         applyAndRefresh();
       }],
       // No confirm() before opening the picker: a modal dialog ends the user
@@ -3452,12 +3590,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
           if (v === null) return;
           p.link = v.trim(); applyAndRefresh();
         }),
-        edButton(doc, 'calendar', 'Changer l\'année', false, function(){
-          var v = prompt('Année du projet :', String(p.year || ''));
-          if (v === null) return;
-          var n = parseInt(v, 10);
-          if (n){ p.year = n; applyAndRefresh(); }
-        })
+        edButton(doc, 'calendar', 'Changer l\'année / la période', false, function(){ editProjectPeriod(p); })
       ]);
     }
 
@@ -3557,6 +3690,12 @@ body.visual-mode .wrap{ max-width: 1400px; }
       // clicking an editable text inside a link (the favourite-project card is
       // itself a link) must start editing, not navigate
       if (e.target.closest('[contenteditable]')){ e.preventDefault(); return; }
+      // la pastille annee/periode d'une carte-PROJET porte son propre listener
+      // (editProjectPeriod) — meme logique que le contenteditable ci-dessus.
+      // Les cartes de groupe et la carte favori n'ont pas ce listener : leur
+      // pastille (nb de projets / annee derivee) doit rester un simple clic
+      // de navigation, d'ou l'exclusion explicite de .card-group.
+      if (e.target.closest('.card:not(.card-group) .year')){ e.preventDefault(); return; }
       var a = e.target.closest('a');
       if (!a) return;
       var href = a.getAttribute('href') || '';
@@ -3575,7 +3714,9 @@ body.visual-mode .wrap{ max-width: 1400px; }
       if (href.indexOf('projets-perso.html') === 0){ e.preventDefault(); openVisual('projets-perso.html'); return; }
       if (href.indexOf('projets-academiques.html') === 0){ e.preventDefault(); openVisual('projets-academiques.html'); return; }
       if (href.indexOf('projets.html') === 0){ e.preventDefault(); openVisual('projets.html'); return; }
-      if (href.indexOf('index.html') === 0){ e.preventDefault(); openVisual('index.html'); return; }
+      // liens vers l'accueil : "index.html..." (ancien format) ou "/" / "/#..."
+      // (format actuel des pages, qui evite d'afficher index.html dans l'url)
+      if (href.indexOf('index.html') === 0 || href === '/' || href.indexOf('/#') === 0){ e.preventDefault(); openVisual('index.html'); return; }
       if (href.charAt(0) === '#') return; // in-page anchors are fine
       e.preventDefault(); // external links / CV / admin: inert while editing
     }, true);

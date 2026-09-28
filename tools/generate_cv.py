@@ -91,7 +91,7 @@ c.drawString(LX, y, "Adam Karroum")
 
 c.setFillColorRGB(*ACCENT_SKY)
 c.setFont("Helvetica-Bold", 10.5)
-c.drawString(LX, y - 20, "Création de contenu · Audiovisuel")
+c.drawString(LX, y - 20, "Communication · Audiovisuel")
 
 # bloc contact, aligné à droite
 contact = [
@@ -106,9 +106,45 @@ for i, line in enumerate(contact):
     c.drawRightString(W - MARGIN, cy, line)
     cy -= 14
 
+
+def social_icon_linkedin(cx, cy, r, url):
+    c.saveState()
+    c.setStrokeColorRGB(*ACCENT_SKY)
+    c.setLineWidth(1)
+    c.circle(cx, cy, r, stroke=1, fill=0)
+    c.setFillColorRGB(*ACCENT_SKY)
+    c.setFont("Helvetica-Bold", r * 0.95)
+    c.drawCentredString(cx, cy - r * 0.35, "in")
+    c.restoreState()
+    c.linkURL(url, (cx - r, cy - r, cx + r, cy + r), relative=0)
+
+
+def social_icon_instagram(cx, cy, r, url):
+    c.saveState()
+    c.setStrokeColorRGB(*ACCENT_SKY)
+    c.setLineWidth(1)
+    s = r * 1.7
+    c.roundRect(cx - s / 2, cy - s / 2, s, s, s * 0.28, stroke=1, fill=0)
+    c.circle(cx, cy, r * 0.55, stroke=1, fill=0)
+    c.setFillColorRGB(*ACCENT_SKY)
+    c.circle(cx + s * 0.27, cy + s * 0.27, r * 0.13, stroke=0, fill=1)
+    c.restoreState()
+    c.linkURL(url, (cx - s / 2, cy - s / 2, cx + s / 2, cy + s / 2), relative=0)
+
+
+# icônes réseaux, sous les coordonnées — l'email est déjà indiqué au-dessus,
+# pas besoin de répéter l'adresse LinkedIn en toutes lettres
+icon_r = 8
+icon_gap = 11
+icons_cy = cy - 18
+icon_x_2 = W - MARGIN - icon_r
+icon_x_1 = icon_x_2 - (2 * icon_r + icon_gap)
+social_icon_linkedin(icon_x_1, icons_cy, icon_r, "https://www.linkedin.com/in/adamxbc/")
+social_icon_instagram(icon_x_2, icons_cy, icon_r, "https://www.instagram.com/_adamdrk")
+
 # ---- pitch (bordure gauche façon citation ; police cursive du site, comme
 # la bio de la page d'accueil) ----
-y -= 48
+y -= 80
 pitch = ("Depuis petit, je suis passionné par la création de contenu et l'influence sur le web. "
          "Autodidacte, j'ai développé des compétences en graphisme, montage vidéo et mixage audio.")
 lines = wrap(pitch, "HomemadeApple", 10.5, W - 2 * MARGIN)
@@ -132,7 +168,7 @@ def section_title(x, y, title):
     return y - 24
 
 
-def entry(x, y, date, title, place, desc_lines, gap_after=22):
+def entry(x, y, date, title, place, desc_lines, link=None, gap_after=22):
     c.setFillColorRGB(*TEXT_FAINT)
     c.setFont("Helvetica", 8.5)
     c.drawString(x, y, date)
@@ -145,6 +181,13 @@ def entry(x, y, date, title, place, desc_lines, gap_after=22):
         c.setFillColorRGB(*ACCENT_SKY)
         c.setFont("Helvetica", 9.5)
         c.drawString(x, y, place)
+        if link:
+            c.setFillColorRGB(*ACCENT)
+            c.setFont("Helvetica-Bold", 8.5)
+            voir = "Voir »"
+            voir_w = c.stringWidth(voir, "Helvetica-Bold", 8.5)
+            c.drawRightString(x + COL_W, y, voir)
+            c.linkURL(link, (x + COL_W - voir_w, y - 2, x + COL_W, y + 9), relative=0)
         y -= 14
     if desc_lines:
         c.setFillColorRGB(*TEXT_DIM)
@@ -230,12 +273,16 @@ def insert_card(x, top_y, title, items):
 ly = y
 ly = section_title(LX, ly, "Expériences")
 
-ly = entry(LX, ly, "2024 — Aujourd'hui", "Social Media Manager", "Union Oasis Forest",
-           ["Création du site web et de l'espace de travail (Google Workspace), gestion de "
-            "Meta Business Suite, stratégie digitale et communication 360, coordination des "
-            "prestataires GFX/photo/vidéo."])
-ly = entry(LX, ly, "2025 (8 semaines)", "Stage — Assistant de production", "Média En Esprit (Chloé Levy)",
-           ["Interview, cadrage, montage, mixage, thumbnails, actualité."])
+ly = entry(LX, ly, "2024 — Aujourd'hui", "Responsable communication & digital", "Union Oasis Forest",
+           ["Stratégie social media et identité visuelle du club (+1 200 % de vues, +1 400 % "
+            "d'interactions sur Instagram, saison 2025-26).",
+            "Conception du site web et d'un outil d'administration sur mesure ; structuration "
+            "de l'ASBL (Google Workspace for Nonprofits)."],
+           link="https://adam.nocturnz.xyz/groupe.html?id=union-oasis-forest")
+ly = entry(LX, ly, "2025 (3 mois)", "Stage — Production & communication", "Média En Esprit (Chloé Levy)",
+           ["Tournage et gestion de plateau (concert, théâtre), montage long format et formats "
+            "courts, direction artistique (miniatures, logo), dans les locaux de RMB Slice."],
+           link="https://adam.nocturnz.xyz/groupe.html?id=en-esprit")
 
 ly = section_title(LX, ly, "Formations")
 ly = entry(LX, ly, "2023 — Aujourd'hui", "Bachelier en Communication",
@@ -249,8 +296,8 @@ ly = entry(LX, ly, "2017 — 2022", "CESS général — option sciences économi
 # place en bas de cette colonne qu'à droite, une fois les compétences ajoutées
 ly -= 6
 ly = insert_card(LX, ly, "Jobs étudiants", [
-    ("2025 — Aujourd'hui", "Agent d'entretien", "Hôpital Erasme (ISS)"),
     ("2022 — Aujourd'hui", "Hôte d'accueil", "Basic-Fit"),
+    ("2025 — 2026", "Technicien de surface", "Hôpital Erasme (ISS)"),
 ])
 
 # ============ COLONNE DROITE : Compétences, Soft skills, Projets ============
@@ -258,10 +305,8 @@ ry = y
 ry = section_title(RX, ry, "Compétences")
 ry = skill_group(RX, ry, "Montage vidéo", "Premiere Pro, After Effects, DaVinci Resolve, CapCut")
 ry = skill_group(RX, ry, "Design graphique", "Photoshop, InDesign, Illustrator, Lightroom")
-ry = skill_group(RX, ry, "Technique", "OBS Studio, Voicemeeter, ATEM, FL Studio")
-ry = skill_group(RX, ry, "Outils (Administratif)", "Meta Business Suite, Google Workspace")
-ry = skill_group(RX, ry, "IA", "Claude, Gemini, ChatGPT, Vibe coding, Optimisation de tâches")
-ry = skill_group(RX, ry, "Langues", "Français (natif), Anglais B1")
+ry = skill_group(RX, ry, "Outils (Administratif)", "Meta Business Suite, Google Workspace, Notion")
+ry = skill_group(RX, ry, "Langues", "Français, Anglais B1")
 
 ry = section_title(RX, ry, "Soft skills")
 c.setFillColorRGB(*TEXT_DIM)
@@ -276,14 +321,11 @@ ry = section_title(RX, ry, "Projets mis en avant")
 ry = project(RX, ry, "Projet 360° : DEI-Belgique",
              "Campagne de sensibilisation aux VEO pour la DEI-Belgique.",
              ["Vidéo 360°", "Stratégie créative"], "Voir »")
-ry = project(RX, ry, "Union Oasis Forest",
-             "Stratégie digitale et création de contenu pour un club sportif : "
-             "identité visuelle, formats vidéo, community management.",
-             ["Stratégie digitale", "Création de contenu"], "Voir »")
-ry = project(RX, ry, "AdamXBC",
-             "Création de contenu et divertissement — Twitch (affilié depuis juillet "
-             "2022), TikTok (2026).",
-             ["Twitch", "Divertissement"])
+ry = project(RX, ry, "Nocturnz — Portfolio en ligne",
+             "Service qui permet à chacun d'avoir son portfolio en ligne, sans abonnement "
+             "et sans une ligne de code : moteur, panneau d'édition visuel, sous-domaine "
+             "personnalisé.",
+             ["HTML/CSS/JS", "Cloudflare Workers"], "Voir »")
 
 c.setFillColorRGB(*ACCENT)
 c.setFont("Helvetica-Bold", 9)

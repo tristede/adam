@@ -92,6 +92,33 @@
     return window.__EDIT_MODE__ ? all : all.filter(function(a){ return !a.hidden; });
   }
 
+  // Pastille annee/periode (coin de la vignette) : une seule annee ("2025"),
+  // une periode ("2025-2026"), ou une periode ouverte sur l'annee en cours si
+  // le projet/groupe est marque "en cours" — pas besoin de la retoucher chaque
+  // 1er janvier.
+  function periodLabel(startYear, endYear, current){
+    var end = current ? new Date().getFullYear() : (endYear || startYear);
+    return (!end || end === startYear) ? String(startYear) : (startYear + '-' + end);
+  }
+  function projectPeriod(p){
+    return periodLabel(p.year, p.yearEnd, p.current);
+  }
+  // La periode d'un groupe se deduit de ses projets membres (min -> max),
+  // plutot que d'etre saisie a part : elle reste juste sans jamais avoir a
+  // etre mise a jour a la main quand un projet rejoint ou quitte le groupe.
+  function groupPeriod(list){
+    if (!list || !list.length) return '';
+    var thisYear = new Date().getFullYear();
+    var minY = Infinity, maxY = -Infinity;
+    list.forEach(function(p){
+      if (p.year < minY) minY = p.year;
+      var end = p.current ? thisYear : (p.yearEnd || p.year);
+      if (end > maxY) maxY = end;
+    });
+    if (!isFinite(minY)) return '';
+    return minY === maxY ? String(minY) : (minY + '-' + maxY);
+  }
+
   function thumbSrc(p){
     if (p.thumb) return p.thumb;
     var firstImg = visibleAssets(p).filter(function(a){ return a.type === 'image'; })[0];
@@ -106,7 +133,7 @@
         ' style="transition-delay:' + ((i % 8) * 40) + 'ms">' +
         '<div class="thumb' + (thumb ? ' has-img' : '') + '">' +
           (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy">' : '') +
-          '<span class="year">' + p.year + '</span>' +
+          '<span class="year">' + projectPeriod(p) + '</span>' +
           (thumb ? '' : '<span class="icon">' + (icons[p.medium] || '') + '</span>') +
           '<span class="medium-label">' + (mediumLabel[p.medium] || p.medium) + '</span>' +
         '</div>' +
@@ -145,6 +172,48 @@
     if (theme.bgImageVertical) root.style.setProperty('--bg-image-vertical', 'url("' + theme.bgImageVertical + '")');
     if (theme.bgImageOpacity != null) root.style.setProperty('--bg-image-opacity', theme.bgImageOpacity);
     if (theme.starsOpacity != null) root.style.setProperty('--stars-opacity', theme.starsOpacity);
+  }
+
+  // ---- liens sociaux personnalisables (sous la bio, page d'accueil) ----
+  // icones simplifiees, pas les logos officiels au trait pres — juste de quoi
+  // distinguer chaque plateforme au premier coup d'oeil dans le rond de 42px.
+  var SOCIAL_ICONS = {
+    linkedin: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 8.98h4v12.02H3V8.98zm7 0h3.8v1.64h.05c.53-.98 1.83-2.02 3.77-2.02 4.03 0 4.78 2.53 4.78 5.82v6.58h-4v-5.84c0-1.39-.03-3.18-1.98-3.18-1.98 0-2.29 1.5-2.29 3.08v5.94h-4V8.98z" fill="currentColor"/></svg>',
+    instagram: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg>',
+    tiktok: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M14 3.5v11a3.3 3.3 0 1 1-2-3.02" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14 3.5c.35 2.1 1.95 3.75 4 4.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+    youtube: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="6" width="19" height="12" rx="4" stroke="currentColor" stroke-width="1.6"/><path d="M10 9.3l5.5 2.7-5.5 2.7z" fill="currentColor"/></svg>',
+    x: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M4.5 4.5l15 15M19.5 4.5l-15 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    facebook: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6C15.9 3.5 15 3.4 14 3.4c-2.5 0-4.2 1.5-4.2 4.3v2.2H7v3.1h2.8v8h3.7z" fill="currentColor"/></svg>',
+    github: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.833.092-.647.35-1.088.636-1.338-2.221-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.269 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.747-1.026 2.747-1.026.546 1.378.203 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" fill="currentColor"/></svg>',
+    twitch: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 3h15l-1 12-4 4H10l-2 2H6v-2H3V6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13 8v4M17 8v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+    discord: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="9" width="18" height="8" rx="4" stroke="currentColor" stroke-width="1.6"/><path d="M8 11.5v3M6.5 13h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="12" r="1" fill="currentColor"/><circle cx="18" cy="14" r="1" fill="currentColor"/></svg>',
+    behance: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M3 7h5.5c1.9 0 3 1 3 2.5 0 1.1-.6 1.8-1.5 2.1 1.2.3 2 1.1 2 2.5 0 1.8-1.4 2.9-3.4 2.9H3V7z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M15 12.2c.2-1.6 1.5-2.7 3.2-2.7 2 0 3.3 1.4 3.3 3.6v.4h-5.4c.1 1.2 1 2 2.2 2 .9 0 1.5-.3 1.9-.9l1.1.9c-.6 1-1.7 1.6-3.1 1.6-2.1 0-3.5-1.5-3.5-3.5v-.1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M15.5 8h4" stroke="currentColor" stroke-width="1.4"/></svg>',
+    custom: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.6-2.6a4 4 0 0 0-5.7-5.7l-1.3 1.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.6 2.6a4 4 0 0 0 5.7 5.7l1.3-1.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+  };
+  var SOCIAL_LABELS = { linkedin:'LinkedIn', instagram:'Instagram', tiktok:'TikTok', youtube:'YouTube', x:'X (Twitter)', facebook:'Facebook', github:'GitHub', twitch:'Twitch', discord:'Discord', behance:'Behance' };
+
+  // reconstruit les icones a chaque rendu (au lieu d'en garder en dur dans la
+  // page) : ajouter/retirer un reseau dans /admin.html suffit, aucune page a
+  // toucher. Inserees avant l'icone email, qui elle reste geree a part
+  // (site.contactEmail alimente aussi le bandeau de contact du footer).
+  function applySocialLinks(site){
+    document.querySelectorAll('.social-row').forEach(function(row){
+      row.querySelectorAll('[data-social-link]').forEach(function(el){ el.remove(); });
+      var emailAnchor = row.querySelector('.js-contact-email-link');
+      (site.socialLinks || []).forEach(function(link){
+        if (!link.url) return;
+        var a = document.createElement('a');
+        a.setAttribute('data-social-link', '1');
+        a.href = link.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        var label = link.platform === 'custom' ? (link.label || 'Lien') : (SOCIAL_LABELS[link.platform] || link.platform);
+        a.setAttribute('aria-label', label);
+        a.innerHTML = SOCIAL_ICONS[link.platform] || SOCIAL_ICONS.custom;
+        if (emailAnchor) row.insertBefore(a, emailAnchor);
+        else row.appendChild(a);
+      });
+    });
   }
 
   function applySiteTexts(site){
@@ -212,16 +281,7 @@
       a.href = 'mailto:' + site.contactEmail;
       if (a.classList.contains('contact-email')) a.textContent = site.contactEmail;
     });
-    // Un lien vide laissait en place celui ecrit dans la page — c'est-a-dire
-    // celui d'Adam. Sans adresse, le lien disparait.
-    [['.js-linkedin-link', site.linkedin], ['.js-instagram-link', site.instagram]]
-      .forEach(function(paire){
-        document.querySelectorAll(paire[0]).forEach(function(a){
-          if (paire[1]) a.href = paire[1];
-          // vide explicitement = pas de compte ; absent = on ne touche a rien
-          else if (paire[1] === '') a.remove();
-        });
-      });
+    applySocialLinks(site);
   }
 
   function applyFavori(site, projects){
@@ -247,7 +307,7 @@
     container.innerHTML =
       '<div class="thumb' + (thumb ? ' has-img' : '') + '">' +
         (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy">' : '') +
-        '<span class="year">' + p.year + '</span>' +
+        '<span class="year">' + projectPeriod(p) + '</span>' +
         (thumb ? '' : '<span class="icon">' + (icons[p.medium] || '') + '</span>') +
       '</div>' +
       '<div class="body">' +
@@ -271,6 +331,7 @@
     container.innerHTML =
       '<div class="thumb' + (thumb ? ' has-img' : '') + '">' +
         (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + g.title + '" loading="lazy">' : '') +
+        '<span class="period">' + groupPeriod(list) + '</span>' +
         '<span class="year">' + n + ' projet' + (n > 1 ? 's' : '') + '</span>' +
       '</div>' +
       '<div class="body">' +
@@ -635,7 +696,7 @@
         '<div class="wrap" style="padding:80px 0; text-align:center;">' +
           '<h1 style="font-family:var(--font-display); font-size:22px; margin-bottom:12px;">Projet introuvable</h1>' +
           '<p style="color:var(--text-dim); margin-bottom:24px;">Ce projet n\'existe plus ou le lien est incorrect.</p>' +
-          '<a class="pill-btn" href="index.html">' + UI_ICON.arrowLeft + ' Retour à l\'accueil</a>' +
+          '<a class="pill-btn" href="/">' + UI_ICON.arrowLeft + ' Retour à l\'accueil</a>' +
         '</div>';
       return;
     }
@@ -647,14 +708,18 @@
         '<a class="pill-btn back-link" href="' + linkForProject(p) + '">' + UI_ICON.arrowLeft + ' ' + backLabelFor(site, p) + '</a>' +
         '<div class="detail-meta-row">' +
           '<span class="tag">' + (mediumLabel[p.medium] || p.medium) + '</span>' +
-          '<span class="tag">' + p.year + '</span>' +
+          '<span class="tag">' + projectPeriod(p) + '</span>' +
           (p.featured ? '<span class="tag tag-featured">' + UI_ICON.star + ' Mis en avant</span>' : '') +
         '</div>' +
         '<h1 class="detail-title">' + p.title + '</h1>' +
         '<div class="card-tags detail-tags">' + p.tags.map(function(t){ return '<span class="tag">#' + t.replace(/\s+/g,'') + '</span>'; }).join('') + '</div>' +
         '<p class="detail-desc">' + (p.longDesc || p.desc) + '</p>' +
         (p.link ? '<a class="btn btn-primary" href="' + p.link + '" target="_blank" rel="noopener">Visiter le site ' + UI_ICON.external + '</a>' : '') +
-        (p.link ? websiteEmbedHTML(p.link) : '') +
+        // l'aperçu en direct n'a de sens que si `link` pointe vers LE site du
+        // projet (medium "web") — sur un projet dont le lien est un profil
+        // TikTok/Instagram ou une ref externe, la plupart bloquent l'intégration
+        // et ne laissent qu'un grand cadre blanc a la place d'une vraie preview.
+        (p.link && p.medium === 'web' ? websiteEmbedHTML(p.link) : '') +
         mediaBlocksHTML(p) +
         subProjectsHTML(p.subProjects) +
       '</div>';
@@ -996,7 +1061,6 @@
   // mais elle ouvre la page du groupe au lieu d'un projet.
   function groupCardHTML(g, list, i){
     var thumb = g.thumb || (list[0] ? thumbSrc(list[0]) : '');
-    var n = list.length;
     // Un groupe se lit comme un paquet de cartes : deux feuilles decalees
     // derriere la carte. `.card` masque ce qui deborde, d'ou le conteneur —
     // sans lui les feuilles seraient rognees par la carte elle-meme.
@@ -1008,7 +1072,8 @@
         ' style="transition-delay:' + ((i % 8) * 40) + 'ms">' +
         '<div class="thumb' + (thumb ? ' has-img' : '') + '">' +
           (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + g.title + '" loading="lazy">' : '') +
-          '<span class="year">' + n + ' projet' + (n > 1 ? 's' : '') + '</span>' +
+          '<span class="period">' + groupPeriod(list) + '</span>' +
+          '<span class="year">' + list.length + ' projet' + (list.length > 1 ? 's' : '') + '</span>' +
           '<span class="medium-label">Groupe</span>' +
         '</div>' +
         '<div class="card-body">' +
@@ -1351,6 +1416,10 @@
         var leaveTimer = null;
         el.addEventListener('mouseenter', function(){
           clearTimeout(leaveTimer);
+          leaveTimer = null;
+          // deja lisible (stable ou en attente de re-encryptage) : on annule
+          // juste le retour prevu, sans rejouer la vague de decryptage.
+          if (el.classList.contains('decrypted')) return;
           el.classList.add('decrypted');
           fx.setText(original, true);
         });

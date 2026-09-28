@@ -140,6 +140,10 @@ h1,h2,h3{ font-family: var(--font-title); font-weight: 400; letter-spacing:0; ma
   transform: translateZ(0);
   will-change: transform;
 }
+/* La nav est sticky (top:12px, ~57px de haut) : sans marge de defilement, un
+   lien d'ancre pose sa cible juste sous le bord du viewport et la nav vient
+   la recouvrir. */
+#projets, #apropos, #mis-en-avant, footer#contact{ scroll-margin-top: 100px; }
 .logo{ font-family: var(--font-display); font-weight:700; font-size: 15px; white-space:nowrap; }
 nav.links{ display:flex; align-items:center; gap: 20px; }
 nav.links a{ color: rgba(255,255,255,0.72); font-size: 13.6px; font-weight:500; transition: color .15s ease; white-space:nowrap; }
@@ -319,7 +323,7 @@ section.projects-section{
 
 /* et le badge le nomme, avec le compte a la place de l'annee */
 .card-group .medium-label{ color: var(--accent-favori); font-weight:700; }
-.card-group .year{ font-variant-numeric: tabular-nums; }
+.card-group .year, .card-group .period{ font-variant-numeric: tabular-nums; }
 
 .card{
   background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);
@@ -355,6 +359,15 @@ section.projects-section{
 }
 .card .year{
   position:absolute; top:10px; right:12px; z-index:2;
+  font-size: 11px; font-weight:600; color: rgba(255,255,255,0.85);
+  background: rgba(8,11,48,0.7); padding: 3px 8px; border-radius: 0;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+/* pastille periode d'un groupe (annee/annee-2 derivees de ses projets) : meme
+   habillage que .year, juste ancree a gauche pour cohabiter avec le nombre
+   de projets a droite. */
+.card .period{
+  position:absolute; top:10px; left:12px; z-index:2;
   font-size: 11px; font-weight:600; color: rgba(255,255,255,0.85);
   background: rgba(8,11,48,0.7); padding: 3px 8px; border-radius: 0;
   border: 1px solid rgba(255,255,255,0.18);
@@ -780,6 +793,12 @@ section.projects-section{
 .favori-card .thumb .icon{ position:relative; z-index:2; width:48px; height:48px; color: var(--accent-sky); opacity:0.9; }
 .favori-card .thumb .year{
   position:absolute; top:14px; right:14px; z-index:2;
+  font-size: 11px; font-weight:600; color: rgba(255,255,255,0.85);
+  background: rgba(8,11,48,0.7); padding: 3px 8px; border-radius: 0;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+.favori-card .thumb .period{
+  position:absolute; top:14px; left:14px; z-index:2;
   font-size: 11px; font-weight:600; color: rgba(255,255,255,0.85);
   background: rgba(8,11,48,0.7); padding: 3px 8px; border-radius: 0;
   border: 1px solid rgba(255,255,255,0.18);
