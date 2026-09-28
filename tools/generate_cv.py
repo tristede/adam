@@ -130,16 +130,8 @@ def social_icon(x, cy, size, url, platform):
     c.linkURL(url, (x, cy - size / 2, x + size, cy + size / 2), relative=0)
 
 
-# icônes réseaux, cote a cote sous les coordonnées (pas de cercle autour :
-# juste le glyphe) — l'email est déjà indiqué au-dessus, pas besoin de
-# répéter l'adresse LinkedIn en toutes lettres
-icon_size = 13
-icon_gap = 10
-icon_cy = cy - 7
-icon_x_instagram = W - MARGIN - icon_size
-icon_x_linkedin = icon_x_instagram - icon_gap - icon_size
-social_icon(icon_x_linkedin, icon_cy, icon_size, "https://www.linkedin.com/in/adamxbc/", "linkedin")
-social_icon(icon_x_instagram, icon_cy, icon_size, "https://www.instagram.com/_adamdrk", "instagram")
+# Icônes réseaux : plus bas sur la page (voir bloc après l'encart "Jobs
+# étudiants"), pas dans l'en-tête.
 
 # ---- pitch (bordure gauche façon citation ; police cursive du site, comme
 # la bio de la page d'accueil) ----
@@ -295,10 +287,12 @@ ly = entry(LX, ly, "2017 — 2022", "CESS général — option sciences économi
 # place en bas de cette colonne qu'à droite, une fois les compétences ajoutées.
 # Meme ecart que celui laisse par entry() au-dessus de "FORMATIONS" (son
 # gap_after de 22pt) : pas de correction manuelle supplementaire ici.
+jobs_card_top = ly
 ly = insert_card(LX, ly, "Jobs étudiants", [
     ("2022 — Aujourd'hui", "Hôte d'accueil", "Basic-Fit"),
     ("2025 — 2026", "Technicien de surface", "Hôpital Erasme (ISS)"),
 ])
+jobs_card_bottom = ly
 
 # ============ COLONNE DROITE : Compétences, Soft skills, Projets ============
 ry = y
@@ -335,6 +329,20 @@ voir_plus_w = c.stringWidth(voir_plus, "Helvetica-Bold", 9)
 c.linkURL("https://adam.nocturnz.xyz/projets.html",
           (RX, ry - 2, RX + voir_plus_w, ry + 9), relative=0)
 ry -= 13
+
+# ---- icônes réseaux : grandes, au niveau de l'encart "Jobs étudiants"
+# (colonne de gauche), centrées sous la colonne de droite
+icon_size = 30
+icon_gap = 22
+socials = [
+    ("linkedin", "https://www.linkedin.com/in/adamxbc/"),
+    ("instagram", "https://www.instagram.com/_adamdrk"),
+]
+icons_w = len(socials) * icon_size + (len(socials) - 1) * icon_gap
+icon_x0 = RX + COL_W / 2 - icons_w / 2
+icon_cy = (jobs_card_top + jobs_card_bottom) / 2
+for i, (platform, url) in enumerate(socials):
+    social_icon(icon_x0 + i * (icon_size + icon_gap), icon_cy, icon_size, url, platform)
 
 c.save()
 print("Écrit :", OUT, "—", os.path.getsize(OUT) // 1024, "Ko")
