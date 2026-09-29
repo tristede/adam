@@ -10,9 +10,17 @@
     ],
     "contactEmail": "adam@nocturnz.xyz",
     "socialLinks": [
-      { "platform": "linkedin", "url": "https://www.linkedin.com/in/adamxbc/" },
-      { "platform": "instagram", "url": "https://www.instagram.com/_adamdrk" },
-      { "platform": "email" }
+      {
+        "platform": "linkedin",
+        "url": "https://www.linkedin.com/in/adamxbc/"
+      },
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/adamkarr_"
+      },
+      {
+        "platform": "email"
+      }
     ],
     "favoriProjectId": "projet-360-dei-belgique",
     "timeline": [
@@ -1322,6 +1330,34 @@
       "featured": false,
       "link": "https://nocturnz.xyz",
       "assets": [],
+      "subProjects": []
+    },
+    {
+      "id": "chloe-ly",
+      "title": "Chloé Ly x BASEBelgium",
+      "year": 2026,
+      "ctx": "academique",
+      "medium": "graphisme",
+      "tags": [],
+      "desc": "Contenu réalisés pour la créatrice de contenu Chloé Ly.",
+      "featured": false,
+      "hidden": false,
+      "longDesc": "Montage vidéo pour les coulisses du clip de Camille Yembe x BASE sur les réseaux de Chloé Ly.",
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=LhWq7_WKOVg",
+          "hidden": false,
+          "size": "lg",
+          "pos": {
+            "x": 193,
+            "y": 0,
+            "w": 620
+          }
+        }
+      ],
+      "link": "",
+      "thumb": "",
       "subProjects": []
     }
   ]
