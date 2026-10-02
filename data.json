@@ -1336,11 +1336,12 @@
       "id": "chloe-ly",
       "title": "Chloé Ly x BASEBelgium",
       "year": 2026,
-      "ctx": "academique",
-      "medium": "graphisme",
+      "current": false,
+      "ctx": "perso",
+      "medium": "video",
       "tags": [],
       "desc": "Contenu réalisés pour la créatrice de contenu Chloé Ly.",
-      "featured": false,
+      "featured": true,
       "hidden": false,
       "longDesc": "Montage vidéo pour les coulisses du clip de Camille Yembe x BASE sur les réseaux de Chloé Ly.",
       "assets": [
@@ -1350,9 +1351,31 @@
           "hidden": false,
           "size": "lg",
           "pos": {
-            "x": 193,
+            "x": 430,
             "y": 0,
             "w": 620
+          }
+        },
+        {
+          "type": "image",
+          "url": "images/chloe-ly-x-basebelgium-1790900217555-0.webp",
+          "hidden": false,
+          "pos": {
+            "x": 216,
+            "y": 290,
+            "w": 651
+          },
+          "caption": "timeline du projet"
+        },
+        {
+          "type": "text",
+          "text": "+10h de travail\n1h20 de rush",
+          "hidden": false,
+          "size": "md",
+          "pos": {
+            "x": 881,
+            "y": 390,
+            "w": 380
           }
         }
       ],
