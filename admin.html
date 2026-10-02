@@ -2658,7 +2658,16 @@ body.visual-mode .wrap{ max-width: 1400px; }
     } else if (id){
       inject += '<script>window.__PROJECT_ID__ = ' + JSON.stringify(id) + ';<\/script>';
     }
-    return html.replace('<script src="script.js?v=6"><\/script>', inject + '<script src="script.js?v=6"><\/script>');
+    // Le numero apres `?v=` (casse-cache) change a chaque version, et la page
+    // recuperee peut en porter un plus ancien que ce fichier tant que le cache
+    // de GitHub Pages n'a pas expire : une recherche du texte exact echouait
+    // alors sans bruit, rien n'etait injecte (donnees, id du projet), et
+    // l'editeur affichait « Projet introuvable ». On cherche donc la balise
+    // quel que soit son numero. (fonction : un `$` dans l'injection ne doit
+    // pas etre pris pour une reference de groupe.)
+    var tag = /<script src="script\.js(?:\?v=\d+)?"><\/script>/;
+    if (!tag.test(html)) throw new Error('balise script.js introuvable dans ' + page);
+    return html.replace(tag, function(m){ return inject + m; });
   }
 
   function bindEditable(el, getFn, setFn, multiline){
