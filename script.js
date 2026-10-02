@@ -219,6 +219,29 @@
     });
   }
 
+  // Reseaux propres a UN projet ou UN groupe (Instagram du club, TikTok de
+  // l'artiste...), sous sa description. Memes icones que la rangee de l'accueil
+  // mais un tableau `socialLinks` porte par le projet/groupe lui-meme. Pour
+  // l'email, `url` est ici l'adresse (pas de site.contactEmail : il s'agit de
+  // celle du projet). Hors edition, rien du tout s'il n'y a aucun lien ; en
+  // edition la rangee reste la pour recevoir le bouton "+ Reseau".
+  function ownerSocialHTML(owner){
+    var links = (owner && Array.isArray(owner.socialLinks)) ? owner.socialLinks : [];
+    var items = links.map(function(l, i){
+      var raw = String(l.url || '').trim();
+      if (!raw) return '';
+      var isEmail = l.platform === 'email';
+      var url = isEmail ? 'mailto:' + raw.replace(/^mailto:/i, '') : raw;
+      var label = l.platform === 'custom' ? (l.label || 'Lien') : (SOCIAL_LABELS[l.platform] || l.platform);
+      return '<a data-social-link="1" data-social-index="' + i + '" href="' + url.replace(/"/g, '&quot;') + '"' +
+        (isEmail ? '' : ' target="_blank" rel="noopener"') +
+        ' aria-label="' + String(label).replace(/"/g, '&quot;') + '">' +
+        (SOCIAL_ICONS[l.platform] || SOCIAL_ICONS.custom) + '</a>';
+    }).join('');
+    if (!items && !window.__EDIT_MODE__) return '';
+    return '<div class="detail-social" data-owner-social>' + items + '</div>';
+  }
+
   function applySiteTexts(site){
     applyTheme(site.theme);
 
@@ -732,6 +755,7 @@
         '<h1 class="detail-title">' + p.title + '</h1>' +
         '<div class="card-tags detail-tags">' + p.tags.map(function(t){ return '<span class="tag">#' + t.replace(/\s+/g,'') + '</span>'; }).join('') + '</div>' +
         '<p class="detail-desc">' + (p.longDesc || p.desc) + '</p>' +
+        ownerSocialHTML(p) +
         (p.link ? '<a class="btn btn-primary" href="' + p.link + '" target="_blank" rel="noopener">Visiter le site ' + UI_ICON.external + '</a>' : '') +
         // `embed` est un choix explicite fait depuis l'editeur (case a cocher
         // / confirmation), pas deduit de `medium` : beaucoup de liens (profil
@@ -1242,6 +1266,7 @@
           '<span class="kicker" data-group-kicker>' + (g.kicker || 'Groupe') + '</span>' +
           '<h1 data-group-title>' + titleWithAccent(g.title) + '</h1>' +
           '<p data-group-desc>' + (g.desc || '') + '</p>' +
+          ownerSocialHTML(g) +
         '</div>' +
         '<div class="grid">' + list.map(cardHTML).join('') + '</div>' +
       '</div>';

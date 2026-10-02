@@ -1720,6 +1720,11 @@ body.visual-mode .wrap{ max-width: 1400px; }
     // groupsOf(site).filter(p => p.group === g.id) pour un id vide accidentel
     var groupVal = $('pf-group').value;
     if (groupVal) p.group = groupVal;
+    // le formulaire reconstruit le projet champ par champ : les reseaux se
+    // gerent en vue visuelle, il faut donc les reporter sinon ils sautent
+    if (editingIndex !== -1 && state.projects[editingIndex].socialLinks){
+      p.socialLinks = state.projects[editingIndex].socialLinks;
+    }
     // idem pour l'annee de fin : seule une periode explicite en porte une,
     // et "en cours" la calcule a l'affichage plutot que de la figer ici
     var yearEndVal = parseInt($('pf-year-end').value, 10);
@@ -2653,7 +2658,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
     } else if (id){
       inject += '<script>window.__PROJECT_ID__ = ' + JSON.stringify(id) + ';<\/script>';
     }
-    return html.replace('<script src="script.js?v=5"><\/script>', inject + '<script src="script.js?v=5"><\/script>');
+    return html.replace('<script src="script.js?v=6"><\/script>', inject + '<script src="script.js?v=6"><\/script>');
   }
 
   function bindEditable(el, getFn, setFn, multiline){
@@ -2951,7 +2956,12 @@ body.visual-mode .wrap{ max-width: 1400px; }
   // Sans onDone : lien deja dans le tableau, on rafraichit nous-meme.
   // Avec onDone(saved) : lien pas encore ajoute, l'appelant decide quoi en
   // faire (le bouton "+" ne le pousse dans le tableau que s'il est valide).
-  function editSocialLink(link, onDone){
+  // `owner` : un projet ou un groupe dont les propres reseaux sont edites
+  // (sous sa description) ; absent, ce sont ceux du site. Un email de site n'a
+  // pas d'adresse ici (il lit site.contactEmail) ; sur un projet/groupe, c'est
+  // `url` qui porte l'adresse, donc on la demande.
+  function editSocialLink(link, onDone, owner){
+    var list = (owner || state.site).socialLinks || [];
     var options = SOCIAL_PLATFORMS.map(function(p, n){ return (n + 1) + '. ' + p.label; }).join('\n');
     var intro = onDone ? 'Nouveau lien — plateforme :' : 'Modifier ce lien — plateforme (0 pour supprimer) :';
     var raw = prompt(intro + '\n\n' + options + '\n\nNuméro :', '');
@@ -2959,15 +2969,16 @@ body.visual-mode .wrap{ max-width: 1400px; }
     var n = parseInt(raw, 10);
     if (!onDone && n === 0){
       if (!confirm('Supprimer ce lien ?')) return;
-      var idx = state.site.socialLinks.indexOf(link);
-      if (idx !== -1) state.site.socialLinks.splice(idx, 1);
+      var idx = list.indexOf(link);
+      if (idx !== -1) list.splice(idx, 1);
       applyAndRefresh();
       return;
     }
     var chosen = SOCIAL_PLATFORMS[n - 1];
     if (chosen) link.platform = chosen.value;
-    if (link.platform !== 'email'){
-      var v = prompt('Adresse du lien :', link.url || '');
+    var siteEmail = !owner && link.platform === 'email';
+    if (!siteEmail){
+      var v = prompt(link.platform === 'email' ? 'Adresse e-mail :' : 'Adresse du lien :', link.url || '');
       if (v === null){ if (onDone) onDone(false); return; }
       link.url = v.trim();
       if (link.platform === 'custom'){
@@ -2975,8 +2986,47 @@ body.visual-mode .wrap{ max-width: 1400px; }
         if (lbl !== null) link.label = lbl.trim();
       }
     }
-    if (onDone) onDone(link.platform === 'email' || !!link.url);
+    if (onDone) onDone(siteEmail || !!link.url);
     else applyAndRefresh();
+  }
+
+  // Reseaux d'un projet ou d'un groupe, sous sa description : clic sur une
+  // icone pour la modifier/supprimer, "+ Reseau" pour en ajouter. Le tableau
+  // `socialLinks` n'est cree qu'au premier ajout valide, pour ne pas ecrire
+  // un champ vide dans data.json a chaque projet simplement ouvert.
+  function wireOwnerSocial(doc, owner){
+    var row = doc.querySelector('[data-owner-social]');
+    if (!row) return;
+    row.querySelectorAll('[data-social-link]').forEach(function(el){
+      var link = (owner.socialLinks || [])[+el.getAttribute('data-social-index')];
+      if (!link) return;
+      el.style.cursor = 'pointer';
+      el.title = 'Modifier ce lien';
+      el.addEventListener('click', function(e){
+        e.preventDefault(); e.stopPropagation();
+        editSocialLink(link, null, owner);
+      });
+    });
+    var bar = doc.createElement('div');
+    bar.className = 'ed-addbar';
+    bar.style.justifyContent = 'flex-start';
+    var btn = doc.createElement('button');
+    btn.type = 'button';
+    btn.className = 'ed-add';
+    btn.textContent = '+ Réseau';
+    btn.addEventListener('click', function(e){
+      e.preventDefault(); e.stopPropagation();
+      var link = { platform: 'instagram', url: '' };
+      editSocialLink(link, function(saved){
+        if (saved){
+          if (!Array.isArray(owner.socialLinks)) owner.socialLinks = [];
+          owner.socialLinks.push(link);
+        }
+        applyAndRefresh();
+      }, owner);
+    });
+    bar.appendChild(btn);
+    row.parentNode.insertBefore(bar, row.nextSibling);
   }
 
   // small numbered picker — a <select> can't live inside the frame's own
@@ -3254,6 +3304,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       function(){ return g.title || ''; }, function(v){ g.title = v; });
     bindEditable(doc.querySelector('[data-group-desc]'),
       function(){ return g.desc || ''; }, function(v){ g.desc = v; }, true);
+    wireOwnerSocial(doc, g);
 
     var head = doc.querySelector('.section-head');
     edTools(doc, head, [
@@ -3650,6 +3701,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
     bindEditable(mainDesc,
       function(){ return p.longDesc || p.desc || ''; },
       function(v){ p.longDesc = v; }, true);
+    wireOwnerSocial(doc, p);
 
     var wrap = doc.querySelector('.detail-wrap');
     var subsRoot = doc.querySelector('.detail-subprojects');

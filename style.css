@@ -199,6 +199,17 @@ nav.links a:hover, nav.links a.current{ color: var(--text); }
 }
 .social-row a:hover{ color: var(--accent-sky); }
 
+/* reseaux d'un projet ou d'un groupe, sous sa description (alignes a gauche,
+   comme le texte au-dessus, et plus discrets que ceux de l'accueil) */
+.detail-social{ display:flex; flex-wrap:wrap; gap: 10px; margin: 18px 0 6px; }
+.detail-social a{
+  width:38px; height:38px; border-radius:50%; border:1px solid var(--line-strong);
+  display:flex; align-items:center; justify-content:center; color: var(--text-dim);
+  transition: all .15s ease;
+}
+.detail-social a:hover{ color: var(--accent-sky); border-color: var(--accent-sky); }
+.detail-social:empty{ display:none; }
+
 /* solid blue CTA buttons (matches Adobe Portfolio), Bastien's rounded/lift interaction */
 .nav-cards{
   display:grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
