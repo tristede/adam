@@ -68,7 +68,7 @@
         "id": "union-oasis-forest",
         "kicker": "Club",
         "title": "Union Oasis Forest",
-        "desc": "Club de futsal bruxellois (ASBL), de l'école des jeunes à la Division 2 nationale. J'accompagne la direction sur sa communication et l'ensemble de ses outils numériques : stratégie social media, identité visuelle, site web et outil d'administration sur mesure.",
+        "desc": "Club de futsal bruxellois (ASBL) en Division 2 nationale. J'accompagne la direction sur sa communication et l'ensemble de ses outils numériques.",
         "thumb": "",
         "featured": true
       },
@@ -628,7 +628,8 @@
           "caption": "Brochure complète (InDesign)"
         }
       ],
-      "link": "https://www.instagram.com/easypermis.be/"
+      "link": "https://www.instagram.com/easypermis.be/",
+      "subProjects": []
     },
     {
       "id": "reportage-video",
@@ -1326,10 +1327,22 @@
         "Produit"
       ],
       "desc": "Service qui permet à chacun d'avoir son portfolio en ligne, sans abonnement et sans une ligne de code.",
-      "longDesc": "Conception du produit de A à Z : moteur de portfolio, panneau d'édition visuel (on clique sur un texte pour le changer, on dépose ses images), sous-domaine au pseudo ou nom de domaine personnel.\n\nParti pris : le contenu appartient à l'utilisateur, l'hébergement est gratuit, aucune marque imposée sur son site.\n\nVitrine, identité visuelle et parcours de demande construits en parallèle.\n\n🛠️ HTML/CSS/JavaScript, GitHub Pages, Cloudflare Workers, Claude Code",
+      "longDesc": "",
       "featured": false,
       "link": "https://nocturnz.xyz",
-      "assets": [],
+      "assets": [
+        {
+          "type": "text",
+          "text": "Conception du produit de A à Z : moteur de portfolio, panneau d'édition visuel (on clique sur un texte pour le changer, on dépose ses images), sous-domaine au pseudo ou nom de domaine personnel.\nParti pris : le contenu appartient à l'utilisateur, l'hébergement est gratuit, aucune marque imposée sur son site.\nVitrine, identité visuelle et parcours de demande construits en parallèle.\n🛠️ HTML/CSS/JavaScript, GitHub Pages, Cloudflare Workers, Claude Code",
+          "hidden": false,
+          "size": "lg",
+          "pos": {
+            "x": 360,
+            "y": 0,
+            "w": 560
+          }
+        }
+      ],
       "subProjects": []
     },
     {
@@ -1380,7 +1393,7 @@
         }
       ],
       "link": "",
-      "thumb": "",
+      "thumb": "images/chloe-ly-x-basebelgium-miniature-1790900488576-0.webp",
       "subProjects": []
     }
   ]
