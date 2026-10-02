@@ -138,39 +138,55 @@
   },
   "projects": [
     {
-      "id": "ilonka-club",
-      "title": "Ilonka Club",
-      "year": 2025,
+      "id": "chloe-ly",
+      "title": "Chloé Ly x BASEBelgium",
+      "year": 2026,
+      "current": false,
       "ctx": "perso",
-      "medium": "graphisme",
-      "tags": [
-        "Graphisme",
-        "Affiche"
-      ],
-      "desc": "Identité visuelle et affiche promotionnelle pour un showcase événementiel.",
-      "featured": false,
+      "medium": "video",
+      "tags": [],
+      "desc": "Contenu réalisés pour la créatrice de contenu Chloé Ly.",
+      "featured": true,
+      "hidden": false,
+      "longDesc": "Montage vidéo pour les coulisses du clip de Camille Yembe x BASE sur les réseaux de Chloé Ly.",
       "assets": [
         {
-          "type": "image",
-          "url": "images/ilonka-club-myportfolio-0.webp",
-          "hidden": false
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=LhWq7_WKOVg",
+          "hidden": false,
+          "size": "lg",
+          "pos": {
+            "x": 430,
+            "y": 0,
+            "w": 620
+          }
         },
         {
           "type": "image",
-          "url": "images/ilonka-club-myportfolio-1.webp",
-          "hidden": false
+          "url": "images/chloe-ly-x-basebelgium-1790900217555-0.webp",
+          "hidden": false,
+          "pos": {
+            "x": 216,
+            "y": 290,
+            "w": 651
+          },
+          "caption": "timeline du projet"
         },
         {
-          "type": "image",
-          "url": "images/ilonka-club-myportfolio-2.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/ilonka-club-myportfolio-3.webp",
-          "hidden": false
+          "type": "text",
+          "text": "+10h de travail\n1h20 de rush",
+          "hidden": false,
+          "size": "md",
+          "pos": {
+            "x": 881,
+            "y": 390,
+            "w": 380
+          }
         }
-      ]
+      ],
+      "link": "",
+      "thumb": "images/chloe-ly-x-basebelgium-miniature-1790900488576-0.webp",
+      "subProjects": []
     },
     {
       "id": "union-oasis-forest",
@@ -286,6 +302,153 @@
       "embed": true
     },
     {
+      "id": "nocturnz-portfolio",
+      "title": "Nocturnz — Portfolio en ligne",
+      "year": 2026,
+      "current": true,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Développement web",
+        "Produit"
+      ],
+      "desc": "Service qui permet à chacun d'avoir son portfolio en ligne, sans abonnement et sans une ligne de code.",
+      "longDesc": "",
+      "featured": false,
+      "link": "https://nocturnz.xyz",
+      "embed": true,
+      "assets": [
+        {
+          "type": "text",
+          "text": "Conception du produit de A à Z : moteur de portfolio, panneau d'édition visuel (on clique sur un texte pour le changer, on dépose ses images), sous-domaine au pseudo ou nom de domaine personnel.\nParti pris : le contenu appartient à l'utilisateur, l'hébergement est gratuit, aucune marque imposée sur son site.\nVitrine, identité visuelle et parcours de demande construits en parallèle.\n🛠️ HTML/CSS/JavaScript, GitHub Pages, Cloudflare Workers, Claude Code",
+          "hidden": false,
+          "size": "lg",
+          "pos": {
+            "x": 360,
+            "y": 0,
+            "w": 560
+          }
+        }
+      ],
+      "subProjects": [],
+      "thumb": "images/nocturnz-portfolio-en-ligne-miniature-1790900861949-0.webp"
+    },
+    {
+      "id": "evenementiel-stand-zennit",
+      "title": "Événementiel : Stand Zennit",
+      "year": 2022,
+      "ctx": "perso",
+      "medium": "event",
+      "tags": [
+        "Événementiel"
+      ],
+      "desc": "Organisation et animation d'un stand lors d'un événement.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/evenementiel-stand-zennit-myportfolio-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/evenementiel-stand-zennit-myportfolio-1.webp",
+          "hidden": false
+        }
+      ],
+      "longDesc": "ZennIT Gaming est une organisation d'e-sports qui s'engage à promouvoir les e-sports en Belgique.\n\nLors de ces événements, j'ai invité les visiteurs à participer à un tournoi de jeu vidéo et les ai informés sur l'académie ZNT, spécialisée dans la formation de joueurs sur League of Legends.\n\nMade In Asia (septembre 2022) · GameForce (septembre 2022) · Made In Asia (mars 2023)"
+    },
+    {
+      "id": "ilonka-club",
+      "title": "Ilonka Club",
+      "year": 2025,
+      "ctx": "perso",
+      "medium": "graphisme",
+      "tags": [
+        "Graphisme",
+        "Affiche"
+      ],
+      "desc": "Identité visuelle et affiche promotionnelle pour un showcase événementiel.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/ilonka-club-myportfolio-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/ilonka-club-myportfolio-1.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/ilonka-club-myportfolio-2.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/ilonka-club-myportfolio-3.webp",
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "id": "ecriture-enregistrement-mixage-chant-rap",
+      "title": "Écriture, enregistrement & mixage chant/rap",
+      "year": 2025,
+      "ctx": "perso",
+      "medium": "audio",
+      "tags": [
+        "Audio",
+        "Composition"
+      ],
+      "desc": "De l'écriture à l'enregistrement jusqu'au mixage final.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "audio",
+          "url": "https://soundcloud.com/adamdrk/maquette-sorciere-proddovz2?utm_source=clipboard&utm_campaign=wtshare&utm_medium=widget&utm_content=https%253A%252F%252Fsoundcloud.com%252Fadamdrk%252Fmaquette-sorciere-proddovz2",
+          "hidden": false
+        },
+        {
+          "type": "audio",
+          "url": "https://soundcloud.com/adamdrk/maquette-ciel-turquoise-prod-1?utm_source=clipboard&utm_campaign=wtshare&utm_medium=widget&utm_content=https%253A%252F%252Fsoundcloud.com%252Fadamdrk%252Fmaquette-ciel-turquoise-prod-1",
+          "hidden": false
+        }
+      ],
+      "subProjects": [],
+      "thumb": "images/ecriture-enregistrement-mixage-chant-rap-miniature-1787928556958-0.webp"
+    },
+    {
+      "id": "montage-video-style-youtube",
+      "title": "Montage vidéo style YouTube",
+      "year": 2025,
+      "ctx": "perso",
+      "medium": "video",
+      "tags": [
+        "Montage vidéo"
+      ],
+      "desc": "Montage dynamique dans les codes du format YouTube.",
+      "featured": false,
+      "assets": [
+        {
+          "type": "web",
+          "url": "https://www-ccv.adobe.io/v1/player/ccv/BtVu4sQjmY5/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
+          "hidden": false,
+          "caption": "Best of d'un live IRL d'1h30"
+        },
+        {
+          "type": "web",
+          "url": "https://www-ccv.adobe.io/v1/player/ccv/-3RUXChiGI-/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
+          "hidden": false,
+          "caption": "Best of d'un live gaming de 2h"
+        }
+      ],
+      "thumb": "images/montage-video-style-youtube-thumb.webp",
+      "subProjects": []
+    },
+    {
       "id": "miniatures-youtube",
       "title": "Miniatures YouTube",
       "year": 2023,
@@ -347,290 +510,6 @@
           "hidden": false
         }
       ]
-    },
-    {
-      "id": "montage-video-style-youtube",
-      "title": "Montage vidéo style YouTube",
-      "year": 2025,
-      "ctx": "perso",
-      "medium": "video",
-      "tags": [
-        "Montage vidéo"
-      ],
-      "desc": "Montage dynamique dans les codes du format YouTube.",
-      "featured": false,
-      "assets": [
-        {
-          "type": "web",
-          "url": "https://www-ccv.adobe.io/v1/player/ccv/BtVu4sQjmY5/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
-          "hidden": false,
-          "caption": "Best of d'un live IRL d'1h30"
-        },
-        {
-          "type": "web",
-          "url": "https://www-ccv.adobe.io/v1/player/ccv/-3RUXChiGI-/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
-          "hidden": false,
-          "caption": "Best of d'un live gaming de 2h"
-        }
-      ],
-      "thumb": "images/montage-video-style-youtube-thumb.webp"
-    },
-    {
-      "id": "ecriture-enregistrement-mixage-chant-rap",
-      "title": "Écriture, enregistrement & mixage chant/rap",
-      "year": 2025,
-      "ctx": "perso",
-      "medium": "audio",
-      "tags": [
-        "Audio",
-        "Composition"
-      ],
-      "desc": "De l'écriture à l'enregistrement jusqu'au mixage final.",
-      "featured": false,
-      "assets": [
-        {
-          "type": "audio",
-          "url": "https://soundcloud.com/adamdrk/maquette-sorciere-proddovz2?utm_source=clipboard&utm_campaign=wtshare&utm_medium=widget&utm_content=https%253A%252F%252Fsoundcloud.com%252Fadamdrk%252Fmaquette-sorciere-proddovz2",
-          "hidden": false
-        },
-        {
-          "type": "audio",
-          "url": "https://soundcloud.com/adamdrk/maquette-ciel-turquoise-prod-1?utm_source=clipboard&utm_campaign=wtshare&utm_medium=widget&utm_content=https%253A%252F%252Fsoundcloud.com%252Fadamdrk%252Fmaquette-ciel-turquoise-prod-1",
-          "hidden": false
-        }
-      ],
-      "subProjects": [],
-      "thumb": "images/ecriture-enregistrement-mixage-chant-rap-miniature-1787928556958-0.webp"
-    },
-    {
-      "id": "artwork-rap-pochette-albums",
-      "title": "Artwork rap / pochette d'albums",
-      "year": 2025,
-      "ctx": "perso",
-      "medium": "graphisme",
-      "tags": [
-        "Graphisme",
-        "Pochette d'album"
-      ],
-      "desc": "Création de visuels de pochettes pour des projets rap.",
-      "featured": false,
-      "assets": [
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778502245-0.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778504109-1.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778510294-3.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778512584-4.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778514676-5.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778516929-6.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778518647-7.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778520048-8.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778522077-9.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778524271-10.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778526092-11.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778528038-12.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778529909-13.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-d-albums-1787778531715-14.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-albums-myportfolio-6.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-albums-myportfolio-13.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-albums-myportfolio-14.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/artwork-rap-pochette-albums-myportfolio-16.webp",
-          "hidden": false
-        }
-      ],
-      "subProjects": []
-    },
-    {
-      "id": "evenementiel-stand-zennit",
-      "title": "Événementiel : Stand Zennit",
-      "year": 2022,
-      "ctx": "perso",
-      "medium": "event",
-      "tags": [
-        "Événementiel"
-      ],
-      "desc": "Organisation et animation d'un stand lors d'un événement.",
-      "featured": false,
-      "assets": [
-        {
-          "type": "image",
-          "url": "images/evenementiel-stand-zennit-myportfolio-0.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/evenementiel-stand-zennit-myportfolio-1.webp",
-          "hidden": false
-        }
-      ],
-      "longDesc": "ZennIT Gaming est une organisation d'e-sports qui s'engage à promouvoir les e-sports en Belgique.\n\nLors de ces événements, j'ai invité les visiteurs à participer à un tournoi de jeu vidéo et les ai informés sur l'académie ZNT, spécialisée dans la formation de joueurs sur League of Legends.\n\nMade In Asia (septembre 2022) · GameForce (septembre 2022) · Made In Asia (mars 2023)"
-    },
-    {
-      "id": "community-management-easypermis",
-      "title": "Community management : easypermis.be",
-      "year": 2025,
-      "ctx": "perso",
-      "medium": "social",
-      "tags": [
-        "Community management",
-        "Réseaux sociaux"
-      ],
-      "desc": "Gestion de la ligne éditoriale et des publications.",
-      "featured": false,
-      "hidden": true,
-      "assets": [
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-0.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-1.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-2.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-3.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-4.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-5.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-6.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-7.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-8.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-9.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-10.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-11.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-12.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-13.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/community-management-easypermis-myportfolio-14.webp",
-          "hidden": false
-        },
-        {
-          "type": "web",
-          "url": "https://indd.adobe.com/embed/a026f782-05ab-497d-9c54-ec9ddb893eb9?startpage=1&allowFullscreen=true",
-          "hidden": false,
-          "caption": "Brochure complète (InDesign)"
-        }
-      ],
-      "link": "https://www.instagram.com/easypermis.be/",
-      "subProjects": []
     },
     {
       "id": "reportage-video",
@@ -1317,86 +1196,208 @@
       "subProjects": []
     },
     {
-      "id": "nocturnz-portfolio",
-      "title": "Nocturnz — Portfolio en ligne",
-      "year": 2026,
-      "current": true,
+      "id": "artwork-rap-pochette-albums",
+      "title": "Artwork rap / pochette d'albums",
+      "year": 2025,
       "ctx": "perso",
-      "medium": "web",
+      "medium": "graphisme",
       "tags": [
-        "Développement web",
-        "Produit"
+        "Graphisme",
+        "Pochette d'album"
       ],
-      "desc": "Service qui permet à chacun d'avoir son portfolio en ligne, sans abonnement et sans une ligne de code.",
-      "longDesc": "",
+      "desc": "Création de visuels de pochettes pour des projets rap.",
       "featured": false,
-      "link": "https://nocturnz.xyz",
-      "embed": true,
       "assets": [
         {
-          "type": "text",
-          "text": "Conception du produit de A à Z : moteur de portfolio, panneau d'édition visuel (on clique sur un texte pour le changer, on dépose ses images), sous-domaine au pseudo ou nom de domaine personnel.\nParti pris : le contenu appartient à l'utilisateur, l'hébergement est gratuit, aucune marque imposée sur son site.\nVitrine, identité visuelle et parcours de demande construits en parallèle.\n🛠️ HTML/CSS/JavaScript, GitHub Pages, Cloudflare Workers, Claude Code",
-          "hidden": false,
-          "size": "lg",
-          "pos": {
-            "x": 360,
-            "y": 0,
-            "w": 560
-          }
-        }
-      ],
-      "subProjects": [],
-      "thumb": "images/nocturnz-portfolio-en-ligne-miniature-1790900861949-0.webp"
-    },
-    {
-      "id": "chloe-ly",
-      "title": "Chloé Ly x BASEBelgium",
-      "year": 2026,
-      "current": false,
-      "ctx": "perso",
-      "medium": "video",
-      "tags": [],
-      "desc": "Contenu réalisés pour la créatrice de contenu Chloé Ly.",
-      "featured": true,
-      "hidden": false,
-      "longDesc": "Montage vidéo pour les coulisses du clip de Camille Yembe x BASE sur les réseaux de Chloé Ly.",
-      "assets": [
-        {
-          "type": "video",
-          "url": "https://www.youtube.com/watch?v=LhWq7_WKOVg",
-          "hidden": false,
-          "size": "lg",
-          "pos": {
-            "x": 430,
-            "y": 0,
-            "w": 620
-          }
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778502245-0.webp",
+          "hidden": false
         },
         {
           "type": "image",
-          "url": "images/chloe-ly-x-basebelgium-1790900217555-0.webp",
-          "hidden": false,
-          "pos": {
-            "x": 216,
-            "y": 290,
-            "w": 651
-          },
-          "caption": "timeline du projet"
+          "url": "images/artwork-rap-pochette-d-albums-1787778504109-1.webp",
+          "hidden": false
         },
         {
-          "type": "text",
-          "text": "+10h de travail\n1h20 de rush",
-          "hidden": false,
-          "size": "md",
-          "pos": {
-            "x": 881,
-            "y": 390,
-            "w": 380
-          }
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778510294-3.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778512584-4.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778514676-5.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778516929-6.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778518647-7.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778520048-8.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778522077-9.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778524271-10.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778526092-11.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778528038-12.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778529909-13.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-d-albums-1787778531715-14.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-albums-myportfolio-6.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-albums-myportfolio-13.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-albums-myportfolio-14.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/artwork-rap-pochette-albums-myportfolio-16.webp",
+          "hidden": false
         }
       ],
-      "link": "",
-      "thumb": "images/chloe-ly-x-basebelgium-miniature-1790900488576-0.webp",
+      "subProjects": []
+    },
+    {
+      "id": "community-management-easypermis",
+      "title": "Community management : easypermis.be",
+      "year": 2025,
+      "ctx": "perso",
+      "medium": "social",
+      "tags": [
+        "Community management",
+        "Réseaux sociaux"
+      ],
+      "desc": "Gestion de la ligne éditoriale et des publications.",
+      "featured": false,
+      "hidden": true,
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-0.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-1.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-2.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-3.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-4.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-5.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-6.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-7.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-8.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-9.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-10.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-11.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-12.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-13.webp",
+          "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/community-management-easypermis-myportfolio-14.webp",
+          "hidden": false
+        },
+        {
+          "type": "web",
+          "url": "https://indd.adobe.com/embed/a026f782-05ab-497d-9c54-ec9ddb893eb9?startpage=1&allowFullscreen=true",
+          "hidden": false,
+          "caption": "Brochure complète (InDesign)"
+        }
+      ],
+      "link": "https://www.instagram.com/easypermis.be/",
       "subProjects": []
     }
   ]
