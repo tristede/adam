@@ -509,7 +509,6 @@ body.visual-mode .wrap{ max-width: 1400px; }
             <option value="">Toutes</option>
             <option value="perso">Perso</option>
             <option value="academique">Académique</option>
-            <option value="stage">Stage</option>
           </select>
         </div>
         <div style="max-width:180px;">
@@ -560,7 +559,6 @@ body.visual-mode .wrap{ max-width: 1400px; }
             <select id="pf-ctx">
               <option value="perso">Projets perso</option>
               <option value="academique">Projets académiques</option>
-              <option value="stage">Stage</option>
             </select>
           </div>
           <div>
@@ -634,8 +632,12 @@ body.visual-mode .wrap{ max-width: 1400px; }
         <div id="pf-thumb-preview" style="margin-top:10px;"></div>
         <p class="small" style="margin:6px 0 0;">La miniature peut être une image dédiée, qui n'apparaît pas dans les contenus ci-dessus.</p>
 
-        <label for="pf-link">Lien externe (site web à visiter — affiché aussi en aperçu intégré sur la page détail)</label>
+        <label for="pf-link">Lien externe (bouton "Visiter le site" sur la page détail)</label>
         <input type="url" id="pf-link" placeholder="https://...">
+        <div class="check-row">
+          <input type="checkbox" id="pf-embed">
+          <label for="pf-embed">Afficher aussi un aperçu intégré (iframe) de ce lien — seulement si le site visé l'autorise (beaucoup de réseaux sociaux le bloquent)</label>
+        </div>
 
         <div class="form-box">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -958,6 +960,11 @@ body.visual-mode .wrap{ max-width: 1400px; }
             // quelques-unes : cinq essais rapides pouvaient encore echouer.
             if (attempt < 8){
               sessionCommitSha = sessionCommitParent = null; // ce qui est au-dessus n'est plus a nous
+              // Sans ca, cette attente (jusqu'a ~8 tentatives, plusieurs
+              // secondes au total) ne donne AUCUN signe : l'enregistrement a
+              // l'air fige ou plante, alors qu'il reessaie deja normalement.
+              setStatus($('save-status'),
+                'Une autre écriture a eu lieu entre-temps — nouvel essai (' + (attempt + 1) + '/8)…', '');
               // rappel direct, SANS repasser par la file : on y est deja, et s'y
               // remettre attendrait la fin de la tache courante, donc soi-meme
               var wait = Math.min(1600, 300 * (attempt + 1)) + Math.floor(Math.random() * 400);
@@ -1136,7 +1143,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
     return id;
   }
 
-  var CTX_LABEL = { perso: 'Perso', academique: 'Académique', stage: 'Stage' };
+  var CTX_LABEL = { perso: 'Perso', academique: 'Académique' };
   var MEDIUM_LABEL = { graphisme:'Graphisme', video:'Vidéo', audio:'Audio', web:'Site web', social:'Réseaux sociaux', event:'Événementiel', ecrit:'Écrit' };
 
   function projectMatchesFilter(p){
@@ -1157,9 +1164,19 @@ body.visual-mode .wrap{ max-width: 1400px; }
     var list = $('project-list');
     list.innerHTML = '';
     var visibleCount = 0;
+    // L'ordre affiché ici (et donc sur projets*.html) suit state.projects :
+    // les flèches réordonnent dans CETTE liste filtrée, via le même
+    // reordonnerArraySelonIds que le glisser-déposer de la vue visuelle —
+    // sans ça, déplacer un projet avec un filtre actif ferait un bond vers
+    // une position qui n'a de sens que dans la liste complète.
+    var visibleIds = [];
+    state.projects.forEach(function(p){
+      if (projectMatchesFilter(p)) visibleIds.push(p.id);
+    });
     state.projects.forEach(function(p, i){
       if (!projectMatchesFilter(p)) return;
       visibleCount++;
+      var pos = visibleIds.indexOf(p.id);
       var row = document.createElement('div');
       row.className = 'project-item';
       row.innerHTML =
@@ -1170,6 +1187,8 @@ body.visual-mode .wrap{ max-width: 1400px; }
           '<div class="tags-inline">' + (p.tags||[]).map(function(t){ return '<span>#'+escapeHtml(t)+'</span>'; }).join('') + '</div>' +
         '</div>' +
         '<div class="btns">' +
+          '<button class="ghost" data-action="up" data-id="'+escapeHtml(p.id)+'" type="button" title="Monter" ' + (pos === 0 ? 'disabled' : '') + '>' + ICON.up + '</button>' +
+          '<button class="ghost" data-action="down" data-id="'+escapeHtml(p.id)+'" type="button" title="Descendre" ' + (pos === visibleIds.length - 1 ? 'disabled' : '') + '>' + ICON.down + '</button>' +
           '<button class="ghost" data-action="edit" data-i="'+i+'" type="button">Modifier</button>' +
           '<button class="danger" data-action="delete" data-i="'+i+'" type="button">Supprimer</button>' +
         '</div>';
@@ -1187,7 +1206,26 @@ body.visual-mode .wrap{ max-width: 1400px; }
     list.querySelectorAll('button[data-action="delete"]').forEach(function(b){
       b.addEventListener('click', function(){ deleteProject(+b.dataset.i); });
     });
+    list.querySelectorAll('button[data-action="up"]').forEach(function(b){
+      b.addEventListener('click', function(){ moveProjectInList(b.dataset.id, -1); });
+    });
+    list.querySelectorAll('button[data-action="down"]').forEach(function(b){
+      b.addEventListener('click', function(){ moveProjectInList(b.dataset.id, 1); });
+    });
     renderFavoriSelect();
+  }
+
+  // Deplace un projet d'un cran dans la liste FILTREE courante (meme logique
+  // que le glisser-depose de la vue visuelle), puis reporte ce nouvel ordre
+  // sur state.projects sans deranger les projets hors du filtre actif.
+  function moveProjectInList(id, delta){
+    var visibleIds = state.projects.filter(projectMatchesFilter).map(function(p){ return p.id; });
+    var i = visibleIds.indexOf(id);
+    var j = i + delta;
+    if (i === -1 || j < 0 || j >= visibleIds.length) return;
+    var tmp = visibleIds[i]; visibleIds[i] = visibleIds[j]; visibleIds[j] = tmp;
+    reordonnerArraySelonIds(state.projects, visibleIds);
+    renderProjectList();
   }
 
   function renderFavoriSelect(){
@@ -1621,7 +1659,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       refreshGroupOptions('');
       $('pf-tags').value = ''; $('pf-desc').value = ''; $('pf-featured').checked = false;
       $('pf-hidden').checked = false;
-      $('pf-longdesc').value = ''; $('pf-link').value = '';
+      $('pf-longdesc').value = ''; $('pf-link').value = ''; $('pf-embed').checked = false;
       currentSubProjects = [];
       currentAssets = [];
       renderProjectAssets();
@@ -1638,6 +1676,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       $('pf-hidden').checked = !!p.hidden;
       $('pf-longdesc').value = p.longDesc || '';
       $('pf-link').value = p.link || '';
+      $('pf-embed').checked = !!p.embed;
       currentSubProjects = JSON.parse(JSON.stringify(p.subProjects || []));
       currentAssets = assetsOf(p);
       renderProjectAssets();
@@ -1672,6 +1711,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       longDesc: $('pf-longdesc').value.trim(),
       assets: currentAssets,
       link: $('pf-link').value.trim(),
+      embed: $('pf-embed').checked,
       thumb: $('pf-thumb').value,
       subProjects: currentSubProjects
     };
@@ -3057,9 +3097,14 @@ body.visual-mode .wrap{ max-width: 1400px; }
         item.classList.add('ed-dragging');
         try { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', ''); } catch(err){}
       });
+      // Ne PAS remettre dragEl a null ici : le dragend du conteneur juste en
+      // dessous en a encore besoin, et les ecouteurs sur la cible (cet item)
+      // s'executent avant ceux de ses ancetres — le mettre a null ici ferait
+      // toujours echouer son `if (!dragEl) return`, et l'ordre ne serait
+      // jamais enregistre (bug vecu : le glisser-deposer semblait marcher
+      // visuellement mais ne survivait jamais a l'enregistrement).
       item.addEventListener('dragend', function(){
         item.classList.remove('ed-dragging');
-        dragEl = null;
       });
       item.addEventListener('dragover', function(e){
         if (!dragEl || dragEl === item) return;
@@ -3082,6 +3127,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       });
       reordonnerArraySelonIds(siteGroups(), groupIds);
       reordonnerArraySelonIds(state.projects, projectIds);
+      dragEl = null;
       applyAndRefresh();
     });
   }
@@ -3656,7 +3702,20 @@ body.visual-mode .wrap{ max-width: 1400px; }
         edButton(doc, 'link', 'Lien externe (site à visiter)', false, function(){
           var v = prompt('Lien externe du projet (laisse vide pour retirer) :', p.link || '');
           if (v === null) return;
-          p.link = v.trim(); applyAndRefresh();
+          p.link = v.trim();
+          // demande seulement si un lien reste : pas de question utile a
+          // poser pour un lien qu'on vient de retirer
+          if (p.link){
+            p.embed = confirm(
+              'Afficher aussi un aperçu intégré (iframe) de ce lien sur la page détail ?\n\n' +
+              'À n\'accepter que si le site visé l\'autorise — beaucoup de réseaux ' +
+              'sociaux (Instagram, TikTok…) bloquent l\'intégration, et rien ne ' +
+              'validera le lien ici.'
+            );
+          } else {
+            delete p.embed;
+          }
+          applyAndRefresh();
         }),
         edButton(doc, 'calendar', 'Changer l\'année / la période', false, function(){ editProjectPeriod(p); })
       ]);

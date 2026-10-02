@@ -718,11 +718,12 @@
         '<div class="card-tags detail-tags">' + p.tags.map(function(t){ return '<span class="tag">#' + t.replace(/\s+/g,'') + '</span>'; }).join('') + '</div>' +
         '<p class="detail-desc">' + (p.longDesc || p.desc) + '</p>' +
         (p.link ? '<a class="btn btn-primary" href="' + p.link + '" target="_blank" rel="noopener">Visiter le site ' + UI_ICON.external + '</a>' : '') +
-        // l'aperçu en direct n'a de sens que si `link` pointe vers LE site du
-        // projet (medium "web") — sur un projet dont le lien est un profil
-        // TikTok/Instagram ou une ref externe, la plupart bloquent l'intégration
-        // et ne laissent qu'un grand cadre blanc a la place d'une vraie preview.
-        (p.link && p.medium === 'web' ? websiteEmbedHTML(p.link) : '') +
+        // `embed` est un choix explicite fait depuis l'editeur (case a cocher
+        // / confirmation), pas deduit de `medium` : beaucoup de liens (profil
+        // TikTok/Instagram, ref externe) bloquent l'integration et ne
+        // laisseraient qu'un grand cadre blanc a la place d'une vraie preview
+        // si elle s'affichait par defaut.
+        (p.link && p.embed ? websiteEmbedHTML(p.link) : '') +
         mediaBlocksHTML(p) +
         subProjectsHTML(p.subProjects) +
       '</div>';

@@ -282,7 +282,8 @@
       "assets": [],
       "subProjects": [],
       "group": "union-oasis-forest",
-      "link": "https://oasisforest.be"
+      "link": "https://oasisforest.be",
+      "embed": true
     },
     {
       "id": "miniatures-youtube",
@@ -955,7 +956,7 @@
       "id": "melo-de-la-semaine",
       "title": "La mélo de la semaine",
       "year": 2025,
-      "ctx": "stage",
+      "ctx": "academique",
       "group": "en-esprit",
       "medium": "audio",
       "tags": [
@@ -992,7 +993,7 @@
       "id": "montage-video-long-format",
       "title": "Montage vidéo : long format",
       "year": 2025,
-      "ctx": "stage",
+      "ctx": "academique",
       "group": "en-esprit",
       "medium": "video",
       "tags": [
@@ -1033,7 +1034,7 @@
       "id": "post-actualite",
       "title": "Post d'actualité",
       "year": 2025,
-      "ctx": "stage",
+      "ctx": "academique",
       "group": "en-esprit",
       "medium": "social",
       "tags": [
@@ -1079,7 +1080,7 @@
       "id": "thumbnails-youtube",
       "title": "Thumbnails YouTube",
       "year": 2025,
-      "ctx": "stage",
+      "ctx": "academique",
       "group": "en-esprit",
       "medium": "graphisme",
       "tags": [
@@ -1181,7 +1182,7 @@
       "id": "reel-tiktok",
       "title": "Reel / TikTok",
       "year": 2025,
-      "ctx": "stage",
+      "ctx": "academique",
       "group": "en-esprit",
       "medium": "video",
       "tags": [
@@ -1222,7 +1223,7 @@
       "id": "logo-vectoriel",
       "title": "Création d'un logo vectoriel",
       "year": 2025,
-      "ctx": "stage",
+      "ctx": "academique",
       "group": "en-esprit",
       "medium": "graphisme",
       "tags": [
@@ -1330,6 +1331,7 @@
       "longDesc": "",
       "featured": false,
       "link": "https://nocturnz.xyz",
+      "embed": true,
       "assets": [
         {
           "type": "text",
