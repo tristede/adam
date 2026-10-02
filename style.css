@@ -565,9 +565,12 @@ section.projects-section{
   transform-origin: top left;
   transform: scale(var(--tk-scale, 1));
 }
-.detail-gallery > .detail-embed.has-tiktok.size-sm{ width: min(325px, 100%); }
-.detail-gallery > .detail-embed.has-tiktok.size-md{ width: min(440px, 100%); }
-.detail-gallery > .detail-embed.has-tiktok.size-lg{ width: min(605px, 100%); }
+.detail-gallery > .detail-embed.has-tiktok.size-sm,
+.detail-gallery > .detail-embed.has-vertical.size-sm{ width: min(325px, 100%); }
+.detail-gallery > .detail-embed.has-tiktok.size-md,
+.detail-gallery > .detail-embed.has-vertical.size-md{ width: min(440px, 100%); }
+.detail-gallery > .detail-embed.has-tiktok.size-lg,
+.detail-gallery > .detail-embed.has-vertical.size-lg{ width: min(605px, 100%); }
 
 .detail-embed.photo{ cursor: default; }
 .detail-audio{ margin-top: 28px; }

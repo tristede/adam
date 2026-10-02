@@ -436,13 +436,15 @@
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/BtVu4sQjmY5/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
-          "caption": "Best of d'un live IRL d'1h30"
+          "caption": "Best of d'un live IRL d'1h30",
+          "aspect": "16/9"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/-3RUXChiGI-/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
-          "caption": "Best of d'un live gaming de 2h"
+          "caption": "Best of d'un live gaming de 2h",
+          "aspect": "16/9"
         }
       ],
       "thumb": "images/montage-video-style-youtube-thumb.webp",
@@ -1074,27 +1076,32 @@
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/7rCRX4cxf8i/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
-          "hidden": false
+          "hidden": false,
+          "aspect": "9/16"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/EU_nmajCpvc/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
-          "hidden": false
+          "hidden": false,
+          "aspect": "9/16"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/Tg6qn5fhsD9/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
-          "hidden": false
+          "hidden": false,
+          "aspect": "9/16"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/RSVWdjjnC9I/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
-          "hidden": false
+          "hidden": false,
+          "aspect": "9/16"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/VocC94c79EA/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
-          "hidden": false
+          "hidden": false,
+          "aspect": "9/16"
         }
       ]
     },

@@ -542,6 +542,21 @@
         return '<div class="detail-audio' + sizeClass(a) + '"' + attrs(a) + '>' +
           audioEmbedHTML(a.url) + captionHTML(a) + '</div>';
       }
+      // Les videos importees d'Adobe Portfolio sont des assets "web" dont l'URL
+      // est un lecteur Adobe : ce n'est pas un site a apercevoir, c'est une
+      // video. On la cadre donc comme les autres (ratio de la video, pas les
+      // 520 px fixes d'un apercu de site, qui ajoutaient des bandes noires).
+      // Le ratio ("16/9", "9/16") est enregistre dans `a.aspect` : l'iframe est
+      // d'un autre domaine, on ne peut pas le lire d'ici.
+      if (a.type === 'web' && /ccv\.adobe\.io\//.test(a.url || '')){
+        var asp = /^\d+\s*\/\s*\d+$/.test(a.aspect || '') ? a.aspect.replace(/\s/g, '') : '16/9';
+        var parts = asp.split('/');
+        var vertical = +parts[1] > +parts[0] ? ' has-vertical' : '';
+        return '<div class="detail-embed photo photo-' + n + vertical + sizeClass(a) + '"' + attrs(a) + '>' +
+          '<iframe src="' + a.url + '" title="Vidéo du projet" style="aspect-ratio:' + asp + '" ' +
+            'allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>' +
+          captionHTML(a) + '</div>';
+      }
       if (a.type === 'web'){
         return '<div class="detail-webwrap' + sizeClass(a) + '"' + attrs(a) + '>' +
           websiteEmbedHTML(a.url) + captionHTML(a) + '</div>';
