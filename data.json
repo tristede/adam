@@ -78,7 +78,17 @@
         "title": "Stage chez En Esprit",
         "desc": "Stage de 8 semaine chez En Esprit (média urbain bruxellois de janv. 2024 - juil. 2026) dans le cadre de mon bachelier en communication.",
         "thumb": "",
-        "featured": true
+        "featured": true,
+        "socialLinks": [
+          {
+            "platform": "instagram",
+            "url": "https://www.instagram.com/iam.chloely/"
+          },
+          {
+            "platform": "youtube",
+            "url": "https://www.youtube.com/@iam.chloely"
+          }
+        ]
       }
     ],
     "theme": {
@@ -391,7 +401,9 @@
           "url": "images/ilonka-club-myportfolio-3.webp",
           "hidden": false
         }
-      ]
+      ],
+      "subProjects": [],
+      "hidden": true
     },
     {
       "id": "ecriture-enregistrement-mixage-chant-rap",
@@ -408,12 +420,12 @@
       "assets": [
         {
           "type": "audio",
-          "url": "https://soundcloud.com/adamdrk/maquette-sorciere-proddovz2?utm_source=clipboard&utm_campaign=wtshare&utm_medium=widget&utm_content=https%253A%252F%252Fsoundcloud.com%252Fadamdrk%252Fmaquette-sorciere-proddovz2",
+          "url": "https://soundcloud.com/adamxbc/maquette-sorciere-proddovz2?utm_source=clipboard&utm_campaign=wtshare&utm_medium=widget&utm_content=https%253A%252F%252Fsoundcloud.com%252Fadamdrk%252Fmaquette-sorciere-proddovz2",
           "hidden": false
         },
         {
           "type": "audio",
-          "url": "https://soundcloud.com/adamdrk/maquette-ciel-turquoise-prod-1?utm_source=clipboard&utm_campaign=wtshare&utm_medium=widget&utm_content=https%253A%252F%252Fsoundcloud.com%252Fadamdrk%252Fmaquette-ciel-turquoise-prod-1",
+          "url": "https://soundcloud.com/adamxbc/maquette-ciel-turquoise-prod-1?utm_source=clipboard&utm_campaign=wtshare&utm_medium=widget&utm_content=https%253A%252F%252Fsoundcloud.com%252Fadamdrk%252Fmaquette-ciel-turquoise-prod-1",
           "hidden": false
         }
       ],
@@ -511,7 +523,8 @@
           "url": "images/miniatures-youtube-myportfolio-8.webp",
           "hidden": false
         }
-      ]
+      ],
+      "hidden": true
     },
     {
       "id": "reportage-video",
@@ -585,39 +598,48 @@
         },
         {
           "type": "image",
-          "url": "images/projet-360-dei-belgique-1787780479365-0.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/projet-360-dei-belgique-myportfolio-0.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/projet-360-dei-belgique-myportfolio-1.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
           "url": "images/projet-360-dei-belgique-myportfolio-3.webp",
           "hidden": false
         },
         {
           "type": "image",
           "url": "images/projet-360-dei-belgique-myportfolio-5.webp",
-          "hidden": false
+          "hidden": false,
+          "size": "lg"
+        },
+        {
+          "type": "image",
+          "url": "images/projet-360-dei-belgique-1787780479365-0.webp",
+          "hidden": false,
+          "size": "lg",
+          "pos": {
+            "x": 102,
+            "y": 489,
+            "w": 460
+          }
         },
         {
           "type": "image",
           "url": "images/projet-360-dei-belgique-myportfolio-6.webp",
-          "hidden": false
+          "hidden": false,
+          "size": "lg",
+          "pos": {
+            "x": 755,
+            "y": 905,
+            "w": 460
+          }
         },
         {
           "type": "web",
           "url": "https://indd.adobe.com/embed/a744f41c-ae53-4376-872c-845f3aec9c94?startpage=1&allowFullscreen=true",
           "hidden": false,
-          "caption": "Dossier stratégique complet (InDesign)"
+          "caption": "Dossier stratégique complet (InDesign)",
+          "size": "md",
+          "pos": {
+            "x": 0,
+            "y": 1213,
+            "w": 680
+          }
         }
       ],
       "link": "https://cms2433.commu.isfsc.be/",
@@ -703,6 +725,11 @@
         {
           "type": "image",
           "url": "images/carte-visite-echo-nexus-myportfolio-0.webp",
+          "hidden": true
+        },
+        {
+          "type": "image",
+          "url": "images/carte-de-visite-echo-nexus-1791180216005-0.webp",
           "hidden": false
         }
       ],
@@ -723,7 +750,7 @@
       "assets": [
         {
           "type": "audio",
-          "url": "https://soundcloud.com/adamdrk/pourquoi-tu-votes-anderlecht?utm_source=clipboard&utm_campaign=wtshare&utm_medium=widget&utm_content=https%253A%252F%252Fsoundcloud.com%252Fadamdrk%252Fpourquoi-tu-votes-anderlecht",
+          "url": "https://soundcloud.com/adamxbc/pourquoi-tu-votes-anderlecht?utm_source=clipboard&utm_campaign=wtshare&utm_medium=widget&utm_content=https%253A%252F%252Fsoundcloud.com%252Fadamdrk%252Fpourquoi-tu-votes-anderlecht",
           "hidden": false,
           "pos": {
             "x": 277,
@@ -794,7 +821,9 @@
           "url": "images/projet-evenementiel-cinematek-myportfolio-8.webp",
           "hidden": false
         }
-      ]
+      ],
+      "subProjects": [],
+      "longDesc": "Conception de visuels pour un projet événementiel autour de la Cinematek."
     },
     {
       "id": "articles-presse",
@@ -868,7 +897,9 @@
           "hidden": false
         }
       ],
-      "thumb": "images/melo-de-la-semaine-thumb.webp"
+      "thumb": "images/melo-de-la-semaine-thumb.webp",
+      "subProjects": [],
+      "hidden": true
     },
     {
       "id": "montage-video-long-format",
@@ -909,7 +940,8 @@
           "hidden": false
         }
       ],
-      "thumb": "images/montage-video-long-format-thumb.webp"
+      "thumb": "images/montage-video-long-format-thumb.webp",
+      "subProjects": []
     },
     {
       "id": "post-actualite",
@@ -955,7 +987,8 @@
           "hidden": false
         }
       ],
-      "thumb": "images/post-actualite-thumb.webp"
+      "thumb": "images/post-actualite-thumb.webp",
+      "subProjects": []
     },
     {
       "id": "thumbnails-youtube",
@@ -974,12 +1007,16 @@
         {
           "type": "image",
           "url": "images/thumbnails-youtube-myportfolio-0.webp",
-          "hidden": false
+          "hidden": false,
+          "size": "lg",
+          "caption": "Avant"
         },
         {
           "type": "image",
           "url": "images/thumbnails-youtube-myportfolio-1.webp",
-          "hidden": false
+          "hidden": false,
+          "size": "lg",
+          "caption": "Après"
         },
         {
           "type": "image",
@@ -1057,11 +1094,12 @@
           "hidden": false
         }
       ],
-      "longDesc": "Comparaison entre les anciennes et les nouvelles miniatures."
+      "longDesc": "Comparaison entre les anciennes et les nouvelles miniatures.",
+      "subProjects": []
     },
     {
       "id": "reel-tiktok",
-      "title": "Reel / TikTok",
+      "title": "Reels / TikTok",
       "year": 2025,
       "ctx": "academique",
       "group": "en-esprit",
@@ -1077,40 +1115,46 @@
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/7rCRX4cxf8i/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
-          "aspect": "9/16"
+          "aspect": "9/16",
+          "size": "sm"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/EU_nmajCpvc/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
-          "aspect": "9/16"
+          "aspect": "9/16",
+          "size": "sm"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/Tg6qn5fhsD9/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
-          "aspect": "9/16"
+          "aspect": "9/16",
+          "size": "sm"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/RSVWdjjnC9I/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
-          "aspect": "9/16"
+          "aspect": "9/16",
+          "size": "sm"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/VocC94c79EA/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
-          "aspect": "9/16"
+          "aspect": "9/16",
+          "size": "sm"
         }
-      ]
+      ],
+      "subProjects": []
     },
     {
       "id": "logo-vectoriel",
       "title": "Création d'un logo vectoriel",
       "year": 2025,
+      "current": false,
       "ctx": "academique",
-      "group": "en-esprit",
       "medium": "graphisme",
       "tags": [
         "Graphisme",
@@ -1118,6 +1162,8 @@
       ],
       "desc": "Conception d'un logo vectoriel pour un besoin interne.",
       "featured": false,
+      "hidden": false,
+      "longDesc": "",
       "assets": [
         {
           "type": "image",
@@ -1139,7 +1185,12 @@
           "url": "images/logo-vectoriel-myportfolio-3.webp",
           "hidden": false
         }
-      ]
+      ],
+      "link": "",
+      "embed": false,
+      "thumb": "images/logo-vectoriel-myportfolio-1.webp",
+      "subProjects": [],
+      "group": "en-esprit"
     },
     {
       "id": "campagne-avanttout-fictive",
