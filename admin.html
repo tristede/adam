@@ -742,7 +742,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
   // dix minutes dans une version perimee sans que rien ne le signale — une
   // fonction annoncee comme livree parait alors simplement absente. Le panneau
   // compare donc ce qu'il execute a ce que le serveur sert, et le dit.
-  var ADMIN_BUILD = '2026-09-15-a';
+  var ADMIN_BUILD = '2026-10-05-a';
   (function watchAdminVersion(){
     setTimeout(function(){
       fetch('admin.html', { cache: 'no-store' })
@@ -852,25 +852,12 @@ body.visual-mode .wrap{ max-width: 1400px; }
     });
   }
 
-  // Le sommet de branche que CETTE session d'édition a créé. Tant qu'il est
-  // encore le sommet, l'écriture suivante le REMPLACE au lieu de s'empiler
-  // dessus : même contenu, un seul commit. C'est ce qui évite qu'une session de
-  // travail — un envoi d'image puis cinq enregistrements — produise six commits,
-  // donc six reconstructions de GitHub Pages.
-  var sessionCommitSha = null;
-  // le parent de ce commit : il sert a reconnaitre une lecture de reference en
-  // retard sur notre propre ecriture, sans jamais supposer ou est le sommet
-  var sessionCommitParent = null;
-
-  // Toutes les écritures passent par cette file. Deux envois lancés de près —
-  // une miniature pendant que des images finissent de partir, un enregistrement
-  // pendant un envoi — lisaient le MÊME sommet, et le second se faisait rejeter
-  // (« Update is not a fast forward »). Réessayer ne faisait que rejouer la
-  // course ; les mettre à la queue leu leu la supprime. Seul le commit est
-  // sérialisé : l'envoi des blobs, lui, reste parallèle.
+  // Toutes les écritures Git passent par la même file dans cet onglet.
+  // Cela évite qu'un envoi d'image et un clic sur « Enregistrer » essaient de
+  // déplacer main en même temps. Les autres onglets / terminaux restent gérés
+  // par le retry optimiste plus bas.
   var writeQueue = Promise.resolve();
   function queueWrite(run){
-    // `then(run, run)` : l'échec d'une écriture ne doit pas bloquer les suivantes
     var task = writeQueue.then(run, run);
     writeQueue = task.catch(function(){});
     return task;
@@ -880,37 +867,18 @@ body.visual-mode .wrap{ max-width: 1400px; }
     return queueWrite(function(){ return commitEntriesNow(entries, message, 0); });
   }
 
-  // entries : [{ path, mode, type, sha }], des blobs déjà créés.
+  // Ajoute toujours un nouveau commit au sommet courant. L'ancienne version
+  // essayait de « remplacer » le dernier commit de la session avec force=true
+  // pour garder un historique compact. C'etait la source principale des
+  // non-fast-forward : le sommet pouvait bouger entre la lecture et le PATCH.
+  // Quelques commits de plus valent largement mieux qu'un bouton Enregistrer
+  // qui echoue.
   function commitEntriesNow(entries, message, attempt, lastTree){
     attempt = attempt || 0;
-    // On relit TOUJOURS la reference. Une version precedente faisait confiance
-    // a ce qu'on venait d'ecrire pour eviter une lecture en retard — mais le
-    // test « est-ce mon commit ? » comparait alors une valeur a elle-meme, donc
-    // toujours vrai : chaque enregistrement amendait, et ecrasait EN FORCE tout
-    // ce qui etait arrive entre-temps. Deux commits ont ete detruits ainsi.
-    // La lecture en retard se detecte autrement, sans jamais rien supposer :
-    // si la reference renvoie le PARENT de notre dernier commit, elle montre
-    // l'etat d'avant notre propre ecriture. Tout autre sommet appartient a
-    // quelqu'un d'autre, et on empile dessus.
     return ghRequest('/git/ref/heads/' + BRANCH)
       .then(function(ref){
         var tipSha = ref.object.sha;
-        if (sessionCommitSha && sessionCommitParent && tipSha === sessionCommitParent){
-          tipSha = sessionCommitSha;   // lecture en retard, avérée
-        }
-        return tipSha;
-      })
-      .then(function(tipSha){
-        // un commit se lit par son empreinte : immuable, donc jamais perime
         return ghRequest('/git/commits/' + tipSha).then(function(tip){
-          // On n'amende QUE notre propre commit, et seulement s'il est encore
-          // le sommet. Tout autre commit au-dessus signifie que quelqu'un a
-          // poussé entre-temps : on ne réécrit jamais le travail d'un autre.
-          var amend = (tipSha === sessionCommitSha && tip.parents && tip.parents.length === 1);
-          var parent = amend ? tip.parents[0].sha : tipSha;
-          // base_tree reste l'arbre du sommet, amendement ou non : il porte
-          // déjà les fichiers envoyés plus tôt dans la session, qui doivent
-          // survivre au remplacement du commit.
           return ghRequest('/git/trees', {
             method: 'POST',
             body: JSON.stringify({ base_tree: tip.tree.sha, tree: entries })
@@ -918,19 +886,15 @@ body.visual-mode .wrap{ max-width: 1400px; }
           .then(function(tree){
             return ghRequest('/git/commits', {
               method: 'POST',
-              body: JSON.stringify({ message: message, tree: tree.sha, parents: [parent] })
+              body: JSON.stringify({ message: message, tree: tree.sha, parents: [tipSha] })
             });
           })
           .then(function(newCommit){
             lastTree = newCommit.tree && newCommit.tree.sha;
             return ghRequest('/git/refs/heads/' + BRANCH, {
               method: 'PATCH',
-              body: JSON.stringify({ sha: newCommit.sha, force: amend })
-            }).then(function(){
-              sessionCommitSha = newCommit.sha;
-              sessionCommitParent = parent;
-              return newCommit;
-            });
+              body: JSON.stringify({ sha: newCommit.sha, force: false })
+            }).then(function(){ return newCommit; });
           });
         });
       })
@@ -938,73 +902,57 @@ body.visual-mode .wrap{ max-width: 1400px; }
         var raced = /fast forward|422|409/i.test(err.message || '');
         if (!raced) throw err;
 
-        // Avant de reessayer ou d'echouer : notre ecriture a-t-elle deja abouti ?
-        // Un rejet peut arriver APRES que la reference ait bouge comme on le
-        // voulait. Annoncer un echec pousse alors a refaire le geste, et c'est
-        // ainsi qu'une meme image se retrouve commitee deux fois.
+        // Si la requete de mise a jour a abouti mais que sa reponse s'est
+        // perdue, ne pas refaire le meme commit une seconde fois.
         return ghRequest('/git/ref/heads/' + BRANCH)
           .then(function(ref){ return ghRequest('/git/commits/' + ref.object.sha); })
           .then(function(tip){
-            if (lastTree && tip.tree && tip.tree.sha === lastTree){
-              sessionCommitSha = tip.sha;
-              sessionCommitParent = (tip.parents && tip.parents[0]) ? tip.parents[0].sha : null;
-              return tip;   // c'etait deja fait : ne pas alarmer, ne pas refaire
-            }
-            // La file ecarte les courses avec nous-memes ; reste celles avec
-            // l'exterieur — un commit pousse depuis ailleurs entre notre lecture
-            // et notre ecriture. On recommence sur le nouveau sommet ; les
-            // blobs, eux, restent valides.
-            // La fenetre a couvrir est celle d'une poussee faite ailleurs
-            // pendant qu'on ecrivait — depuis un autre onglet, ou depuis un
-            // terminal. Quelques secondes suffisent, mais il en faut vraiment
-            // quelques-unes : cinq essais rapides pouvaient encore echouer.
+            if (lastTree && tip.tree && tip.tree.sha === lastTree) return tip;
+
             if (attempt < 8){
-              sessionCommitSha = sessionCommitParent = null; // ce qui est au-dessus n'est plus a nous
-              // Sans ca, cette attente (jusqu'a ~8 tentatives, plusieurs
-              // secondes au total) ne donne AUCUN signe : l'enregistrement a
-              // l'air fige ou plante, alors qu'il reessaie deja normalement.
               setStatus($('save-status'),
-                'Une autre écriture a eu lieu entre-temps — nouvel essai (' + (attempt + 1) + '/8)…', '');
-              // rappel direct, SANS repasser par la file : on y est deja, et s'y
-              // remettre attendrait la fin de la tache courante, donc soi-meme
-              var wait = Math.min(1600, 300 * (attempt + 1)) + Math.floor(Math.random() * 400);
+                'GitHub a bougé entre-temps — nouvel essai (' + (attempt + 1) + '/8)…', '');
+              var wait = Math.min(1600, 250 * (attempt + 1)) + Math.floor(Math.random() * 250);
               return new Promise(function(r){ setTimeout(r, wait); })
                 .then(function(){ return commitEntriesNow(entries, message, attempt + 1, lastTree); });
             }
-            throw new Error(err.message +
-              '\n\nUne autre ecriture a pris la main pendant l\'envoi. Rien n\'est perdu : reclique.');
+            throw new Error(
+              'GitHub reçoit encore des écritures concurrentes. Tes changements sont toujours dans cet onglet ; ' +
+              'attends quelques secondes puis réessaie.'
+            );
           });
       });
   }
 
+  // data.json utilise l'API Contents avec le SHA du fichier charge.
+  // GitHub fait ainsi le contrôle de concurrence de façon atomique : si un
+  // autre onglet a modifié data.json, on refuse proprement au lieu d'écraser
+  // son travail. Un commit qui ne touche qu'aux images n'empêche pas la save.
   function saveData(data, message){
-    // Cet onglet a pu rester ouvert longtemps sans jamais être rechargé : son
-    // `state` en mémoire date alors du dernier loadData(), pas d'aujourd'hui.
-    // Écrire tel quel remplacerait TOUT data.json — donc effacerait tout ce
-    // qui a été ajouté sur GitHub depuis (par un autre onglet, ou en direct
-    // via git) sans le moindre avertissement. Un vrai cas vécu : un groupe
-    // coché « en avant » depuis un onglet resté ouvert a ainsi effacé trois
-    // projets migrés entre-temps. On revérifie donc le sha juste avant
-    // d'écrire, et on refuse si data.json a bougé depuis le chargement.
-    return ghRequest('/contents/' + DATA_PATH + '?ref=' + BRANCH).then(function(file){
-      if (state.loadedSha && file.sha !== state.loadedSha){
-        throw new Error(
-          'data.json a changé sur GitHub depuis l\'ouverture de cette page ' +
-          '(un autre onglet ou un push direct). Enregistrer maintenant ' +
-          'effacerait ce changement. Clique « Recharger », reporte tes ' +
-          'modifications, puis réessaie.'
-        );
+    var content = utf8ToB64(JSON.stringify(data, null, 2) + '\n');
+    return queueWrite(function(){
+      if (!state.loadedSha){
+        throw new Error('Version de data.json inconnue. Recharge le panneau puis réessaie.');
       }
-      var content = utf8ToB64(JSON.stringify(data, null, 2) + '\n');
-      return ghRequest('/git/blobs', {
-        method: 'POST',
-        body: JSON.stringify({ content: content, encoding: 'base64' })
-      }).then(function(blob){
-        return commitEntries([{ path: DATA_PATH, mode: '100644', type: 'blob', sha: blob.sha }], message)
-          .then(function(result){
-            state.loadedSha = blob.sha;
-            return result;
-          });
+      return ghRequest('/contents/' + DATA_PATH, {
+        method: 'PUT',
+        body: JSON.stringify({
+          message: message,
+          content: content,
+          sha: state.loadedSha,
+          branch: BRANCH
+        })
+      }).then(function(result){
+        if (result && result.content && result.content.sha) state.loadedSha = result.content.sha;
+        return result;
+      }).catch(function(err){
+        if (/409|422|sha|does not match|conflict/i.test(err.message || '')){
+          throw new Error(
+            'Le contenu a changé sur GitHub depuis l’ouverture de cette page. ' +
+            'Tes modifications sont toujours ici : recharge depuis GitHub, puis réapplique-les avant d’enregistrer.'
+          );
+        }
+        throw err;
       });
     });
   }
@@ -4060,6 +4008,17 @@ body.visual-mode .wrap{ max-width: 1400px; }
           : fetch('data.json', { cache: 'no-cache' }).then(function(r){ return r.text(); })
               .then(function(txt){ publie = txt; return txt; });
         return source.then(function(txt){ return { content: utf8ToB64(txt), sha: publieSha }; });
+      }
+
+      if (methode === 'PUT' && chemin === '/contents/' + DATA_PATH){
+        if (corps.sha && corps.sha !== publieSha)
+          return Promise.reject(new Error('Erreur GitHub (409) : conflit de version'));
+        publie = b64ToUtf8(corps.content);
+        publieSha = sha('blob');
+        return Promise.resolve({
+          content: { sha: publieSha },
+          commit: { sha: sha('commit') }
+        });
       }
 
       // Le contenu de data.json passe par la creation de blob avant d'etre
