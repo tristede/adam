@@ -628,18 +628,6 @@
             "y": 905,
             "w": 460
           }
-        },
-        {
-          "type": "web",
-          "url": "https://indd.adobe.com/embed/a744f41c-ae53-4376-872c-845f3aec9c94?startpage=1&allowFullscreen=true",
-          "hidden": false,
-          "caption": "Dossier stratégique complet (InDesign)",
-          "size": "md",
-          "pos": {
-            "x": 0,
-            "y": 1213,
-            "w": 680
-          }
         }
       ],
       "link": "https://cms2433.commu.isfsc.be/",
