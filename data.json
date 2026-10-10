@@ -460,7 +460,8 @@
         }
       ],
       "thumb": "images/montage-video-style-youtube-thumb.webp",
-      "subProjects": []
+      "subProjects": [],
+      "hidden": true
     },
     {
       "id": "miniatures-youtube",
