@@ -957,9 +957,58 @@ body.visual-mode .wrap{ max-width: 1400px; }
     });
   }
 
-  // ---- image upload: convert to WebP client-side (canvas), then commit the
-  // file straight to the repo via the same Contents API used for data.json —
-  // no server involved, GitHub IS the file host. ----
+  // Enregistrement quand des fichiers attendent : data.json ET les images
+  // vont dans UN SEUL commit (blobs -> arbre -> commit -> branche), donc une
+  // seule ecriture sur la branche, au moment ou l'on clique. Seuls les fichiers
+  // encore references par le contenu sont envoyes : une image ajoutee puis
+  // retiree avant d'enregistrer ne finit pas orpheline dans le depot.
+  function saveDataWithStaged(data, message){
+    var json = JSON.stringify(data, null, 2) + '\n';
+    var content = utf8ToB64(json);
+    var wanted = Object.keys(stagedFiles).filter(function(p){ return json.indexOf(p) !== -1; });
+    Object.keys(stagedFiles).forEach(function(p){ if (wanted.indexOf(p) === -1) delete stagedFiles[p]; });
+    return queueWrite(function(){
+      return ghRequest('/contents/' + DATA_PATH + '?ref=' + BRANCH).then(function(file){
+        if (state.loadedSha && file.sha !== state.loadedSha){
+          throw new Error(
+            'Le contenu a changé sur GitHub depuis l’ouverture de cette page. ' +
+            'Tes modifications sont toujours ici : recharge depuis GitHub, puis réapplique-les avant d’enregistrer.'
+          );
+        }
+        var entries = [];
+        var next = 0;
+        function worker(){
+          if (next >= wanted.length) return Promise.resolve();
+          var rel = wanted[next++];
+          return ghRequest('/git/blobs', {
+            method: 'POST',
+            body: JSON.stringify({ content: stagedFiles[rel].b64, encoding: 'base64' })
+          }).then(function(blob){
+            entries.push({ path: BASE_PATH + rel, mode: '100644', type: 'blob', sha: blob.sha });
+            return worker();
+          });
+        }
+        var lanes = [];
+        for (var k = 0; k < Math.min(4, wanted.length); k++) lanes.push(worker());
+        return Promise.all(lanes).then(function(){
+          return ghRequest('/git/blobs', {
+            method: 'POST',
+            body: JSON.stringify({ content: content, encoding: 'base64' })
+          });
+        }).then(function(blob){
+          entries.push({ path: DATA_PATH, mode: '100644', type: 'blob', sha: blob.sha });
+          return commitEntriesNow(entries, message, 0).then(function(commit){
+            state.loadedSha = blob.sha;
+            wanted.forEach(function(p){ delete stagedFiles[p]; });
+            return commit;
+          });
+        });
+      });
+    });
+  }
+
+  // ---- image upload: convert to WebP client-side (canvas) and keep it in the
+  // tab; it only reaches the repo, with data.json, when the user saves. ----
   function fileToWebpBase64(file, maxDim){
     return createImageBitmap(file).then(function(bitmap){
       var scale = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height));
@@ -990,6 +1039,12 @@ body.visual-mode .wrap{ max-width: 1400px; }
   // repo path -> data: URL of the bytes we just uploaded, so the editor can
   // show an image before GitHub Pages has published it
   var freshUploads = {};
+  // Fichiers ajoutes depuis l'ouverture de l'onglet et pas encore sur GitHub :
+  // chemin du depot -> { b64 }. Rien ne part tant que l'on ne clique pas sur
+  // « Enregistrer » — un envoi d'image qui commitait seul, puis un
+  // enregistrement automatique par-dessus, faisait se battre deux ecritures
+  // sur la meme branche (« GitHub recoit encore des ecritures concurrentes »).
+  var stagedFiles = {};
 
   function fileToRawBase64(file){
     return new Promise(function(resolve, reject){
@@ -1011,7 +1066,6 @@ body.visual-mode .wrap{ max-width: 1400px; }
     function report(step){ if (onProgress) onProgress(done, total, step); }
 
     // 1. convert + upload each file as a blob, a few at a time
-    var entries = new Array(total);
     var pendingB64 = new Array(total);
     // Le chemin ecrit dans le depot (prefixe par BASE_PATH) et celui que les
     // pages publiques resolvent depuis leur propre dossier (jamais prefixe)
@@ -1030,12 +1084,6 @@ body.visual-mode .wrap{ max-width: 1400px; }
       return prep
         .then(function(b64){
           pendingB64[i] = b64;
-          return ghRequest('/git/blobs', {
-            method: 'POST',
-            body: JSON.stringify({ content: b64, encoding: 'base64' })
-          });
-        })
-        .then(function(blob){
           var raw = files[i];
           var isPreEncoded = raw && raw.b64 !== undefined;
           var ext = isPreEncoded ? (raw.ext || '.webp')
@@ -1043,7 +1091,9 @@ body.visual-mode .wrap{ max-width: 1400px; }
           var dir = isPreEncoded ? (raw.dir || 'images/') : (isDoc ? 'docs/' : 'images/');
           var relPath = dir + slug + '-' + stamp + '-' + i + ext;
           relPaths[i] = relPath;
-          entries[i] = { path: BASE_PATH + relPath, mode: '100644', type: 'blob', sha: blob.sha };
+          // Rien n'est envoye a GitHub ici : le fichier reste dans l'onglet
+          // jusqu'au clic sur « Enregistrer », qui le pousse avec data.json.
+          stagedFiles[relPath] = { b64: b64 };
           // GitHub Pages needs ~a minute to serve the new file, so keep the
           // local bytes around and show those in the editor meanwhile.
           // PDFs render reliably from a blob: URL, images from a data: URL
@@ -1057,18 +1107,8 @@ body.visual-mode .wrap{ max-width: 1400px; }
     var lanes = [];
     for (var k = 0; k < Math.min(4, total); k++) lanes.push(worker());
 
-    // Le commit passe par commitEntries, comme l'enregistrement : c'est ce qui
-    // permet à l'envoi et aux enregistrements qui suivent de se fondre dans un
-    // seul commit au lieu de s'empiler.
     return Promise.all(lanes)
       .then(function(){
-        report('commit');
-        return commitEntries(entries,
-          'Ajoute ' + total + ' ' + (isDoc ? 'document' : 'image') + (total > 1 ? 's' : '') + ' (' + slug + ')');
-      })
-      .then(function(){
-        // data.json now sits on a newer commit; its blob sha is unchanged, so
-        // the pending save still applies cleanly.
         return relPaths.map(function(p){
           // En demonstration rien n'est publie : un chemin de depot ne menerait
           // nulle part. On rend les octets, qui s'affichent partout.
@@ -2131,8 +2171,10 @@ body.visual-mode .wrap{ max-width: 1400px; }
     return loadData().then(function(data){
       state.site = data.site || {};
       state.projects = data.projects || [];
+      rememberSaved();
       fillFormsFromState();
       showEditor();
+      return restoreDraftIfAny();
     }).catch(function(err){
       setStatus(statusEl, err.message || 'Échec de connexion — vérifie le token.', 'err');
     });
@@ -2227,10 +2269,18 @@ body.visual-mode .wrap{ max-width: 1400px; }
   });
 
   $('reload-btn').addEventListener('click', function(){
+    // Plus rien n'est publie tant qu'on ne l'a pas demande : recharger efface
+    // donc des modifications qui n'existent nulle part ailleurs.
+    if (!MODE_DEMO && savedSnapshot !== null &&
+        (Object.keys(stagedFiles).length || snapshotState() !== savedSnapshot) &&
+        !confirm('Recharger efface ton brouillon : tes modifications non enregistrées et les images ajoutées. Continuer ?')) return;
     setStatus($('save-status'), MODE_DEMO ? 'Retour en arrière…' : 'Rechargement…', '');
     loadData().then(function(data){
       state.site = data.site || {};
       state.projects = data.projects || [];
+      stagedFiles = {};
+      rememberSaved();
+      clearDraft();
       fillFormsFromState();
       setStatus($('save-status'), (MODE_DEMO ? 'Revenu au dernier état appliqué.' : 'Recharge depuis GitHub — les modifications non enregistrées ont été perdues.'), 'ok');
     }).catch(function(err){
@@ -2477,8 +2527,13 @@ body.visual-mode .wrap{ max-width: 1400px; }
     var expected = JSON.stringify(payload, null, 2) + '\n';
     btn.disabled = true;
     setStatus($('save-status'), MODE_DEMO ? 'Application…' : 'Enregistrement sur GitHub…', '');
-    return saveData(payload, 'Mise à jour du contenu depuis /admin.html')
+    var envoi = Object.keys(stagedFiles).length
+      ? saveDataWithStaged(payload, 'Mise à jour du contenu depuis /admin.html')
+      : saveData(payload, 'Mise à jour du contenu depuis /admin.html');
+    return envoi
       .then(function(){
+        rememberSaved();
+        clearDraft();
         // En demonstration il n'y a rien a attendre : waitUntilLive
         // interrogerait le fichier du serveur, qui ne changera jamais, et
         // annoncerait au bout de quatre minutes que « la publication tarde ».
@@ -2504,14 +2559,152 @@ body.visual-mode .wrap{ max-width: 1400px; }
       });
   }
 
-  // Un envoi commite DEJA le fichier sur GitHub. Laisser son affectation en
-  // memoire cree un etat a moitie ecrit : l'image existe dans le depot, rien ne
-  // la designe, et un simple rechargement perd l'affectation sans un mot — c'est
-  // ainsi qu'une miniature a ete refaite trois fois, et que des fichiers sont
-  // restes orphelins. Un envoi enregistre donc dans la foulee.
+  // Un envoi d'image ne part PLUS vers GitHub : il reste dans l'onglet avec le
+  // reste des modifications, et c'est le clic sur « Enregistrer » qui publie
+  // tout d'un coup, dans un seul commit. (Avant, l'envoi commitait seul puis
+  // enregistrait data.json juste apres : deux ecritures coup sur coup sur la
+  // meme branche, d'ou les « ecritures concurrentes » et les echecs.)
   function publishAfterUpload(){
-    setStatus($('save-status'), 'Envoi terminé — enregistrement…', '');
-    return publishState();
+    setStatus($('save-status'), MODE_DEMO
+      ? 'Ajouté — clique « Appliquer les changements » pour voir le résultat.'
+      : 'Ajouté dans cet onglet, pas encore sur GitHub — clique « Enregistrer sur GitHub » quand tu veux publier.', '');
+    return Promise.resolve(false);
+  }
+
+  // Ce qui n'est pas enregistre : le contenu a change depuis le dernier
+  // chargement/enregistrement, ou des fichiers attendent. Sert a prevenir
+  // avant de fermer l'onglet, puisque plus rien ne part tout seul.
+  var savedSnapshot = null;
+  function snapshotState(){
+    try { return JSON.stringify({ s: state.site, p: state.projects }); } catch(e){ return ''; }
+  }
+  function rememberSaved(){ savedSnapshot = snapshotState(); }
+  function dirtyNow(){
+    return savedSnapshot !== null &&
+      (Object.keys(stagedFiles).length > 0 || snapshotState() !== savedSnapshot);
+  }
+
+  // ---- Brouillon (le « purgatoire ») ------------------------------------
+  // Tout ce qui n'est pas encore sur GitHub — textes, ordre, images ajoutees —
+  // est recopie en continu dans le navigateur (IndexedDB, sur cet ordinateur),
+  // sans aucun commit. F5, onglet ferme par erreur ou plantage : au retour, le
+  // brouillon est propose, et ce n'est qu'un clic sur « Enregistrer » qui
+  // publie. Il est efface a l'enregistrement.
+  var DRAFT_DB = 'portfolio-brouillon', DRAFT_STORE = 'brouillons';
+  var DRAFT_HINT_DEFAULT = '';
+  var draftReady = false;      // faux tant qu'on n'a pas decide quoi faire d'un brouillon existant
+  var draftLast = null;        // signature du dernier etat ecrit
+  var draftOk = true;
+  var draftBusy = false;
+
+  function draftKey(){ return REPO_OWNER + '/' + REPO_NAME; }
+  function draftDB(){
+    return new Promise(function(resolve, reject){
+      if (!window.indexedDB){ reject(new Error('IndexedDB indisponible')); return; }
+      var req = indexedDB.open(DRAFT_DB, 1);
+      req.onupgradeneeded = function(){ req.result.createObjectStore(DRAFT_STORE); };
+      req.onsuccess = function(){ resolve(req.result); };
+      req.onerror = function(){ reject(req.error); };
+    });
+  }
+  function draftOp(mode, run){
+    return draftDB().then(function(db){
+      return new Promise(function(resolve, reject){
+        var tx = db.transaction(DRAFT_STORE, mode);
+        var result;
+        var r = run(tx.objectStore(DRAFT_STORE));
+        if (r) r.onsuccess = function(){ result = r.result; };
+        tx.oncomplete = function(){ db.close(); resolve(result); };
+        tx.onerror = tx.onabort = function(){ db.close(); reject(tx.error); };
+      });
+    });
+  }
+  function draftPut(v){ return draftOp('readwrite', function(s){ return s.put(v, draftKey()); }); }
+  function draftGet(){ return draftOp('readonly', function(s){ return s.get(draftKey()); }); }
+  function draftDelete(){ return draftOp('readwrite', function(s){ return s.delete(draftKey()); }); }
+
+  function draftSignature(){
+    return snapshotState() + '|' + Object.keys(stagedFiles).sort().join(',');
+  }
+  function setDraftHint(etat){
+    var h = $('save-hint');
+    if (!h) return;
+    if (DRAFT_HINT_DEFAULT === '') DRAFT_HINT_DEFAULT = h.textContent;
+    h.textContent = etat === true
+      ? 'Brouillon gardé sur cet ordinateur — rien n’est publié tant que tu n’as pas cliqué ici.'
+      : etat === 'err'
+      ? 'Brouillon impossible sur ce navigateur — ne ferme pas l’onglet avant d’enregistrer.'
+      : DRAFT_HINT_DEFAULT;
+  }
+  function draftTick(){
+    if (MODE_DEMO || !draftReady || savedSnapshot === null || draftBusy) return;
+    var sig = draftSignature();
+    if (sig === draftLast) return;
+    if (!dirtyNow()){
+      // revenu a l'etat enregistre : plus rien a garder
+      draftLast = sig;
+      draftDelete().catch(function(){});
+      setDraftHint(false);
+      return;
+    }
+    draftBusy = true; draftOk = false;
+    draftPut({
+      baseSha: state.loadedSha, site: state.site, projects: state.projects,
+      staged: stagedFiles, savedAt: Date.now()
+    }).then(function(){ draftLast = sig; draftOk = true; setDraftHint(true); })
+      .catch(function(){ draftOk = false; setDraftHint('err'); })
+      .then(function(){ draftBusy = false; });
+  }
+  setInterval(draftTick, 1500);
+  // plus de confirmation quand le brouillon est a jour : F5 est sans danger.
+  // On ne previent que s'il est en retard ou impossible a ecrire.
+  window.addEventListener('beforeunload', function(e){
+    if (MODE_DEMO || !dirtyNow()) return;
+    if (draftOk && draftSignature() === draftLast) return;
+    e.preventDefault();
+    e.returnValue = '';
+  });
+
+  function previewFromStaged(rel, b64){
+    var ext = (rel.match(/\.[a-z0-9]+$/i) || [''])[0].toLowerCase();
+    if (ext === '.pdf'){
+      var bin = atob(b64), arr = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+      return URL.createObjectURL(new Blob([arr], { type: 'application/pdf' }));
+    }
+    var mime = (ext === '.jpg' || ext === '.jpeg') ? 'image/jpeg' : ext === '.png' ? 'image/png' : 'image/webp';
+    return 'data:' + mime + ';base64,' + b64;
+  }
+
+  // A l'ouverture : un brouillon existe-t-il pour ce depot ? Si oui on propose
+  // de le reprendre. S'il date d'avant un changement sur GitHub, on le dit :
+  // le reprendre ecraserait ce changement a l'enregistrement.
+  function restoreDraftIfAny(){
+    if (MODE_DEMO){ draftReady = true; return Promise.resolve(); }
+    return draftGet().then(function(d){
+      if (!d || !d.projects) return;
+      var older = d.baseSha && d.baseSha !== state.loadedSha;
+      var nb = Object.keys(d.staged || {}).length;
+      var msg = 'Brouillon retrouvé (' + new Date(d.savedAt).toLocaleString('fr-BE') +
+        (nb ? ', ' + nb + ' fichier' + (nb > 1 ? 's' : '') + ' ajouté' + (nb > 1 ? 's' : '') : '') + ').\n\n' +
+        (older ? 'Attention : le site a changé sur GitHub depuis ce brouillon ; le reprendre écrasera ces changements à l’enregistrement.\n\n' : '') +
+        'OK = reprendre ce brouillon.\nAnnuler = l’ignorer (il reste gardé jusqu’à ta prochaine modification).';
+      if (!confirm(msg)) return;
+      state.site = d.site || {};
+      state.projects = d.projects || [];
+      stagedFiles = d.staged || {};
+      Object.keys(stagedFiles).forEach(function(rel){
+        freshUploads[rel] = previewFromStaged(rel, stagedFiles[rel].b64);
+      });
+      fillFormsFromState();
+      try { openVisual(visualNav.page, visualNav.projectId); } catch(e){}
+      setStatus($('save-status'), 'Brouillon repris — pas encore publié.', '');
+    }).catch(function(){}).then(function(){ draftReady = true; draftLast = null; });
+  }
+  function clearDraft(){
+    draftLast = null;
+    draftDelete().catch(function(){});
+    setDraftHint(false);
   }
 
   $('save-btn').addEventListener('click', function(){ publishState(); });
