@@ -362,7 +362,7 @@
         },
         {
           "type": "image",
-          "url": "images/evenementiel-stand-zennit-1792454611274-0.webp",
+          "url": "images/evenementiel-stand-zennit-1792462361906-0.webp",
           "hidden": false
         }
       ],
@@ -931,7 +931,8 @@
         }
       ],
       "thumb": "images/montage-video-long-format-thumb.webp",
-      "subProjects": []
+      "subProjects": [],
+      "hidden": false
     },
     {
       "id": "post-actualite",
@@ -1085,7 +1086,8 @@
         }
       ],
       "longDesc": "Comparaison entre les anciennes et les nouvelles miniatures.",
-      "subProjects": []
+      "subProjects": [],
+      "hidden": true
     },
     {
       "id": "reel-tiktok",
@@ -1137,7 +1139,8 @@
           "size": "sm"
         }
       ],
-      "subProjects": []
+      "subProjects": [],
+      "hidden": true
     },
     {
       "id": "logo-vectoriel",
