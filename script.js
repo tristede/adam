@@ -1579,10 +1579,11 @@
     tip.className = 'card-tip';
     tip.setAttribute('role', 'tooltip');
     document.body.appendChild(tip);
-    var tipTimer = null, tipCard = null, tipX = 0, tipY = 0;
+    var tipTimer = null, previewTimer = null, tipCard = null, tipX = 0, tipY = 0;
+    var DELAI_TIP = 350, DELAI_APERCU = 1000;   // description vite, apercu anime plus tard
 
     var cacherTip = function(){
-      clearTimeout(tipTimer); tipTimer = null; tipCard = null;
+      clearTimeout(tipTimer); clearTimeout(previewTimer); tipTimer = null; previewTimer = null; tipCard = null;
       tip.classList.remove('is-on');
       document.querySelectorAll('.thumb-preview').forEach(function(el){ el.remove(); });
     };
@@ -1628,17 +1629,16 @@
       var pv = c.getAttribute('data-preview');
       if (pv && !/\.(mp4|webm|mov)(\?|$)/i.test(pv)) { var pre = new Image(); pre.src = pv; }
       tipTimer = setTimeout(function(){
-        if (c.getAttribute('data-tip')){
-          var h3 = c.querySelector('h3');
-          tip.innerHTML = '';
-          var t = document.createElement('strong'); t.textContent = h3 ? h3.textContent : '';
-          var d = document.createElement('span'); d.textContent = c.getAttribute('data-tip');
-          tip.appendChild(t); tip.appendChild(d);
-          placerTip();
-          tip.classList.add('is-on');
-        }
-        lancerApercu(c);
-      }, 1000);
+        if (!c.getAttribute('data-tip')) return;
+        var h3 = c.querySelector('h3');
+        tip.innerHTML = '';
+        var t = document.createElement('strong'); t.textContent = h3 ? h3.textContent : '';
+        var d = document.createElement('span'); d.textContent = c.getAttribute('data-tip');
+        tip.appendChild(t); tip.appendChild(d);
+        placerTip();
+        tip.classList.add('is-on');
+      }, DELAI_TIP);
+      previewTimer = setTimeout(function(){ lancerApercu(c); }, DELAI_APERCU);
     });
     window.addEventListener('scroll', cacherTip, { passive: true });
     document.addEventListener('click', cacherTip);
