@@ -1588,7 +1588,7 @@
       "year": 2026,
       "current": true,
       "ctx": "perso",
-      "medium": "web",
+      "medium": "video",
       "tags": [
         "Outil",
         "Montage vidéo"
@@ -1596,7 +1596,7 @@
       "desc": "Extension Premiere Pro · silences, sous-titres, local",
       "longDesc": "Extension open source pour Adobe Premiere Pro, en développement : nettoyage des silences, transcription, sous-titres et réalisation dans un seul outil, avec traitements locaux.",
       "featured": false,
-      "hidden": false,
+      "hidden": true,
       "link": "https://nocturnz.xyz/edit/",
       "embed": false,
       "assets": [],

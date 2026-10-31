@@ -108,12 +108,12 @@ Statuts d'un projet :
 
 ## État au moment de ce fichier
 
-43 projets (20 visibles, 23 masqués), 6 groupes : Union Oasis Forest, Stage chez En Esprit,
+43 projets (19 visibles, 24 masqués), 6 groupes : Union Oasis Forest, Stage chez En Esprit,
 Chloé Ly, Nocturnz, NGC Hub, Daybreak.
 
 **Masqués par choix d'Adam** (laisser masqués) : `ilonka-club`, `montage-video-style-youtube`,
 `miniatures-youtube`, `episode-podcast`, `melo-de-la-semaine`, `post-actualite`,
-`thumbnails-youtube`, `reel-tiktok`, `community-management-easypermis`.
+`thumbnails-youtube`, `reel-tiktok`, `community-management-easypermis`, `nocturnz-edit`.
 
 **Créés masqués, en attente de matière** (descriptions courtes déjà écrites, à compléter puis
 démasquer) : `ngc-dock-obs`, `ngc-regie-irl-srt`, `daybreak-smp`, `lg-le-village`,
@@ -132,7 +132,7 @@ démasquer) : `ngc-dock-obs`, `ngc-regie-irl-srt`, `daybreak-smp`, `lg-le-villag
   aux projets de tournage correspondants ; ranger les projets Ilonka (vidéo à part, graphisme à masquer).
 
 **Visibles sans miniature** : `union-oasis-forest-tiktok`, `nocturnz-review`, `nocturnz-todo`,
-`nocturnz-edit`, `tristejeu` (fond avec icône par défaut).
+`tristejeu` (fond avec icône par défaut).
 
 ## Pistes non faites (audit du 31 oct. 2026)
 
@@ -176,3 +176,5 @@ Pièges rencontrés :
   au conteneur sur petit écran, texte centré horizontalement et verticalement.
 - Titres Hard skills / Soft skills en police manuscrite du site (`--font-script`),
   sans capitales forcées. Ces ajustements sont inclus dans la publication demandée.
+- Nocturnz Edit masqué à la demande d’Adam ; médium changé de `web` à `video`
+  (extension Premiere Pro), tags Outil et Montage vidéo conservés.
