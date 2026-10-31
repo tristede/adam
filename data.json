@@ -49,15 +49,9 @@
         "current": false
       },
       {
-        "year": "2025 — 2026",
-        "title": "Union Oasis Forest",
-        "desc": "Responsable communication & digital du club de futsal : réseaux sociaux, site web, outils numériques.",
-        "current": false
-      },
-      {
         "year": "2026",
         "title": "Bachelier en Communication — BAC 3",
-        "desc": "Retour à l'ISFSC, option audiovisuel. Stage de janvier à avril 2027.",
+        "desc": "Retour à l'ISFSC, option audiovisuel.",
         "current": false
       }
     ],
@@ -160,7 +154,7 @@
       "enabled": true,
       "kicker": "Disponible dès janvier 2027",
       "title": "Recherche de stage BAC 3 (janvier – avril 2027)",
-      "text": "Communication, audiovisuel ou community management — CV et portfolio sur demande."
+      "text": "Communication, audiovisuel ou community management."
     },
     "skills": [
       {

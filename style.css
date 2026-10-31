@@ -281,7 +281,7 @@ section.projects-section{
    pourtant ce qu'on cherche.
    Dix-neuf pastilles en permanence poussaient la grille hors de l'écran : elles
    se déplient à la demande, et le bouton porte le filtre actif. */
-.filter-zone{ margin-bottom: 24px; }
+.filter-zone{ margin-bottom: 24px; text-align:center; }
 .filter-toggle{
   font-family: var(--font); font-size:13.5px; font-weight:600;
   display:inline-flex; align-items:center; gap:8px;
@@ -298,10 +298,11 @@ section.projects-section{
   padding:2px 9px; border-radius:0;
 }
 .tag-filters.is-closed{ display:none; }
-.filter-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:12px; }
+.filter-row{ display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px; margin-bottom:12px; }
+.filter-more{ min-width:40px; justify-content:center; font-size:18px; line-height:1; }
 .filter-cats .tag-filter{ font-size:13px; }
 .empty-state{ color: var(--text-dim); padding: 40px 0; text-align:center; }
-.tag-filters{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.tag-filters{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:14px; }
 .tag-filter{
   font-family: var(--font); font-size:13px; font-weight:600;
   display:inline-flex; align-items:center; gap:7px;

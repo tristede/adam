@@ -1269,6 +1269,13 @@
         (n != null ? '<span class="tag-count">' + n + '</span>' : '') + '</button>';
     }
 
+    // trois pastilles seulement (les mieux fournies), le reste derriere « + »
+    var tops = presets.slice().sort(function(a, b){ return b.n - a.n; }).slice(0, 3)
+      .map(function(x){ return x.key; });
+    var visibles = presets.filter(function(x){ return tops.indexOf(x.key) !== -1; });
+    var reste = presets.filter(function(x){ return tops.indexOf(x.key) === -1; });
+    var choisiCache = tagActif && !visibles.some(function(x){ return x.key === tagActif; });
+
     var cats = [['', 'Tout'], ['perso', 'Perso'], ['academique', 'Académique']];
     host.className = 'filter-zone';
     host.innerHTML =
@@ -1276,17 +1283,16 @@
         cats.map(function(c){ return pastille('', 'data-cat', c[0], c[1], null, catActif === c[0]); }).join('') +
       '</div>' +
       '<div class="filter-row filter-presets">' +
-        pastille('', 'data-tag', '', 'Tout', null, !tagActif) +
-        presets.map(function(x){ return pastille('', 'data-tag', x.key, presetLabel[x.key], x.n, tagActif === x.key); }).join('') +
-        (fins.length
-          ? '<button type="button" class="filter-toggle' + ((tagActif && !presetLabel[tagActif]) ? ' is-active' : '') + '">' +
-              UI_ICON.filter + ' Plus de tags' +
-              ((tagActif && !presetLabel[tagActif]) ? '<span class="filter-chosen">' + tagActif + '</span>' : '') +
+        visibles.map(function(x){ return pastille('', 'data-tag', x.key, presetLabel[x.key], x.n, tagActif === x.key); }).join('') +
+        ((reste.length || fins.length)
+          ? '<button type="button" class="filter-toggle filter-more' + (choisiCache ? ' is-active' : '') + '" aria-label="Plus de tags" title="Plus de tags">+' +
+              (choisiCache ? '<span class="filter-chosen">' + (presetLabel[tagActif] || tagActif) + '</span>' : '') +
             '</button>'
           : '') +
       '</div>' +
-      (fins.length
+      ((reste.length || fins.length)
         ? '<div class="tag-filters' + (filtresOuverts ? '' : ' is-closed') + '">' +
+            reste.map(function(x){ return pastille('', 'data-tag', x.key, presetLabel[x.key], x.n, tagActif === x.key); }).join('') +
             fins.map(function(t){ return pastille('', 'data-tag', t, t, vus[t], tagActif === t); }).join('') +
           '</div>'
         : '');
