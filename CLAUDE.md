@@ -392,3 +392,33 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
 - Aperçu des groupes : miniature temporaire « ? » pour les projets sans image. CSS `v=64`, JS `v=51`.
 
 - Point d’interrogation des miniatures temporaires en police normale. CSS `v=65`, non publié.
+
+- Toutes les vidéos des fiches, y compris les lecteurs Adobe importés, sont réglées en taille L. Non publié.
+
+- Image de partage actualisée : titre manuscrit inspiré de celui du site ; URL de partage versionnée pour rafraîchir les aperçus. Non publié.
+
+- Libellés des constellations centrés sur leur étoile même lorsqu’ils passent sur deux lignes ; hauteur des paragraphes À propos réservée selon les trois polices de l’effet scramble. CSS `v=67`, JS `v=53`, local.
+
+- Udeyfa : les deux parties réunies dans la même fiche. La Haine : fiche de tournage visible dans En Esprit → Vidéos, vidéo et miniature ajoutées ; rôle précisé (tournage et reels, pas le montage de la vidéo longue). Non publié.
+
+- En Esprit → Vidéos : titres harmonisés ITW / IMMERSION ; NK Divine et DJ Kawest ajoutés avec leurs vidéos de montage et miniatures. Année et rattachement confirmés par Adam. Mallaury était déjà présente. Non publié.
+
+- Miniatures En Esprit auparavant en 480 × 360 remplacées par les versions YouTube en 1 200 × 675, compression plus légère ; noms de fichiers distincts pour éviter le cache. Non publié.
+
+- Tag « Montage vidéo » renommé « Montage » ; tag « Tournage » ajouté à La Haine, Soolking et Workshops selon les rôles documentés. Autres tournages à confirmer. Non publié.
+
+- Tournage confirmé et tag ajouté pour Mallaury et Udeyfa. Feminitea / Spill the Tea (Mallaury) ajouté : carte blanche sur format, montage et DA. Fiches reels Tiakola, Youssef Swatt’s, Slice et Feminitea masquées en attendant les fichiers ; vidéo Feminitea écartée à la demande d’Adam. Non publié.
+
+- Libellé « Groupe favori » des cartes passé en rose, sans modifier « Projet favori ». CSS `v=68`, non publié.
+
+- Fiche Nocturnz Portfolio : lien vers la vitrine dédiée et retrait du positionnement forcé du bloc descriptif. Non publié.
+
+- Accueil : lien « Voir tous les projets » à droite du titre de la sélection, vers la page Projets sans filtre. CSS `v=69`, non publié.
+
+- Fiche Nocturnz Portfolio : précise que le moteur fait tourner ce site et décrit son panneau d’édition visuel. Non publié.
+
+- Lien « Voir tous les projets » rapproché du sous-titre de la sélection. CSS `v=70`, non publié.
+
+- Fiche Nocturnz Portfolio : textes regroupés dans la description longue afin de les aligner. Non publié.
+
+- Captures des jeux TristeJeu affichées aussi dans les fiches ; TristeParty reste masqué.

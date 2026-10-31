@@ -239,7 +239,7 @@
       "medium": "video",
       "tags": [
         "Vidéo",
-        "Montage vidéo"
+        "Montage"
       ],
       "desc": "Coulisses de clip · montage vidéo",
       "featured": false,
@@ -340,7 +340,7 @@
           "type": "video",
           "url": "https://www.tiktok.com/embed/v2/7554688445604547872",
           "hidden": false,
-          "size": "sm",
+          "size": "lg",
           "pos": {
             "x": 0,
             "y": 0,
@@ -352,7 +352,7 @@
           "type": "video",
           "url": "https://www.tiktok.com/embed/v2/7542489276752219425",
           "hidden": false,
-          "size": "sm",
+          "size": "lg",
           "pos": {
             "x": 363,
             "y": 0,
@@ -369,7 +369,7 @@
             "y": 0,
             "w": 325
           },
-          "size": "sm",
+          "size": "lg",
           "caption": "Détections jeunes"
         }
       ],
@@ -427,24 +427,12 @@
       "tags": [
         "Web"
       ],
-      "desc": "Création de sites pour présenter ses réalisations · sans code",
-      "longDesc": "Service qui permet à chacun d'avoir son portfolio en ligne, sans abonnement et sans une ligne de code.",
+      "desc": "Le moteur derrière ce site · édition visuelle sans code",
+      "longDesc": "Le moteur, le panneau d’édition et la vitrine ont été conçus en parallèle. Le contenu appartient à son utilisateur, qui peut utiliser un sous-domaine ou son propre nom de domaine.\n🛠️ HTML/CSS/JavaScript, GitHub Pages, Cloudflare Workers, Claude Code\n\nCe portfolio fonctionne grâce à Nocturnz Portfolio : un moteur qui permet de créer et gérer son site sans écrire de code. Son panneau d’édition visuel permet de modifier les textes, ajouter des projets et déposer des images directement dans l’interface.",
       "featured": false,
-      "link": "https://nocturnz.xyz",
+      "link": "https://nocturnz.xyz/portfolio/",
       "embed": true,
-      "assets": [
-        {
-          "type": "text",
-          "text": "Conception du produit de A à Z : moteur de portfolio, panneau d'édition visuel (on clique sur un texte pour le changer, on dépose ses images), sous-domaine au pseudo ou nom de domaine personnel.\nParti pris : le contenu appartient à l'utilisateur, l'hébergement est gratuit, aucune marque imposée sur son site.\nVitrine, identité visuelle et parcours de demande construits en parallèle.\n🛠️ HTML/CSS/JavaScript, GitHub Pages, Cloudflare Workers, Claude Code",
-          "hidden": false,
-          "size": "lg",
-          "pos": {
-            "x": 360,
-            "y": 0,
-            "w": 560
-          }
-        }
-      ],
+      "assets": [],
       "subProjects": [],
       "thumb": "images/thumbs/nocturnz-portfolio-en-ligne-miniature-1790900861949-0.webp",
       "group": "nocturnz"
@@ -546,7 +534,7 @@
       "medium": "video",
       "tags": [
         "Vidéo",
-        "Montage vidéo"
+        "Montage"
       ],
       "desc": "Rythme dynamique, codes du format",
       "featured": false,
@@ -556,14 +544,16 @@
           "url": "https://www-ccv.adobe.io/v1/player/ccv/BtVu4sQjmY5/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
           "caption": "Best of d'un live IRL d'1h30",
-          "aspect": "16/9"
+          "aspect": "16/9",
+          "size": "lg"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/-3RUXChiGI-/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
           "caption": "Best of d'un live gaming de 2h",
-          "aspect": "16/9"
+          "aspect": "16/9",
+          "size": "lg"
         }
       ],
       "thumb": "images/thumbs/montage-video-style-youtube-thumb.webp",
@@ -666,7 +656,8 @@
             "y": 97,
             "w": 714
           },
-          "caption": "Reportage réalisé dans le cadre du projet vidéo 2 à l'ISFSC"
+          "caption": "Reportage réalisé dans le cadre du projet vidéo 2 à l'ISFSC",
+          "size": "lg"
         },
         {
           "type": "image",
@@ -1028,14 +1019,14 @@
     },
     {
       "id": "esprit-meesyz",
-      "title": "MEESYZ — Baker",
+      "title": "ITW : MEESYZ",
       "year": 2025,
       "current": false,
       "ctx": "academique",
       "medium": "video",
       "tags": [
         "Vidéo",
-        "Montage vidéo"
+        "Montage"
       ],
       "desc": "Montage vidéo · présentation de l’EP",
       "longDesc": "",
@@ -1047,25 +1038,26 @@
         {
           "type": "video",
           "url": "https://www.youtube.com/watch?v=aLJaS7N3UiU",
-          "hidden": false
+          "hidden": false,
+          "size": "lg"
         }
       ],
-      "thumb": "images/thumbs/esprit-meesyz.webp",
+      "thumb": "images/thumbs/esprit-meesyz-hd.webp",
       "subProjects": [],
       "group": "en-esprit-videos"
     },
     {
       "id": "esprit-sins-sdm",
-      "title": "Sins au Zénith de SDM",
+      "title": "IMMERSION : Sins au Zénith de SDM",
       "year": 2025,
       "current": false,
       "ctx": "academique",
       "medium": "video",
       "tags": [
         "Vidéo",
-        "Montage vidéo"
+        "Montage"
       ],
-      "desc": "Montage vidéo · immersion dans les coulisses",
+      "desc": "Montage vidéo · coulisses du concert",
       "longDesc": "",
       "featured": false,
       "hidden": false,
@@ -1075,23 +1067,25 @@
         {
           "type": "video",
           "url": "https://www.youtube.com/watch?v=W05gURdlCUE",
-          "hidden": false
+          "hidden": false,
+          "size": "lg"
         }
       ],
-      "thumb": "images/thumbs/esprit-sins-sdm.webp",
+      "thumb": "images/thumbs/esprit-sins-sdm-hd.webp",
       "subProjects": [],
       "group": "en-esprit-videos"
     },
     {
       "id": "esprit-mallaury",
-      "title": "Entretien avec Mallaury",
+      "title": "ITW : MALLAURY",
       "year": 2025,
       "current": false,
       "ctx": "academique",
       "medium": "video",
       "tags": [
         "Vidéo",
-        "Montage vidéo"
+        "Montage",
+        "Tournage"
       ],
       "desc": "Montage vidéo · parcours d’une artiste dans la musique",
       "longDesc": "",
@@ -1103,23 +1097,25 @@
         {
           "type": "video",
           "url": "https://www.youtube.com/watch?v=n9jMD1HbyQU",
-          "hidden": false
+          "hidden": false,
+          "size": "lg"
         }
       ],
-      "thumb": "images/thumbs/esprit-mallaury.webp",
+      "thumb": "images/thumbs/esprit-mallaury-hd.webp",
       "subProjects": [],
       "group": "en-esprit-videos"
     },
     {
       "id": "esprit-udeyfa",
-      "title": "Entretien avec Udeyfa",
+      "title": "ITW : UDEYFA",
       "year": 2025,
       "current": false,
       "ctx": "academique",
       "medium": "video",
       "tags": [
         "Vidéo",
-        "Montage vidéo"
+        "Montage",
+        "Tournage"
       ],
       "desc": "Montage vidéo · parcours personnel et musical",
       "longDesc": "",
@@ -1130,11 +1126,20 @@
       "assets": [
         {
           "type": "video",
+          "url": "https://www.youtube.com/watch?v=i5TVdytEkf8",
+          "hidden": false,
+          "size": "lg",
+          "caption": "Partie 1"
+        },
+        {
+          "type": "video",
           "url": "https://www.youtube.com/watch?v=H5qDkSosgdM",
-          "hidden": false
+          "hidden": false,
+          "size": "lg",
+          "caption": "Partie 2"
         }
       ],
-      "thumb": "images/thumbs/esprit-udeyfa.webp",
+      "thumb": "images/thumbs/esprit-udeyfa-hd.webp",
       "subProjects": [],
       "group": "en-esprit-videos"
     },
@@ -1147,7 +1152,7 @@
       "medium": "video",
       "tags": [
         "Vidéo",
-        "Montage vidéo"
+        "Montage"
       ],
       "desc": "Vidéos du stage En Esprit",
       "featured": false,
@@ -1155,27 +1160,32 @@
         {
           "type": "video",
           "url": "https://www.youtube.com/watch?v=aLJaS7N3UiU",
-          "hidden": false
+          "hidden": false,
+          "size": "lg"
         },
         {
           "type": "video",
           "url": "https://www.youtube.com/watch?v=W05gURdlCUE",
-          "hidden": false
+          "hidden": false,
+          "size": "lg"
         },
         {
           "type": "video",
           "url": "https://www.youtube.com/watch?v=yT7vIwk19Eo",
-          "hidden": false
+          "hidden": false,
+          "size": "lg"
         },
         {
           "type": "video",
           "url": "https://www.youtube.com/watch?v=n9jMD1HbyQU",
-          "hidden": false
+          "hidden": false,
+          "size": "lg"
         },
         {
           "type": "video",
           "url": "https://www.youtube.com/watch?v=H5qDkSosgdM",
-          "hidden": false
+          "hidden": false,
+          "size": "lg"
         }
       ],
       "thumb": "images/thumbs/montage-video-long-format-thumb.webp",
@@ -1353,35 +1363,35 @@
           "url": "https://www-ccv.adobe.io/v1/player/ccv/7rCRX4cxf8i/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
           "aspect": "9/16",
-          "size": "sm"
+          "size": "lg"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/EU_nmajCpvc/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
           "aspect": "9/16",
-          "size": "sm"
+          "size": "lg"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/Tg6qn5fhsD9/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
           "aspect": "9/16",
-          "size": "sm"
+          "size": "lg"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/RSVWdjjnC9I/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
           "aspect": "9/16",
-          "size": "sm"
+          "size": "lg"
         },
         {
           "type": "web",
           "url": "https://www-ccv.adobe.io/v1/player/ccv/VocC94c79EA/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View",
           "hidden": false,
           "aspect": "9/16",
-          "size": "sm"
+          "size": "lg"
         }
       ],
       "subProjects": [],
@@ -1744,7 +1754,7 @@
       "ctx": "perso",
       "medium": "video",
       "tags": [
-        "Montage vidéo"
+        "Montage"
       ],
       "desc": "Extension Premiere Pro · coupe des silences et sous-titrage",
       "longDesc": "Extension open source pour Adobe Premiere Pro, en développement : nettoyage des silences, transcription, sous-titres et réalisation dans un seul outil, avec traitements locaux.",
@@ -1900,14 +1910,15 @@
     },
     {
       "id": "esprit-soolking",
-      "title": "Tournage : concert de Soolking",
+      "title": "IMMERSION : concert de Soolking",
       "year": 2025,
       "current": false,
       "ctx": "academique",
       "medium": "video",
       "tags": [
         "Vidéo",
-        "Montage vidéo"
+        "Montage",
+        "Tournage"
       ],
       "desc": "Cadrage et montage",
       "longDesc": "",
@@ -1919,34 +1930,43 @@
         {
           "type": "video",
           "url": "https://www.youtube.com/watch?v=yT7vIwk19Eo",
-          "hidden": false
+          "hidden": false,
+          "size": "lg"
         }
       ],
-      "thumb": "images/thumbs/esprit-soolking.webp",
+      "thumb": "images/thumbs/esprit-soolking-hd.webp",
       "subProjects": [],
       "group": "en-esprit-videos"
     },
     {
       "id": "esprit-la-haine",
-      "title": "Tournage : « La Haine, jusqu'ici rien n'a changé »",
+      "title": "IMMERSION : La Haine en coulisses",
       "year": 2025,
       "current": false,
       "ctx": "academique",
       "medium": "video",
       "tags": [
         "Vidéo",
-        "Montage vidéo"
+        "Montage",
+        "Tournage"
       ],
-      "desc": "Captation et montage de la pièce",
-      "longDesc": "",
+      "desc": "Tournage · montage des reels",
+      "longDesc": "Participation au tournage de cette immersion en coulisses et montage des reels. Je n’ai pas réalisé le montage de la vidéo longue.",
       "featured": false,
-      "hidden": true,
+      "hidden": false,
       "link": "",
       "embed": false,
-      "assets": [],
-      "thumb": "",
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=ij1MuhKekf8",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
+      "thumb": "images/thumbs/esprit-la-haine.webp",
       "subProjects": [],
-      "group": "en-esprit"
+      "group": "en-esprit-videos"
     },
     {
       "id": "esprit-workshops",
@@ -1957,7 +1977,8 @@
       "medium": "video",
       "tags": [
         "Vidéo",
-        "Montage vidéo"
+        "Montage",
+        "Tournage"
       ],
       "desc": "Tournage et montage",
       "longDesc": "",
@@ -2065,7 +2086,14 @@
       "hidden": true,
       "link": "https://tristejeu.web.app/",
       "embed": false,
-      "assets": [],
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/thumbs/tristejeu-tristeparty-web-frame.webp",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
       "thumb": "images/thumbs/tristejeu-tristeparty-web-frame.webp",
       "subProjects": [],
       "group": "tristejeu"
@@ -2086,7 +2114,14 @@
       "hidden": false,
       "link": "https://tristejeu.web.app/",
       "embed": false,
-      "assets": [],
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/thumbs/tristejeu-quidenous-web-frame.webp",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
       "thumb": "images/thumbs/tristejeu-quidenous-web-frame.webp",
       "subProjects": [],
       "group": "tristejeu"
@@ -2107,7 +2142,14 @@
       "hidden": false,
       "link": "https://tristejeu.web.app/",
       "embed": false,
-      "assets": [],
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/thumbs/tristejeu-loupgarou-web-frame.webp",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
       "thumb": "images/thumbs/tristejeu-loupgarou-web-frame.webp",
       "subProjects": [],
       "group": "tristejeu"
@@ -2128,7 +2170,14 @@
       "hidden": false,
       "link": "https://tristejeu.web.app/",
       "embed": false,
-      "assets": [],
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/thumbs/tristejeu-quiestce-web-frame.webp",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
       "thumb": "images/thumbs/tristejeu-quiestce-web-frame.webp",
       "subProjects": [],
       "group": "tristejeu"
@@ -2149,7 +2198,14 @@
       "hidden": false,
       "link": "https://tristejeu.web.app/",
       "embed": false,
-      "assets": [],
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/thumbs/tristejeu-wa7ad-web-frame.webp",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
       "thumb": "images/thumbs/tristejeu-wa7ad-web-frame.webp",
       "subProjects": [],
       "group": "tristejeu"
@@ -2214,6 +2270,184 @@
       "thumb": "",
       "subProjects": [],
       "group": "daybreak"
+    },
+    {
+      "id": "esprit-nk-divine",
+      "title": "ITW : NK DIVINE",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Vidéo",
+        "Montage"
+      ],
+      "desc": "Montage vidéo · entretien autour de son parcours",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=QP1q0JlSbyg",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
+      "thumb": "images/thumbs/esprit-nk-divine.webp",
+      "subProjects": [],
+      "group": "en-esprit-videos"
+    },
+    {
+      "id": "esprit-dj-kawest",
+      "title": "IMMERSION : DJ Kawest à l’Olympia",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Vidéo",
+        "Montage"
+      ],
+      "desc": "Montage vidéo · préparation d’un concert",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=PZZjriGm9Ic",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
+      "thumb": "images/thumbs/esprit-dj-kawest.webp",
+      "subProjects": [],
+      "group": "en-esprit-videos"
+    },
+    {
+      "id": "esprit-feminitea-mallaury",
+      "title": "ITW : MALLAURY — Feminitea",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Vidéo",
+        "Montage"
+      ],
+      "desc": "Carte blanche · format, montage et direction artistique",
+      "longDesc": "Création du format, montage et direction artistique de cet épisode de Spill the Tea, réalisés en carte blanche pendant mon stage chez En Esprit.",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=nsgQqqnO39I",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
+      "thumb": "images/thumbs/feminitea-spill-the-tea.webp",
+      "subProjects": [],
+      "group": "en-esprit-videos"
+    },
+    {
+      "id": "esprit-reels-tiakola",
+      "title": "REELS : concert de Tiakola",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Vidéo",
+        "Montage",
+        "Tournage"
+      ],
+      "desc": "Formats courts · vidéos à ajouter",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "en-esprit-videos"
+    },
+    {
+      "id": "esprit-reels-youssef-swatts",
+      "title": "REELS : vernissage Youssef Swatt’s",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Vidéo",
+        "Montage",
+        "Tournage"
+      ],
+      "desc": "Formats courts · vidéos à ajouter",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "en-esprit-videos"
+    },
+    {
+      "id": "esprit-reels-slice",
+      "title": "REELS : Slice",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Vidéo",
+        "Montage",
+        "Tournage"
+      ],
+      "desc": "Formats courts · vidéos à ajouter",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "en-esprit-videos"
+    },
+    {
+      "id": "esprit-reels-feminitea",
+      "title": "REELS : Feminitea",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Vidéo",
+        "Montage"
+      ],
+      "desc": "Formats courts · vidéos à ajouter",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "en-esprit-videos"
     }
   ]
 }
