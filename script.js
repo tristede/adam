@@ -1548,7 +1548,7 @@
         rect.bottom < 0 || rect.top > window.innerHeight;
       if (paused){ autoPos = grid.scrollLeft; }
       else {
-        autoPos += Math.min(time - (previous || time), 50) * 0.009;
+        autoPos += Math.min(time - (previous || time), 50) * 0.04;
         grid.scrollLeft = autoPos; normalize();
       }
       previous = time;
