@@ -1,9 +1,8 @@
 # Portfolio — Adam
 
 Site multi-pages (HTML/CSS/JS, aucune dépendance à installer, aucun build).
-Mise en page et glassmorphism inspirés de [bastienokonski.fr](https://bastienokonski.fr/)
-(nav flottante en verre, cartes translucides), habillés avec l'identité de ton
-Adobe Portfolio : palette bleu nuit, police manuscrite.
+Identité visuelle : bleu nuit étoilé, cartes translucides et texte manuscrit
+avec effet de décryptage. Positionnement : créatif volatile / enfant d’internet.
 
 **Tout le contenu (textes, projets, projet favori) se modifie depuis
 [`/admin.html`](admin.html), sans toucher au code — voir la section
@@ -11,18 +10,17 @@ Adobe Portfolio : palette bleu nuit, police manuscrite.
 
 ## Structure des pages
 
-- **`index.html`** — l'accueil : titre, bio, deux boutons ("Projets perso" /
-  "Projets académiques"), un projet favori mis en avant, la sélection
-  "Projets mis en avant" (3 projets), à propos, parcours, contact. **Les
-  grilles complètes de projets ne sont plus sur cette page.**
-- **`projets-perso.html`** / **`projets-academiques.html`** — la séparation
-  principale du site. Chacune affiche d'abord les groupes de sa catégorie
-  (voir plus bas), puis les projets qui n'appartiennent à aucun groupe,
-  filtrables par tag. La catégorie (`ctx: "perso"`/`"academique"`/`"stage"`)
-  d'un projet détermine sa page — `"stage"` compte comme académique.
-  `projets.html` (sans distinction) existe toujours en repli, pour la page
-  d'un groupe dont la catégorie n'est pas évidente, mais n'est plus lié
-  depuis l'accueil.
+- **`index.html`** — l'accueil : présentation, deux cartes perso / académique,
+  projet favori, projets mis en avant, à propos, compétences en deux groupes
+  Hard skills / Soft skills, parcours, bannière de stage et contact.
+- **`projets.html`** — la page Projets unique, avec filtres Perso / Académique,
+  médiums et tags. Aucun filtre choisi = tous les projets ; recliquer retire
+  le filtre. Un tag cherche dans tout le portfolio, projets de groupes et
+  secondaires compris. L'état est conservé dans l'URL (`?cat=perso`, `?tag=web`).
+  La catégorie `stage` compte comme académique.
+- **`projets-perso.html`** / **`projets-academiques.html`** — redirections vers
+  `projets.html?cat=perso` et `projets.html?cat=academique`. Elles restent
+  chargeables dans la vue visuelle de l'admin.
 - **`groupe.html?id=...`** — la page d'un groupe (un club, une agence, un
   stage — plusieurs projets réunis sous une seule carte, ex. "Union Oasis
   Forest" ou "Stage chez En Esprit"). Remplace l'ancien système de
@@ -96,7 +94,7 @@ l'accès à son API par mot de passe. La première fois, la page t'explique en
 3 étapes comment générer ce token (2 minutes, à faire une seule fois) :
 
 1. [github.com/settings/personal-access-tokens/new](https://github.com/settings/personal-access-tokens/new)
-2. *Repository access* → *Only select repositories* → `portfolio`
+2. *Repository access* → *Only select repositories* → `adam`
 3. *Permissions* → *Contents* → *Read and write*, puis *Generate token*
 
 Colle le token dans `/admin.html` : il reste uniquement dans ton navigateur
@@ -135,7 +133,7 @@ navigateur). Mise en place, une seule fois (~15-20 min) :
    le bouton "Se connecter avec GitHub" s'active tout seul.
 
 Note sécurité : contrairement au token manuel (limité au seul repo
-`portfolio`), un token obtenu via ce flow OAuth a accès en écriture à
+`adam`), un token obtenu via ce flow OAuth a accès en écriture à
 **tous tes repos publics** (portée `public_repo`, la plus restrictive que
 GitHub propose pour ce type d'app) — un compromis à connaître, propre au
 fonctionnement des OAuth Apps GitHub.
@@ -152,31 +150,20 @@ Tu as demandé les polices **"Bad Dog"** (titres) et **"Homemade Apple Pro"** (t
   fichier `.ttf`/`.otf` de Bad Dog et que sa licence permet l'usage voulu, donne-le-moi
   et je l'intègre en `@font-face` à la place.
 
-## Fond — en attente de ton fichier
+## Direction artistique et contenu à compléter
 
-Le fond est actuellement un simple dégradé bleu nuit (`.topo-bg` dans `style.css`).
-Quand tu me passes ton image de fond (les traits zébrés), je l'intègre directement en
-`background-image` sur `.topo-bg` — une seule ligne à changer, dans un seul fichier,
-répercutée sur les 4 pages automatiquement.
+Le fond bleu nuit étoilé et le texte manuscrit qui se décrypte sont voulus.
+Toute modification de direction artistique demande l'accord d'Adam.
 
-## À compléter avant mise en ligne
+Le suivi des projets masqués, des médias manquants et des vérifications restantes
+est dans [`CLAUDE.md`](CLAUDE.md). Ne pas inventer les faits ou les descriptions
+manquantes. Les descriptions courtes font au maximum 62 caractères, sous forme de
+mots-clés séparés par « · », sans répéter le titre.
 
-- [ ] **Email de contact** : remplacer `PLACEHOLDER@email.com` — modifiable depuis
-      `/admin.html` (section "Textes du site") — utilise un email perso plutôt que
-      ton adresse étudiante ISFSC si possible.
-- [ ] **Liens des projets** : les cartes n'ont pas de lien cliquable vers le détail du
-      projet (Drive, Behance, YouTube...) — dis-moi si tu veux que j'ajoute ça, projet
-      par projet.
-- [ ] **Images réelles** : chaque vignette (et le projet favori) est une mire de test
-      générée en CSS. Remplace-les par tes vraies images/miniatures (voir plus bas).
-- [ ] **CV** : le bouton "CV" pointe vers `cv.pdf` (présent sur les 4 pages) — dépose
-      ton CV à jour dans le dossier sous ce nom exact, sinon le bouton mènera à une
-      page 404.
-- [ ] **Projet favori** et **projets mis en avant** : modifiables directement depuis
-      `/admin.html`, plus besoin de toucher au code.
-- [ ] Les descriptions de projets sont des reformulations courtes à partir des
-      seuls titres — à réécrire avec de vrais détails (contexte, outils, résultat),
-      également depuis `/admin.html`.
+Les miniatures de cartes sont en WebP dans `images/thumbs/`, avec une largeur
+maximale de 1200 px. Le champ `preview` accepte un aperçu animé : il remplace la
+miniature après 1 seconde de survol, muet et en boucle. La description apparaît
+en infobulle après 0,35 seconde ; sur tactile elle reste affichée.
 
 ## Pages détail de projet (clic sur une vignette)
 
@@ -186,8 +173,9 @@ configure depuis `/admin.html`, section "Modifier ce projet" — les champs
 au-delà de "Description courte" sont optionnels et n'apparaissent que sur la
 page détail :
 
-- **Description longue** — remplace la description courte sur la page détail.
-- **Contenus du projet** — la liste des médias, alimentée par trois boutons :
+- **Description longue** — apparaît dans le corps de la page, après les visuels.
+  La description courte reste sous le titre.
+- **Contenus du projet** — la liste des médias, alimentée par les boutons suivants :
   - **+ Image** : choisis un ou plusieurs fichiers ; ils sont convertis en
     **WebP** (1920px max, qualité 85%) et envoyés dans `images/` sur GitHub.
   - **+ Vidéo** : colle un lien YouTube, Vimeo ou un `.mp4`.
@@ -207,10 +195,15 @@ page détail :
 - **Miniature** — l'image de la vignette avant de cliquer. Par défaut c'est la
   première image visible du projet, mais tu peux en choisir une autre dans la
   liste, ou **envoyer une image dédiée** qui ne figurera pas dans les contenus.
-- **Masquer ce projet** — retire le projet des grilles et de l'accueil tout en
-  le gardant dans l'admin (utile pour un brouillon).
+- **Masquer ce projet** — le rend invisible partout sur le site public, tout en
+  le gardant dans l'admin.
+- **Secondaire** — absent de l'accueil et des groupes, visible uniquement quand
+  un filtre de médium ou de tag est actif sur la page Projets.
+- **Mis en avant** — affiché dans la sélection de l'accueil. Un groupe peut
+  aussi être mis en avant ; éviter de sélectionner à la fois le groupe et ses projets.
 - **Lien externe** — le bouton "Visiter le site" pointe vers cette URL, et un
-  **aperçu du site est intégré directement dans la page** (iframe). Note que
+  **aperçu du site peut être intégré dans la page** (iframe, avec `embed: true`).
+  Cette intégration est à conserver pour le site du club. Note que
   certains sites refusent d'être intégrés (protection `X-Frame-Options`) : dans
   ce cas l'aperçu reste vide, et une phrase invite à ouvrir le lien directement.
 
@@ -247,29 +240,36 @@ Tous les médiums sont supportés (graphisme, vidéo, audio, **site web**,
 réseaux sociaux, événementiel, écrit) — la catégorie ne limite pas les champs
 disponibles, tu peux par exemple ajouter une vidéo à un projet "graphisme".
 
-## Déployer le site (gratuit, sans serveur)
+## Publication et travail avec les agents
 
-Le plus simple, sans rien installer :
+Le site est hébergé sur GitHub Pages : dépôt `tristede/adam`, branche `main`,
+à l'adresse **https://adam.nocturnz.xyz/**. Un push sur `main` déclenche la publication.
+L'admin peut aussi enregistrer directement `data.json` sur GitHub.
 
-1. Va sur [app.netlify.com/drop](https://app.netlify.com/drop)
-2. Glisse le dossier `portfolio-adam` entier dans la page (les fichiers doivent
-   rester ensemble, dans le même dossier)
-3. Netlify te donne une URL en quelques secondes (ex: `adam-karroum.netlify.app`)
-4. Tu pourras ensuite brancher ton propre nom de domaine si tu en as un
+Lire [`AGENTS.md`](AGENTS.md) et [`CLAUDE.md`](CLAUDE.md) avant toute modification.
+Publier uniquement à la demande d'Adam. Avant un push, faire un `git fetch`,
+vérifier les changements distants et examiner le diff : le dépôt est public,
+il ne doit contenir ni nom de famille ni adresse e-mail personnelle. Après la
+publication, vérifier la version servie du site.
 
-Alternative : GitHub Pages (si tu as un compte GitHub) ou Vercel — dis-le-moi si tu
-veux que je t'accompagne sur l'une de ces options plutôt.
+Lors d'une modification de `style.css` ou `script.js`, incrémenter son paramètre
+`?v=N` dans tous les HTML, y compris `404.html`. Conserver `data.json` en UTF-8,
+indenté avec deux espaces et terminé par un retour à la ligne. Les HTML sont
+sans DOCTYPE : ne pas en ajouter sans vérifier toute la mise en page.
 
 ## Prévisualiser en local
 
 Comme le site est maintenant multi-pages avec des fichiers séparés (`style.css`,
 `script.js`), l'ouverture directe par double-clic peut ne pas fonctionner selon ton
 navigateur (certains bloquent le chargement de fichiers locaux liés). Le plus fiable :
-ouvre un terminal dans le dossier `portfolio-adam` et lance :
+ouvre un terminal dans le dossier du dépôt et lance :
 
 ```bash
-python3 -m http.server 8000
+python3 -m http.server 8124
 ```
 
-puis ouvre `http://localhost:8000` dans ton navigateur — tous les liens et pages
+puis ouvre `http://localhost:8124` dans ton navigateur — tous les liens et pages
 fonctionneront normalement.
+
+Tester à 1280 px sur bureau et à 375 px sur mobile. Garder tous les médias muets
+et fermer les onglets de test après usage.

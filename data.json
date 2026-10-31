@@ -158,29 +158,49 @@
     },
     "skills": [
       {
-        "group": "Cœur de métier",
-        "name": "Créatif volatile",
-        "detail": "Affiches, miniatures, formats courts, pochettes — de l'idée au fichier livré."
-      },
-      {
-        "group": "Cœur de métier",
-        "name": "Community management",
-        "detail": "Ligne éditoriale, publications, veille et animation de communautés."
-      },
-      {
-        "group": "Également",
-        "name": "Graphisme & identité visuelle",
-        "detail": "Logos, cartes de visite, affiches — Photoshop / Illustrator."
-      },
-      {
-        "group": "Également",
+        "group": "Hard skills",
         "name": "Montage vidéo",
         "detail": "Formats YouTube, reels/TikTok, reportages — Premiere Pro."
       },
       {
-        "group": "Également",
-        "name": "Audio",
+        "group": "Hard skills",
+        "name": "Graphisme & identité visuelle",
+        "detail": "Logos, cartes de visite, affiches — Photoshop / Illustrator."
+      },
+      {
+        "group": "Hard skills",
+        "name": "Mixage audio",
         "detail": "Écriture, enregistrement, mixage chant/rap, podcast."
+      },
+      {
+        "group": "Hard skills",
+        "name": "Community management",
+        "detail": "Ligne éditoriale, publications, veille et animation de communautés."
+      },
+      {
+        "group": "Hard skills",
+        "name": "Développement web",
+        "detail": "Sites et outils sur mesure : HTML, CSS, JavaScript."
+      },
+      {
+        "group": "Soft skills",
+        "name": "Créatif volatile",
+        "detail": "Je passe du montage au graphisme, de l'écriture au mixage."
+      },
+      {
+        "group": "Soft skills",
+        "name": "Curieux de nature",
+        "detail": "Toujours en train d'apprendre un nouvel outil ou un nouveau médium."
+      },
+      {
+        "group": "Soft skills",
+        "name": "Autodidacte",
+        "detail": "J'apprends en faisant, avant la formation."
+      },
+      {
+        "group": "Soft skills",
+        "name": "Touche-à-tout",
+        "detail": "Un même réflexe : comprendre à qui l'on parle avant de choisir comment le dire."
       }
     ]
   },
