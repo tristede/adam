@@ -390,3 +390,5 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
 - Aperçu des groupes : grille compacte de miniatures en trois colonnes au-delà de trois projets, nombre conservé ; liste avec titres conservée jusqu’à trois. CSS `v=63`, JS `v=50`, non publié.
 
 - Aperçu des groupes : miniature temporaire « ? » pour les projets sans image. CSS `v=64`, JS `v=51`.
+
+- Point d’interrogation des miniatures temporaires en police normale. CSS `v=65`, non publié.
