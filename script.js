@@ -139,12 +139,18 @@
     return firstImg ? firstImg.url : '';
   }
 
+  // texte de l'infobulle d'une carte (voir « Infobulle » plus bas)
+  function tipAttr(desc){
+    return desc ? ' data-tip="' + String(desc).replace(/&/g, '&amp;').replace(/"/g, '&quot;') + '"' : '';
+  }
+
   function cardHTML(p, i){
     var thumb = thumbSrc(p);
     return (
       '<a class="card" href="projet.html?id=' + encodeURIComponent(p.id) + '" data-project-id="' + p.id + '"' +
         (p.hidden ? ' data-project-hidden="1"' : '') +
         (p.secondary ? ' data-project-secondary="1"' : '') +
+        tipAttr(p.desc) +
         ' style="transition-delay:' + ((i % 8) * 40) + 'ms">' +
         '<div class="thumb' + (thumb ? ' has-img' : '') + '">' +
           (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy">' : '') +
@@ -436,13 +442,20 @@
     host.innerHTML = ordre.map(function(g){
       return '<div class="skill-block">' +
         (g ? '<h4>' + g + '</h4>' : '') +
+        // sur le site public : juste les noms, en pastilles (le texte est deja
+        // a gauche) ; l'editeur garde les cartes completes pour modifier les details
+        (window.__EDIT_MODE__ ? '' : '<div class="skill-chips">') +
         parGroupe[g].map(function(entry){
           var s = entry.s;
+          if (!window.__EDIT_MODE__){
+            return '<span class="skill-chip" data-skill-index="' + entry.i + '" title="' + String(s.detail || '').replace(/"/g, '&quot;') + '">' + (s.name || '') + '</span>';
+          }
           return '<div class="skill-card" data-skill-index="' + entry.i + '">' +
             '<div class="name">' + (s.name || '') + '</div>' +
             '<div class="detail">' + (s.detail || '') + '</div>' +
           '</div>';
         }).join('') +
+        (window.__EDIT_MODE__ ? '' : '</div>') +
       '</div>';
     }).join('');
   }
@@ -769,7 +782,7 @@
         '</div>' +
         '<h1 class="detail-title">' + p.title + '</h1>' +
         '<div class="card-tags detail-tags">' + p.tags.map(function(t){ return '<span class="tag">#' + t + '</span>'; }).join('') + '</div>' +
-        '<p class="detail-desc">' + (p.longDesc || p.desc) + '</p>' +
+        (p.desc || window.__EDIT_MODE__ ? '<p class="detail-desc">' + (p.desc || '') + '</p>' : '') +
         ownerSocialHTML(p) +
         (p.link ? '<a class="btn btn-primary" href="' + p.link + '" target="_blank" rel="noopener">Visiter le site ' + UI_ICON.external + '</a>' : '') +
         // `embed` est un choix explicite fait depuis l'editeur (case a cocher
@@ -779,6 +792,11 @@
         // si elle s'affichait par defaut.
         (p.link && p.embed ? websiteEmbedHTML(p.link) : '') +
         mediaBlocksHTML(p) +
+        // la description longue vit dans le corps, apres le visuel fort : en
+        // tete de page, seule la phrase courte accompagne le titre
+        (p.longDesc || window.__EDIT_MODE__
+          ? '<div class="detail-body"><p class="detail-desc detail-long">' + (p.longDesc || '') + '</p></div>'
+          : '') +
         subProjectsHTML(p.subProjects) +
       '</div>';
 
@@ -1117,6 +1135,13 @@
   // Une entite — un club, une agence — rassemble plusieurs projets sous une
   // seule carte. Meme habillage qu'un projet pour que la grille reste homogene,
   // mais elle ouvre la page du groupe au lieu d'un projet.
+  // apercu des projets d'un groupe, affiche au survol du badge « N projets »
+  function membersAttr(list){
+    if (!list.length) return '';
+    var data = { n: list.length, m: list.slice(0, 6).map(function(p){ return { t: p.title, s: thumbSrc(p) }; }) };
+    return ' data-members="' + JSON.stringify(data).replace(/&/g, '&amp;').replace(/"/g, '&quot;') + '"';
+  }
+
   function groupCardHTML(g, list, i){
     var thumb = g.thumb || (list[0] ? thumbSrc(list[0]) : '');
     // Un groupe se lit comme un paquet de cartes : deux feuilles decalees
@@ -1127,11 +1152,12 @@
       '<a class="card card-group" href="groupe.html?id=' + encodeURIComponent(g.id) + '"' +
         ' data-group-id="' + g.id + '"' +
         (g.hidden ? ' data-group-hidden="1"' : '') +
+        tipAttr(g.desc) +
         ' style="transition-delay:' + ((i % 8) * 40) + 'ms">' +
         '<div class="thumb' + (thumb ? ' has-img' : '') + '">' +
           (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + g.title + '" loading="lazy">' : '') +
           '<span class="period">' + groupPeriod(list) + '</span>' +
-          '<span class="year">' + list.length + ' projet' + (list.length > 1 ? 's' : '') + '</span>' +
+          '<span class="year"' + membersAttr(list) + '>' + list.length + ' projet' + (list.length > 1 ? 's' : '') + '</span>' +
           '<span class="medium-label">Groupe</span>' +
         '</div>' +
         '<div class="card-body">' +
@@ -1509,6 +1535,99 @@
   // that will never come, and re-encrypt it on the way out so it can replay
   // next time the reader scrolls back up to it.
   var hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  // Infobulle : sur un appareil a survol, la description d'une carte n'est plus
+  // dans la grille ; elle apparait quand on laisse la souris plus d'une seconde
+  // dessus. Sur tactile, la description reste affichee. Pas d'infobulle dans
+  // l'editeur, ou les descriptions se modifient directement sur la carte.
+  if (hoverCapable && !window.__EDIT_MODE__){
+    document.documentElement.classList.add('has-card-tip');
+    var tip = document.createElement('div');
+    tip.className = 'card-tip';
+    tip.setAttribute('role', 'tooltip');
+    document.body.appendChild(tip);
+    var tipTimer = null, tipCard = null, tipX = 0, tipY = 0;
+
+    var cacherTip = function(){
+      clearTimeout(tipTimer); tipTimer = null; tipCard = null;
+      tip.classList.remove('is-on');
+    };
+    var placerTip = function(){
+      var w = tip.offsetWidth, h = tip.offsetHeight;
+      var x = Math.max(12, Math.min(tipX + 16, window.innerWidth - w - 12));
+      var y = (tipY + 22 + h > window.innerHeight - 12) ? Math.max(12, tipY - h - 14) : tipY + 22;
+      tip.style.left = x + 'px';
+      tip.style.top = y + 'px';
+    };
+    document.addEventListener('mousemove', function(e){
+      tipX = e.clientX; tipY = e.clientY;
+      if (tip.classList.contains('is-on')) placerTip();
+    }, { passive: true });
+    document.addEventListener('mouseover', function(e){
+      var c = e.target.closest ? e.target.closest('.card[data-tip]') : null;
+      if (c && e.target.closest('.year[data-members]')) c = null;   // le badge a son propre apercu
+      if (c === tipCard) return;
+      cacherTip();
+      if (!c) return;
+      tipCard = c;
+      tipTimer = setTimeout(function(){
+        var h3 = c.querySelector('h3');
+        tip.innerHTML = '';
+        var t = document.createElement('strong'); t.textContent = h3 ? h3.textContent : '';
+        var d = document.createElement('span'); d.textContent = c.getAttribute('data-tip');
+        tip.appendChild(t); tip.appendChild(d);
+        placerTip();
+        tip.classList.add('is-on');
+      }, 1000);
+    });
+    window.addEventListener('scroll', cacherTip, { passive: true });
+    document.addEventListener('click', cacherTip);
+
+    // Apercu du groupe : survol du badge « N projets » -> miniatures et titres.
+    var gp = document.createElement('div');
+    gp.className = 'group-preview';
+    document.body.appendChild(gp);
+    var gpBadge = null;
+    var cacherGp = function(){ gpBadge = null; gp.classList.remove('is-on'); };
+    document.addEventListener('mouseover', function(e){
+      var b = e.target.closest ? e.target.closest('.year[data-members]') : null;
+      if (b === gpBadge) return;
+      if (!b){ cacherGp(); return; }
+      var data;
+      try { data = JSON.parse(b.getAttribute('data-members')); } catch (err) { return; }
+      gpBadge = b;
+      gp.innerHTML = '';
+      var head = document.createElement('div');
+      head.className = 'gp-head';
+      head.textContent = data.n + ' projet' + (data.n > 1 ? 's' : '');
+      gp.appendChild(head);
+      data.m.forEach(function(m){
+        var row = document.createElement('div');
+        row.className = 'gp-row';
+        var img = document.createElement('span');
+        img.className = 'gp-thumb';
+        if (m.s) img.style.backgroundImage = 'url("' + m.s.replace(/"/g, '%22') + '")';
+        var t = document.createElement('span');
+        t.textContent = m.t;
+        row.appendChild(img); row.appendChild(t);
+        gp.appendChild(row);
+      });
+      if (data.n > data.m.length){
+        var more = document.createElement('div');
+        more.className = 'gp-more';
+        more.textContent = '+ ' + (data.n - data.m.length) + ' autre' + (data.n - data.m.length > 1 ? 's' : '');
+        gp.appendChild(more);
+      }
+      var r = b.getBoundingClientRect();
+      var w = gp.offsetWidth, h = gp.offsetHeight;
+      var x = Math.max(12, Math.min(r.right - w, window.innerWidth - w - 12));
+      var y = (r.bottom + 8 + h > window.innerHeight - 12) ? Math.max(12, r.top - h - 8) : r.bottom + 8;
+      gp.style.left = x + 'px';
+      gp.style.top = y + 'px';
+      gp.classList.add('is-on');
+    });
+    window.addEventListener('scroll', cacherGp, { passive: true });
+  }
 
   function initScramble(){
     document.querySelectorAll('.scramble').forEach(function(el){

@@ -3873,9 +3873,13 @@ body.visual-mode .wrap{ max-width: 1400px; }
     var p = state.projects.filter(function(x){ return x.id === projectId; })[0];
     if (!p) return;
     bindEditable(doc.querySelector('.detail-title'), function(){ return p.title || ''; }, function(v){ p.title = v; });
+    // phrase courte sous le titre ; description longue dans le corps, apres les visuels
     var mainDesc = doc.querySelector('.detail-wrap > .detail-desc');
     bindEditable(mainDesc,
-      function(){ return p.longDesc || p.desc || ''; },
+      function(){ return p.desc || ''; },
+      function(v){ p.desc = v; }, true);
+    bindEditable(doc.querySelector('.detail-wrap > .detail-body .detail-long'),
+      function(){ return p.longDesc || ''; },
       function(v){ p.longDesc = v; }, true);
     wireOwnerSocial(doc, p);
 

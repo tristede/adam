@@ -298,9 +298,19 @@ section.projects-section{
   padding:2px 9px; border-radius:0;
 }
 .tag-filters.is-closed{ display:none; }
-.filter-row{ display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px; margin-bottom:12px; }
-.filter-more{ min-width:40px; justify-content:center; font-size:18px; line-height:1; }
-.filter-cats .tag-filter{ font-size:13px; }
+/* Filtres : une seule ligne, sans cadres. Catégorie | médiums | « + », tous de
+   la même taille ; le reste se déplie dessous. */
+.filter-zone{ display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px 18px; }
+.filter-row{ display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:4px; margin:0; }
+.filter-zone .tag-filter,
+.filter-zone .filter-toggle{ border-color: transparent; padding:6px 14px; font-size:13px; font-weight:600; }
+.filter-zone .tag-filter:hover,
+.filter-zone .filter-toggle:hover{ background: rgba(255,255,255,0.05); }
+.filter-zone .filter-toggle.is-active{ border-color: transparent; background: var(--accent-soft); }
+.filter-zone .tag-filters{ flex-basis:100%; margin-top:2px; gap:4px; }
+@media (min-width: 760px){
+  .filter-presets{ padding-left:18px; border-left:1px solid var(--line-strong); }
+}
 .empty-state{ color: var(--text-dim); padding: 40px 0; text-align:center; }
 .tag-filters{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:14px; }
 .tag-filter{
@@ -393,6 +403,31 @@ section.projects-section{
 .card-body{ padding: 18px 18px 20px; display:flex; flex-direction:column; gap:10px; flex:1; }
 .card-body h3{ font-family: var(--font-display); font-size: 16px; font-weight:700; line-height:1.3; letter-spacing:0; }
 .card-body .desc{ font-size: 13.5px; color: var(--text-dim); line-height:1.5; flex:1; }
+/* sur appareil a survol, la description passe dans une infobulle (1 s de survol) */
+.has-card-tip .card-body .desc{ display:none; }
+.card-tip{
+  position: fixed; z-index: 300; max-width: 320px; padding: 12px 15px;
+  background: rgba(8,13,55,0.96); border: 1px solid var(--line-strong);
+  font-size: 13.5px; line-height: 1.55; color: var(--text-dim);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.45); backdrop-filter: blur(8px);
+  pointer-events: none; opacity: 0; transform: translateY(4px);
+  transition: opacity .15s ease, transform .15s ease;
+}
+.card-tip.is-on{ opacity: 1; transform: none; }
+.card-group .year[data-members]{ cursor: default; }
+.group-preview{
+  position: fixed; z-index: 300; width: 270px; padding: 12px 14px;
+  background: rgba(8,13,55,0.97); border: 1px solid var(--line-strong);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.45); backdrop-filter: blur(8px);
+  pointer-events: none; opacity: 0; transform: translateY(4px);
+  transition: opacity .12s ease, transform .12s ease;
+}
+.group-preview.is-on{ opacity: 1; transform: none; }
+.gp-head{ font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-sky); margin-bottom: 8px; }
+.gp-row{ display:flex; align-items:center; gap: 10px; padding: 4px 0; font-size: 13.5px; font-weight: 600; color:#fff; }
+.gp-thumb{ flex: 0 0 56px; height: 36px; background: var(--bg-soft, #080d37) center / cover no-repeat; border: 1px solid var(--line); }
+.gp-more{ font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+.card-tip strong{ display:block; color:#fff; font-size:14px; margin-bottom:4px; }
 .card-featured-label{
   font-family: var(--font); font-size: 11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
   color: var(--accent-sky);
@@ -785,6 +820,8 @@ section.projects-section{
 .subproject{ padding: 26px 0 0; }
 .subproject:first-of-type{ padding-top: 0; }
 .subproject h3{ font-family: var(--font-display); font-size: 18px; margin: 8px 0 8px; }
+.detail-body{ margin: 40px 0 8px; }
+.detail-body .detail-desc{ margin-bottom: 0; }
 .subproject .detail-desc{ font-size: 14.5px; margin-bottom: 14px; }
 .subproject .detail-gallery{ margin-top: 14px; }
 .subproject .detail-embed{ margin-top: 14px; }
@@ -845,6 +882,11 @@ section.projects-section{
 }
 .skill-card .name{ font-weight:700; font-size: 14.5px; margin-bottom: 3px; }
 .skill-card .detail{ font-size: 13px; color: var(--text-dim); line-height:1.5; }
+.skill-chips{ display:flex; flex-wrap:wrap; gap:10px; }
+.skill-chip{
+  background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);
+  padding: 10px 18px; font-weight:600; font-size: 14.5px;
+}
 
 /* ---------- Parcours (timeline verticale) ---------- */
 .timeline{ position:relative; max-width: 640px; padding-left: 32px; padding-bottom: 10px; }
@@ -878,6 +920,23 @@ section.projects-section{
 .stage-cta{
   max-width: 420px; margin: 48px 0 0;
   text-align:left;
+}
+
+/* Parcours centré sur l'axe vertical (bureau) : la ligne passe au milieu de la
+   page, les étapes alternent de part et d'autre ; sur mobile on garde la
+   colonne de gauche. */
+@media (min-width: 800px){
+  #parcours .section-head{ text-align:center; margin-left:auto; margin-right:auto; }
+  .timeline{ max-width: 880px; margin: 0 auto; padding-left: 0; }
+  .timeline::before{ left: 50%; transform: translateX(-50%); }
+  .timeline::after{ left: 50%; transform: translateX(-50%); }
+  .timeline-item{ width: 50%; padding-right: 44px; text-align: right; }
+  .timeline-item:nth-child(even){ margin-left: 50%; padding-right: 0; padding-left: 44px; text-align: left; }
+  .timeline-item::before{ left: auto; right: -6px; }
+  .timeline-item:nth-child(even)::before{ right: auto; left: -6px; }
+  .stage-cta{ max-width: 560px; margin: 48px auto 0; text-align: center; }
+  .stage-cta h3{ text-wrap: balance; }
+  .stage-cta-actions{ justify-content: center; }
 }
 .stage-cta h3{ font-size: clamp(19px, 2.4vw, 23px); margin: 10px 0 10px; }
 .stage-cta p{ color: var(--text-dim); font-size:14.5px; margin: 0 0 20px; }

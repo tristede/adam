@@ -342,7 +342,7 @@
         "Développement web",
         "Site web"
       ],
-      "desc": "Conception du site officiel du club, de l'architecture à la mise en ligne : galerie, calendriers des matchs, espace partenaires, interface d'édition pour l'équipe.",
+      "desc": "Site officiel du club, conçu et mis en ligne de A à Z.",
       "longDesc": "Site officiel du club, conçu avec Claude Code : accueil, présentation du club et des équipes, galerie, page partenaires avec les chiffres de la saison, formulaire d'inscription en ligne.\n\nUn outil d'administration sur mesure, relié à Notion (affiliés, finances, inscriptions), permet à l'équipe de tenir le contenu à jour sans toucher au code.\n\nEn parallèle, structuration de l'ASBL : Google Workspace for Nonprofits, nom de domaine et adresses e-mail du club, préparation d'une newsletter, argumentaire de sponsoring.",
       "featured": false,
       "assets": [
