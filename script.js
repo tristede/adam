@@ -1821,6 +1821,8 @@
       try { data = JSON.parse(b.getAttribute('data-members')); } catch (err) { return; }
       gpBadge = b;
       gp.innerHTML = '';
+      var compact = data.n > 3;
+      gp.classList.toggle('is-grid', compact);
       var head = document.createElement('div');
       head.className = 'gp-head';
       head.textContent = data.n + ' projet' + (data.n > 1 ? 's' : '');
@@ -1831,9 +1833,13 @@
         var img = document.createElement('span');
         img.className = 'gp-thumb';
         if (m.s) img.style.backgroundImage = 'url("' + m.s.replace(/"/g, '%22') + '")';
-        var t = document.createElement('span');
-        t.textContent = m.t;
-        row.appendChild(img); row.appendChild(t);
+        img.setAttribute('aria-label', m.t);
+        row.appendChild(img);
+        if (!compact){
+          var t = document.createElement('span');
+          t.textContent = m.t;
+          row.appendChild(t);
+        }
         gp.appendChild(row);
       });
       if (data.n > data.m.length){

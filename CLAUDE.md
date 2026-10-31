@@ -386,3 +386,5 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
 - Tag Réseaux sociaux retiré, y compris du repli automatique des groupes et des fiches. JS `v=49`.
 
 - Boutons de téléchargement du CV désactivés temporairement, sur toutes les pages. CSS `v=62`.
+
+- Aperçu des groupes : grille compacte de miniatures en trois colonnes au-delà de trois projets, nombre conservé ; liste avec titres conservée jusqu’à trois. CSS `v=63`, JS `v=50`, non publié.
