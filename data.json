@@ -977,6 +977,114 @@
       "hidden": true
     },
     {
+      "id": "esprit-meesyz",
+      "title": "MEESYZ — Baker",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Montage vidéo"
+      ],
+      "desc": "Montage vidéo · stage",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=aLJaS7N3UiU",
+          "hidden": false
+        }
+      ],
+      "thumb": "images/thumbs/esprit-meesyz.webp",
+      "subProjects": [],
+      "group": "en-esprit"
+    },
+    {
+      "id": "esprit-sins-sdm",
+      "title": "Sins au Zénith de SDM",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Montage vidéo"
+      ],
+      "desc": "Montage vidéo · stage",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=W05gURdlCUE",
+          "hidden": false
+        }
+      ],
+      "thumb": "images/thumbs/esprit-sins-sdm.webp",
+      "subProjects": [],
+      "group": "en-esprit"
+    },
+    {
+      "id": "esprit-mallaury",
+      "title": "Entretien avec Mallaury",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Montage vidéo"
+      ],
+      "desc": "Montage vidéo · stage",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=n9jMD1HbyQU",
+          "hidden": false
+        }
+      ],
+      "thumb": "images/thumbs/esprit-mallaury.webp",
+      "subProjects": [],
+      "group": "en-esprit"
+    },
+    {
+      "id": "esprit-udeyfa",
+      "title": "Entretien avec Udeyfa",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Montage vidéo"
+      ],
+      "desc": "Montage vidéo · stage",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=H5qDkSosgdM",
+          "hidden": false
+        }
+      ],
+      "thumb": "images/thumbs/esprit-udeyfa.webp",
+      "subProjects": [],
+      "group": "en-esprit"
+    },
+    {
       "id": "montage-video-long-format",
       "title": "Montage vidéo : long format",
       "year": 2025,
@@ -1017,7 +1125,7 @@
       ],
       "thumb": "images/thumbs/montage-video-long-format-thumb.webp",
       "subProjects": [],
-      "hidden": false
+      "hidden": true
     },
     {
       "id": "post-actualite",
@@ -1770,11 +1878,17 @@
       "desc": "Cadrage et montage",
       "longDesc": "",
       "featured": false,
-      "hidden": true,
+      "hidden": false,
       "link": "",
       "embed": false,
-      "assets": [],
-      "thumb": "",
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=yT7vIwk19Eo",
+          "hidden": false
+        }
+      ],
+      "thumb": "images/thumbs/esprit-soolking.webp",
       "subProjects": [],
       "group": "en-esprit"
     },

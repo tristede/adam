@@ -89,8 +89,8 @@ Statuts d'un projet :
   visuels** ; `embed: true` affiche le lien en iframe (voulu pour le site du club : on visite le
   site sans quitter le portfolio, garder).
 - **Accueil** : compétences en pastilles (noms seuls, détail au survol), sans titre « Compétences », en
-  deux groupes `Hard skills` / `Soft skills`, centrés, une pastille par ligne avec un
-  espacement de 18 px ; parcours centré sur l'axe
+  deux groupes `Hard skills` / `Soft skills`, alignés à gauche, une pastille par ligne
+  de largeur naturelle avec un espacement de 10 px ; parcours centré sur l'axe
   vertical en bureau (colonne à gauche en mobile) ; bannière stage et boutons centrés.
 - Ligne de métier sous le prénom (`roleMain` + `roleAccent`).
 
@@ -108,17 +108,16 @@ Statuts d'un projet :
 
 ## État au moment de ce fichier
 
-43 projets (19 visibles, 24 masqués), 6 groupes : Union Oasis Forest, Stage chez En Esprit,
+47 projets (23 visibles, 24 masqués), 6 groupes : Union Oasis Forest, Stage chez En Esprit,
 Chloé Ly, Nocturnz, NGC Hub, Daybreak.
 
 **Masqués par choix d'Adam** (laisser masqués) : `ilonka-club`, `montage-video-style-youtube`,
 `miniatures-youtube`, `episode-podcast`, `melo-de-la-semaine`, `post-actualite`,
-`thumbnails-youtube`, `reel-tiktok`, `community-management-easypermis`, `nocturnz-edit`.
+`thumbnails-youtube`, `reel-tiktok`, `community-management-easypermis`, `nocturnz-edit`, `montage-video-long-format`.
 
 **Créés masqués, en attente de matière** (descriptions courtes déjà écrites, à compléter puis
 démasquer) : `ngc-dock-obs`, `ngc-regie-irl-srt`, `daybreak-smp`, `lg-le-village`,
-`oasis-outil-admin`, `oasis-strategie-sponsoring`, `oasis-rapport-social-media`, `esprit-soolking`,
-`esprit-la-haine`, `esprit-workshops`, `pourquoi-tu-votes`, `feminitea`, `alertesinfos`,
+`oasis-outil-admin`, `oasis-strategie-sponsoring`, `oasis-rapport-social-media`, `esprit-la-haine`, `esprit-workshops`, `pourquoi-tu-votes`, `feminitea`, `alertesinfos`,
 `manif-video`.
 
 **Matière qu'Adam doit fournir** (ne pas l'inventer) :
@@ -128,7 +127,7 @@ démasquer) : `ngc-dock-obs`, `ngc-regie-irl-srt`, `daybreak-smp`, `lg-le-villag
 - clips d'aperçu (champ `preview`) pour les projets vidéo ;
 - contexte pour étoffer les `longDesc` vides : rap, reportage, Echo Nexus, articles de presse, logo
   vectoriel, montage long format, Artwork ; et DEI-Belgique / #AvantTout à compléter ;
-- à terme : séparer « Montage vidéo : long format » par tournage, rattacher les miniatures et reels
+- à terme : rattacher les miniatures et reels
   aux projets de tournage correspondants ; ranger les projets Ilonka (vidéo à part, graphisme à masquer).
 
 **Visibles sans miniature** : `union-oasis-forest-tiktok`, `nocturnz-review`, `nocturnz-todo`,
@@ -171,10 +170,19 @@ Pièges rencontrés :
 
 - Ajustements locaux demandés après publication : retrait du titre Compétences,
   libellés Graphisme et Vibecoding, groupes et pastilles centrés, espacement augmenté.
-  Versions : CSS `v=26`, script `v=19`. Publication demandée par Adam.
+  Versions : CSS `v=28`, script `v=19`. Publication demandée par Adam.
 - Pastilles de compétences de taille identique : 240 × 52 px, largeur limitée
   au conteneur sur petit écran, texte centré horizontalement et verticalement.
-- Titres Hard skills / Soft skills en police manuscrite du site (`--font-script`),
+- Titres Hard skills / Soft skills en Schoolbell (`--font-title`), comme « Curieux de nature »,
   sans capitales forcées. Ces ajustements sont inclus dans la publication demandée.
 - Nocturnz Edit masqué à la demande d’Adam ; médium changé de `web` à `video`
   (extension Premiere Pro), tags Outil et Montage vidéo conservés.
+
+- Dernière décision : retour à la disposition initiale des skills (alignement gauche,
+  largeur naturelle, écart de 10 px), en conservant les nouveaux libellés et les titres
+  manuscrits. Remplace les consignes de centrage et de taille uniforme ci-dessus.
+- En Esprit : cinq fiches vidéo séparées (MEESYZ, Sins/SDM, Soolking, Mallaury, Udeyfa),
+  chacune avec sa vidéo et une miniature WebP issue de YouTube. Ancienne fiche long
+  format masquée, médias conservés pour référence. La Haine et Workshops restent masqués.
+- Correction précisée par Adam : la police des titres de skills est celle du titre
+  « Curieux de nature, touche-à-tout par passion » (Schoolbell), pas Homemade Apple.
