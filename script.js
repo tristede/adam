@@ -1630,11 +1630,10 @@
       if (pv && !/\.(mp4|webm|mov)(\?|$)/i.test(pv)) { var pre = new Image(); pre.src = pv; }
       tipTimer = setTimeout(function(){
         if (!c.getAttribute('data-tip')) return;
-        var h3 = c.querySelector('h3');
+        // la carte porte deja le titre : l'infobulle ne repete que la description
         tip.innerHTML = '';
-        var t = document.createElement('strong'); t.textContent = h3 ? h3.textContent : '';
         var d = document.createElement('span'); d.textContent = c.getAttribute('data-tip');
-        tip.appendChild(t); tip.appendChild(d);
+        tip.appendChild(d);
         placerTip();
         tip.classList.add('is-on');
       }, DELAI_TIP);
