@@ -308,3 +308,81 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
 - Sélection : boucle continue dans le même sens, recadrage invisible aux extrémités,
   glissement manuel et pause à l’interaction. Copies visuelles hors navigation clavier.
   Skills resserrés à droite du texte, cases compactes. CSS `v=38`, JS `v=27`. Publication demandée.
+
+- Proposition locale demandée par Adam : Hard skills et Soft skills présentés
+  sous forme de deux constellations, étoiles reliées et noms lisibles. La vue
+  d’édition conserve les cartes avec leurs détails. CSS `v=39`, JS `v=28`.
+  À valider visuellement ; non publié.
+
+- Proposition locale demandée : parcours en branches parallèles, avec NGC Hub
+  (2021), Union Oasis Forest (2024) et AdamXBC (2026), dates fournies par Adam.
+  Ces branches indiquent une contemporanéité, pas une causalité affirmée avec
+  les études. `site.timelineBranches` éditable en formulaire et vue visuelle.
+- Constellations retravaillées : formes distinctes avec plusieurs liaisons et
+  étoiles secondaires. CSS `v=41`, JS `v=30` ; non publié.
+
+- Constellations : Grande Casserole (partie de la Grande Ourse) et Cassiopée,
+  avec étoiles supplémentaires et décalage vertical demandé. Textes publics non
+  sélectionnables ; saisie et vue d’édition restent sélectionnables. CSS `v=42`,
+  JS `v=31`. Proposition locale non publiée.
+
+- Parcours corrigé selon Adam : seul l’axe principal reste vertical ; branches
+  alternées, celle d’Oasis part de 2024 et son texte descend près de 2026. Côté et
+  année d’arrivée sont éditables pour chaque branche. Non publié.
+
+- Essai local EasyUI : les feuilles des cartes de groupes s’écartent doucement au
+  survol ou au focus clavier, sans modifier les cartes de projets. CSS `v=44`.
+  Constellations Grande Casserole et Orion ; branches du parcours mauves ; BAC 3
+  retiré du parcours, la bannière de recherche de stage est conservée. Non publié.
+
+- Constellation Soft skills remplacée par la Lyre, à la demande d’Adam (Orion évoquait un sablier). CSS `v=45`, JS `v=33`. Non publié.
+
+- Frise MCU abandonnée à la demande d’Adam : ligne simple alternée, projets personnels conservés comme étapes. JS `v=34`. Non publié.
+
+- Soft skills : Cassiopée remplace la Lyre afin de distinguer les deux formes. CSS `v=46`, JS `v=35`. Non publié.
+
+- Frise revenue à sa présentation initiale ; projets personnels issus de la version MCU et contrôles associés supprimés. BAC 3 reste retiré selon la demande précédente. CSS `v=47`, JS `v=36`. Non publié.
+
+- Soft skills : Scorpion stylisé remplace Cassiopée. CSS `v=48`, JS `v=37`. Non publié.
+
+- Constellations agrandies en hauteur ; Soft skills décalés davantage vers le bas. CSS `v=49`, non publié.
+
+- Curieux de nature placé à droite de son étoile pour l’éloigner de Vibecoding. CSS `v=50`, non publié.
+
+- Sur ordinateur, Hard skills commence à hauteur du titre À propos et Soft skills finit près du bas du texte ; libellé Curieux de nature replacé à gauche de son étoile. CSS `v=51`, non publié.
+
+- Aperçu des projets déclenché sur toute la miniature des groupes ; description affichée au survol de toute la zone de texte de la carte. JS `v=38`, non publié.
+
+- Pop-up des projets du groupe suit la souris, avec adaptation aux bords de l’écran. JS `v=39`, non publié.
+
+- Effets inspirés d’EasyUI en local : halo glissant dans la navigation au survol et au clavier, étoiles des compétences éclairées à proximité du pointeur. Animations réduites respectées. CSS `v=52`, JS `v=40`, non publié.
+
+- Points des étoiles de compétences réduits de 9 à 6 px. CSS `v=53`, non publié.
+
+- Étoiles des deux constellations uniformisées en points ronds de 5 px, y compris les étoiles secondaires. CSS `v=54`, JS `v=42`, non publié.
+
+- Placement des libellés des constellations corrigé après l’ajout des points secondaires. JS `v=43`, non publié.
+
+- Points des constellations réduits à 3 px, halos atténués ; JS `v=44`, CSS `v=55`, non publié.
+
+- Étoiles des compétences animées d’un scintillement léger et décalé, désactivé en mouvement réduit. CSS `v=56`, non publié.
+
+- Mixage audio placé sur l’étoile droite pour dégager la constellation. CSS `v=57`, JS `v=45`, non publié.
+
+- Pastille glissante de la navigation en contour, assortie au bouton CV. CSS `v=58`, non publié.
+
+- Affichage agrandi des images : ouverture et fermeture fluides, accès clavier aux photos ; les carrousels conservent leur propre navigation. CSS `v=59`, JS `v=46`, non publié.
+
+- Pastille de navigation : remplissage et animation conservés, forme arrondie assortie au bouton CV. CSS `v=60`, non publié.
+
+- Pastille de navigation dimensionnée sur le contour du bouton CV (hauteur et marges). CSS `v=61`, JS `v=47`, non publié.
+
+- Tags revus : thèmes généraux et hard skills pertinents seulement ; Vibecoding réservé aux projets dont l’usage est documenté. Les tags des groupes restent déduits de leurs projets. Non publié.
+
+- Pastille de navigation au moins aussi large que CV, centrée sur le libellé et incluant la bordure extérieure. JS `v=48`, non publié.
+
+- Tag Vibecoding retiré des projets à la demande d’Adam ; compétence conservée. Non publié.
+
+- Tag Réseaux sociaux retiré, y compris du repli automatique des groupes et des fiches. JS `v=49`.
+
+- Boutons de téléchargement du CV désactivés temporairement, sur toutes les pages. CSS `v=62`.

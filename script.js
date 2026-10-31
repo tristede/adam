@@ -1,4 +1,5 @@
 (function(){
+  if (window.__EDIT_MODE__) document.documentElement.classList.add('edit-mode');
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
   var reduceMotionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
@@ -475,7 +476,7 @@
         (g ? '<h4>' + g + '</h4>' : '') +
         // sur le site public : juste les noms, en pastilles (le texte est deja
         // a gauche) ; l'editeur garde les cartes completes pour modifier les details
-        (window.__EDIT_MODE__ ? '' : '<div class="skill-chips">') +
+        (window.__EDIT_MODE__ ? '' : '<div class="skill-chips' + (parGroupe[g].length === 4 ? '' : ' skills-list') + '">' + (parGroupe[g].length === 4 ? '<svg class="skill-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><g class="stars-hard"><path d="M 13 8 L 30 20 L 40 34 L 43 49 L 76 47 L 80 72 L 47 77 L 43 49"/></g><g class="stars-soft"><path d="M 48 8 L 28 18 L 37 32 L 48 47 L 58 62 L 62 78 L 48 92 L 25 90"/></g></svg><i class="star-dot stars-hard" style="left:40%;top:34%" aria-hidden="true"></i><i class="star-dot stars-hard" style="left:43%;top:49%" aria-hidden="true"></i><i class="star-dot stars-hard" style="left:80%;top:72%" aria-hidden="true"></i><i class="star-dot stars-soft" style="left:28%;top:18%" aria-hidden="true"></i><i class="star-dot stars-soft" style="left:48%;top:47%" aria-hidden="true"></i><i class="star-dot stars-soft" style="left:62%;top:78%" aria-hidden="true"></i><i class="star-dot stars-soft" style="left:25%;top:90%" aria-hidden="true"></i>' : '')) +
         parGroupe[g].map(function(entry){
           var s = entry.s;
           if (!window.__EDIT_MODE__){
@@ -811,7 +812,7 @@
       '<div class="wrap detail-wrap">' +
         '<a class="pill-btn back-link" href="' + linkForProject(p) + '">' + UI_ICON.arrowLeft + ' ' + backLabelFor(site, p) + '</a>' +
         '<div class="detail-meta-row">' +
-          '<span class="tag">' + (mediumLabel[p.medium] || p.medium) + '</span>' +
+          (p.medium === 'social' ? '' : '<span class="tag">' + (mediumLabel[p.medium] || p.medium) + '</span>') +
           '<span class="tag">' + projectPeriod(p) + '</span>' +
           (p.featured ? '<span class="tag tag-featured">' + UI_ICON.star + ' Mis en avant</span>' : '') +
         '</div>' +
@@ -1147,13 +1148,18 @@
   function initLightbox(scope){
     // in the editor a click on an image belongs to the editing controls
     if (window.__EDIT_MODE__) return;
-    var gallery = scope.querySelectorAll('.detail-gallery img');
+    var gallery = scope.querySelectorAll('.detail-gallery figure.photo > img');
     if (!gallery.length) return;
 
     var srcs = Array.prototype.map.call(gallery, function(im){ return im.getAttribute('src'); });
     gallery.forEach(function(im, i){
       im.style.cursor = 'zoom-in';
-      im.addEventListener('click', function(){ lightbox().open(srcs, i); });
+      im.setAttribute('tabindex', '0');
+      im.setAttribute('role', 'button');
+      im.setAttribute('aria-label', 'Agrandir l’image : ' + (im.alt || 'visuel du projet'));
+      var open = function(){ lightbox().open(srcs, i); };
+      im.addEventListener('click', open);
+      im.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(); } });
     });
   }
 
@@ -1180,7 +1186,7 @@
   function groupTagsHTML(list, links){
     var counts = Object.create(null), labels = Object.create(null), order = [];
     list.forEach(function(p){
-      var tags = (p.tags && p.tags.length) ? p.tags : [mediumLabel[p.medium] || p.medium];
+      var tags = (p.tags && p.tags.length) ? p.tags : (p.medium === 'social' ? [] : [mediumLabel[p.medium] || p.medium]);
       var seen = Object.create(null);
       tags.forEach(function(tag){
         if (!tag) return;
@@ -1729,11 +1735,11 @@
     tip.className = 'card-tip';
     tip.setAttribute('role', 'tooltip');
     document.body.appendChild(tip);
-    var tipTimer = null, previewTimer = null, tipCard = null, tipX = 0, tipY = 0;
+    var tipTimer = null, previewTimer = null, tipCard = null, tipBody = false, tipX = 0, tipY = 0;
     var DELAI_TIP = 350, DELAI_APERCU = 1000;   // description vite, apercu anime plus tard
 
     var cacherTip = function(){
-      clearTimeout(tipTimer); clearTimeout(previewTimer); tipTimer = null; previewTimer = null; tipCard = null;
+      clearTimeout(tipTimer); clearTimeout(previewTimer); tipTimer = null; previewTimer = null; tipCard = null; tipBody = false;
       tip.classList.remove('is-on');
       document.querySelectorAll('.thumb-preview').forEach(function(el){ el.remove(); });
     };
@@ -1767,19 +1773,21 @@
     document.addEventListener('mousemove', function(e){
       tipX = e.clientX; tipY = e.clientY;
       if (tip.classList.contains('is-on')) placerTip();
+      if (gp && gp.classList.contains('is-on')) placerGp();
     }, { passive: true });
     document.addEventListener('mouseover', function(e){
       var c = e.target.closest ? e.target.closest('.card[data-tip], .card[data-preview]') : null;
-      if (c && e.target.closest('.year[data-members]')) c = null;   // le badge a son propre apercu
-      if (c === tipCard) return;
+      var body = !!(c && e.target.closest('.card-body'));
+      if (c && c.classList.contains('card-group') && !body) c = null;
+      if (c === tipCard && body === tipBody) return;
       cacherTip();
       if (!c) return;
-      tipCard = c;
+      tipCard = c; tipBody = body;
       // un gif/webp commence a se charger des l'entree, pour etre pret a la seconde
       var pv = c.getAttribute('data-preview');
       if (pv && !/\.(mp4|webm|mov)(\?|$)/i.test(pv)) { var pre = new Image(); pre.src = pv; }
       tipTimer = setTimeout(function(){
-        if (!c.getAttribute('data-tip')) return;
+        if (!body || !c.getAttribute('data-tip')) return;
         // la carte porte deja le titre : l'infobulle ne repete que la description
         tip.innerHTML = '';
         var d = document.createElement('span'); d.textContent = c.getAttribute('data-tip');
@@ -1792,14 +1800,21 @@
     window.addEventListener('scroll', cacherTip, { passive: true });
     document.addEventListener('click', cacherTip);
 
-    // Apercu du groupe : survol du badge « N projets » -> miniatures et titres.
+    // Apercu du groupe : survol de sa miniature -> miniatures et titres.
     var gp = document.createElement('div');
     gp.className = 'group-preview';
     document.body.appendChild(gp);
     var gpBadge = null;
+    var placerGp = function(){
+      var w = gp.offsetWidth, h = gp.offsetHeight;
+      var x = Math.max(12, Math.min(tipX + 16, window.innerWidth - w - 12));
+      var y = tipY + 22 + h > window.innerHeight - 12 ? Math.max(12, tipY - h - 14) : tipY + 22;
+      gp.style.left = x + 'px'; gp.style.top = y + 'px';
+    };
     var cacherGp = function(){ gpBadge = null; gp.classList.remove('is-on'); };
     document.addEventListener('mouseover', function(e){
-      var b = e.target.closest ? e.target.closest('.year[data-members]') : null;
+      var thumb = e.target.closest ? e.target.closest('.card-group .thumb') : null;
+      var b = thumb ? thumb.querySelector('.year[data-members]') : null;
       if (b === gpBadge) return;
       if (!b){ cacherGp(); return; }
       var data;
@@ -1827,16 +1842,54 @@
         more.textContent = '+ ' + (data.n - data.m.length) + ' autre' + (data.n - data.m.length > 1 ? 's' : '');
         gp.appendChild(more);
       }
-      var r = b.getBoundingClientRect();
-      var w = gp.offsetWidth, h = gp.offsetHeight;
-      var x = Math.max(12, Math.min(r.right - w, window.innerWidth - w - 12));
-      var y = (r.bottom + 8 + h > window.innerHeight - 12) ? Math.max(12, r.top - h - 8) : r.bottom + 8;
-      gp.style.left = x + 'px';
-      gp.style.top = y + 'px';
+      tipX = e.clientX; tipY = e.clientY;
+      placerGp();
       gp.classList.add('is-on');
     });
     window.addEventListener('scroll', cacherGp, { passive: true });
   }
+
+  // Soulignement mobile du menu et lueur au voisinage des étoiles.
+  function initNavHighlight(){
+    document.querySelectorAll('nav.links').forEach(function(nav){
+      function show(link){
+        if (!link || !nav.contains(link)) return;
+        var n = nav.getBoundingClientRect(), r = link.getBoundingClientRect();
+        var cv = nav.parentElement.querySelector('.pill-btn');
+        var cvRect = cv ? cv.getBoundingClientRect() : null;
+        var inset = cv ? parseFloat(getComputedStyle(cv).paddingLeft) + 1 : 16;
+        var border = cv ? parseFloat(getComputedStyle(cv).borderTopWidth) || 0 : 0;
+        var width = Math.max(cvRect ? cvRect.width : 0, r.width + inset * 2);
+        var height = cvRect ? cvRect.height + border * 2 : 36;
+        nav.style.setProperty('--nav-highlight-x', (r.left - n.left + (r.width - width) / 2) + 'px');
+        nav.style.setProperty('--nav-highlight-width', width + 'px');
+        nav.style.setProperty('--nav-highlight-height', height + 'px');
+        nav.classList.add('has-highlight');
+      }
+      nav.addEventListener('pointerover', function(e){ var a = e.target.closest('a'); if (a) show(a); });
+      nav.addEventListener('pointerleave', function(){ var a = nav.querySelector('a:focus-visible'); if (a) show(a); else nav.classList.remove('has-highlight'); });
+      nav.addEventListener('focusin', function(e){ show(e.target.closest('a')); });
+      nav.addEventListener('focusout', function(e){ if (!nav.contains(e.relatedTarget)) nav.classList.remove('has-highlight'); });
+    });
+  }
+  function initSkillStars(){
+    if (!hoverCapable || reduceMotionQuery.matches || window.__EDIT_MODE__) return;
+    var host = document.getElementById('js-skills');
+    if (!host) return;
+    var stars = host.querySelectorAll('.skill-chip, .star-dot');
+    function clear(){ stars.forEach(function(star){ star.classList.remove('is-near'); }); }
+    host.addEventListener('pointermove', function(e){
+      stars.forEach(function(star){
+        if (!star.getClientRects().length) return;
+        var r = star.getBoundingClientRect(), isLabel = star.classList.contains('skill-chip');
+        var x = isLabel ? (getComputedStyle(star).flexDirection === 'row-reverse' ? r.right - 1.5 : r.left + 1.5) : r.left + r.width / 2;
+        var y = r.top + r.height / 2;
+        star.classList.toggle('is-near', Math.hypot(e.clientX - x, e.clientY - y) < 65);
+      });
+    }, { passive:true });
+    host.addEventListener('pointerleave', clear);
+  }
+  initNavHighlight();
 
   function initScramble(){
     document.querySelectorAll('.scramble').forEach(function(el){
@@ -1918,6 +1971,7 @@
       applySiteTexts(site);
       applySections(site);
       renderSkills(site);
+      initSkillStars();
       applyStageCta(site);
       applyFavori(site, projects);
       renderTimeline(site.timeline);

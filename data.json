@@ -46,12 +46,6 @@
         "title": "Stage — En Esprit",
         "desc": "Stage de deuxième année : montage vidéo, community management, création de contenu.",
         "current": false
-      },
-      {
-        "year": "2026",
-        "title": "Bachelier en Communication — BAC 3",
-        "desc": "Retour à l'ISFSC, option audiovisuel.",
-        "current": false
       }
     ],
     "sections": [
@@ -243,7 +237,10 @@
       "current": false,
       "ctx": "perso",
       "medium": "video",
-      "tags": [],
+      "tags": [
+        "Vidéo",
+        "Montage vidéo"
+      ],
       "desc": "Coulisses de clip · montage vidéo",
       "featured": false,
       "hidden": false,
@@ -295,8 +292,7 @@
       "ctx": "perso",
       "medium": "graphisme",
       "tags": [
-        "Graphisme",
-        "Identité visuelle"
+        "Graphisme"
       ],
       "desc": "Dépliant du club · horaires, tarifs, stages",
       "featured": false,
@@ -335,8 +331,7 @@
       "ctx": "perso",
       "medium": "social",
       "tags": [
-        "Réseaux sociaux",
-        "Stratégie digitale"
+        "Vidéo"
       ],
       "desc": "Création de vidéos · +2 M de vues cumulées en 2025-2026",
       "featured": false,
@@ -391,8 +386,7 @@
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Développement web",
-        "Site web"
+        "Web"
       ],
       "desc": "Conçu de A à Z · galerie, partenaires, inscriptions",
       "longDesc": "Site officiel du club, conçu avec Claude Code : accueil, présentation du club et des équipes, galerie, page partenaires avec les chiffres de la saison, formulaire d'inscription en ligne.\n\nUn outil d'administration sur mesure, relié à Notion (affiliés, finances, inscriptions), permet à l'équipe de tenir le contenu à jour sans toucher au code.\n\nEn parallèle, structuration de l'ASBL : Google Workspace for Nonprofits, nom de domaine et adresses e-mail du club, préparation d'une newsletter, argumentaire de sponsoring.",
@@ -431,8 +425,7 @@
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Développement web",
-        "Produit"
+        "Web"
       ],
       "desc": "Création de sites pour présenter ses réalisations · sans code",
       "longDesc": "Service qui permet à chacun d'avoir son portfolio en ligne, sans abonnement et sans une ligne de code.",
@@ -462,9 +455,7 @@
       "year": 2022,
       "ctx": "perso",
       "medium": "event",
-      "tags": [
-        "Événementiel"
-      ],
+      "tags": [],
       "desc": "Animation de tournois · accueil et information du public",
       "featured": false,
       "assets": [
@@ -490,8 +481,7 @@
       "ctx": "perso",
       "medium": "graphisme",
       "tags": [
-        "Graphisme",
-        "Affiche"
+        "Graphisme"
       ],
       "desc": "Identité visuelle · affiche de showcase",
       "featured": false,
@@ -529,7 +519,7 @@
       "medium": "audio",
       "tags": [
         "Audio",
-        "Composition"
+        "Mixage audio"
       ],
       "desc": "Du premier texte au mix final",
       "featured": false,
@@ -555,6 +545,7 @@
       "ctx": "perso",
       "medium": "video",
       "tags": [
+        "Vidéo",
         "Montage vidéo"
       ],
       "desc": "Rythme dynamique, codes du format",
@@ -586,8 +577,7 @@
       "ctx": "perso",
       "medium": "graphisme",
       "tags": [
-        "Graphisme",
-        "Miniature"
+        "Graphisme"
       ],
       "desc": "Visuels de couverture pour vidéos",
       "featured": false,
@@ -650,8 +640,7 @@
       "ctx": "academique",
       "medium": "video",
       "tags": [
-        "Vidéo",
-        "Reportage"
+        "Vidéo"
       ],
       "desc": "ISFSC, BAC 2 · de bout en bout",
       "featured": false,
@@ -695,7 +684,6 @@
       "ctx": "academique",
       "medium": "graphisme",
       "tags": [
-        "Campagne 360",
         "Graphisme"
       ],
       "desc": "Sensibilisation · supports et mise en situation",
@@ -761,10 +749,7 @@
       "current": false,
       "ctx": "academique",
       "medium": "ecrit",
-      "tags": [
-        "Stratégie de communication",
-        "Édition"
-      ],
+      "tags": [],
       "desc": "Plan de communication · document de 12 pages",
       "longDesc": "Document stratégique de la campagne (12 pages) et ses visuels.",
       "featured": false,
@@ -827,8 +812,7 @@
       "ctx": "academique",
       "medium": "web",
       "tags": [
-        "Site web",
-        "Agence fictive"
+        "Web"
       ],
       "desc": "Vitrine d’Echo Nexus · projet académique",
       "longDesc": "",
@@ -848,8 +832,7 @@
       "ctx": "academique",
       "medium": "graphisme",
       "tags": [
-        "Graphisme",
-        "Identité visuelle"
+        "Graphisme"
       ],
       "desc": "Identité graphique · support de contact",
       "featured": false,
@@ -887,7 +870,7 @@
       "medium": "audio",
       "tags": [
         "Audio",
-        "Podcast"
+        "Mixage audio"
       ],
       "desc": "Enregistrement, montage, mixage",
       "featured": false,
@@ -915,7 +898,7 @@
       "ctx": "academique",
       "medium": "event",
       "tags": [
-        "Événementiel"
+        "Graphisme"
       ],
       "desc": "Visuels de communication pour un événement culturel",
       "featured": false,
@@ -976,9 +959,7 @@
       "year": 2025,
       "ctx": "academique",
       "medium": "ecrit",
-      "tags": [
-        "Rédaction"
-      ],
+      "tags": [],
       "desc": "Interviews et rédaction journalistique",
       "featured": false,
       "assets": [
@@ -1015,8 +996,7 @@
       "group": "en-esprit",
       "medium": "audio",
       "tags": [
-        "Audio",
-        "Contenu récurrent"
+        "Audio"
       ],
       "desc": "Format audio récurrent · stage",
       "featured": false,
@@ -1054,6 +1034,7 @@
       "ctx": "academique",
       "medium": "video",
       "tags": [
+        "Vidéo",
         "Montage vidéo"
       ],
       "desc": "Montage vidéo · présentation de l’EP",
@@ -1081,6 +1062,7 @@
       "ctx": "academique",
       "medium": "video",
       "tags": [
+        "Vidéo",
         "Montage vidéo"
       ],
       "desc": "Montage vidéo · immersion dans les coulisses",
@@ -1108,6 +1090,7 @@
       "ctx": "academique",
       "medium": "video",
       "tags": [
+        "Vidéo",
         "Montage vidéo"
       ],
       "desc": "Montage vidéo · parcours d’une artiste dans la musique",
@@ -1135,6 +1118,7 @@
       "ctx": "academique",
       "medium": "video",
       "tags": [
+        "Vidéo",
         "Montage vidéo"
       ],
       "desc": "Montage vidéo · parcours personnel et musical",
@@ -1162,6 +1146,7 @@
       "group": "en-esprit",
       "medium": "video",
       "tags": [
+        "Vidéo",
         "Montage vidéo"
       ],
       "desc": "Vidéos du stage En Esprit",
@@ -1204,9 +1189,7 @@
       "ctx": "academique",
       "group": "en-esprit",
       "medium": "social",
-      "tags": [
-        "Réseaux sociaux"
-      ],
+      "tags": [],
       "desc": "Publications pour les réseaux",
       "featured": false,
       "assets": [
@@ -1253,8 +1236,7 @@
       "group": "en-esprit",
       "medium": "graphisme",
       "tags": [
-        "Graphisme",
-        "Miniature"
+        "Graphisme"
       ],
       "desc": "Miniatures · En Esprit",
       "featured": false,
@@ -1361,8 +1343,7 @@
       "group": "en-esprit",
       "medium": "video",
       "tags": [
-        "Vidéo",
-        "Format court"
+        "Vidéo"
       ],
       "desc": "Formats courts",
       "featured": false,
@@ -1414,8 +1395,7 @@
       "ctx": "academique",
       "medium": "graphisme",
       "tags": [
-        "Graphisme",
-        "Logo"
+        "Graphisme"
       ],
       "desc": "Identité graphique · usage interne",
       "featured": false,
@@ -1456,7 +1436,9 @@
       "ctx": "perso",
       "group": "union-oasis-forest",
       "medium": "graphisme",
-      "tags": [],
+      "tags": [
+        "Graphisme"
+      ],
       "desc": "Futsal bruxellois · esprit Union Oasis Forest",
       "featured": false,
       "hidden": false,
@@ -1517,8 +1499,7 @@
       "ctx": "perso",
       "medium": "graphisme",
       "tags": [
-        "Graphisme",
-        "Pochette d'album"
+        "Graphisme"
       ],
       "desc": "Visuels destinés aux sorties musicales",
       "featured": false,
@@ -1623,10 +1604,7 @@
       "year": 2025,
       "ctx": "perso",
       "medium": "social",
-      "tags": [
-        "Community management",
-        "Réseaux sociaux"
-      ],
+      "tags": [],
       "desc": "Ligne éditoriale · publications",
       "featured": false,
       "hidden": true,
@@ -1724,8 +1702,7 @@
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Outil",
-        "Développement web"
+        "Web"
       ],
       "desc": "Outil d’annotation vidéo · commentaires clients sans compte",
       "longDesc": "Retours à l'image près sur des vidéos : les clients commentent sans créer de compte, les fichiers restent dans le stockage de l'utilisateur.",
@@ -1746,8 +1723,7 @@
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Outil",
-        "Développement web"
+        "Web"
       ],
       "desc": "Listes de tâches et d’envies · partage et synchronisation",
       "longDesc": "Todo et Wishlist rangées par catégories, synchronisées sur tous les appareils et partageables par e-mail. Faite d'abord pour ma propre organisation.",
@@ -1768,7 +1744,6 @@
       "ctx": "perso",
       "medium": "video",
       "tags": [
-        "Outil",
         "Montage vidéo"
       ],
       "desc": "Extension Premiere Pro · coupe des silences et sous-titrage",
@@ -1790,8 +1765,7 @@
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Outil",
-        "Stream"
+        "Web"
       ],
       "desc": "Scène selon qui parle, zoom sur les temps forts",
       "longDesc": "Un dock OBS qui bascule la scène selon la personne qui parle et zoome sur les temps forts.",
@@ -1812,8 +1786,7 @@
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Outil",
-        "Stream"
+        "Web"
       ],
       "desc": "Transmission vidéo vers OBS pour diffuser sur Twitch",
       "longDesc": "Régie pour streamer en IRL : flux SRT vers OBS, utilisée sur ma chaîne Twitch.",
@@ -1833,10 +1806,7 @@
       "current": false,
       "ctx": "perso",
       "medium": "web",
-      "tags": [
-        "Jeu",
-        "Minecraft"
-      ],
+      "tags": [],
       "desc": "Serveur Minecraft · Paper, plugins, Skript",
       "longDesc": "Serveur Minecraft SMP : Paper, plugins, scripts Skript, modpack, resource pack et univers narratif.",
       "featured": false,
@@ -1856,8 +1826,7 @@
       "ctx": "perso",
       "medium": "jeu",
       "tags": [
-        "Jeu",
-        "Minecraft"
+        "Jeu"
       ],
       "desc": "Loup-garou dans l'univers Daybreak",
       "longDesc": "",
@@ -1878,8 +1847,7 @@
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Outil",
-        "Développement web"
+        "Web"
       ],
       "desc": "Gestion des contenus du club · connexion à Notion",
       "longDesc": "Outil interne relié à Notion pour gérer le site du club sans toucher au code.",
@@ -1899,9 +1867,7 @@
       "current": false,
       "ctx": "perso",
       "medium": "ecrit",
-      "tags": [
-        "Sponsoring"
-      ],
+      "tags": [],
       "desc": "Page partenaires · argumentaire",
       "longDesc": "",
       "featured": false,
@@ -1920,9 +1886,7 @@
       "current": false,
       "ctx": "perso",
       "medium": "social",
-      "tags": [
-        "Réseaux sociaux"
-      ],
+      "tags": [],
       "desc": "Bilan chiffré de la saison",
       "longDesc": "",
       "featured": false,
@@ -1942,8 +1906,8 @@
       "ctx": "academique",
       "medium": "video",
       "tags": [
-        "Tournage",
-        "Concert"
+        "Vidéo",
+        "Montage vidéo"
       ],
       "desc": "Cadrage et montage",
       "longDesc": "",
@@ -1970,8 +1934,8 @@
       "ctx": "academique",
       "medium": "video",
       "tags": [
-        "Tournage",
-        "Théâtre"
+        "Vidéo",
+        "Montage vidéo"
       ],
       "desc": "Captation et montage de la pièce",
       "longDesc": "",
@@ -1992,7 +1956,8 @@
       "ctx": "academique",
       "medium": "video",
       "tags": [
-        "Tournage"
+        "Vidéo",
+        "Montage vidéo"
       ],
       "desc": "Tournage et montage",
       "longDesc": "",
@@ -2013,8 +1978,8 @@
       "ctx": "academique",
       "medium": "audio",
       "tags": [
-        "Radio",
-        "Micro-trottoir"
+        "Audio",
+        "Mixage audio"
       ],
       "desc": "Micro-trottoir radio · montage, mixage",
       "longDesc": "",
@@ -2034,7 +1999,7 @@
       "ctx": "academique",
       "medium": "audio",
       "tags": [
-        "Jingle"
+        "Audio"
       ],
       "desc": "Jingle et vidéo",
       "longDesc": "",
@@ -2053,10 +2018,7 @@
       "current": false,
       "ctx": "perso",
       "medium": "social",
-      "tags": [
-        "Community management",
-        "Discord"
-      ],
+      "tags": [],
       "desc": "Community management Discord · +800 k abonnés",
       "longDesc": "Community management du serveur Discord d'un média (+800 000 abonnés), de juillet 2023 à août 2024.",
       "featured": false,
@@ -2075,7 +2037,7 @@
       "ctx": "perso",
       "medium": "video",
       "tags": [
-        "Tournage"
+        "Vidéo"
       ],
       "desc": "Tournée le 9 octobre",
       "longDesc": "",
@@ -2095,7 +2057,7 @@
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Jeu multijoueur"
+        "Web"
       ],
       "desc": "Quiz, swipe et dessin · correction en groupe",
       "longDesc": "Contexte\nUn module de TristeJeu conçu pour réunir plusieurs formats de jeu de soirée dans un même salon.\n\nDéroulement\nLes joueurs répondent à des quiz, des questions à swiper ou des défis de dessin. Un correcteur désigné anime ensuite le bilan des réponses.\n\nCode et outils\nReact, Vite et Firebase pour l’interface et la gestion des salons multijoueurs. Développement accompagné par Claude Opus 5.5 et Sol 6.1.",
@@ -2116,7 +2078,7 @@
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Jeu multijoueur"
+        "Web"
       ],
       "desc": "Notes de 0 à 10 · deviner la moyenne du groupe",
       "longDesc": "Contexte\nUn jeu de groupe intégré à TristeJeu, pensé pour confronter les perceptions des joueurs autour de questions.\n\nDéroulement\nPour chaque question, chacun place les joueurs sur une échelle de 0 à 10. Les réponses sont comparées : le score récompense celles qui se rapprochent le plus des moyennes du groupe.\n\nCode et outils\nReact, Vite et Firebase pour les écrans, les réponses et le multijoueur. Développement accompagné par Claude Opus 5.5 et Sol 6.1.",
@@ -2137,7 +2099,7 @@
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Jeu multijoueur"
+        "Web"
       ],
       "desc": "Rôles secrets · composition du paquet et règles intégrées",
       "longDesc": "Contexte\nUne adaptation en ligne du jeu de rôles, intégrée aux salons TristeJeu. Un narrateur humain conduit la partie pendant que chaque joueur consulte sa carte en privé.\n\nDéroulement\nLe narrateur compose le paquet, distribue les rôles et accompagne les phases de nuit, de réveil, de discussion et de vote. Les pouvoirs et les informations privées dépendent de chaque rôle.\n\nInspirations et recherches\nPlusieurs projets Loup-Garou ont été étudiés, dont Wolfcha pour la reprise des parties et le projet de Leomelki pour l’organisation des rôles et de leurs réactions. Le moteur TristeJeu réimplémente ses propres règles.\n\nCode et outils\nReact, Vite et Firebase pour les écrans, les rôles et les échanges privés. Développement accompagné par Claude Opus 5.5 et Sol 6.1.",
@@ -2158,7 +2120,7 @@
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Jeu multijoueur"
+        "Web"
       ],
       "desc": "Duel de personnages à deviner · élimination de cartes",
       "longDesc": "Contexte\nUn duel de personnages intégré aux salons TristeJeu, adapté du projet open source Qui est-ce ? de Cacabox. Le plateau et certains éléments graphiques proviennent du projet original ; l’interface et la gestion des parties sont adaptées à TristeJeu.\n\nDéroulement\nChaque joueur choisit secrètement le personnage que son adversaire doit trouver. À tour de rôle, ils posent des questions, éliminent des cartes et proposent un nom. Le jeu propose un mode vocal et un mode écrit assisté.\n\nCode et outils\nReact, Vite et Firebase pour le plateau, les personnages et la synchronisation du duel. Développement accompagné par Claude Opus 5.5 et Sol 6.1.",
@@ -2179,7 +2141,7 @@
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Jeu multijoueur"
+        "Web"
       ],
       "desc": "Jeu de cartes · règles et extensions configurables",
       "longDesc": "Contexte\nUn jeu de cartes multijoueur intégré à TristeJeu, inspiré des règles du Uno et de sa variante No Mercy. Les options sont configurables indépendamment avant la partie.\n\nDéroulement\nChaque joueur joue une carte compatible ou pioche, utilise les effets activés et essaie de se débarrasser de sa main. Une extension ajoute des cartes et des effets supplémentaires.\n\nInspirations et recherches\nWA7AD adapte une partie des visuels et de la logique du projet open source Open Mercy ; son moteur de manche, sa table et son intégration multijoueur sont propres à TristeJeu. D’autres projets Uno ont été étudiés pour l’architecture, l’interface et les règles.\n\nCode et outils\nReact, Vite et Firebase pour la table, les mains et la synchronisation des coups. Développement accompagné par Claude Opus 5.5 et Sol 6.1.",
@@ -2200,7 +2162,7 @@
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Site web"
+        "Web"
       ],
       "desc": "Vitrine des événements et des expériences en ligne",
       "longDesc": "",
@@ -2220,9 +2182,7 @@
       "current": false,
       "ctx": "perso",
       "medium": "social",
-      "tags": [
-        "Communauté"
-      ],
+      "tags": [],
       "desc": "Serveur communautaire",
       "longDesc": "",
       "featured": false,
@@ -2242,9 +2202,7 @@
       "ctx": "perso",
       "medium": "jeu",
       "tags": [
-        "Minecraft",
-        "SMP",
-        "Survie"
+        "Jeu"
       ],
       "desc": "Serveurs Minecraft · survie en SMP",
       "longDesc": "Aeterna regroupe nos serveurs Minecraft SMP survie.",
