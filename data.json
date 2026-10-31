@@ -69,7 +69,8 @@
         "title": "Union Oasis Forest",
         "desc": "Club de futsal D2 · communication, site web, outils numériques",
         "thumb": "",
-        "featured": true
+        "featured": true,
+        "pageDesc": "Au sein de l’Union Oasis Forest, club de futsal bruxellois, je travaille sur la communication et les outils numériques : identité visuelle, contenus pour les réseaux et site web du club."
       },
       {
         "id": "en-esprit",
@@ -87,7 +88,8 @@
             "platform": "youtube",
             "url": "https://www.youtube.com/@iam.chloely"
           }
-        ]
+        ],
+        "pageDesc": "Pendant huit semaines chez En Esprit, média urbain bruxellois, j’ai participé à la création de contenus : montage d’interviews et d’immersions, tournages et travail graphique."
       },
       {
         "id": "en-esprit-videos",
@@ -97,7 +99,8 @@
         "desc": "Tournages et montage · interviews, concerts, coulisses",
         "thumb": "images/thumbs/esprit-soolking.webp",
         "featured": false,
-        "hidden": false
+        "hidden": false,
+        "pageDesc": "Une sélection des vidéos réalisées pendant mon stage chez En Esprit : interviews, concerts et coulisses. Selon les projets, j’ai assuré le montage et participé au tournage."
       },
       {
         "id": "chloe-ly-videos",
@@ -105,7 +108,8 @@
         "title": "Chloé Ly",
         "desc": "Montage vidéo · créatrice de contenu",
         "thumb": "images/thumbs/chloe-ly-x-basebelgium-miniature-1790900488576-0.webp",
-        "featured": true
+        "featured": true,
+        "pageDesc": "Des projets vidéo réalisés pour les réseaux de Chloé Ly, notamment le montage des coulisses d’un clip."
       },
       {
         "id": "nocturnz",
@@ -113,7 +117,8 @@
         "title": "Nocturnz",
         "desc": "Outils pour présenter, organiser et partager ses projets",
         "thumb": "images/thumbs/nocturnz-portfolio-en-ligne-miniature-1790900861949-0.webp",
-        "featured": true
+        "featured": true,
+        "pageDesc": "Nocturnz est une suite d’outils que je développe pour créer, organiser et partager. Elle comprend un moteur de portfolio, un outil de retours vidéo et une application de listes."
       },
       {
         "id": "ngc-hub",
@@ -121,7 +126,8 @@
         "title": "NGC Hub",
         "desc": "Outils construits autour de mon stream",
         "thumb": "",
-        "featured": false
+        "featured": false,
+        "pageDesc": "Une collection d’outils pensés pour faciliter la régie et les usages autour du streaming."
       },
       {
         "id": "daybreak",
@@ -130,7 +136,8 @@
         "desc": "LeVillage · site web · Discord · Aeterna",
         "thumb": "images/thumbs/daybreak-site-web-frame.webp",
         "featured": false,
-        "hidden": false
+        "hidden": false,
+        "pageDesc": "Daybreak est une plateforme sociale autour d’événements multijoueurs temporaires. Lancée avec des serveurs Minecraft, elle a vocation à s’étendre à d’autres jeux et à proposer aussi des serveurs permanents. LeVillage est notre mode de jeu propriétaire en développement."
       },
       {
         "id": "projet-360-dei-belgique",
@@ -139,7 +146,8 @@
         "desc": "Sensibilisation aux violences supposément éducatives",
         "thumb": "images/thumbs/projet-360-dei-belgique-1787830564823-0.webp",
         "featured": false,
-        "hidden": false
+        "hidden": false,
+        "pageDesc": "Une campagne de communication académique fictive pour sensibiliser aux violences supposément éducatives, déclinée en supports visuels et numériques."
       },
       {
         "id": "tristejeu",
@@ -155,7 +163,20 @@
             "label": "Ouvrir TristeJeu",
             "url": "https://tristejeu.web.app/"
           }
-        ]
+        ],
+        "longDesc": "Une plateforme, plusieurs jeux\nTristeJeu réunit des jeux multijoueurs dans une même interface. Le noyau commun gère les salons, les joueurs et le passage vers le jeu choisi : les participants rejoignent une salle avec un code, choisissent leur identité et retrouvent un espace partagé avant le lancement de la partie.\n\nMoteur et modules\nChaque jeu possède son propre dossier, ses écrans et ses réglages. Un registre commun décrit les jeux disponibles et relie leurs composants au lobby et au lancement des parties. Cette organisation permet de développer les règles et l’interface de chaque jeu séparément, tout en réutilisant les services communs de la plateforme.\n\nRôles et gestion des parties\nL’hôte crée et configure le salon, lance la partie et peut gérer les participants. Les joueurs rejoignent avec leur pseudo et leur avatar ; un système de reprise prévoit le transfert du rôle d’hôte en cas de départ ou d’inactivité. Un espace d’administration permet de gérer la disponibilité des jeux et de tester certains modes avec des joueurs simulés.\n\nTemps réel et infrastructure\nL’interface est construite avec React et Vite. Firebase Authentication gère les identités, notamment anonymes ; Firestore conserve les données de salon et synchronise les changements entre les joueurs. Des règles Firestore contrôlent les accès, et Firebase Hosting publie l’application. Des tests sur émulateurs et des sessions de simulation permettent de vérifier le comportement sans utiliser les données de parties réelles.\n\nConception et outils\nArchitecture, interface et expérience multijoueur développées avec l’aide de Claude Opus 5.5 et Sol 6.1. Chaque fiche présente le fonctionnement et les références propres à son jeu.",
+        "pageDesc": "TristeJeu est une plateforme de jeux multijoueurs à partager entre amis. Chaque jeu possède ses propres règles, tout en utilisant les salons et les outils communs de la plateforme."
+      },
+      {
+        "id": "dei-identite-visuelle",
+        "parent": "projet-360-dei-belgique",
+        "kicker": "Identité visuelle",
+        "title": "Identité visuelle d’Echo Nexus",
+        "desc": "Logo et carte de visite de l’agence fictive",
+        "pageDesc": "L’identité visuelle d’Echo Nexus, agence fictive créée pour le projet 360° : son logo et sa carte de visite.",
+        "thumb": "images/dei-echonexus-logo.webp",
+        "featured": false,
+        "hidden": false
       }
     ],
     "theme": {
@@ -389,7 +410,7 @@
         "Web"
       ],
       "desc": "Conçu de A à Z · galerie, partenaires, inscriptions",
-      "longDesc": "Site officiel du club, conçu avec Claude Code : accueil, présentation du club et des équipes, galerie, page partenaires avec les chiffres de la saison, formulaire d'inscription en ligne.\n\nUn outil d'administration sur mesure, relié à Notion (affiliés, finances, inscriptions), permet à l'équipe de tenir le contenu à jour sans toucher au code.\n\nEn parallèle, structuration de l'ASBL : Google Workspace for Nonprofits, nom de domaine et adresses e-mail du club, préparation d'une newsletter, argumentaire de sponsoring.",
+      "longDesc": "Un site pour le club\nSite officiel conçu avec Claude Code : présentation du club et des équipes, galerie, partenaires et inscription en ligne. Le projet accompagne aussi la structuration de la communication et des outils du club.\n\nInfrastructure\nLe site est composé de pages statiques HTML, CSS et JavaScript hébergées sur GitHub Pages. Des fichiers de données alimentent les contenus, avec une interface de gestion pour faciliter les mises à jour.\n\nInscriptions et administration\nLe formulaire d’inscription communique avec un outil d’administration séparé, construit autour d’un Cloudflare Worker et de bases Notion. L’équipe peut ainsi gérer les inscriptions et d’autres informations du club depuis une interface dédiée.",
       "featured": false,
       "assets": [
         {
@@ -428,7 +449,7 @@
         "Web"
       ],
       "desc": "Le moteur derrière ce site · édition visuelle sans code",
-      "longDesc": "Le moteur, le panneau d’édition et la vitrine ont été conçus en parallèle. Le contenu appartient à son utilisateur, qui peut utiliser un sous-domaine ou son propre nom de domaine.\n🛠️ HTML/CSS/JavaScript, GitHub Pages, Cloudflare Workers, Claude Code\n\nCe portfolio fonctionne grâce à Nocturnz Portfolio : un moteur qui permet de créer et gérer son site sans écrire de code. Son panneau d’édition visuel permet de modifier les textes, ajouter des projets et déposer des images directement dans l’interface.",
+      "longDesc": "Le moteur derrière ce site\nCe portfolio est lui-même construit avec Nocturnz Portfolio : un moteur conçu pour créer des sites de présentation et les gérer sans écrire de code.\n\nÉdition et contenu\nLe panneau d’édition permet de modifier les textes sur la page, d’ajouter des projets, organiser des groupes et déposer des médias. Les contenus sont structurés dans un fichier de données séparé ; le même moteur les affiche sur l’accueil, les pages de groupes et les fiches.\n\nInfrastructure\nLe site utilise HTML, CSS et JavaScript et est hébergé sur GitHub Pages. L’éditeur enregistre les modifications et les médias dans le dépôt GitHub ; la connexion passe par GitHub OAuth avec un relais Cloudflare Worker. Chaque portfolio peut utiliser son propre dépôt et son propre domaine.\n\nConception\nMoteur, panneau et vitrine développés en parallèle avec Claude Code, autour d’une idée : laisser la personne gérer son contenu et conserver son propre site.",
       "featured": false,
       "link": "https://nocturnz.xyz/portfolio/",
       "embed": true,
@@ -524,7 +545,8 @@
         }
       ],
       "subProjects": [],
-      "thumb": "images/thumbs/ecriture-enregistrement-mixage-chant-rap-miniature-1787928556958-0.webp"
+      "thumb": "images/thumbs/ecriture-enregistrement-mixage-chant-rap-miniature-1787928556958-0.webp",
+      "longDesc": "Un projet musical mené de l’écriture à l’enregistrement, puis au mixage de la voix et du morceau."
     },
     {
       "id": "montage-video-style-youtube",
@@ -665,7 +687,8 @@
           "hidden": false
         }
       ],
-      "subProjects": []
+      "subProjects": [],
+      "longDesc": "Un reportage vidéo réalisé dans le cadre du projet vidéo de deuxième année à l’ISFSC, de la préparation à la production finale."
     },
     {
       "id": "dei-presentation",
@@ -727,6 +750,24 @@
             "y": 905,
             "w": 460
           }
+        },
+        {
+          "type": "image",
+          "url": "images/dei-choix-supports-print.webp",
+          "hidden": false,
+          "size": "lg"
+        },
+        {
+          "type": "carousel",
+          "urls": [
+            "images/dei-doudou-lily.webp",
+            "images/dei-doudou-ethan.webp",
+            "images/dei-doudou-rose.webp",
+            "images/dei-doudou-thibault.webp"
+          ],
+          "caption": "Visuels des doudous",
+          "hidden": false,
+          "size": "lg"
         }
       ],
       "thumb": "images/thumbs/projet-360-dei-belgique-1787830564823-0.webp",
@@ -797,7 +838,7 @@
     },
     {
       "id": "dei-agence-site",
-      "title": "Site de l’agence fictive",
+      "title": "Site de la campagne",
       "year": 2025,
       "current": false,
       "ctx": "academique",
@@ -805,14 +846,29 @@
       "tags": [
         "Web"
       ],
-      "desc": "Vitrine d’Echo Nexus · projet académique",
-      "longDesc": "",
+      "desc": "Zoning · parcours de sensibilisation",
+      "longDesc": "Site imaginé pour la campagne de sensibilisation aux violences supposément éducatives. Le zoning présente le parcours prévu : les constats, la campagne et les alternatives éducatives. Le site, auparavant hébergé par l’école, n’est plus accessible ; cette fiche est conservée en attendant de retrouver une sauvegarde.",
       "featured": false,
-      "hidden": false,
-      "link": "https://cms2433.commu.isfsc.be/",
-      "embed": true,
-      "assets": [],
-      "thumb": "",
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/dei-site-zoning-1.webp",
+          "hidden": false,
+          "size": "lg",
+          "caption": "Zoning — partie 1"
+        },
+        {
+          "type": "image",
+          "url": "images/dei-site-zoning-2.webp",
+          "hidden": false,
+          "size": "lg",
+          "caption": "Zoning — partie 2"
+        }
+      ],
+      "thumb": "images/dei-site-zoning-1.webp",
       "subProjects": [],
       "group": "projet-360-dei-belgique"
     },
@@ -849,9 +905,18 @@
           "type": "image",
           "url": "images/carte-de-visite-echo-nexus-1791180216005-0.webp",
           "hidden": false
+        },
+        {
+          "type": "image",
+          "url": "images/dei-carte-echonexus-recto.webp",
+          "caption": "Carte de visite — recto",
+          "hidden": false,
+          "size": "lg"
         }
       ],
-      "subProjects": []
+      "subProjects": [],
+      "longDesc": "Un support de contact conçu pour l’identité graphique de l’agence fictive Echo Nexus.",
+      "group": "dei-identite-visuelle"
     },
     {
       "id": "episode-podcast",
@@ -977,7 +1042,8 @@
         }
       ],
       "subProjects": [],
-      "thumb": "images/ecriture-d-articles-de-presse-miniature-1787834916089-0.webp"
+      "thumb": "images/ecriture-d-articles-de-presse-miniature-1787834916089-0.webp",
+      "longDesc": "Des articles réalisés à partir d’interviews, avec un travail de rédaction journalistique."
     },
     {
       "id": "melo-de-la-semaine",
@@ -1029,7 +1095,7 @@
         "Montage"
       ],
       "desc": "Montage vidéo · présentation de l’EP",
-      "longDesc": "",
+      "longDesc": "Pendant mon stage chez En Esprit, j’ai réalisé le montage de cet entretien consacré à la présentation de l’EP de MEESYZ.",
       "featured": false,
       "hidden": false,
       "link": "",
@@ -1058,7 +1124,7 @@
         "Montage"
       ],
       "desc": "Montage vidéo · coulisses du concert",
-      "longDesc": "",
+      "longDesc": "Pendant mon stage chez En Esprit, j’ai monté cette immersion dans les coulisses du concert de SDM au Zénith, aux côtés de Sins.",
       "featured": false,
       "hidden": false,
       "link": "",
@@ -1088,7 +1154,7 @@
         "Tournage"
       ],
       "desc": "Montage vidéo · parcours d’une artiste dans la musique",
-      "longDesc": "",
+      "longDesc": "Pendant mon stage chez En Esprit, j’ai participé au tournage et au montage de cet entretien autour du parcours de Mallaury et de sa place dans la musique.",
       "featured": false,
       "hidden": false,
       "link": "",
@@ -1118,7 +1184,7 @@
         "Tournage"
       ],
       "desc": "Montage vidéo · parcours personnel et musical",
-      "longDesc": "",
+      "longDesc": "Pendant mon stage chez En Esprit, j’ai participé au tournage et au montage de cet entretien en deux parties consacré au parcours personnel et musical d’Udeyfa.",
       "featured": false,
       "hidden": false,
       "link": "",
@@ -1410,17 +1476,18 @@
       "desc": "Identité graphique · usage interne",
       "featured": false,
       "hidden": false,
-      "longDesc": "",
+      "longDesc": "Création d’un logo vectoriel destiné à un usage interne, conçu pour être réutilisé à différentes tailles.",
       "assets": [
         {
-          "type": "image",
-          "url": "images/logo-vectoriel-myportfolio-0.webp",
-          "hidden": false
-        },
-        {
-          "type": "image",
-          "url": "images/logo-vectoriel-myportfolio-1.webp",
-          "hidden": false
+          "type": "beforeafter",
+          "urls": [
+            "images/logo-vectoriel-myportfolio-0.webp",
+            "images/logo-vectoriel-myportfolio-1.webp"
+          ],
+          "size": "lg",
+          "hidden": false,
+          "center": true,
+          "aspect": "16/9"
         },
         {
           "type": "image",
@@ -1606,7 +1673,8 @@
         }
       ],
       "subProjects": [],
-      "thumb": "images/thumbs/artwork-rap-pochette-d-albums-1787778518647-7.webp"
+      "thumb": "images/thumbs/artwork-rap-pochette-d-albums-1787778518647-7.webp",
+      "longDesc": "Une sélection de visuels et pochettes conçus pour accompagner des sorties musicales rap."
     },
     {
       "id": "community-management-easypermis",
@@ -1715,7 +1783,7 @@
         "Web"
       ],
       "desc": "Outil d’annotation vidéo · commentaires clients sans compte",
-      "longDesc": "Retours à l'image près sur des vidéos : les clients commentent sans créer de compte, les fichiers restent dans le stockage de l'utilisateur.",
+      "longDesc": "Un espace de retours pour le montage\nNocturnz Review permet de partager une vidéo et d’échanger sur des retours à l’image près. Les commentaires peuvent viser un instant ou une plage, inclure un dessin sur l’image et être exportés en marqueurs pour Premiere Pro.\n\nVersions et collaboration\nPlusieurs versions restent réunies dans une même review ; elles peuvent être comparées côte à côte et validées séparément. L’accès peut être partagé par lien ou limité à des personnes invitées.\n\nInfrastructure\nL’interface utilise React et Vite. Firebase Hosting sert l’application ; Firestore synchronise les données et les commentaires, tandis que Firebase Authentication et les règles Firestore encadrent les accès. Les médias peuvent provenir de liens YouTube ou Google Drive, ou d’un espace de stockage compatible S3 configuré par l’hôte, notamment Cloudflare R2. Le projet inclut aussi des tests des règles d’accès sur émulateur.",
       "featured": false,
       "hidden": false,
       "link": "https://nocturnz.xyz/review/",
@@ -1736,7 +1804,7 @@
         "Web"
       ],
       "desc": "Listes de tâches et d’envies · partage et synchronisation",
-      "longDesc": "Todo et Wishlist rangées par catégories, synchronisées sur tous les appareils et partageables par e-mail. Faite d'abord pour ma propre organisation.",
+      "longDesc": "Une application pour organiser et partager\nNocturnz Todo rassemble tâches et envies dans des catégories et groupes, avec dates, focus du jour et glisser-déposer. Il est possible de partager une liste ou une tâche, et d’utiliser des suivis de progression, des notifications et des thèmes.\n\nInfrastructure\nL’interface est construite en JavaScript avec Vite. Firebase Authentication gère la connexion Google ; Firestore stocke et synchronise les données entre appareils, avec des règles d’accès adaptées au partage. Un cache local contribue à conserver l’état côté navigateur.\n\nApplication installable\nLe site fonctionne comme une PWA : un service worker permet son installation et accompagne les mises à jour. L’authentification et les règles de données sont également testées avec les émulateurs Firebase.",
       "featured": false,
       "hidden": false,
       "link": "https://nocturnz.xyz/todo/",
@@ -1757,7 +1825,7 @@
         "Montage"
       ],
       "desc": "Extension Premiere Pro · coupe des silences et sous-titrage",
-      "longDesc": "Extension open source pour Adobe Premiere Pro, en développement : nettoyage des silences, transcription, sous-titres et réalisation dans un seul outil, avec traitements locaux.",
+      "longDesc": "Une extension pour le montage\nNocturnz Edit est un outil en cours de développement pour Adobe Premiere Pro, destiné à regrouper des modules d’assistance au montage.\n\nArchitecture locale\nUn panneau UXP communique avec un service local qui lance les traitements média. Le module Silences s’appuie sur auto-editor pour analyser une source, proposer des coupes et produire un XML importable comme nouvelle séquence. Les fichiers sont traités sur la machine.\n\nÉtat du projet\nLes modules et leurs parcours d’import sont encore en cours de validation dans Premiere ; les fonctions inachevées restent signalées dans l’interface.",
       "featured": false,
       "hidden": true,
       "link": "https://nocturnz.xyz/edit/",
@@ -1839,7 +1907,7 @@
         "Jeu"
       ],
       "desc": "Loup-garou dans l'univers Daybreak",
-      "longDesc": "",
+      "longDesc": "Un Loup-Garou dans Minecraft\nLeVillage est un mode de jeu propriétaire que nous développons dans l’univers Daybreak. Cette expérience multijoueur transpose le Loup-Garou dans Minecraft : les joueurs incarnent des rôles aux capacités différentes et traversent les phases d’une partie.\n\nMoteur et modules\nLe projet sépare le cœur des règles, les scènes, la voix, les ressources et l’intégration au serveur en modules distincts. Le moteur gère notamment les phases, les actions, les votes et les conditions de victoire ; les informations publiques et privées des joueurs sont distinguées.\n\nInfrastructure et interface\nLe prototype est développé en Java pour un serveur Paper. Il s’appuie sur des packs de ressources pour les éléments visuels, sur Plasmo Voice pour les fonctions vocales et sur NovaNx pour des interfaces en jeu. Les différentes parties sont développées et testées progressivement : le projet reste en cours de réalisation.",
       "featured": false,
       "hidden": false,
       "link": "",
@@ -1860,7 +1928,7 @@
         "Web"
       ],
       "desc": "Gestion des contenus du club · connexion à Notion",
-      "longDesc": "Outil interne relié à Notion pour gérer le site du club sans toucher au code.",
+      "longDesc": "Une interface interne conçue pour aider l’équipe administrative du club à gérer ses informations sans avoir à utiliser directement Notion.\n\nInfrastructure\nUn Cloudflare Worker sert l’application et fait le lien avec les bases Notion. L’outil organise notamment les affiliés, les finances et les inscriptions ; le formulaire public du site du club communique avec ce service séparé. Les accès à l’administration sont réservés aux comptes autorisés.",
       "featured": false,
       "hidden": true,
       "link": "",
@@ -1921,7 +1989,7 @@
         "Tournage"
       ],
       "desc": "Cadrage et montage",
-      "longDesc": "",
+      "longDesc": "Pendant mon stage chez En Esprit, j’ai participé au cadrage et au montage de cette immersion autour du concert de Soolking.",
       "featured": false,
       "hidden": false,
       "link": "",
@@ -2221,7 +2289,7 @@
         "Web"
       ],
       "desc": "Vitrine des événements et des expériences en ligne",
-      "longDesc": "",
+      "longDesc": "La vitrine web de Daybreak présente ses événements et ses expériences en ligne.",
       "featured": false,
       "hidden": false,
       "link": "https://daybreak.fr/",
@@ -2240,7 +2308,7 @@
       "medium": "social",
       "tags": [],
       "desc": "Serveur communautaire",
-      "longDesc": "",
+      "longDesc": "Un espace communautaire Discord pour les membres et les activités de Daybreak.",
       "featured": false,
       "hidden": false,
       "link": "",
@@ -2283,7 +2351,7 @@
         "Montage"
       ],
       "desc": "Montage vidéo · entretien autour de son parcours",
-      "longDesc": "",
+      "longDesc": "Pendant mon stage chez En Esprit, j’ai réalisé le montage de cet entretien avec NK Divine.",
       "featured": false,
       "hidden": false,
       "link": "",
@@ -2312,7 +2380,7 @@
         "Montage"
       ],
       "desc": "Montage vidéo · préparation d’un concert",
-      "longDesc": "",
+      "longDesc": "Pendant mon stage chez En Esprit, j’ai réalisé le montage de cette immersion dans la préparation du premier Olympia de DJ Kawest.",
       "featured": false,
       "hidden": false,
       "link": "",
@@ -2448,6 +2516,128 @@
       "thumb": "",
       "subProjects": [],
       "group": "en-esprit-videos"
+    },
+    {
+      "id": "dei-strategie-digitale",
+      "title": "Stratégie digitale",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "social",
+      "tags": [
+        "Graphisme"
+      ],
+      "desc": "Posts, story et annonces de sensibilisation",
+      "longDesc": "Dans le cadre de la campagne fictive pour DEI-Belgique, nous avons imaginé une stratégie digitale et décliné le message en publications pour les réseaux : visuels statistiques, story et maquettes d’annonces. Les propositions graphiques articulent photographies, typographie et touches manuscrites autour du thème de la campagne.",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [
+        {
+          "type": "carousel",
+          "urls": [
+            "images/dei-post-ukraine.webp",
+            "images/dei-post-non-violence.webp",
+            "images/dei-post-annonce-alternatives.webp",
+            "images/dei-post-publication-ecole.webp",
+            "images/dei-post-publication-sport.webp",
+            "images/dei-post-palestine.webp"
+          ],
+          "caption": "Posts rose et orange",
+          "hidden": false,
+          "size": "md"
+        },
+        {
+          "type": "carousel",
+          "urls": [
+            "images/dei-strategie-statistique-1.webp",
+            "images/dei-strategie-statistique-2.webp",
+            "images/dei-post-campagne.webp",
+            "images/dei-post-histoire-tibo.webp",
+            "images/dei-post-histoire-lily.webp",
+            "images/dei-post-histoire-rose.webp",
+            "images/dei-post-annonce-agir.webp",
+            "images/dei-post-histoire-ethan.webp"
+          ],
+          "caption": "Posts de la campagne",
+          "hidden": false,
+          "size": "md"
+        },
+        {
+          "type": "image",
+          "url": "images/dei-strategie-pistes-visuelles.webp",
+          "hidden": false,
+          "size": "sm"
+        },
+        {
+          "type": "image",
+          "url": "images/dei-post-sondage-guerre.webp",
+          "hidden": false,
+          "size": "sm"
+        },
+        {
+          "type": "image",
+          "url": "images/dei-post-sondage-alternatives.webp",
+          "hidden": false,
+          "size": "sm"
+        },
+        {
+          "type": "image",
+          "url": "images/dei-post-sondage-vdeo.webp",
+          "hidden": false,
+          "size": "sm"
+        },
+        {
+          "type": "image",
+          "url": "images/dei-strategie-story.webp",
+          "hidden": false,
+          "size": "sm"
+        },
+        {
+          "type": "image",
+          "url": "images/dei-strategie-annonce-statistique.webp",
+          "hidden": false,
+          "size": "sm"
+        },
+        {
+          "type": "image",
+          "url": "images/dei-strategie-annonce-agir.webp",
+          "hidden": false,
+          "size": "sm"
+        }
+      ],
+      "thumb": "images/thumbs/dei-strategie-digitale.webp",
+      "subProjects": [],
+      "group": "projet-360-dei-belgique"
+    },
+    {
+      "id": "dei-identite-echonexus",
+      "title": "Logo d’Echo Nexus",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "graphisme",
+      "tags": [
+        "Graphisme"
+      ],
+      "desc": "Présentation du logo de l’agence fictive",
+      "longDesc": "Présentation du logo de l’agence fictive Echo Nexus et de ses déclinaisons en noir et blanc et en couleur, dans le cadre du projet académique de campagne 360°.",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/dei-echonexus-logo.webp",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
+      "thumb": "images/dei-echonexus-logo.webp",
+      "subProjects": [],
+      "group": "dei-identite-visuelle"
     }
   ]
 }

@@ -614,6 +614,18 @@
         return '<div class="detail-carousel' + sizeClass(a) + '"' + attrs(a) + '>' +
           pagedViewerHTML(shots, 'Photo') + captionHTML(a) + '</div>';
       }
+      if (a.type === 'beforeafter'){
+        var pair = (a.urls || []).filter(Boolean);
+        if (pair.length !== 2) return '';
+        return '<div class="detail-comparison' + sizeClass(a) + (a.aspect === '16/9' ? ' is-wide' : '') + '"' + attrs(a) + '>' +
+          '<div class="comparison-viewer" style="--split:50%">' +
+            '<img class="comparison-before" src="' + pair[0] + '" alt="Avant" draggable="false">' +
+            '<img class="comparison-after" src="' + pair[1] + '" alt="Après" draggable="false">' +
+            '<span class="comparison-label comparison-label-before">Avant</span><span class="comparison-label comparison-label-after">Après</span>' +
+            '<span class="comparison-divider" aria-hidden="true"><span>‹ ›</span></span>' +
+            '<input class="comparison-range" type="range" min="0" max="100" value="50" aria-label="Comparer les images avant et après">' +
+          '</div>' + captionHTML(a) + '</div>';
+      }
       if (a.type === 'video'){
         // le format vertical de TikTok demande une largeur a lui : la classe le
         // signale au style, qui ne peut pas deviner ce que contient l'iframe
@@ -650,7 +662,8 @@
       if (a.type === 'text'){
         var body = String(a.text || '');
         if (!body.trim() && !window.__EDIT_MODE__) return '';
-        return '<div class="detail-textwrap' + sizeClass(a) + '"' + attrs(a) + '>' +
+        var align = ['left', 'right'].indexOf(a.align) !== -1 ? a.align : 'center';
+        return '<div class="detail-textwrap align-' + align + sizeClass(a) + '"' + attrs(a) + '>' +
           '<div class="asset-text' + (body.trim() ? '' : ' is-empty') + '" data-asset-text>' +
             body +
           '</div>' + captionHTML(a) +
@@ -671,7 +684,17 @@
     }
 
     if (!list.length) return '';
-    return '<div class="detail-gallery">' + list.map(wallItemHTML).join('') + '</div>';
+    // Un contenu explicitement centré occupe sa propre rangée sans imposer
+    // de placement fixe aux autres affiches ni casser leur mur.
+    var groups = [], pending = [];
+    function flush(){ if (pending.length){ groups.push('<div class="detail-gallery">' + pending.join('') + '</div>'); pending = []; } }
+    list.forEach(function(a){
+      var html = wallItemHTML(a);
+      if (a.center === true){ flush(); groups.push('<div class="detail-gallery detail-gallery-centered">' + html + '</div>'); }
+      else pending.push(html);
+    });
+    flush();
+    return groups.join('');
   }
 
   // live preview of an external site the project links to — many sites block
@@ -879,6 +902,7 @@
   }
 
   function packWall(gallery){
+    if (gallery.classList.contains('detail-gallery-centered')) return;
     var items = Array.prototype.slice.call(gallery.children);
     if (!items.length) return;
     scaleTiktokFrames(gallery);
@@ -1022,6 +1046,12 @@
 
   // Paged document viewer: one page shown at a time, images preloaded lazily
   // as the reader advances.
+  document.addEventListener('input', function(e){
+    if (e.target.classList.contains('comparison-range')){
+      e.target.parentNode.style.setProperty('--split', e.target.value + '%');
+    }
+  });
+
   function initDocViewers(scope){
     scope.querySelectorAll('.doc-viewer').forEach(function(v){
       var pages;
@@ -1470,11 +1500,12 @@
         '<div class="section-head">' +
           '<span class="kicker" data-group-kicker>' + (g.kicker || 'Groupe') + '</span>' +
           '<h1 data-group-title>' + titleWithAccent(g.title) + '</h1>' +
-          '<p data-group-desc>' + (g.desc || '') + '</p>' +
+          '<p data-group-desc>' + (g.pageDesc || g.desc || '') + '</p>' +
           groupTagsHTML(groupProjects(site, shown, g.id), true) +
           ownerSocialHTML(g) +
         '</div>' +
         '<div class="grid">' + children.map(function(child, i){ return groupCardHTML(child, groupProjects(site, shown, child.id), i); }).join('') + list.map(function(p, i){ return cardHTML(p, children.length + i); }).join('') + '</div>' +
+        (g.longDesc || window.__EDIT_MODE__ ? '<div class="detail-body group-long-desc"><p class="detail-desc detail-long" data-group-long-desc>' + (g.longDesc || '') + '</p></div>' : '') +
       '</div>';
   }
 

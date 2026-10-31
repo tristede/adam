@@ -630,6 +630,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
               <button class="ghost" id="pf-add-doc-btn" type="button">+ Document</button>
               <button class="ghost" id="pf-add-doclink-btn" type="button">+ Doc en ligne</button>
               <button class="ghost" id="pf-add-carousel-btn" type="button">+ Carrousel</button>
+              <button class="ghost" id="pf-add-beforeafter-btn" type="button">+ Avant / après</button>
               <button class="ghost" id="pf-add-text-btn" type="button">+ Texte</button>
             </div>
           </div>
@@ -698,6 +699,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
                 <button class="ghost" id="spf-add-doc-btn" type="button">+ Document</button>
                 <button class="ghost" id="spf-add-doclink-btn" type="button">+ Doc en ligne</button>
               <button class="ghost" id="spf-add-carousel-btn" type="button">+ Carrousel</button>
+              <button class="ghost" id="spf-add-beforeafter-btn" type="button">+ Avant / après</button>
               <button class="ghost" id="spf-add-text-btn" type="button">+ Texte</button>
               </div>
             </div>
@@ -1359,8 +1361,8 @@ body.visual-mode .wrap{ max-width: 1400px; }
     return out;
   }
 
-  var ASSET_LABEL = { image: 'Image', video: 'Vidéo', audio: 'Audio', web: 'Site web', doc: 'Document', carousel: 'Carrousel', text: 'Texte' };
-  var ASSET_ICON = { video: ICON.play, audio: ICON.music, web: ICON.globe, doc: ICON.file, carousel: ICON.image, text: ICON.file };
+  var ASSET_LABEL = { image: 'Image', video: 'Vidéo', audio: 'Audio', web: 'Site web', doc: 'Document', carousel: 'Carrousel', beforeafter: 'Avant / après', text: 'Texte' };
+  var ASSET_ICON = { video: ICON.play, audio: ICON.music, web: ICON.globe, doc: ICON.file, carousel: ICON.image, beforeafter: ICON.image, text: ICON.file };
   // three preset display sizes; the button cycles S -> M -> L
   var SIZE_ORDER = ['sm', 'md', 'lg'];
   var SIZE_LABEL = { sm: 'S', md: 'M', lg: 'L' };
@@ -1368,6 +1370,11 @@ body.visual-mode .wrap{ max-width: 1400px; }
   function nextSize(cur){
     return SIZE_ORDER[(SIZE_ORDER.indexOf(cur || 'md') + 1) % SIZE_ORDER.length];
   }
+
+  function nextTextAlign(align){
+    return align === 'left' ? 'center' : align === 'right' ? 'left' : 'right';
+  }
+  function textAlignLabel(align){ return ({left:'Gauche', right:'Droite'})[align] || 'Centre'; }
 
   function renderAssetList(listId, countId, assets, afterChange){
     var list = $(listId);
@@ -1389,7 +1396,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
             '<div class="meta">' + ASSET_LABEL[a.type] +
               (a.type === 'carousel' ? ' · ' + (a.urls || []).length + ' photo' + ((a.urls || []).length > 1 ? 's' : '') : '') +
               (a.hidden ? ' · masqué' : '') + '</div>' +
-            (a.type === 'carousel'
+            (a.type === 'carousel' || a.type === 'beforeafter'
               ? '<div class="carousel-strip" data-strip-i="' + i + '"></div>'
               : a.type === 'text'
                 ? '<div class="asset-url">' + escapeHtml((a.text || '').slice(0, 60) || '(texte vide — écris-le dans la vue visuelle)') + '</div>'
@@ -1406,7 +1413,8 @@ body.visual-mode .wrap{ max-width: 1400px; }
           (a.type === 'doc' && !(a.pages && a.pages.length) && /\.pdf($|\?|#)/i.test(a.url || '')
             ? '<button class="ghost" data-act="convert" data-i="' + i + '" type="button" title="Convertir en pages">PDF</button>' : '') +
           '<button class="ghost" data-act="size" data-i="' + i + '" type="button" title="Taille : ' + (SIZE_TITLE[a.size || 'md']) + '">' + SIZE_LABEL[a.size || 'md'] + '</button>' +
-          (a.type === 'carousel' || a.type === 'text' ? '' :
+          (a.type === 'text' ? '<button class="ghost" data-act="align" data-i="' + i + '" type="button" title="Changer l’alignement du texte">' + ({left:'Gauche', right:'Droite'}[a.align] || 'Centre') + '</button>' : '') +
+          (a.type === 'carousel' || a.type === 'beforeafter' || a.type === 'text' ? '' :
             '<button class="ghost" data-act="url" data-i="' + i + '" type="button" title="Changer l\'adresse du contenu">' + ICON.link + '</button>') +
           '<button class="ghost" data-act="toggle" data-i="' + i + '" type="button" title="' + (a.hidden ? 'Afficher' : 'Masquer') + '">' + (a.hidden ? ICON.eyeOff : ICON.eye) + '</button>' +
           '<button class="danger" data-act="del" data-i="' + i + '" type="button" title="Retirer">' + ICON.close + '</button>' +
@@ -1432,6 +1440,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
           b.addEventListener('click', function(){
             var act = b.dataset.c, tmp;
             if (act === 'del'){
+              if (a.type === 'beforeafter'){ alert('Un avant / après contient deux images.'); return; }
               if (a.urls.length <= 1){ alert('Dernière photo du carrousel — retire le carrousel entier.'); return; }
               if (!confirm('Retirer la photo ' + (k + 1) + ' du carrousel ?')) return;
               a.urls.splice(k, 1);
@@ -1463,6 +1472,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
         }
         if (act === 'url'){ if (!editAssetUrl(assets[i])) return; }
         else if (act === 'size') assets[i].size = nextSize(assets[i].size);
+        else if (act === 'align') assets[i].align = nextTextAlign(assets[i].align);
         else if (act === 'toggle') assets[i].hidden = !assets[i].hidden;
         else if (act === 'del'){ if (!confirm('Retirer ce contenu du projet ?')) return; assets.splice(i, 1); }
         else if (act === 'up' && i > 0){ tmp = assets[i-1]; assets[i-1] = assets[i]; assets[i] = tmp; }
@@ -2363,7 +2373,8 @@ body.visual-mode .wrap{ max-width: 1400px; }
   function wireImageUploadInput(inputId, statusId, idHintFn, onUploaded){
     $(inputId).addEventListener('change', function(e){
       var files = Array.prototype.slice.call(e.target.files || []);
-      if (!files.length) return;
+      if (!files.length) { nextUploadIsBeforeAfter = false; nextUploadIsCarousel = false; return; }
+      if (nextUploadIsBeforeAfter && files.length !== 2){ nextUploadIsBeforeAfter = false; e.target.value = ''; alert('Sélectionne exactement deux images : avant puis après.'); return; }
       var statusEl = $(statusId);
       var idHint = idHintFn() || 'projet';
       var input = e.target;
@@ -2388,9 +2399,13 @@ body.visual-mode .wrap{ max-width: 1400px; }
   // Le même sélecteur de fichiers sert aux images séparées et au carrousel :
   // seul ce drapeau, posé juste avant l'ouverture, décide de ce qu'on fabrique.
   var nextUploadIsCarousel = false;
+  var nextUploadIsBeforeAfter = false;
 
   function pushUploaded(arr, paths){
-    if (nextUploadIsCarousel){
+    if (nextUploadIsBeforeAfter){
+      nextUploadIsBeforeAfter = false;
+      arr.push({ type: 'beforeafter', urls: paths, hidden: false, size: 'lg' });
+    } else if (nextUploadIsCarousel){
       nextUploadIsCarousel = false;
       arr.push({ type: 'carousel', urls: paths, hidden: false });
     } else {
@@ -2424,9 +2439,12 @@ body.visual-mode .wrap{ max-width: 1400px; }
   $('pf-thumb').addEventListener('change', renderThumbPreview);
   $('pf-thumb-upload-btn').addEventListener('click', function(){ $('pf-thumb-upload').click(); });
 
-  $('pf-add-image-btn').addEventListener('click', function(){ $('pf-images-upload').click(); });
+  $('pf-add-image-btn').addEventListener('click', function(){ nextUploadIsBeforeAfter = false; nextUploadIsCarousel = false; $('pf-images-upload').click(); });
+  $('pf-add-beforeafter-btn').addEventListener('click', function(){
+    nextUploadIsBeforeAfter = true; nextUploadIsCarousel = false; $('pf-images-upload').click();
+  });
   $('pf-add-carousel-btn').addEventListener('click', function(){
-    nextUploadIsCarousel = true; $('pf-images-upload').click();
+    nextUploadIsBeforeAfter = false; nextUploadIsCarousel = true; $('pf-images-upload').click();
   });
   $('pf-add-text-btn').addEventListener('click', function(){
     currentAssets.push({ type: 'text', text: '', hidden: false, size: 'md' });
@@ -2444,9 +2462,12 @@ body.visual-mode .wrap{ max-width: 1400px; }
     promptAsset('doc', currentAssets, function(){ renderProjectAssets(); refreshThumbOptions(); });
   });
 
-  $('spf-add-image-btn').addEventListener('click', function(){ $('spf-images-upload').click(); });
+  $('spf-add-image-btn').addEventListener('click', function(){ nextUploadIsBeforeAfter = false; nextUploadIsCarousel = false; $('spf-images-upload').click(); });
+  $('spf-add-beforeafter-btn').addEventListener('click', function(){
+    nextUploadIsBeforeAfter = true; nextUploadIsCarousel = false; $('spf-images-upload').click();
+  });
   $('spf-add-carousel-btn').addEventListener('click', function(){
-    nextUploadIsCarousel = true; $('spf-images-upload').click();
+    nextUploadIsBeforeAfter = false; nextUploadIsCarousel = true; $('spf-images-upload').click();
   });
   $('spf-add-text-btn').addEventListener('click', function(){
     currentSubAssets.push({ type: 'text', text: '', hidden: false, size: 'md' });
@@ -3524,7 +3545,9 @@ body.visual-mode .wrap{ max-width: 1400px; }
     bindEditable(doc.querySelector('[data-group-title]'),
       function(){ return g.title || ''; }, function(v){ g.title = v; });
     bindEditable(doc.querySelector('[data-group-desc]'),
-      function(){ return g.desc || ''; }, function(v){ g.desc = v; }, true);
+      function(){ return g.pageDesc || g.desc || ''; }, function(v){ g.pageDesc = v; }, true);
+    bindEditable(doc.querySelector('[data-group-long-desc]'),
+      function(){ return g.longDesc || ''; }, function(v){ g.longDesc = v; }, true);
     wireOwnerSocial(doc, g);
 
     var bar = doc.createElement('div');
@@ -3813,7 +3836,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
         }) : null),
         // un carrousel porte des `urls`, pas une `url` : ses photos se gèrent
         // par ses propres boutons, pas par cette adresse unique
-        (a.type === 'carousel' || a.type === 'text' ? null : edButton(doc, 'link', 'Changer l\'adresse du contenu', false, function(){
+        (a.type === 'carousel' || a.type === 'beforeafter' || a.type === 'text' ? null : edButton(doc, 'link', 'Changer l\'adresse du contenu', false, function(){
           if (editAssetUrl(a)) applyAndRefresh();
         })),
         edButton(doc, 'close', 'Retirer ce contenu', true, function(){
@@ -3832,6 +3855,14 @@ body.visual-mode .wrap{ max-width: 1400px; }
       // donc sur celle qui est AFFICHÉE. Son rang se lit dans le compteur du
       // lecteur (« 3 / 7 »), seul endroit où l'éditeur peut savoir où en est la
       // lecture — l'index vit dans une closure de script.js.
+      if (a.type === 'text'){
+        btns.unshift(edTextButton(doc, textAlignLabel(a.align), 'Alignement du texte : ' + textAlignLabel(a.align), function(){
+          a.align = nextTextAlign(a.align); applyAndRefresh();
+        }));
+      }
+      if (a.type === 'beforeafter'){
+        btns.unshift(edTextButton(doc, '↔', 'Inverser avant et après', function(){ a.urls.reverse(); applyAndRefresh(); }));
+      }
       if (a.type === 'carousel'){
         var shownIndex = function(){
           var c = node.querySelector('.doc-count');
@@ -3916,6 +3947,10 @@ body.visual-mode .wrap{ max-width: 1400px; }
         applyAndRefresh();
       }],
       // plusieurs photos envoyées d'un coup deviennent UN contenu, pas N
+      ['+ Avant / après', function(){
+        pendingUpload = { owner: owner, hint: hint, beforeafter: true };
+        $('visual-image-upload').click();
+      }],
       ['+ Carrousel', function(){
         pendingUpload = { owner: owner, hint: hint, carousel: true };
         $('visual-image-upload').click();
@@ -4216,6 +4251,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
     pendingUpload = null;
     e.target.value = '';
     if (!files.length || !target) return;
+    if (target.beforeafter && files.length !== 2){ alert('Sélectionne exactement deux images : avant puis après.'); return; }
 
     uploadImagesBatch(files, target.hint || 'projet', function(done, total, step){
       $('visual-location').textContent = step === 'commit'
@@ -4227,6 +4263,8 @@ body.visual-mode .wrap{ max-width: 1400px; }
       } else if (target.addTo){
         // photos ajoutées à un carrousel existant
         target.addTo.urls = (target.addTo.urls || []).concat(paths);
+      } else if (target.beforeafter){
+        ensureAssets(target.owner).push({ type: 'beforeafter', urls: paths, hidden: false, size: 'lg' });
       } else if (target.carousel){
         // l'envoi entier fait UN contenu, pas un par photo
         ensureAssets(target.owner).push({ type: 'carousel', urls: paths, hidden: false });

@@ -57,7 +57,7 @@ Particularités à connaître :
 Projet : `id`, `title`, `year`, `current`, `ctx` (`perso` | `academique` | `stage`), `medium`
 (`web` | `video` | `graphisme` | `audio` | `social` | `event` | `ecrit`), `tags[]`, `desc` (courte),
 `longDesc`, `featured`, `hidden`, `secondary`, `preview`, `link`, `embed`, `assets[]`
-(`image` | `video` | `audio` | `doc` | `web` | `text` | `carousel`), `thumb`, `subProjects[]`, `group`.
+(`image` | `video` | `audio` | `doc` | `web` | `text` | `carousel` | `beforeafter`), `thumb`, `subProjects[]`, `group`.
 
 Groupe (`site.groups[]`) : `id`, `kicker`, `title`, `desc`, `thumb`, `featured`, `hidden`,
 `socialLinks`, `parent` (id du groupe parent, facultatif). Un projet appartient à au plus un groupe (`project.group`).
@@ -422,3 +422,31 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
 - Fiche Nocturnz Portfolio : textes regroupés dans la description longue afin de les aligner. Non publié.
 
 - Captures des jeux TristeJeu affichées aussi dans les fiches ; TristeParty reste masqué.
+
+- Groupes : description longue facultative, éditable en vue visuelle après les projets. TristeJeu décrit l’architecture, les rôles, les salons, Firebase et les tests selon le code vérifié. Fiches enrichies à partir des informations disponibles ; précisions complémentaires demandées à Adam. CSS `v=71`, JS `v=54`, non publié.
+
+- Descriptions techniques enrichies après lecture des projets associés : moteur et OAuth du portfolio, React/Firebase/stockage de Review, PWA/Firebase de Todo, site et outil Oasis, architecture modulaire Paper de LeVillage et état en développement de Nocturnz Edit. Les projets masqués le restent. Non publié.
+
+- Descriptions de page de groupe (`pageDesc`) séparées des descriptions courtes des cartes ; présentations concises pour chaque groupe, éditables dans la vue visuelle. JS `v=55`, non publié.
+
+- Daybreak : plateforme sociale d’événements multijoueurs temporaires, lancée sur Minecraft avec l’ambition d’autres jeux et de serveurs permanents ; LeVillage est un mode propriétaire en développement. Non publié.
+
+- Campagne 360° : fiche Stratégie digitale avec posts, story, maquettes et proposition graphique ; fiche identité Echo Nexus avec logo ; justification des supports ajoutée à la présentation. Documents contenant des coordonnées ou noms complets exclus du dépôt public. Non publié.
+
+- Campagne 360° : posts du dossier fourni, carrousel des doudous et recto de la carte Echo Nexus ajoutés ; verso et mockup exclus car contiennent des noms et coordonnées. Non publié.
+
+- Fiche masquée du site de campagne : zoning en deux visuels, site non disponible en attente d’une sauvegarde. Deux vidéos de stratégie digitale attendent des liens YouTube non répertoriés. Non publié.
+
+- Projet 360° → Identité visuelle d’Echo Nexus : sous-groupe rassemblant le logo et la carte de visite. Non publié.
+
+- Stratégie digitale : tailles des visuels variées pour utiliser le mur d’affiches existant plutôt qu’une colonne de grandes images. Non publié.
+
+- Stratégie digitale : posts rose/orange et campagne répartis dans deux carrousels ; planche de recherche graphique conservée à part. Non publié.
+
+- Stratégie digitale : seuls les posts au format carré restent dans les deux carrousels ; stories et autres formats sont placés séparément sur le mur. Non publié.
+
+- Correction d’Adam : un seul site dans le projet 360°, celui de la campagne ; fiche existante renommée et masquée avec le zoning, doublon supprimé. Non publié.
+
+- Format avant / après : deux images comparées par un curseur ; ajout et inversion dans l’éditeur. Fiche logo En Esprit mise à jour. CSS `v=72`, JS `v=56`, non publié.
+
+- Modules texte centrés par défaut, alignement gauche / centre / droite éditable ; comparaison du logo centrée et recadrée en 16:9. CSS `v=73`, JS `v=57`, non publié.
