@@ -597,6 +597,8 @@ body.visual-mode .wrap{ max-width: 1400px; }
         <input type="text" id="pf-tags" placeholder="Graphisme, Affiche">
         <label for="pf-desc">Description courte (affichée sur la vignette)</label>
         <textarea id="pf-desc"></textarea>
+        <label for="pf-preview">Aperçu animé au survol (optionnel : .gif, .webp animé, .mp4 ou .webm)</label>
+        <input type="text" id="pf-preview" placeholder="images/previews/mon-projet.webp">
         <div class="check-row">
           <input type="checkbox" id="pf-featured">
           <label for="pf-featured">Mis en avant sur l'accueil</label>
@@ -1665,7 +1667,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       $('pf-ctx').value = 'perso'; $('pf-medium').value = 'graphisme';
       refreshGroupOptions('');
       $('pf-tags').value = ''; $('pf-desc').value = ''; $('pf-featured').checked = false;
-      $('pf-hidden').checked = false; $('pf-secondary').checked = false;
+      $('pf-hidden').checked = false; $('pf-secondary').checked = false; $('pf-preview').value = '';
       $('pf-longdesc').value = ''; $('pf-link').value = ''; $('pf-embed').checked = false;
       currentSubProjects = [];
       currentAssets = [];
@@ -1680,7 +1682,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       refreshGroupOptions(p.group || '');
       $('pf-tags').value = (p.tags||[]).join(', '); $('pf-desc').value = p.desc || '';
       $('pf-featured').checked = !!p.featured;
-      $('pf-hidden').checked = !!p.hidden; $('pf-secondary').checked = !!p.secondary;
+      $('pf-hidden').checked = !!p.hidden; $('pf-secondary').checked = !!p.secondary; $('pf-preview').value = p.preview || '';
       $('pf-longdesc').value = p.longDesc || '';
       $('pf-link').value = p.link || '';
       $('pf-embed').checked = !!p.embed;
@@ -1716,6 +1718,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       featured: $('pf-featured').checked,
       hidden: $('pf-hidden').checked,
       secondary: $('pf-secondary').checked,
+      preview: $('pf-preview').value.trim(),
       longDesc: $('pf-longdesc').value.trim(),
       assets: currentAssets,
       link: $('pf-link').value.trim(),

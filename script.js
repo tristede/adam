@@ -151,6 +151,7 @@
         (p.hidden ? ' data-project-hidden="1"' : '') +
         (p.secondary ? ' data-project-secondary="1"' : '') +
         tipAttr(p.desc) +
+        (p.preview ? ' data-preview="' + String(p.preview).replace(/"/g, '&quot;') + '"' : '') +
         ' style="transition-delay:' + ((i % 8) * 40) + 'ms">' +
         '<div class="thumb' + (thumb ? ' has-img' : '') + '">' +
           (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy">' : '') +
@@ -1302,7 +1303,17 @@
     var reste = presets.filter(function(x){ return tops.indexOf(x.key) === -1; });
     var choisiCache = tagActif && !visibles.some(function(x){ return x.key === tagActif; });
 
-    var cats = [['', 'Tout'], ['perso', 'Perso'], ['academique', 'Académique']];
+    // Perso / Académique à gauche, médiums à droite. Pas de bouton « Tout » :
+    // ne rien choisir = tout voir, et recliquer sur un choix l'enlève. Un tag
+    // cherche dans tout le portfolio (la catégorie est alors mise de côté).
+    var cats = [['perso', 'Perso'], ['academique', 'Académique']];
+    var nbMenu = reste.length + fins.length;
+
+    function itemMenu(val, label, n, on){
+      return '<button type="button" class="filter-menu-item' + (on ? ' is-on' : '') + '" data-tag="' + attr(val) + '">' +
+        '<span>' + label + '</span><span class="tag-count">' + n + '</span></button>';
+    }
+
     host.className = 'filter-zone';
     host.innerHTML =
       '<div class="filter-row filter-cats">' +
@@ -1310,32 +1321,53 @@
       '</div>' +
       '<div class="filter-row filter-presets">' +
         visibles.map(function(x){ return pastille('', 'data-tag', x.key, presetLabel[x.key], x.n, tagActif === x.key); }).join('') +
-        ((reste.length || fins.length)
-          ? '<button type="button" class="filter-toggle filter-more' + (choisiCache ? ' is-active' : '') + '" aria-label="Plus de tags" title="Plus de tags">+' +
+        (nbMenu
+          ? '<button type="button" class="filter-toggle filter-more' + (choisiCache ? ' is-active' : '') + '" aria-label="Plus de tags" aria-haspopup="true" title="Plus de tags">+' +
               (choisiCache ? '<span class="filter-chosen">' + (presetLabel[tagActif] || tagActif) + '</span>' : '') +
             '</button>'
           : '') +
       '</div>' +
-      ((reste.length || fins.length)
-        ? '<div class="tag-filters' + (filtresOuverts ? '' : ' is-closed') + '">' +
-            reste.map(function(x){ return pastille('', 'data-tag', x.key, presetLabel[x.key], x.n, tagActif === x.key); }).join('') +
-            fins.map(function(t){ return pastille('', 'data-tag', t, t, vus[t], tagActif === t); }).join('') +
+      (nbMenu
+        ? '<div class="filter-menu-row' + (filtresOuverts ? '' : ' is-closed') + '">' +
+            '<div class="filter-menu" role="menu">' +
+              reste.map(function(x){ return itemMenu(x.key, presetLabel[x.key], x.n, tagActif === x.key); }).join('') +
+              (reste.length && fins.length ? '<div class="filter-menu-sep"></div>' : '') +
+              fins.map(function(t){ return itemMenu(t, t, vus[t], tagActif === t); }).join('') +
+            '</div>' +
           '</div>'
         : '');
 
     var toggle = host.querySelector('.filter-toggle');
-    if (toggle) toggle.addEventListener('click', function(){
+    var menu = host.querySelector('.filter-menu-row');
+    if (toggle) toggle.addEventListener('click', function(e){
+      e.stopPropagation();
       filtresOuverts = !filtresOuverts;
-      host.querySelector('.tag-filters').classList.toggle('is-closed', !filtresOuverts);
+      menu.classList.toggle('is-closed', !filtresOuverts);
     });
+    // le menu se referme au clic ailleurs ou sur Echap
+    if (!window.__filtreMenuHook){
+      window.__filtreMenuHook = true;
+      var fermer = function(){
+        filtresOuverts = false;
+        var m = document.querySelector('.filter-menu-row');
+        if (m) m.classList.add('is-closed');
+      };
+      document.addEventListener('click', function(e){
+        if (!e.target.closest || !e.target.closest('.filter-menu-row, .filter-toggle')) fermer();
+      });
+      document.addEventListener('keydown', function(e){ if (e.key === 'Escape') fermer(); });
+    }
 
     function rerender(){
+      filtresOuverts = false;
       majURL();
       renderProjectsPage(site, window.__ALL_PROJECTS__ || []);
     }
     host.querySelectorAll('[data-cat]').forEach(function(b){
       b.addEventListener('click', function(){
-        catActif = b.getAttribute('data-cat') || '';
+        var c = b.getAttribute('data-cat') || '';
+        catActif = (c && c !== catActif) ? c : '';
+        if (catActif) tagActif = null;   // categorie ou tag, pas les deux
         rerender();
       });
     });
@@ -1343,6 +1375,7 @@
       b.addEventListener('click', function(){
         var t = b.getAttribute('data-tag');
         tagActif = (t && t !== tagActif) ? t : null;
+        if (tagActif) catActif = '';     // un tag cherche dans tout le portfolio
         rerender();
       });
     });
@@ -1551,6 +1584,27 @@
     var cacherTip = function(){
       clearTimeout(tipTimer); tipTimer = null; tipCard = null;
       tip.classList.remove('is-on');
+      document.querySelectorAll('.thumb-preview').forEach(function(el){ el.remove(); });
+    };
+    // apercu anime (gif, webp anime, mp4/webm) : remplace la miniature le temps du survol
+    var lancerApercu = function(card){
+      var url = card.getAttribute('data-preview');
+      var thumb = card.querySelector('.thumb');
+      if (!url || !thumb || thumb.querySelector('.thumb-preview')) return;
+      var isVideo = /\.(mp4|webm|mov)(\?|$)/i.test(url);
+      var el = document.createElement(isVideo ? 'video' : 'img');
+      el.className = 'thumb-preview';
+      if (isVideo){
+        el.muted = true; el.loop = true; el.autoplay = true; el.playsInline = true;
+        el.setAttribute('muted', ''); el.setAttribute('playsinline', '');
+        el.src = url;
+        var pr = el.play(); if (pr && pr.catch) pr.catch(function(){});
+      } else {
+        el.alt = '';
+        el.src = url;
+      }
+      var base = thumb.querySelector('.thumb-img');
+      thumb.insertBefore(el, base ? base.nextSibling : thumb.firstChild);
     };
     var placerTip = function(){
       var w = tip.offsetWidth, h = tip.offsetHeight;
@@ -1564,20 +1618,26 @@
       if (tip.classList.contains('is-on')) placerTip();
     }, { passive: true });
     document.addEventListener('mouseover', function(e){
-      var c = e.target.closest ? e.target.closest('.card[data-tip]') : null;
+      var c = e.target.closest ? e.target.closest('.card[data-tip], .card[data-preview]') : null;
       if (c && e.target.closest('.year[data-members]')) c = null;   // le badge a son propre apercu
       if (c === tipCard) return;
       cacherTip();
       if (!c) return;
       tipCard = c;
+      // un gif/webp commence a se charger des l'entree, pour etre pret a la seconde
+      var pv = c.getAttribute('data-preview');
+      if (pv && !/\.(mp4|webm|mov)(\?|$)/i.test(pv)) { var pre = new Image(); pre.src = pv; }
       tipTimer = setTimeout(function(){
-        var h3 = c.querySelector('h3');
-        tip.innerHTML = '';
-        var t = document.createElement('strong'); t.textContent = h3 ? h3.textContent : '';
-        var d = document.createElement('span'); d.textContent = c.getAttribute('data-tip');
-        tip.appendChild(t); tip.appendChild(d);
-        placerTip();
-        tip.classList.add('is-on');
+        if (c.getAttribute('data-tip')){
+          var h3 = c.querySelector('h3');
+          tip.innerHTML = '';
+          var t = document.createElement('strong'); t.textContent = h3 ? h3.textContent : '';
+          var d = document.createElement('span'); d.textContent = c.getAttribute('data-tip');
+          tip.appendChild(t); tip.appendChild(d);
+          placerTip();
+          tip.classList.add('is-on');
+        }
+        lancerApercu(c);
       }, 1000);
     });
     window.addEventListener('scroll', cacherTip, { passive: true });
