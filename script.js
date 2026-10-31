@@ -413,7 +413,7 @@
         '<span class="year">' + n + ' projet' + (n > 1 ? 's' : '') + '</span>' +
       '</div>' +
       '<div class="body">' +
-        '<span class="kicker" style="color:#86efac;font-size:13px;font-weight:600;letter-spacing:0.04em;">Groupe favori</span>' +
+        '<span class="kicker" style="color:var(--text-faint);font-size:13px;font-weight:600;letter-spacing:0.04em;">Groupe favori</span>' +
         '<h2>' + g.title + '</h2>' +
         '<p class="desc">' + (g.desc || '') + '</p>' +
         '<span class="pill-btn" style="width:fit-content;">Voir le groupe ' + UI_ICON.arrowRight + '</span>' +
@@ -1473,33 +1473,56 @@
   }
 
   function wireFeaturedCarousel(grid){
-    if (grid.nextElementSibling && grid.nextElementSibling.classList.contains('featured-controls')) grid.nextElementSibling.remove();
     grid.id = 'featured-carousel';
     grid.setAttribute('aria-label', 'Projets mis en avant');
-    var controls = document.createElement('div');
-    controls.className = 'featured-controls';
-    var prev = document.createElement('button'), next = document.createElement('button');
-    [[prev, -1, 'Défiler vers la gauche', UI_ICON.arrowLeft], [next, 1, 'Défiler vers la droite', UI_ICON.arrowRight]].forEach(function(item){
-      var button = item[0];
-      button.type = 'button'; button.className = 'pill-btn';
-      button.setAttribute('aria-label', item[2]); button.setAttribute('aria-controls', grid.id);
-      button.innerHTML = item[3];
-      button.addEventListener('click', function(){
-        var step = grid.firstElementChild ? grid.firstElementChild.getBoundingClientRect().width + 28 : grid.clientWidth;
-        grid.scrollBy({ left: item[1] * step, behavior: reduceMotionQuery.matches ? 'auto' : 'smooth' });
-      });
-      controls.appendChild(button);
+    grid.setAttribute('tabindex', '0');
+    if (window.__EDIT_MODE__) return;
+    var startX = 0, startScroll = 0, active = false, moved = false;
+    grid.addEventListener('pointerdown', function(e){
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      active = true; moved = false; startX = e.clientX; startScroll = grid.scrollLeft;
     });
-    grid.insertAdjacentElement('afterend', controls);
-    function update(){
+    grid.addEventListener('pointermove', function(e){
+      if (!active) return;
+      if (Math.abs(e.clientX - startX) > 5){
+        moved = true; grid.classList.add('is-dragging');
+        grid.scrollLeft = startScroll - (e.clientX - startX);
+        e.preventDefault();
+      }
+    });
+    window.addEventListener('pointerup', function(){ active = false; grid.classList.remove('is-dragging'); });
+    // Déplacement lent et réversible, interrompu par toute interaction.
+    var autoPos = grid.scrollLeft, direction = 1, previous = 0, resumeAfter = 0, touching = false;
+    function suspendAuto(){ resumeAfter = performance.now() + 4000; }
+    grid.addEventListener('pointerdown', function(){ touching = true; suspendAuto(); });
+    window.addEventListener('pointerup', function(){ if (touching){ touching = false; suspendAuto(); } });
+    window.addEventListener('pointercancel', function(){ touching = false; suspendAuto(); });
+    grid.addEventListener('wheel', suspendAuto, { passive:true });
+    grid.addEventListener('keydown', suspendAuto);
+    function animate(time){
+      if (!grid.isConnected) return;
+      var rect = grid.getBoundingClientRect();
+      var paused = reduceMotionQuery.matches || document.hidden || touching || active ||
+        grid.matches(':hover') || grid.contains(document.activeElement) || time < resumeAfter ||
+        rect.bottom < 0 || rect.top > window.innerHeight;
       var max = grid.scrollWidth - grid.clientWidth;
-      controls.hidden = max < 2;
-      prev.disabled = grid.scrollLeft < 2;
-      next.disabled = grid.scrollLeft >= max - 8;
+      if (paused || max < 2){
+        autoPos = grid.scrollLeft;
+      } else {
+        grid.classList.add('is-auto-scrolling');
+        autoPos += direction * Math.min(time - (previous || time), 50) * 0.009;
+        if (autoPos >= max){ autoPos = max; direction = -1; }
+        if (autoPos <= 0){ autoPos = 0; direction = 1; }
+        grid.scrollLeft = autoPos;
+      }
+      previous = time;
+      requestAnimationFrame(animate);
     }
-    grid.addEventListener('scroll', update, { passive:true });
-    window.addEventListener('resize', update);
-    requestAnimationFrame(update);
+    requestAnimationFrame(animate);
+    grid.addEventListener('dragstart', function(e){ e.preventDefault(); });
+    grid.addEventListener('click', function(e){
+      if (moved){ e.preventDefault(); e.stopPropagation(); moved = false; }
+    }, true);
   }
 
   function renderGrids(site, projects){

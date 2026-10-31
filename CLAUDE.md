@@ -108,7 +108,7 @@ Statuts d'un projet :
 
 ## État au moment de ce fichier
 
-56 projets (33 visibles, 23 masqués), 9 groupes :
+56 projets (32 visibles, 24 masqués), 9 groupes :
 Chloé Ly, Nocturnz, NGC Hub, Daybreak.
 
 **Masqués par choix d'Adam** (laisser masqués) : `ilonka-club`, `montage-video-style-youtube`,
@@ -130,7 +130,7 @@ démasquer) : `ngc-dock-obs`, `ngc-regie-irl-srt`, `daybreak-smp`,
 - à terme : rattacher les miniatures et reels
   aux projets de tournage correspondants ; ranger les projets Ilonka (vidéo à part, graphisme à masquer).
 
-**Visibles sans miniature** : `union-oasis-forest-tiktok`, `dei-agence-site`, `lg-le-village`, `tristejeu-tristeparty`, `tristejeu-quidenous`, `tristejeu-loupgarou`, `tristejeu-quiestce`, `tristejeu-wa7ad`, `daybreak-discord`, `daybreak-aeterna`.
+**Visibles sans miniature** : `union-oasis-forest-tiktok`, `dei-agence-site`, `lg-le-village`, `daybreak-discord`, `daybreak-aeterna`.
 
 ## Pistes non faites (audit du 31 oct. 2026)
 
@@ -269,3 +269,38 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
 - Derniers contrôles avant push : affichage à 1280 px et à 375 px sans débordement
   horizontal global ; défilement vers la quatrième carte testé ; migrations et
   médias conservés vérifiés. Fetch et scan de confidentialité effectués avant push.
+
+- Dernière demande : texte À propos à gauche, compétences à droite sur deux colonnes
+  dont les cases occupent la hauteur disponible. Sur mobile, empilement conservé.
+- Sélection mise en avant : flèches retirées ; glissement souris, tactile et trackpad,
+  avec navigation clavier possible. CSS `v=35`, script `v=24`. Non publié.
+- Indicateur de défilement masqué ; le focus clavier reste visible.
+- Sélection : léger défilement automatique aller-retour, suspendu au survol,
+  au focus, pendant l’interaction et si les animations réduites sont activées.
+  CSS `v=36`, script `v=25` ; non publié.
+
+- Cinq miniatures TristeJeu créées depuis les jeux ouverts : WA7AD et Qui suis-je ?
+  en salon de test, TristeParty, Qui De Nous ? et Loup-Garou en bêta locale admin.
+  Format capture encadrée web. Le groupe Daybreak utilise la capture du site ;
+  miniatures des projets Minecraft et Discord en attente d’Adam. Non publié.
+
+- TristeParty masqué à la demande d’Adam. Les fiches des jeux contiennent leur
+  fonctionnement et les technologies de la plateforme, React et Firebase ; le
+  contexte personnel et les outils IA restent à préciser par Adam, ne pas inventer.
+- Groupe favori : couleur de texte d’origine. Les sites web ayant une URL sont
+  intégrés en iframe sauf les jeux TristeJeu ; garder les liens directs.
+- Miniatures WA7AD et Qui suis-je ? présentes et vérifiées. Script local `v=26`.
+
+- Fiches TristeJeu enrichies : contexte, déroulement, technologies et IA indiquées
+  par Adam. Sources vérifiées : documents du dépôt TristeJeu pour Open Mercy,
+  Cacabox et l’audit de références Loup-Garou. Les projets consultés ne sont pas
+  présentés comme du code réutilisé. TristeParty reste masqué. Non publié.
+
+- Dernière correction d’Adam : cases des skills compactes et de largeur naturelle,
+  réparties sur la hauteur à droite du texte ; pas de grandes cases étirées.
+  CSS `v=37`, script `v=26` ; publication demandée.
+
+- Lot validé pour publication : skills compacts à droite du texte, carrousel
+  glissable avec défilement lent, nouvelles miniatures TristeJeu et Daybreak,
+  TristeParty masqué, descriptions des jeux et iframes web. NGC Hub et la vidéo
+  de manifestation restent en attente des éléments d’Adam. CSS `v=37`, JS `v=26`.

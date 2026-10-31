@@ -13,7 +13,7 @@ avec effet de décryptage. Positionnement : créatif volatile / enfant d’inter
 - **`index.html`** — l'accueil : présentation, deux cartes perso / académique,
   projet favori, projets mis en avant, à propos, compétences en deux groupes
   Hard skills / Soft skills sous le texte, parcours, bannière de stage et contact.
-  La sélection défile horizontalement avec des flèches quand son contenu dépasse
+  La sélection défile horizontalement par glissement quand son contenu dépasse
   la largeur disponible (trois cartes à la fois sur bureau).
 - **`projets.html`** — la page Projets unique, avec filtres Perso / Académique,
   médiums et tags. Aucun filtre choisi = tous les projets ; recliquer retire
