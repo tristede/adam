@@ -1833,6 +1833,7 @@
         var img = document.createElement('span');
         img.className = 'gp-thumb';
         if (m.s) img.style.backgroundImage = 'url("' + m.s.replace(/"/g, '%22') + '")';
+        else { img.classList.add('is-placeholder'); img.textContent = '?'; }
         img.setAttribute('aria-label', m.t);
         row.appendChild(img);
         if (!compact){

@@ -388,3 +388,5 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
 - Boutons de téléchargement du CV désactivés temporairement, sur toutes les pages. CSS `v=62`.
 
 - Aperçu des groupes : grille compacte de miniatures en trois colonnes au-delà de trois projets, nombre conservé ; liste avec titres conservée jusqu’à trois. CSS `v=63`, JS `v=50`, non publié.
+
+- Aperçu des groupes : miniature temporaire « ? » pour les projets sans image. CSS `v=64`, JS `v=51`.
