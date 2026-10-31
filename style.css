@@ -893,7 +893,7 @@ section.projects-section{
 .about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:stretch; }
 .about-lede{ font-family: var(--font-script); font-weight:400; font-size: 22px; color: var(--text); line-height:1.4; }
 .about-lede + .about-lede{ margin-top: 14px; color: var(--text-dim); font-size:19px; }
-#js-skills{ display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:24px; min-width:0; align-self:stretch; }
+#js-skills{ display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:24px; min-width:0; align-self:center; }
 .skill-block{ display:flex; flex-direction:column; margin-bottom:0; }
 .skill-block h4{ font-family:var(--font-title); font-size:20px; font-weight:400; letter-spacing:0; text-transform:none; line-height:1.6; color: var(--accent-sky); margin: 0 0 12px; }
 .skill-card{
@@ -902,7 +902,7 @@ section.projects-section{
 }
 .skill-card .name{ font-weight:700; font-size: 14.5px; margin-bottom: 3px; }
 .skill-card .detail{ font-size: 13px; color: var(--text-dim); line-height:1.5; }
-.skill-chips{ display:flex; flex-direction:column; justify-content:space-between; align-items:flex-start; flex:1; gap:10px; }
+.skill-chips{ display:flex; flex-direction:column; justify-content:flex-start; align-items:flex-start; gap:14px; }
 .skill-chip{
   box-sizing:border-box; max-width:100%; display:flex; align-items:center; justify-content:center; text-align:center;
   background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);
@@ -1016,6 +1016,7 @@ footer{ border-top: 1px solid var(--line); padding: 92px 0 40px; position:relati
 .grid[data-group="featured"] > *{ scroll-snap-align:start; min-width:0; }
 .grid[data-group="featured"]::-webkit-scrollbar{ display:none; width:0; height:0; }
 .grid[data-group="featured"]:focus:not(:focus-visible){ outline:none; }
+.grid[data-group="featured"].is-looping{ scroll-snap-type:none; scroll-behavior:auto; }
 .grid[data-group="featured"].is-auto-scrolling{ scroll-snap-type:none; scroll-behavior:auto; }
 .grid[data-group="featured"].is-dragging{ cursor:grabbing; scroll-snap-type:none; scroll-behavior:auto; user-select:none; }
 @media(max-width:900px){ .grid[data-group="featured"]{ grid-auto-columns:calc((100% - 28px) / 2); } }

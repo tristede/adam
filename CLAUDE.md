@@ -304,3 +304,7 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
   glissable avec défilement lent, nouvelles miniatures TristeJeu et Daybreak,
   TristeParty masqué, descriptions des jeux et iframes web. NGC Hub et la vidéo
   de manifestation restent en attente des éléments d’Adam. CSS `v=37`, JS `v=26`.
+
+- Sélection : boucle continue dans le même sens, recadrage invisible aux extrémités,
+  glissement manuel et pause à l’interaction. Copies visuelles hors navigation clavier.
+  Skills resserrés à droite du texte, cases compactes. CSS `v=38`, JS `v=27`. Publication demandée.

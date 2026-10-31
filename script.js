@@ -1477,8 +1477,41 @@
     grid.setAttribute('aria-label', 'Projets mis en avant');
     grid.setAttribute('tabindex', '0');
     if (window.__EDIT_MODE__) return;
+
+    var originals = Array.prototype.slice.call(grid.children);
+    // Rien à faire défiler si toutes les cartes tiennent dans la grille.
+    if (!originals.length || grid.scrollWidth <= grid.clientWidth + 1) return;
+    function copy(item){
+      var clone = item.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      if (clone.matches('a, button, input, [tabindex]')) clone.setAttribute('tabindex', '-1');
+      clone.querySelectorAll('a, button, input, [tabindex]').forEach(function(el){ el.setAttribute('tabindex', '-1'); });
+      return clone;
+    }
+    var before = document.createDocumentFragment(), after = document.createDocumentFragment();
+    originals.forEach(function(item){ before.appendChild(copy(item)); after.appendChild(copy(item)); });
+    grid.insertBefore(before, grid.firstChild);
+    grid.appendChild(after);
+    grid.classList.add('is-looping');
+    var first = originals[0], firstCopy = grid.firstElementChild;
+    function cycleWidth(){ return first.offsetLeft - firstCopy.offsetLeft; }
+    var cycle = cycleWidth();
+    grid.scrollLeft = cycle;
     var startX = 0, startScroll = 0, active = false, moved = false;
+    var autoPos = cycle, previous = 0, resumeAfter = 0, touching = false;
+    function normalize(){
+      var width = cycleWidth();
+      if (!width) return;
+      cycle = width;
+      var delta = 0;
+      if (grid.scrollLeft < width * 0.5) delta = width;
+      else if (grid.scrollLeft >= width * 1.5) delta = -width;
+      if (delta){ grid.scrollLeft += delta; startScroll += delta; autoPos += delta; }
+    }
+    function suspendAuto(){ resumeAfter = performance.now() + 4000; }
+    grid.addEventListener('scroll', normalize, { passive:true });
     grid.addEventListener('pointerdown', function(e){
+      touching = true; suspendAuto();
       if (e.pointerType !== 'mouse' || e.button !== 0) return;
       active = true; moved = false; startX = e.clientX; startScroll = grid.scrollLeft;
     });
@@ -1487,42 +1520,40 @@
       if (Math.abs(e.clientX - startX) > 5){
         moved = true; grid.classList.add('is-dragging');
         grid.scrollLeft = startScroll - (e.clientX - startX);
-        e.preventDefault();
+        normalize(); e.preventDefault();
       }
     });
-    window.addEventListener('pointerup', function(){ active = false; grid.classList.remove('is-dragging'); });
-    // Déplacement lent et réversible, interrompu par toute interaction.
-    var autoPos = grid.scrollLeft, direction = 1, previous = 0, resumeAfter = 0, touching = false;
-    function suspendAuto(){ resumeAfter = performance.now() + 4000; }
-    grid.addEventListener('pointerdown', function(){ touching = true; suspendAuto(); });
-    window.addEventListener('pointerup', function(){ if (touching){ touching = false; suspendAuto(); } });
-    window.addEventListener('pointercancel', function(){ touching = false; suspendAuto(); });
+    window.addEventListener('pointerup', function(){
+      active = false; grid.classList.remove('is-dragging');
+      if (touching){ touching = false; suspendAuto(); }
+    });
+    window.addEventListener('pointercancel', function(){ active = false; touching = false; grid.classList.remove('is-dragging'); suspendAuto(); });
     grid.addEventListener('wheel', suspendAuto, { passive:true });
     grid.addEventListener('keydown', suspendAuto);
+    grid.addEventListener('dragstart', function(e){ e.preventDefault(); });
+    grid.addEventListener('click', function(e){
+      if (moved){ e.preventDefault(); e.stopPropagation(); moved = false; }
+    }, true);
     function animate(time){
       if (!grid.isConnected) return;
       var rect = grid.getBoundingClientRect();
       var paused = reduceMotionQuery.matches || document.hidden || touching || active ||
         grid.matches(':hover') || grid.contains(document.activeElement) || time < resumeAfter ||
         rect.bottom < 0 || rect.top > window.innerHeight;
-      var max = grid.scrollWidth - grid.clientWidth;
-      if (paused || max < 2){
-        autoPos = grid.scrollLeft;
-      } else {
-        grid.classList.add('is-auto-scrolling');
-        autoPos += direction * Math.min(time - (previous || time), 50) * 0.009;
-        if (autoPos >= max){ autoPos = max; direction = -1; }
-        if (autoPos <= 0){ autoPos = 0; direction = 1; }
-        grid.scrollLeft = autoPos;
+      if (paused){ autoPos = grid.scrollLeft; }
+      else {
+        autoPos += Math.min(time - (previous || time), 50) * 0.009;
+        grid.scrollLeft = autoPos; normalize();
       }
       previous = time;
       requestAnimationFrame(animate);
     }
+    window.addEventListener('resize', function(){
+      var old = cycle, current = grid.scrollLeft;
+      cycle = cycleWidth();
+      if (old && cycle){ grid.scrollLeft = cycle + (current - old) * cycle / old; autoPos = grid.scrollLeft; }
+    });
     requestAnimationFrame(animate);
-    grid.addEventListener('dragstart', function(e){ e.preventDefault(); });
-    grid.addEventListener('click', function(e){
-      if (moved){ e.preventDefault(); e.stopPropagation(); moved = false; }
-    }, true);
   }
 
   function renderGrids(site, projects){
