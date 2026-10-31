@@ -12,7 +12,9 @@ avec effet de décryptage. Positionnement : créatif volatile / enfant d’inter
 
 - **`index.html`** — l'accueil : présentation, deux cartes perso / académique,
   projet favori, projets mis en avant, à propos, compétences en deux groupes
-  Hard skills / Soft skills, parcours, bannière de stage et contact.
+  Hard skills / Soft skills sous le texte, parcours, bannière de stage et contact.
+  La sélection défile horizontalement avec des flèches quand son contenu dépasse
+  la largeur disponible (trois cartes à la fois sur bureau).
 - **`projets.html`** — la page Projets unique, avec filtres Perso / Académique,
   médiums et tags. Aucun filtre choisi = tous les projets ; recliquer retire
   le filtre. Un tag cherche dans tout le portfolio, projets de groupes et
@@ -31,6 +33,8 @@ avec effet de décryptage. Positionnement : créatif volatile / enfant d’inter
   Les groupes peuvent être imbriqués via leur champ `parent` : par exemple
   En Esprit → Vidéos → une fiche par tournage. Le retour remonte au parent,
   les compteurs incluent les descendants et les filtres par tag restent à plat.
+  Les cartes de groupe affichent leurs principaux tags, déduits de leurs projets ;
+  les pages groupe affichent tous ces tags avec un lien vers le filtre correspondant.
   La vue visuelle permet de créer un sous-groupe et de changer son parent ;
   une suppression conserve les sous-groupes et les remonte au niveau supérieur.
 - **`projet.html`** — la page détail d'un projet (`projet.html?id=...`),

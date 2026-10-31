@@ -22,7 +22,6 @@
         "platform": "email"
       }
     ],
-    "favoriProjectId": "projet-360-dei-belgique",
     "timeline": [
       {
         "year": "2021",
@@ -120,7 +119,7 @@
         "title": "Nocturnz",
         "desc": "Outils pour présenter, organiser et partager ses projets",
         "thumb": "images/thumbs/nocturnz-portfolio-en-ligne-miniature-1790900861949-0.webp",
-        "featured": false
+        "featured": true
       },
       {
         "id": "ngc-hub",
@@ -134,9 +133,35 @@
         "id": "daybreak",
         "kicker": "Serveur Minecraft",
         "title": "Daybreak",
-        "desc": "Serveur Minecraft SMP · plugins, scripts, lore",
+        "desc": "LeVillage · site web · Discord · Aeterna",
         "thumb": "",
-        "featured": false
+        "featured": false,
+        "hidden": false
+      },
+      {
+        "id": "projet-360-dei-belgique",
+        "kicker": "Projet académique · campagne fictive",
+        "title": "Projet 360° : DEI-Belgique",
+        "desc": "Sensibilisation aux violences supposément éducatives",
+        "thumb": "images/thumbs/projet-360-dei-belgique-1787830564823-0.webp",
+        "featured": false,
+        "hidden": false
+      },
+      {
+        "id": "tristejeu",
+        "kicker": "Plateforme de jeux",
+        "title": "TristeJeu",
+        "desc": "Jeux multijoueurs en ligne · salons entre amis",
+        "thumb": "images/thumbs/tristejeu-web-frame.webp",
+        "featured": false,
+        "hidden": false,
+        "socialLinks": [
+          {
+            "platform": "custom",
+            "label": "Ouvrir TristeJeu",
+            "url": "https://tristejeu.web.app/"
+          }
+        ]
       }
     ],
     "theme": {
@@ -154,7 +179,7 @@
     "kicker": "Étudiant en communication — Bruxelles",
     "featuredKicker": "Sélection",
     "featuredTitle": "Projets mis en avant",
-    "featuredSub": "Trois réalisations représentatives, tous médiums confondus.",
+    "featuredSub": "Des réalisations représentatives, tous médiums confondus.",
     "aboutKicker": "À propos",
     "aboutTitle": "Curieux de nature, touche-à-tout par passion",
     "parcoursKicker": "Parcours",
@@ -207,7 +232,8 @@
         "name": "Touche-à-tout",
         "detail": "Un même réflexe : comprendre à qui l'on parle avant de choisir comment le dire."
       }
-    ]
+    ],
+    "favoriGroupId": "projet-360-dei-belgique"
   },
   "projects": [
     {
@@ -662,19 +688,22 @@
       "subProjects": []
     },
     {
-      "id": "projet-360-dei-belgique",
-      "title": "Projet 360° : DEI-Belgique",
+      "id": "dei-presentation",
+      "title": "Présentation de la campagne",
       "year": 2025,
       "current": false,
       "ctx": "academique",
-      "medium": "video",
+      "medium": "graphisme",
       "tags": [
-        "Campagne 360"
+        "Campagne 360",
+        "Graphisme"
       ],
-      "desc": "Sensibilisation aux violences supposément éducatives",
+      "desc": "Sensibilisation · supports et mise en situation",
+      "longDesc": "Dans le cadre du projet 2 à l'ISFSC, nous avons dû réaliser une campagne 360° fictive pour un émetteur donné. Nous avons travaillé sur une campagne de sensibilisation aux violences supposément éducatives pour la DEI-Belgique.",
       "featured": false,
       "hidden": false,
-      "longDesc": "Dans le cadre du projet 2 à l'ISFSC, nous avons dû réaliser une campagne 360° fictive pour un émetteur donné. Nous avons travaillé sur une campagne de sensibilisation aux violences supposément éducatives pour la DEI-Belgique.",
+      "link": "",
+      "embed": false,
       "assets": [
         {
           "type": "image",
@@ -721,60 +750,96 @@
           }
         }
       ],
-      "link": "https://cms2433.commu.isfsc.be/",
       "thumb": "images/thumbs/projet-360-dei-belgique-1787830564823-0.webp",
-      "subProjects": [
+      "subProjects": [],
+      "group": "projet-360-dei-belgique"
+    },
+    {
+      "id": "dei-multipage",
+      "title": "Multipage stratégique",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "ecrit",
+      "tags": [
+        "Stratégie de communication",
+        "Édition"
+      ],
+      "desc": "Plan de communication · document de 12 pages",
+      "longDesc": "Document stratégique de la campagne (12 pages) et ses visuels.",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [
         {
-          "title": "Multipage stratégique",
-          "medium": "",
-          "desc": "Document stratégique de la campagne (12 pages) et ses visuels.",
-          "assets": [
-            {
-              "type": "image",
-              "url": "images/projet-360-dei-belgique-multipage-strategique-1787781100008-0.webp",
-              "hidden": false,
-              "size": "lg",
-              "pos": {
-                "x": 132,
-                "y": 0,
-                "w": 460
-              }
-            },
-            {
-              "type": "doc",
-              "url": "docs/projet-360-dei-belgique-multipage-strategique-1787781719504-0.pdf",
-              "hidden": false,
-              "pages": [
-                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-0.jpg",
-                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-1.jpg",
-                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-2.jpg",
-                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-3.jpg",
-                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-4.jpg",
-                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-5.jpg",
-                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-6.jpg",
-                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-7.jpg",
-                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-8.jpg",
-                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-9.jpg",
-                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-10.jpg",
-                "images/projet-360-dei-belgique-multipage-strategique-1787826393362-11.jpg"
-              ],
-              "size": "lg"
-            },
-            {
-              "type": "image",
-              "url": "images/projet-360-dei-belgique-multipage-strategique-1787781375450-0.webp",
-              "hidden": false,
-              "size": "lg",
-              "pos": {
-                "x": 36,
-                "y": 381,
-                "w": 460
-              }
-            }
+          "type": "image",
+          "url": "images/projet-360-dei-belgique-multipage-strategique-1787781100008-0.webp",
+          "hidden": false,
+          "size": "lg",
+          "pos": {
+            "x": 132,
+            "y": 0,
+            "w": 460
+          }
+        },
+        {
+          "type": "doc",
+          "url": "docs/projet-360-dei-belgique-multipage-strategique-1787781719504-0.pdf",
+          "hidden": false,
+          "pages": [
+            "images/projet-360-dei-belgique-multipage-strategique-1787826393362-0.jpg",
+            "images/projet-360-dei-belgique-multipage-strategique-1787826393362-1.jpg",
+            "images/projet-360-dei-belgique-multipage-strategique-1787826393362-2.jpg",
+            "images/projet-360-dei-belgique-multipage-strategique-1787826393362-3.jpg",
+            "images/projet-360-dei-belgique-multipage-strategique-1787826393362-4.jpg",
+            "images/projet-360-dei-belgique-multipage-strategique-1787826393362-5.jpg",
+            "images/projet-360-dei-belgique-multipage-strategique-1787826393362-6.jpg",
+            "images/projet-360-dei-belgique-multipage-strategique-1787826393362-7.jpg",
+            "images/projet-360-dei-belgique-multipage-strategique-1787826393362-8.jpg",
+            "images/projet-360-dei-belgique-multipage-strategique-1787826393362-9.jpg",
+            "images/projet-360-dei-belgique-multipage-strategique-1787826393362-10.jpg",
+            "images/projet-360-dei-belgique-multipage-strategique-1787826393362-11.jpg"
           ],
-          "link": ""
+          "size": "lg"
+        },
+        {
+          "type": "image",
+          "url": "images/projet-360-dei-belgique-multipage-strategique-1787781375450-0.webp",
+          "hidden": false,
+          "size": "lg",
+          "pos": {
+            "x": 36,
+            "y": 381,
+            "w": 460
+          }
         }
-      ]
+      ],
+      "thumb": "images/projet-360-dei-belgique-multipage-strategique-1787781100008-0.webp",
+      "subProjects": [],
+      "group": "projet-360-dei-belgique"
+    },
+    {
+      "id": "dei-agence-site",
+      "title": "Site de l’agence fictive",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "web",
+      "tags": [
+        "Site web",
+        "Agence fictive"
+      ],
+      "desc": "Vitrine d’Echo Nexus · projet académique",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "https://cms2433.commu.isfsc.be/",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "projet-360-dei-belgique"
     },
     {
       "id": "carte-visite-echo-nexus",
@@ -1785,11 +1850,11 @@
     },
     {
       "id": "lg-le-village",
-      "title": "Mod « LG Le Village »",
+      "title": "LeVillage",
       "year": 2026,
       "current": false,
       "ctx": "perso",
-      "medium": "web",
+      "medium": "jeu",
       "tags": [
         "Jeu",
         "Minecraft"
@@ -1797,7 +1862,7 @@
       "desc": "Loup-garou dans l'univers Daybreak",
       "longDesc": "",
       "featured": false,
-      "hidden": true,
+      "hidden": false,
       "link": "",
       "embed": false,
       "assets": [],
@@ -2023,66 +2088,174 @@
       "subProjects": []
     },
     {
-      "id": "tristejeu",
-      "title": "TristeJeu",
+      "id": "tristejeu-tristeparty",
+      "title": "TristeParty",
       "year": 2026,
       "current": true,
       "ctx": "perso",
       "medium": "web",
       "tags": [
-        "Jeu",
-        "Développement web"
+        "Jeu multijoueur"
       ],
-      "desc": "Jeux multijoueurs en ligne · salons entre amis",
-      "longDesc": "Plateforme de jeux multijoueurs en ligne, avec création de salons pour jouer entre amis. Chaque jeu dispose de ses règles et de ses paramètres.",
+      "desc": "Quiz, swipe et dessin · correction en groupe",
+      "longDesc": "",
       "featured": false,
       "hidden": false,
       "link": "https://tristejeu.web.app/",
       "embed": false,
       "assets": [],
-      "thumb": "images/thumbs/tristejeu-web-frame.webp",
-      "subProjects": [
-        {
-          "id": "tristeparty",
-          "title": "TristeParty",
-          "medium": "",
-          "desc": "Quiz, swipe et dessin · correction en groupe",
-          "assets": [],
-          "link": ""
-        },
-        {
-          "id": "quidenous",
-          "title": "Qui De Nous ?",
-          "medium": "",
-          "desc": "Notes de 0 à 10 · deviner la moyenne du groupe",
-          "assets": [],
-          "link": ""
-        },
-        {
-          "id": "loupgarou",
-          "title": "Loup-Garou",
-          "medium": "",
-          "desc": "Rôles secrets · composition du paquet et règles intégrées",
-          "assets": [],
-          "link": ""
-        },
-        {
-          "id": "quiestce",
-          "title": "Qui suis-je ?",
-          "medium": "",
-          "desc": "Duel de personnages à deviner · élimination de cartes",
-          "assets": [],
-          "link": ""
-        },
-        {
-          "id": "wa7ad",
-          "title": "WA7AD",
-          "medium": "",
-          "desc": "Jeu de cartes · règles et extensions configurables",
-          "assets": [],
-          "link": ""
-        }
-      ]
+      "thumb": "",
+      "subProjects": [],
+      "group": "tristejeu"
+    },
+    {
+      "id": "tristejeu-quidenous",
+      "title": "Qui De Nous ?",
+      "year": 2026,
+      "current": true,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Jeu multijoueur"
+      ],
+      "desc": "Notes de 0 à 10 · deviner la moyenne du groupe",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "https://tristejeu.web.app/",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "tristejeu"
+    },
+    {
+      "id": "tristejeu-loupgarou",
+      "title": "Loup-Garou",
+      "year": 2026,
+      "current": true,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Jeu multijoueur"
+      ],
+      "desc": "Rôles secrets · composition du paquet et règles intégrées",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "https://tristejeu.web.app/",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "tristejeu"
+    },
+    {
+      "id": "tristejeu-quiestce",
+      "title": "Qui suis-je ?",
+      "year": 2026,
+      "current": true,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Jeu multijoueur"
+      ],
+      "desc": "Duel de personnages à deviner · élimination de cartes",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "https://tristejeu.web.app/",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "tristejeu"
+    },
+    {
+      "id": "tristejeu-wa7ad",
+      "title": "WA7AD",
+      "year": 2026,
+      "current": true,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Jeu multijoueur"
+      ],
+      "desc": "Jeu de cartes · règles et extensions configurables",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "https://tristejeu.web.app/",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "tristejeu"
+    },
+    {
+      "id": "daybreak-site-web",
+      "title": "Site web",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Site web"
+      ],
+      "desc": "Vitrine des événements et des expériences en ligne",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "https://daybreak.fr/",
+      "embed": false,
+      "assets": [],
+      "thumb": "images/thumbs/daybreak-site-web-frame.webp",
+      "subProjects": [],
+      "group": "daybreak"
+    },
+    {
+      "id": "daybreak-discord",
+      "title": "Discord",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "social",
+      "tags": [
+        "Communauté"
+      ],
+      "desc": "Serveur communautaire",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "daybreak"
+    },
+    {
+      "id": "daybreak-aeterna",
+      "title": "Aeterna",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "jeu",
+      "tags": [
+        "Minecraft",
+        "SMP",
+        "Survie"
+      ],
+      "desc": "Serveurs Minecraft · survie en SMP",
+      "longDesc": "Aeterna regroupe nos serveurs Minecraft SMP survie.",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "daybreak"
     }
   ]
 }

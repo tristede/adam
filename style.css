@@ -454,7 +454,7 @@ section.projects-section{
 }
 /* le favori est unique, « mis en avant » ne l'est pas : une couleur distincte
    évite qu'on les confonde d'un coup d'œil */
-.card-featured-label.is-favori{ color: var(--accent-favori); }
+.card-featured-label.is-favori{ color:#86efac; }
 /* inline SVG marks sized to the text they sit next to */
 .ui-ico{ width:11px; height:11px; flex:none; }
 .ui-arrow{ width:15px; height:15px; flex:none; }
@@ -890,10 +890,11 @@ section.projects-section{
 }
 
 /* ---------- About ---------- */
-.about-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items:start; }
+.about-grid{ display:grid; grid-template-columns:minmax(0, 1fr); gap:28px; align-items:start; }
+.about-grid > div{ width:100%; max-width:900px; margin-inline:auto; }
 .about-lede{ font-family: var(--font-script); font-weight:400; font-size: 22px; color: var(--text); line-height:1.4; }
 .about-lede + .about-lede{ margin-top: 14px; color: var(--text-dim); font-size:19px; }
-#js-skills{ display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:24px; min-width:0; }
+#js-skills{ display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:32px; min-width:0; }
 .skill-block{ margin-bottom: 18px; }
 .skill-block h4{ font-family:var(--font-title); font-size:20px; font-weight:400; letter-spacing:0; text-transform:none; line-height:1.6; color: var(--accent-sky); margin: 0 0 12px; }
 .skill-card{
@@ -902,7 +903,7 @@ section.projects-section{
 }
 .skill-card .name{ font-weight:700; font-size: 14.5px; margin-bottom: 3px; }
 .skill-card .detail{ font-size: 13px; color: var(--text-dim); line-height:1.5; }
-.skill-chips{ display:flex; flex-direction:column; align-items:flex-start; gap:10px; }
+.skill-chips{ display:flex; flex-wrap:wrap; align-items:flex-start; gap:10px; }
 .skill-chip{
   box-sizing:border-box; max-width:100%;
   background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);
@@ -1003,3 +1004,19 @@ footer{ border-top: 1px solid var(--line); padding: 92px 0 40px; position:relati
   section.projects-section{ padding: 60px 0; }
   .hero{ padding: 56px 0 60px; }
 }
+
+/* Sélection : trois cartes en bureau, puis glissement horizontal. */
+.grid[data-group="featured"]{
+  grid-template-columns:none; grid-auto-flow:column;
+  grid-auto-columns:calc((100% - 56px) / 3);
+  overflow-x:auto; overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  padding:8px 16px 24px 0; scrollbar-width:thin;
+}
+.grid[data-group="featured"] > *{ scroll-snap-align:start; min-width:0; }
+.featured-controls{ display:flex; justify-content:flex-end; gap:10px; margin-top:8px; }
+.featured-controls[hidden]{ display:none; }
+.featured-controls button:disabled{ opacity:.3; cursor:default; }
+@media(max-width:900px){ .grid[data-group="featured"]{ grid-auto-columns:calc((100% - 28px) / 2); } }
+@media(max-width:600px){ .grid[data-group="featured"]{ grid-auto-columns:88%; } }
+@media(prefers-reduced-motion:reduce){ .grid[data-group="featured"]{ scroll-behavior:auto; } }

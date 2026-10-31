@@ -45,17 +45,18 @@
     ecrit: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20l1-4L16 5l3 3-11 11-4 1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>',
     web: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.8 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.8-3.8-9s1.3-6.4 3.8-9z" stroke="currentColor" stroke-width="1.6"/></svg>'
   };
+  icons.jeu = '<svg viewBox="0 0 24 24" fill="none"><path d="M7 7h10c3 0 5 10 2 11-2 1-3-3-5-3h-4c-2 0-3 4-5 3-3-1-1-11 2-11Z" stroke="currentColor" stroke-width="1.6"/><path d="M6 11h4M8 9v4" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="10" r="1" fill="currentColor"/><circle cx="18" cy="13" r="1" fill="currentColor"/></svg>';
   var mediumLabel = {
     video: 'Vidéo', audio: 'Audio', graphisme: 'Graphisme',
-    social: 'Réseaux sociaux', event: 'Événementiel', ecrit: 'Écrit', web: 'Site web'
+    social: 'Réseaux sociaux', event: 'Événementiel', ecrit: 'Écrit', web: 'Site web', jeu: 'Jeu'
   };
 
   // Presets de la page Projets : un clic ouvre tous les projets d'un meme
   // medium (ou portant ce tag), groupes depliés. L'ordre est celui des pastilles.
-  var presetOrder = ['web', 'video', 'graphisme', 'audio', 'social', 'event', 'ecrit'];
+  var presetOrder = ['web', 'video', 'graphisme', 'audio', 'social', 'event', 'ecrit', 'jeu'];
   var presetLabel = {
     web: 'Web', video: 'Vidéo', graphisme: 'Graphisme', audio: 'Audio',
-    social: 'Réseaux', event: 'Événementiel', ecrit: 'Écrit'
+    social: 'Réseaux', event: 'Événementiel', ecrit: 'Écrit', jeu: 'Jeux'
   };
   function porteLeTagOuMedium(p, t){
     return !t || p.medium === t || (p.tags || []).indexOf(t) !== -1;
@@ -388,7 +389,7 @@
         (thumb ? '' : '<span class="icon">' + (icons[p.medium] || '') + '</span>') +
       '</div>' +
       '<div class="body">' +
-        '<span class="kicker" style="color:var(--text-faint);font-size:13px;font-weight:600;letter-spacing:0.04em;">Projet favori</span>' +
+        '<span class="kicker" style="color:#86efac;font-size:13px;font-weight:600;letter-spacing:0.04em;">Projet favori</span>' +
         '<h2>' + p.title + '</h2>' +
         '<p class="desc">' + p.desc + '</p>' +
         '<div class="card-tags">' + p.tags.map(function(t){ return '<span class="tag">#' + t + '</span>'; }).join('') + '</div>' +
@@ -412,7 +413,7 @@
         '<span class="year">' + n + ' projet' + (n > 1 ? 's' : '') + '</span>' +
       '</div>' +
       '<div class="body">' +
-        '<span class="kicker" style="color:var(--text-faint);font-size:13px;font-weight:600;letter-spacing:0.04em;">Groupe favori</span>' +
+        '<span class="kicker" style="color:#86efac;font-size:13px;font-weight:600;letter-spacing:0.04em;">Groupe favori</span>' +
         '<h2>' + g.title + '</h2>' +
         '<p class="desc">' + (g.desc || '') + '</p>' +
         '<span class="pill-btn" style="width:fit-content;">Voir le groupe ' + UI_ICON.arrowRight + '</span>' +
@@ -789,6 +790,10 @@
     var id = window.__PROJECT_ID__ || new URLSearchParams(window.location.search).get('id');
     var p = projects.filter(function(x){ return x.id === id && (window.__EDIT_MODE__ || (!x.hidden && groupVisible(site, x.group))); })[0];
 
+    if (!p && groupsOf(site).some(function(g){ return g.id === id && (window.__EDIT_MODE__ || groupVisible(site, g.id)); })){
+      window.location.replace('groupe.html?id=' + encodeURIComponent(id));
+      return;
+    }
     if (!p){
       document.title = 'Projet introuvable';
       container.innerHTML =
@@ -1172,6 +1177,30 @@
     return ' data-members="' + JSON.stringify(data).replace(/&/g, '&amp;').replace(/"/g, '&quot;') + '"';
   }
 
+  function groupTagsHTML(list, links){
+    var counts = Object.create(null), labels = Object.create(null), order = [];
+    list.forEach(function(p){
+      var tags = (p.tags && p.tags.length) ? p.tags : [mediumLabel[p.medium] || p.medium];
+      var seen = Object.create(null);
+      tags.forEach(function(tag){
+        if (!tag) return;
+        var key = sansAccent(tag);
+        if (seen[key]) return;
+        seen[key] = true;
+        if (!counts[key]){ counts[key] = 0; labels[key] = tag; order.push(key); }
+        counts[key]++;
+      });
+    });
+    order.sort(function(a, b){ return counts[b] - counts[a]; });
+    if (!links) order = order.slice(0, 4);
+    if (!order.length) return '';
+    return '<div class="card-tags' + (links ? ' detail-tags' : '') + '">' + order.map(function(key){
+      var tag = String(labels[key]);
+      var text = tag.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      return links ? '<a class="tag" href="projets.html?tag=' + encodeURIComponent(tag) + '">#' + text + '</a>' : '<span class="tag">#' + text + '</span>';
+    }).join('') + '</div>';
+  }
+
   function groupCardHTML(g, list, i){
     var thumb = g.thumb || (list[0] ? thumbSrc(list[0]) : '');
     // Un groupe se lit comme un paquet de cartes : deux feuilles decalees
@@ -1196,6 +1225,7 @@
             : (g.featured ? '<span class="card-featured-label">' + UI_ICON.star + ' Mis en avant</span>' : '')) +
           '<h3>' + g.title + '</h3>' +
           '<p class="desc">' + (g.desc || '') + '</p>' +
+          groupTagsHTML(list, false) +
         '</div>' +
       '</a>' +
       '<span class="deck-sheet deck-sheet-1" aria-hidden="true"></span>' +
@@ -1435,10 +1465,41 @@
           '<span class="kicker" data-group-kicker>' + (g.kicker || 'Groupe') + '</span>' +
           '<h1 data-group-title>' + titleWithAccent(g.title) + '</h1>' +
           '<p data-group-desc>' + (g.desc || '') + '</p>' +
+          groupTagsHTML(groupProjects(site, shown, g.id), true) +
           ownerSocialHTML(g) +
         '</div>' +
         '<div class="grid">' + children.map(function(child, i){ return groupCardHTML(child, groupProjects(site, shown, child.id), i); }).join('') + list.map(function(p, i){ return cardHTML(p, children.length + i); }).join('') + '</div>' +
       '</div>';
+  }
+
+  function wireFeaturedCarousel(grid){
+    if (grid.nextElementSibling && grid.nextElementSibling.classList.contains('featured-controls')) grid.nextElementSibling.remove();
+    grid.id = 'featured-carousel';
+    grid.setAttribute('aria-label', 'Projets mis en avant');
+    var controls = document.createElement('div');
+    controls.className = 'featured-controls';
+    var prev = document.createElement('button'), next = document.createElement('button');
+    [[prev, -1, 'Défiler vers la gauche', UI_ICON.arrowLeft], [next, 1, 'Défiler vers la droite', UI_ICON.arrowRight]].forEach(function(item){
+      var button = item[0];
+      button.type = 'button'; button.className = 'pill-btn';
+      button.setAttribute('aria-label', item[2]); button.setAttribute('aria-controls', grid.id);
+      button.innerHTML = item[3];
+      button.addEventListener('click', function(){
+        var step = grid.firstElementChild ? grid.firstElementChild.getBoundingClientRect().width + 28 : grid.clientWidth;
+        grid.scrollBy({ left: item[1] * step, behavior: reduceMotionQuery.matches ? 'auto' : 'smooth' });
+      });
+      controls.appendChild(button);
+    });
+    grid.insertAdjacentElement('afterend', controls);
+    function update(){
+      var max = grid.scrollWidth - grid.clientWidth;
+      controls.hidden = max < 2;
+      prev.disabled = grid.scrollLeft < 2;
+      next.disabled = grid.scrollLeft >= max - 8;
+    }
+    grid.addEventListener('scroll', update, { passive:true });
+    window.addEventListener('resize', update);
+    requestAnimationFrame(update);
   }
 
   function renderGrids(site, projects){
@@ -1457,6 +1518,7 @@
         grid.innerHTML =
           entries.map(function(e, i){ return groupCardHTML(e.g, e.list, i); }).join('') +
           featuredProjects.map(function(p, i){ return cardHTML(p, entries.length + i); }).join('');
+        wireFeaturedCarousel(grid);
         return;
       }
       var list = shown.filter(function(p){ return p.ctx === group; });

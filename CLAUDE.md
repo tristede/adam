@@ -18,7 +18,7 @@ Ce fichier dit quoi respecter et où on en est. À mettre à jour en fin de sess
    `scramble`). C'est voulu, ne pas le « corriger ». Demander avant tout changement de DA.
 3. **Positionnement : « créatif volatile », « enfant d'internet ».** Ne pas le présenter d'abord
    comme « créateur de contenu ». Ne citer aucun autre créateur, chaîne ou marque comme référence.
-4. **TristeJeu** : on ne fait qu'une fiche dans ce portfolio. Ne jamais modifier le dossier du
+4. **TristeJeu** : groupe dans ce portfolio, avec un projet par jeu. Ne jamais modifier le dossier du
    projet lui-même.
 5. **NGC Hub** : parler des outils (dock OBS, régie IRL), jamais de l'histoire du collectif.
 6. **Aucun son pendant les tests** : vidéos muettes, onglets fermés après usage.
@@ -89,8 +89,8 @@ Statuts d'un projet :
   visuels** ; `embed: true` affiche le lien en iframe (voulu pour le site du club : on visite le
   site sans quitter le portfolio, garder).
 - **Accueil** : compétences en pastilles (noms seuls, détail au survol), sans titre « Compétences », en
-  deux groupes `Hard skills` / `Soft skills`, alignés à gauche, une pastille par ligne
-  de largeur naturelle avec un espacement de 10 px ; parcours centré sur l'axe
+  deux groupes `Hard skills` / `Soft skills` sous le texte À propos, côte à côte ;
+  pastilles de largeur naturelle avec retour à la ligne et espacement de 10 px ; parcours centré sur l'axe
   vertical en bureau (colonne à gauche en mobile) ; bannière stage et boutons centrés.
 - Ligne de métier sous le prénom (`roleMain` + `roleAccent`).
 
@@ -108,7 +108,7 @@ Statuts d'un projet :
 
 ## État au moment de ce fichier
 
-47 projets (23 visibles, 24 masqués), 7 groupes (dont le sous-groupe Vidéos d’En Esprit) : Union Oasis Forest, Stage chez En Esprit,
+56 projets (33 visibles, 23 masqués), 9 groupes :
 Chloé Ly, Nocturnz, NGC Hub, Daybreak.
 
 **Masqués par choix d'Adam** (laisser masqués) : `ilonka-club`, `montage-video-style-youtube`,
@@ -116,7 +116,7 @@ Chloé Ly, Nocturnz, NGC Hub, Daybreak.
 `thumbnails-youtube`, `reel-tiktok`, `community-management-easypermis`, `nocturnz-edit`, `montage-video-long-format`.
 
 **Créés masqués, en attente de matière** (descriptions courtes déjà écrites, à compléter puis
-démasquer) : `ngc-dock-obs`, `ngc-regie-irl-srt`, `daybreak-smp`, `lg-le-village`,
+démasquer) : `ngc-dock-obs`, `ngc-regie-irl-srt`, `daybreak-smp`,
 `oasis-outil-admin`, `oasis-strategie-sponsoring`, `oasis-rapport-social-media`, `esprit-la-haine`, `esprit-workshops`, `pourquoi-tu-votes`, `feminitea`, `alertesinfos`,
 `manif-video`.
 
@@ -130,7 +130,7 @@ démasquer) : `ngc-dock-obs`, `ngc-regie-irl-srt`, `daybreak-smp`, `lg-le-villag
 - à terme : rattacher les miniatures et reels
   aux projets de tournage correspondants ; ranger les projets Ilonka (vidéo à part, graphisme à masquer).
 
-**Visibles sans miniature** : `union-oasis-forest-tiktok` (fond avec icône par défaut).
+**Visibles sans miniature** : `union-oasis-forest-tiktok`, `dei-agence-site`, `lg-le-village`, `tristejeu-tristeparty`, `tristejeu-quidenous`, `tristejeu-loupgarou`, `tristejeu-quiestce`, `tristejeu-wa7ad`, `daybreak-discord`, `daybreak-aeterna`.
 
 ## Pistes non faites (audit du 31 oct. 2026)
 
@@ -230,3 +230,42 @@ fiche TristeJeu avec cinq jeux. Versions finales : CSS `v=32`, script `v=21`.
 Fetch sans divergence ; syntaxe, données, versions HTML et scénarios de groupes
 vérifiés. Rendu public vérifié en local ; enregistrement GitHub de l’admin non testé.
 Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
+
+## Ajustements locaux après publication
+
+- Miniatures Review et Todo remplacées par les interfaces : capture de la review
+  fournie par Adam (lecture en pause) et capture Todo fournie. Cadre web conservé.
+  Aucun lien privé de review enregistré dans les fichiers du portfolio.
+- Skills sous le texte À propos : deux groupes côte à côte, pastilles compactes
+  qui se répartissent sur plusieurs lignes. Texte manuscrit conservé.
+- Tags des groupes déduits des projets descendants : quatre tags les plus présents
+  sur les cartes, tous les tags en liens vers le filtre global dans la page groupe.
+  Aucun champ supplémentaire à maintenir dans l’admin.
+- Versions locales : CSS `v=33`, script `v=22`. Non publié.
+
+## Ajustements en cours de publication
+
+- Projet 360° DEI converti en groupe : Présentation de la campagne (six visuels
+  conservés), Multipage stratégique (trois médias dont le PDF), Site de l’agence
+  fictive (lien existant). Favori transféré au groupe. Le site lié présente une
+  erreur de certificat : aucune capture ni contenu supplémentaire inventé.
+- TristeJeu converti en véritable groupe avec cinq projets de jeux, remplaçant les
+  anciennes sections. Les anciens liens de projet devenus groupes redirigent vers
+  le groupe correspondant. Pas de modification des dépôts de ces autres projets.
+- Daybreak visible en perso avec LeVillage, Site web, Discord et Aeterna ; les trois
+  dernières fiches attendent leurs liens et/ou leur contexte. Nouveau médium Jeu
+  pour LeVillage, disponible aussi dans les formulaires de l’admin.
+- Nocturnz mis en avant. La sélection défile horizontalement avec flèches et scroll
+  fluide, trois cartes en bureau, deux sur tablette, une sur téléphone.
+- Badges favoris en vert. Versions finales de ce lot : CSS `v=34`, script `v=23`.
+
+- Précisions Daybreak fournies par Adam : site https://daybreak.fr/ (capture encadrée
+  ajoutée), Discord sans lien, Aeterna = serveurs SMP survie. Les fiches correspondantes
+  sont renseignées avec ces seules informations.
+- Vérifications locales : navigation groupes et tags, cinq projets TristeJeu,
+  conservation des six visuels et du multipage DEI, skills compactés, défilement
+  vers Nocturnz et badge favori vert. Publication explicitement demandée pour ce lot.
+
+- Derniers contrôles avant push : affichage à 1280 px et à 375 px sans débordement
+  horizontal global ; défilement vers la quatrième carte testé ; migrations et
+  médias conservés vérifiés. Fetch et scan de confidentialité effectués avant push.
