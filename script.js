@@ -1898,9 +1898,45 @@
   }
   initNavHighlight();
 
+  function reserveScrambleHeight(el, text){
+    var computed = getComputedStyle(el);
+    var width = el.getBoundingClientRect().width;
+    if (!width) return;
+    el.style.minHeight = '';
+    var probe = el.cloneNode(false);
+    var escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    probe.classList.remove('scramble');
+    probe.innerHTML = escaped.split('\n').join('<br>');
+    probe.style.cssText = [
+      'position:absolute','left:-10000px','top:0','visibility:hidden','pointer-events:none',
+      'display:block','box-sizing:border-box','width:'+width+'px','height:auto','min-height:0',
+      'max-height:none','overflow:visible','margin:0','padding:0','border:0',
+      'font-size:'+computed.fontSize,'font-weight:'+computed.fontWeight,
+      'line-height:'+computed.lineHeight,'letter-spacing:'+computed.letterSpacing
+    ].join(';');
+    document.body.appendChild(probe);
+    var readableFont = getComputedStyle(document.documentElement).getPropertyValue('--font').trim() || getComputedStyle(document.body).fontFamily;
+    var states = [
+      { font:computed.fontFamily, weight:computed.fontWeight, spacing:computed.letterSpacing },
+      { font:readableFont, weight:'500', spacing:'0.01em' },
+      { font:'ui-monospace, monospace', weight:computed.fontWeight, spacing:computed.letterSpacing }
+    ];
+    var heights = states.map(function(state){
+      probe.style.fontFamily = state.font;
+      probe.style.fontWeight = state.weight;
+      probe.style.letterSpacing = state.spacing;
+      return probe.getBoundingClientRect().height;
+    });
+    probe.remove();
+    el.style.minHeight = Math.ceil(Math.max.apply(Math, heights)) + 'px';
+  }
   function initScramble(){
-    document.querySelectorAll('.scramble').forEach(function(el){
+    var scrambleElements = Array.prototype.slice.call(document.querySelectorAll('.scramble'));
+    function reserveAll(){ scrambleElements.forEach(function(el){ reserveScrambleHeight(el, el.__scrambleText || readWithBreaks(el)); }); }
+    scrambleElements.forEach(function(el){
       var original = readWithBreaks(el);
+      el.__scrambleText = original;
+      reserveScrambleHeight(el, original);
       renderPlain(el, original);
 
       if (reduceMotionQuery.matches){
@@ -1951,6 +1987,8 @@
         obs.observe(el);
       }
     });
+    window.addEventListener('resize', reserveAll, { passive:true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(reserveAll);
   }
 
   // ---- everything above is markup/behaviour wiring; the actual content
