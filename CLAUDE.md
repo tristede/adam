@@ -88,8 +88,9 @@ Statuts d'un projet :
 - **Page projet** : phrase courte (`desc`) sous le titre ; **`longDesc` dans le corps, après les
   visuels** ; `embed: true` affiche le lien en iframe (voulu pour le site du club : on visite le
   site sans quitter le portfolio, garder).
-- **Accueil** : compétences en pastilles (noms seuls, détail au survol) sous « Compétences », en
-  deux groupes `Hard skills` / `Soft skills`, une pastille par ligne ; parcours centré sur l'axe
+- **Accueil** : compétences en pastilles (noms seuls, détail au survol), sans titre « Compétences », en
+  deux groupes `Hard skills` / `Soft skills`, centrés, une pastille par ligne avec un
+  espacement de 18 px ; parcours centré sur l'axe
   vertical en bureau (colonne à gauche en mobile) ; bannière stage et boutons centrés.
 - Ligne de métier sous le prénom (`roleMain` + `roleAccent`).
 
@@ -167,3 +168,11 @@ Pièges rencontrés :
   version de script `v=18`. Fetch effectué sans divergence ; JSON, syntaxe JavaScript,
   diff et confidentialité des ajouts vérifiés avant publication.
 - Validation visuelle des compétences et tests réels de l’admin toujours à faire.
+
+- Ajustements locaux demandés après publication : retrait du titre Compétences,
+  libellés Graphisme et Vibecoding, groupes et pastilles centrés, espacement augmenté.
+  Versions : CSS `v=26`, script `v=19`. Publication demandée par Adam.
+- Pastilles de compétences de taille identique : 240 × 52 px, largeur limitée
+  au conteneur sur petit écran, texte centré horizontalement et verticalement.
+- Titres Hard skills / Soft skills en police manuscrite du site (`--font-script`),
+  sans capitales forcées. Ces ajustements sont inclus dans la publication demandée.

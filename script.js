@@ -440,7 +440,7 @@
       if (!parGroupe[g]){ parGroupe[g] = []; ordre.push(g); }
       parGroupe[g].push({ s: s, i: i });
     });
-    host.innerHTML = '<span class="kicker" style="display:block;margin-bottom:14px;">Compétences</span>' + ordre.map(function(g){
+    host.innerHTML = ordre.map(function(g){
       return '<div class="skill-block">' +
         (g ? '<h4>' + g + '</h4>' : '') +
         // sur le site public : juste les noms, en pastilles (le texte est deja
