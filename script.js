@@ -50,12 +50,26 @@
     social: 'Réseaux sociaux', event: 'Événementiel', ecrit: 'Écrit', web: 'Site web'
   };
 
+  // Presets de la page Projets : un clic ouvre tous les projets d'un meme
+  // medium (ou portant ce tag), groupes depliés. L'ordre est celui des pastilles.
+  var presetOrder = ['web', 'video', 'graphisme', 'audio', 'social', 'event', 'ecrit'];
+  var presetLabel = {
+    web: 'Web', video: 'Vidéo', graphisme: 'Graphisme', audio: 'Audio',
+    social: 'Réseaux', event: 'Événementiel', ecrit: 'Écrit'
+  };
+  function porteLeTagOuMedium(p, t){
+    return !t || p.medium === t || (p.tags || []).indexOf(t) !== -1;
+  }
+  // visible sur l'accueil, dans les groupes et dans la grille par defaut :
+  // ni masque, ni « secondaire » (ceux-la ne se trouvent que dans un preset)
+  function enAccueil(p){ return !p.hidden && !p.secondary; }
+
   // Un projet appartient a au plus un groupe. Le lien « retour » le ramene donc
   // a la page de son groupe, ou a la liste generale s'il n'en a pas.
   // Sans groupe, le retour va a la page de SA categorie (perso ou academique
   // — le stage est un groupe, pas une categorie a part).
   function pageForCtx(ctx){
-    return (ctx === 'academique' || ctx === 'stage') ? 'projets-academiques.html' : 'projets-perso.html';
+    return (ctx === 'academique' || ctx === 'stage') ? 'projets.html?cat=academique' : 'projets.html?cat=perso';
   }
 
   function linkForProject(p){
@@ -130,6 +144,7 @@
     return (
       '<a class="card" href="projet.html?id=' + encodeURIComponent(p.id) + '" data-project-id="' + p.id + '"' +
         (p.hidden ? ' data-project-hidden="1"' : '') +
+        (p.secondary ? ' data-project-secondary="1"' : '') +
         ' style="transition-delay:' + ((i % 8) * 40) + 'ms">' +
         '<div class="thumb' + (thumb ? ' has-img' : '') + '">' +
           (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy">' : '') +
@@ -143,7 +158,7 @@
             : (p.featured ? '<span class="card-featured-label">' + UI_ICON.star + ' Mis en avant</span>' : '')) +
           '<h3>' + p.title + '</h3>' +
           '<p class="desc">' + p.desc + '</p>' +
-          '<div class="card-tags">' + p.tags.map(function(t){ return '<span class="tag">#' + t.replace(/\s+/g,'') + '</span>'; }).join('') + '</div>' +
+          '<div class="card-tags">' + p.tags.map(function(t){ return '<span class="tag">#' + t + '</span>'; }).join('') + '</div>' +
         '</div>' +
       '</a>'
     );
@@ -317,12 +332,12 @@
     // mutuellement exclusifs, voir admin.html
     var g = groupsOf(site).filter(function(x){ return x.id === site.favoriGroupId && !x.hidden; })[0];
     if (g){
-      var membres = projects.filter(function(x){ return !x.hidden && x.group === g.id; });
+      var membres = projects.filter(function(x){ return enAccueil(x) && x.group === g.id; });
       applyFavoriGroup(container, g, membres);
       return;
     }
     var shown = projects.filter(function(x){ return !x.hidden; });
-    var p = shown.filter(function(x){ return x.id === site.favoriProjectId; })[0] || shown[0];
+    var p = shown.filter(function(x){ return x.id === site.favoriProjectId; })[0] || shown.filter(enAccueil)[0] || shown[0];
     if (!p){ container.closest('.projects-section').style.display = 'none'; return; }
     var thumb = thumbSrc(p);
     // the whole card is the link — the pill inside is only a visual cue, so it
@@ -340,7 +355,7 @@
         '<span class="kicker" style="color:var(--text-faint);font-size:13px;font-weight:600;letter-spacing:0.04em;">Projet favori</span>' +
         '<h2>' + p.title + '</h2>' +
         '<p class="desc">' + p.desc + '</p>' +
-        '<div class="card-tags">' + p.tags.map(function(t){ return '<span class="tag">#' + t.replace(/\s+/g,'') + '</span>'; }).join('') + '</div>' +
+        '<div class="card-tags">' + p.tags.map(function(t){ return '<span class="tag">#' + t + '</span>'; }).join('') + '</div>' +
         '<span class="pill-btn" style="width:fit-content;">Voir le projet ' + UI_ICON.arrowRight + '</span>' +
       '</div>';
   }
@@ -753,7 +768,7 @@
           (p.featured ? '<span class="tag tag-featured">' + UI_ICON.star + ' Mis en avant</span>' : '') +
         '</div>' +
         '<h1 class="detail-title">' + p.title + '</h1>' +
-        '<div class="card-tags detail-tags">' + p.tags.map(function(t){ return '<span class="tag">#' + t.replace(/\s+/g,'') + '</span>'; }).join('') + '</div>' +
+        '<div class="card-tags detail-tags">' + p.tags.map(function(t){ return '<span class="tag">#' + t + '</span>'; }).join('') + '</div>' +
         '<p class="detail-desc">' + (p.longDesc || p.desc) + '</p>' +
         ownerSocialHTML(p) +
         (p.link ? '<a class="btn btn-primary" href="' + p.link + '" target="_blank" rel="noopener">Visiter le site ' + UI_ICON.external + '</a>' : '') +
@@ -1138,110 +1153,165 @@
   // Un tag filtre les deux : un groupe reste affiche si l'un de ses projets
   // porte le tag — sinon filtrer ferait disparaitre l'entite entiere alors
   // qu'elle contient bien ce qu'on cherche.
-  var tagActif = null;
+  var urlParams = new URLSearchParams(window.location.search);
+  var tagActif = urlParams.get('tag') || null;
+  var catActif = urlParams.get('cat') || '';   // 'perso' | 'academique' | '' (tout)
 
-  // La page porte la separation principale perso/academique (data-projects-page
-  // vaut "perso" ou "academique" ; vide = tout, comme projets.html). Le stage
-  // n'est plus une sous-section a part : c'est un groupe parmi d'autres,
-  // range dans "academique" comme n'importe quel projet de cette categorie.
+  // La page porte deux filtres independants : la categorie (perso/academique,
+  // le stage compte comme academique) et le tag/preset. Le stage n'est plus
+  // une sous-section a part : c'est un groupe parmi d'autres.
   function projetDansLaPage(scope, p){
     if (!scope) return true;
     if (scope === 'academique') return p.ctx === 'academique' || p.ctx === 'stage';
     return p.ctx === scope;
   }
 
+  // garde l'etat dans l'adresse (projets.html?tag=web&cat=perso) : un preset
+  // se partage par lien, et un rechargement ne le perd pas
+  function majURL(){
+    try {
+      var q = new URLSearchParams();
+      if (tagActif) q.set('tag', tagActif);
+      if (catActif) q.set('cat', catActif);
+      var qs = q.toString();
+      history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : ''));
+    } catch (e) {}
+  }
+
   function renderProjectsPage(site, projects){
     document.querySelectorAll('[data-projects-page]').forEach(function(host){
-      var scope = host.getAttribute('data-projects-page') || '';
-      var shown = (window.__EDIT_MODE__ ? projects : projects.filter(function(p){ return !p.hidden; }))
+      var scope = host.getAttribute('data-projects-page') || catActif;
+      var base = (window.__EDIT_MODE__ ? projects : projects.filter(function(p){ return !p.hidden; }))
         .filter(function(p){ return projetDansLaPage(scope, p); });
 
-      function porteLeTag(p){
-        return !tagActif || (p.tags || []).indexOf(tagActif) !== -1;
+      // un groupe masque disparait du site public avec ses projets — en
+      // edition il reste visible (dimme) pour pouvoir le demasquer
+      var groupesCaches = {};
+      groupsOf(site).forEach(function(g){ if (g.hidden) groupesCaches[g.id] = true; });
+      if (!window.__EDIT_MODE__) base = base.filter(function(p){ return !(p.group && groupesCaches[p.group]); });
+
+      renderTagFilters(site, base);
+
+      // Vue par tag : a plat, tous les projets concernes — ceux d'un groupe
+      // comme les secondaires. C'est ici que les secondaires se retrouvent.
+      if (tagActif){
+        var plat = base.filter(function(p){ return porteLeTagOuMedium(p, tagActif); });
+        host.innerHTML = plat.length
+          ? '<div class="grid">' + plat.map(cardHTML).join('') + '</div>'
+          : '<p class="empty-state">Aucun projet pour ce filtre.</p>';
+        return;
       }
 
-      // pour distinguer "aucun membre dans CETTE categorie" (le groupe vit
-      // ailleurs, rien a faire ici) de "aucun membre nulle part" (groupe tout
-      // juste cree, a remplir depuis n'importe quelle page)
-      var shownPartout = window.__EDIT_MODE__ ? projects : projects.filter(function(p){ return !p.hidden; });
-
+      // Vue par defaut : les groupes d'abord, puis les projets qui n'appartiennent
+      // a aucune entite. Un projet range dans un groupe n'apparait pas deux fois,
+      // et les secondaires restent a l'ecart.
+      var shown = window.__EDIT_MODE__ ? base : base.filter(function(p){ return !p.secondary; });
       var pris = {};
       var cartes = [];
       groupsOf(site).forEach(function(g){
         var tous = shown.filter(function(p){ return p.group === g.id; });
-        // toujours retires des "libres", caches ou non : un projet d'un groupe
-        // masque ne doit pas se retrouver affiche a part
+        // toujours retires des "libres", caches ou non
         tous.forEach(function(p){ pris[p.id] = true; });
-        // un groupe masque disparait completement du site public, avec ses
-        // projets — en edition il reste visible (dimme) pour pouvoir le
-        // demasquer
         if (g.hidden && !window.__EDIT_MODE__) return;
-        var retenus = tous.filter(porteLeTag);
-        if (!retenus.length){
-          // des membres existent, juste pas dans cette categorie : le groupe
-          // vit ailleurs, il n'a rien a faire ici
-          var existeAilleurs = shownPartout.some(function(p){ return p.group === g.id; });
+        if (!tous.length){
+          // des membres existent, juste pas dans ce filtre : le groupe n'a rien
+          // a faire ici
+          var existeAilleurs = projects.some(function(p){ return p.group === g.id && !p.hidden; });
           if (existeAilleurs) return;
-          // sinon, groupe vraiment vide : reste visible dans l'editeur, pour
-          // pouvoir le remplir depuis n'importe quelle page
-          if (!(window.__EDIT_MODE__ && !tagActif)) return;
+          // sinon, groupe vraiment vide : reste visible dans l'editeur
+          if (!window.__EDIT_MODE__) return;
         }
-        cartes.push({ g: g, list: retenus });
+        cartes.push({ g: g, list: tous });
       });
-      var libres = shown.filter(function(p){ return !pris[p.id]; }).filter(porteLeTag);
+      var libres = shown.filter(function(p){ return !pris[p.id]; });
 
       host.innerHTML = '<div class="grid">' +
         cartes.map(function(c, i){ return groupCardHTML(c.g, c.list, i); }).join('') +
         libres.map(function(p, i){ return cardHTML(p, cartes.length + i); }).join('') +
       '</div>';
-
-      renderTagFilters(site, shown);
     });
     revealCards();
   }
 
   var filtresOuverts = false;
 
-  function renderTagFilters(site, shown){
+  function sansAccent(t){
+    return String(t).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  }
+
+  function renderTagFilters(site, base){
     var host = document.getElementById('js-tag-filters');
     if (!host) return;
-    var vus = {}, ordre = [];
-    shown.forEach(function(p){
+
+    // presets : un par medium present, avec le nombre de projets concernes
+    var presets = presetOrder.map(function(k){
+      return { key: k, n: base.filter(function(p){ return porteLeTagOuMedium(p, k); }).length };
+    }).filter(function(x){ return x.n > 0; });
+
+    // tags fins : tout ce qui n'est pas deja un preset (« Vidéo », « Audio »...
+    // doublonneraient avec les pastilles du dessus)
+    var dejaPreset = {};
+    presetOrder.forEach(function(k){ dejaPreset[sansAccent(presetLabel[k])] = true; });
+    Object.keys(mediumLabel).forEach(function(k){ dejaPreset[sansAccent(mediumLabel[k])] = true; });
+    var vus = {}, fins = [];
+    base.forEach(function(p){
       (p.tags || []).forEach(function(t){
-        if (!vus[t]){ vus[t] = 0; ordre.push(t); }
+        if (dejaPreset[sansAccent(t)]) return;
+        if (!vus[t]){ vus[t] = 0; fins.push(t); }
         vus[t]++;
       });
     });
-    if (ordre.length < 2){ host.innerHTML = ''; return; }
-    ordre.sort(function(a, b){ return vus[b] - vus[a] || a.localeCompare(b); });
+    fins.sort(function(a, b){ return vus[b] - vus[a] || a.localeCompare(b); });
 
-    // Dix-neuf pastilles en permanence poussaient la grille hors de l'ecran :
-    // les filtres se deplient a la demande, et le bouton dit ce qui est actif.
+    function attr(v){ return String(v).replace(/"/g, '&quot;'); }
+    function pastille(cls, dataAttr, val, label, n, on){
+      return '<button type="button" class="tag-filter' + (on ? ' is-on' : '') + '" ' + dataAttr + '="' + attr(val) + '">' + label +
+        (n != null ? '<span class="tag-count">' + n + '</span>' : '') + '</button>';
+    }
+
+    var cats = [['', 'Tout'], ['perso', 'Perso'], ['academique', 'Académique']];
     host.className = 'filter-zone';
     host.innerHTML =
-      '<button type="button" class="filter-toggle' + (tagActif ? ' is-active' : '') + '">' +
-        UI_ICON.filter + ' Filtrer' +
-        (tagActif ? '<span class="filter-chosen">' + tagActif + '</span>' : '') +
-      '</button>' +
-      '<div class="tag-filters' + (filtresOuverts ? '' : ' is-closed') + '">' +
-        '<button type="button" class="tag-filter' + (tagActif ? '' : ' is-on') + '" data-tag="">Tout</button>' +
-        ordre.map(function(t){
-          return '<button type="button" class="tag-filter' + (tagActif === t ? ' is-on' : '') +
-            '" data-tag="' + t.replace(/"/g, '&quot;') + '">' + t +
-            '<span class="tag-count">' + vus[t] + '</span></button>';
-        }).join('') +
-      '</div>';
+      '<div class="filter-row filter-cats">' +
+        cats.map(function(c){ return pastille('', 'data-cat', c[0], c[1], null, catActif === c[0]); }).join('') +
+      '</div>' +
+      '<div class="filter-row filter-presets">' +
+        pastille('', 'data-tag', '', 'Tout', null, !tagActif) +
+        presets.map(function(x){ return pastille('', 'data-tag', x.key, presetLabel[x.key], x.n, tagActif === x.key); }).join('') +
+        (fins.length
+          ? '<button type="button" class="filter-toggle' + ((tagActif && !presetLabel[tagActif]) ? ' is-active' : '') + '">' +
+              UI_ICON.filter + ' Plus de tags' +
+              ((tagActif && !presetLabel[tagActif]) ? '<span class="filter-chosen">' + tagActif + '</span>' : '') +
+            '</button>'
+          : '') +
+      '</div>' +
+      (fins.length
+        ? '<div class="tag-filters' + (filtresOuverts ? '' : ' is-closed') + '">' +
+            fins.map(function(t){ return pastille('', 'data-tag', t, t, vus[t], tagActif === t); }).join('') +
+          '</div>'
+        : '');
 
-    host.querySelector('.filter-toggle').addEventListener('click', function(){
+    var toggle = host.querySelector('.filter-toggle');
+    if (toggle) toggle.addEventListener('click', function(){
       filtresOuverts = !filtresOuverts;
       host.querySelector('.tag-filters').classList.toggle('is-closed', !filtresOuverts);
     });
 
-    host.querySelectorAll('.tag-filter').forEach(function(b){
+    function rerender(){
+      majURL();
+      renderProjectsPage(site, window.__ALL_PROJECTS__ || []);
+    }
+    host.querySelectorAll('[data-cat]').forEach(function(b){
+      b.addEventListener('click', function(){
+        catActif = b.getAttribute('data-cat') || '';
+        rerender();
+      });
+    });
+    host.querySelectorAll('[data-tag]').forEach(function(b){
       b.addEventListener('click', function(){
         var t = b.getAttribute('data-tag');
         tagActif = (t && t !== tagActif) ? t : null;
-        renderProjectsPage(site, window.__ALL_PROJECTS__ || []);
+        rerender();
       });
     });
   }
@@ -1257,7 +1327,7 @@
       return;
     }
     document.title = g.title;
-    var shown = window.__EDIT_MODE__ ? projects : projects.filter(function(p){ return !p.hidden; });
+    var shown = window.__EDIT_MODE__ ? projects : projects.filter(enAccueil);
     var list = shown.filter(function(p){ return p.group === g.id; });
     container.innerHTML =
       '<div class="wrap">' +
@@ -1273,7 +1343,7 @@
   }
 
   function renderGrids(site, projects){
-    var shown = window.__EDIT_MODE__ ? projects : projects.filter(function(p){ return !p.hidden; });
+    var shown = window.__EDIT_MODE__ ? projects : projects.filter(enAccueil);
     document.querySelectorAll('.grid[data-group]').forEach(function(grid){
       var group = grid.dataset.group;
       if (group === 'featured'){

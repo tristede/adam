@@ -1,9 +1,9 @@
 {
   "site": {
     "owner": "Adam",
-    "roleMain": "Communication",
-    "roleAccent": "· Audiovisuel",
-    "bio": "Depuis petit, je suis passionné par la création de contenu et l'influence sur le web.\nAutodidacte, j'ai développé des compétences en graphisme, montage vidéo et mixage audio.",
+    "roleMain": "Étudiant en communication",
+    "roleAccent": "· Audiovisuel · Bruxelles",
+    "bio": "Enfant d'internet, créatif volatile.\nMontage vidéo, graphisme, mixage audio : je passe de l'un à l'autre.",
     "aboutParagraphs": [
       "Je suis un enfant d'internet. J'ai eu un PC entre les mains très jeune, et j'ai grandi devant les premières vidéos du web. À 11-12 ans, j'enregistrais déjà mes parties de jeux vidéo et je faisais mes propres miniatures… sans avoir le droit de poster quoi que ce soit.",
       "Après un détour par l'informatique, j'ai choisi une voie qui me ressemble : la communication, à l'ISFSC. Je me définis comme un créatif volatile — je passe du montage vidéo au graphisme, de l'écriture au mixage de morceaux à la cuisine. J'ai du mal à me fixer sur un seul médium, mais c'est ce qui me permet de faire des liens que d'autres ne font pas."
@@ -47,6 +47,18 @@
         "title": "Stage — En Esprit",
         "desc": "Stage de deuxième année : montage vidéo, community management, création de contenu.",
         "current": false
+      },
+      {
+        "year": "2025 — 2026",
+        "title": "Union Oasis Forest",
+        "desc": "Responsable communication & digital du club de futsal : réseaux sociaux, site web, outils numériques.",
+        "current": false
+      },
+      {
+        "year": "2026",
+        "title": "Bachelier en Communication — BAC 3",
+        "desc": "Retour à l'ISFSC, option audiovisuel. Stage de janvier à avril 2027.",
+        "current": false
       }
     ],
     "sections": [
@@ -76,7 +88,7 @@
         "id": "en-esprit",
         "kicker": "Stage de 2e année",
         "title": "Stage chez En Esprit",
-        "desc": "Stage de 8 semaine chez En Esprit (média urbain bruxellois de janv. 2024 - juil. 2026) dans le cadre de mon bachelier en communication.",
+        "desc": "Stage de 8 semaines chez En Esprit, média urbain bruxellois, dans le cadre de mon bachelier en communication.",
         "thumb": "images/stage-chez-en-esprit-miniature-1791190065475-0.webp",
         "featured": true,
         "socialLinks": [
@@ -89,6 +101,38 @@
             "url": "https://www.youtube.com/@iam.chloely"
           }
         ]
+      },
+      {
+        "id": "chloe-ly-videos",
+        "kicker": "Créatrice de contenu",
+        "title": "Chloé Ly",
+        "desc": "Montage vidéo pour la créatrice de contenu Chloé Ly.",
+        "thumb": "images/thumbs/chloe-ly-x-basebelgium-miniature-1790900488576-0.webp",
+        "featured": true
+      },
+      {
+        "id": "nocturnz",
+        "kicker": "Produit",
+        "title": "Nocturnz",
+        "desc": "Une suite d'outils pour les créateurs : portfolio en ligne sans abonnement, review vidéo, todo partagée et extension de montage.",
+        "thumb": "images/thumbs/nocturnz-portfolio-en-ligne-miniature-1790900861949-0.webp",
+        "featured": false
+      },
+      {
+        "id": "ngc-hub",
+        "kicker": "Stream",
+        "title": "NGC Hub",
+        "desc": "Les outils que j'ai construits autour de mon stream.",
+        "thumb": "",
+        "featured": false
+      },
+      {
+        "id": "daybreak",
+        "kicker": "Serveur Minecraft",
+        "title": "Daybreak",
+        "desc": "Serveur Minecraft SMP et ce qui gravite autour : plugins, scripts, resource pack, lore.",
+        "thumb": "",
+        "featured": false
       }
     ],
     "theme": {
@@ -106,7 +150,7 @@
     "kicker": "Étudiant en communication — Bruxelles",
     "featuredKicker": "Sélection",
     "featuredTitle": "Projets mis en avant",
-    "featuredSub": "Trois réalisations représentatives, tous mediums confondus.",
+    "featuredSub": "Trois réalisations représentatives, tous médiums confondus.",
     "aboutKicker": "À propos",
     "aboutTitle": "Curieux de nature, touche-à-tout par passion",
     "parcoursKicker": "Parcours",
@@ -115,13 +159,13 @@
     "stageCta": {
       "enabled": true,
       "kicker": "Disponible dès janvier 2027",
-      "title": "Stage de 3e recherché (janvier – avril 2027)",
+      "title": "Recherche de stage BAC 3 (janvier – avril 2027)",
       "text": "Communication, audiovisuel ou community management — CV et portfolio sur demande."
     },
     "skills": [
       {
         "group": "Cœur de métier",
-        "name": "Création de contenu",
+        "name": "Créatif volatile",
         "detail": "Affiches, miniatures, formats courts, pochettes — de l'idée au fichier livré."
       },
       {
@@ -155,8 +199,8 @@
       "ctx": "perso",
       "medium": "video",
       "tags": [],
-      "desc": "Contenu réalisés pour la créatrice de contenu Chloé Ly.",
-      "featured": true,
+      "desc": "Contenus réalisés pour la créatrice de contenu Chloé Ly.",
+      "featured": false,
       "hidden": false,
       "longDesc": "Montage vidéo pour les coulisses du clip de Camille Yembe x BASE sur les réseaux de Chloé Ly.",
       "assets": [
@@ -195,8 +239,9 @@
         }
       ],
       "link": "",
-      "thumb": "images/chloe-ly-x-basebelgium-miniature-1790900488576-0.webp",
-      "subProjects": []
+      "thumb": "images/thumbs/chloe-ly-x-basebelgium-miniature-1790900488576-0.webp",
+      "subProjects": [],
+      "group": "chloe-ly-videos"
     },
     {
       "id": "union-oasis-forest",
@@ -210,7 +255,7 @@
       ],
       "desc": "Dépliant du club : présentation, horaires, tarifs et stages, dans l'identité visuelle Oasis Forest.",
       "featured": false,
-      "thumb": "images/union-oasis-forest-miniature-1787866364017-0.webp",
+      "thumb": "images/thumbs/union-oasis-forest-miniature-1787866364017-0.webp",
       "assets": [
         {
           "type": "image",
@@ -289,7 +334,8 @@
       ],
       "subProjects": [],
       "group": "union-oasis-forest",
-      "link": "https://www.tiktok.com/@oasisforestfutsal"
+      "link": "https://www.tiktok.com/@oasisforestfutsal",
+      "longDesc": "Saison 2025-2026 : plus de 2 033 800 vues cumulées sur Instagram, Facebook et TikTok.\nSur Instagram (@oasisforestfutsal) : environ 950 000 vues et 11 300 interactions, soit +1 200 % de vues et +1 400 % d'interactions."
     },
     {
       "id": "union-oasis-forest-site-web",
@@ -303,17 +349,37 @@
         "Site web"
       ],
       "desc": "Conception du site officiel du club, de l'architecture à la mise en ligne : galerie, calendriers des matchs, espace partenaires, interface d'édition pour l'équipe.",
-      "longDesc": "Outil d'administration interne sur mesure (affiliés, finances, inscriptions) relié à Notion, avec formulaire d'inscription en ligne.\n\nStructuration de l'ASBL : obtention de Google Workspace for Nonprofits, mise en place du domaine et des adresses e-mail du club, argumentaire de sponsoring.",
+      "longDesc": "Site officiel du club, conçu avec Claude Code : accueil, présentation du club et des équipes, galerie, page partenaires avec les chiffres de la saison, formulaire d'inscription en ligne.\n\nUn outil d'administration sur mesure, relié à Notion (affiliés, finances, inscriptions), permet à l'équipe de tenir le contenu à jour sans toucher au code.\n\nEn parallèle, structuration de l'ASBL : Google Workspace for Nonprofits, nom de domaine et adresses e-mail du club, préparation d'une newsletter, argumentaire de sponsoring.",
       "featured": false,
-      "assets": [],
+      "assets": [
+        {
+          "type": "image",
+          "url": "images/union-oasis-forest-site-web-accueil.webp",
+          "hidden": false,
+          "size": "lg"
+        },
+        {
+          "type": "image",
+          "url": "images/union-oasis-forest-site-web-galerie.webp",
+          "hidden": false,
+          "size": "lg"
+        },
+        {
+          "type": "image",
+          "url": "images/union-oasis-forest-site-web-partenaires.webp",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
       "subProjects": [],
       "group": "union-oasis-forest",
       "link": "https://oasisforest.be",
-      "embed": true
+      "embed": true,
+      "thumb": "images/thumbs/union-oasis-forest-site-web.webp"
     },
     {
       "id": "nocturnz-portfolio",
-      "title": "Nocturnz — Portfolio en ligne",
+      "title": "Nocturnz Portfolio",
       "year": 2026,
       "current": true,
       "ctx": "perso",
@@ -341,7 +407,8 @@
         }
       ],
       "subProjects": [],
-      "thumb": "images/nocturnz-portfolio-en-ligne-miniature-1790900861949-0.webp"
+      "thumb": "images/thumbs/nocturnz-portfolio-en-ligne-miniature-1790900861949-0.webp",
+      "group": "nocturnz"
     },
     {
       "id": "evenementiel-stand-zennit",
@@ -367,7 +434,8 @@
         }
       ],
       "longDesc": "ZennIT Gaming est une organisation d'e-sports qui s'engage à promouvoir les e-sports en Belgique.\n\nLors de ces événements, j'ai invité les visiteurs à participer à un tournoi de jeu vidéo et les ai informés sur l'académie ZNT, spécialisée dans la formation de joueurs sur League of Legends.\n\nMade In Asia (septembre 2022) · GameForce (septembre 2022) · Made In Asia (mars 2023)",
-      "subProjects": []
+      "subProjects": [],
+      "thumb": "images/thumbs/evenementiel-stand-zennit-1792462361906-0.webp"
     },
     {
       "id": "ilonka-club",
@@ -431,7 +499,7 @@
         }
       ],
       "subProjects": [],
-      "thumb": "images/ecriture-enregistrement-mixage-chant-rap-miniature-1787928556958-0.webp"
+      "thumb": "images/thumbs/ecriture-enregistrement-mixage-chant-rap-miniature-1787928556958-0.webp"
     },
     {
       "id": "montage-video-style-youtube",
@@ -460,7 +528,7 @@
           "aspect": "16/9"
         }
       ],
-      "thumb": "images/montage-video-style-youtube-thumb.webp",
+      "thumb": "images/thumbs/montage-video-style-youtube-thumb.webp",
       "subProjects": [],
       "hidden": true
     },
@@ -540,7 +608,7 @@
       ],
       "desc": "Réalisation d'un reportage vidéo de bout en bout.",
       "featured": false,
-      "thumb": "images/production-d-un-reportage-video-miniature-1787835136197-0.webp",
+      "thumb": "images/thumbs/production-d-un-reportage-video-miniature-1787835136197-0.webp",
       "assets": [
         {
           "type": "image",
@@ -585,7 +653,7 @@
       "desc": "Campagne 360 de sensibilisation aux VEO",
       "featured": false,
       "hidden": false,
-      "longDesc": "Dans le cadre du projet 2 à l'ISFSC, nous avons du réaliser une campagne 360' fictive pour un émetteur donné. Nous avons travailler sur une campagne de sensibilisation aux violences supposément éducative pour la DEI-Belgique.",
+      "longDesc": "Dans le cadre du projet 2 à l'ISFSC, nous avons dû réaliser une campagne 360° fictive pour un émetteur donné. Nous avons travaillé sur une campagne de sensibilisation aux violences supposément éducatives pour la DEI-Belgique.",
       "assets": [
         {
           "type": "image",
@@ -633,12 +701,12 @@
         }
       ],
       "link": "https://cms2433.commu.isfsc.be/",
-      "thumb": "images/projet-360-dei-belgique-1787830564823-0.webp",
+      "thumb": "images/thumbs/projet-360-dei-belgique-1787830564823-0.webp",
       "subProjects": [
         {
           "title": "Multipage stratégique",
           "medium": "",
-          "desc": "",
+          "desc": "Document stratégique de la campagne (12 pages) et ses visuels.",
           "assets": [
             {
               "type": "image",
@@ -699,7 +767,7 @@
       ],
       "desc": "Design d'une carte de visite pour le projet Echo Nexus.",
       "featured": false,
-      "thumb": "images/carte-de-visite-echo-nexus-miniature-1787840494032-0.webp",
+      "thumb": "images/thumbs/carte-de-visite-echo-nexus-miniature-1787840494032-0.webp",
       "assets": [
         {
           "type": "image",
@@ -751,11 +819,12 @@
         }
       ],
       "subProjects": [],
-      "thumb": "images/realisation-d-un-episode-de-podcast-miniature-1787865352278-0.webp"
+      "thumb": "images/thumbs/realisation-d-un-episode-de-podcast-miniature-1787865352278-0.webp",
+      "hidden": true
     },
     {
       "id": "projet-evenementiel-cinematek",
-      "title": "Projet évènementiel : Cinematek",
+      "title": "Projet événementiel : Cinematek",
       "year": 2023,
       "ctx": "academique",
       "medium": "event",
@@ -764,7 +833,7 @@
       ],
       "desc": "Conception d'un projet événementiel autour de la Cinematek.",
       "featured": false,
-      "thumb": "images/projet-evenementiel-cinematek-miniature-1787835145937-0.webp",
+      "thumb": "images/thumbs/projet-evenementiel-cinematek-miniature-1787835145937-0.webp",
       "assets": [
         {
           "type": "image",
@@ -930,7 +999,7 @@
           "hidden": false
         }
       ],
-      "thumb": "images/montage-video-long-format-thumb.webp",
+      "thumb": "images/thumbs/montage-video-long-format-thumb.webp",
       "subProjects": [],
       "hidden": false
     },
@@ -979,7 +1048,8 @@
         }
       ],
       "thumb": "images/post-actualite-thumb.webp",
-      "subProjects": []
+      "subProjects": [],
+      "hidden": true
     },
     {
       "id": "thumbnails-youtube",
@@ -1243,7 +1313,7 @@
         }
       ],
       "link": "",
-      "thumb": "",
+      "thumb": "images/thumbs/campagne-avanttout-fictive-1787872615050-0.webp",
       "subProjects": []
     },
     {
@@ -1350,7 +1420,8 @@
           "hidden": false
         }
       ],
-      "subProjects": []
+      "subProjects": [],
+      "thumb": "images/thumbs/artwork-rap-pochette-d-albums-1787778518647-7.webp"
     },
     {
       "id": "community-management-easypermis",
@@ -1449,6 +1520,392 @@
         }
       ],
       "link": "https://www.instagram.com/easypermis.be/",
+      "subProjects": []
+    },
+    {
+      "id": "nocturnz-review",
+      "title": "Nocturnz Review",
+      "year": 2026,
+      "current": true,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Outil",
+        "Développement web"
+      ],
+      "desc": "Retours à l'image près sur des vidéos : les clients commentent sans créer de compte, les fichiers restent dans le stockage de l'utilisateur.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "https://nocturnz.xyz/review/",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "nocturnz"
+    },
+    {
+      "id": "nocturnz-todo",
+      "title": "Nocturnz Todo",
+      "year": 2026,
+      "current": true,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Outil",
+        "Développement web"
+      ],
+      "desc": "Todo et Wishlist rangées par catégories, synchronisées sur tous les appareils et partageables par e-mail. Faite d'abord pour ma propre organisation.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "https://nocturnz.xyz/todo/",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "nocturnz"
+    },
+    {
+      "id": "nocturnz-edit",
+      "title": "Nocturnz Edit",
+      "year": 2026,
+      "current": true,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Outil",
+        "Montage vidéo"
+      ],
+      "desc": "Extension open source pour Adobe Premiere Pro, en développement : nettoyage des silences, transcription, sous-titres et réalisation dans un seul outil, avec traitements locaux.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "https://nocturnz.xyz/edit/",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "nocturnz"
+    },
+    {
+      "id": "ngc-dock-obs",
+      "title": "Dock OBS d'autorégie",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Outil",
+        "Stream"
+      ],
+      "desc": "Un dock OBS qui bascule la scène selon la personne qui parle et zoome sur les temps forts.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "ngc-hub"
+    },
+    {
+      "id": "ngc-regie-irl-srt",
+      "title": "Régie IRL en SRT",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Outil",
+        "Stream"
+      ],
+      "desc": "Régie pour streamer en IRL : flux SRT vers OBS, utilisée sur ma chaîne Twitch.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "ngc-hub"
+    },
+    {
+      "id": "daybreak-smp",
+      "title": "Daybreak SMP",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Jeu",
+        "Minecraft"
+      ],
+      "desc": "Serveur Minecraft SMP : Paper, plugins, scripts Skript, modpack, resource pack et univers narratif.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "daybreak"
+    },
+    {
+      "id": "lg-le-village",
+      "title": "Mod « LG Le Village »",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Jeu",
+        "Minecraft"
+      ],
+      "desc": "Mod Minecraft de loup-garou, lié à l'univers de Daybreak.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "daybreak"
+    },
+    {
+      "id": "oasis-outil-admin",
+      "title": "Outil d'administration du site",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Outil",
+        "Développement web"
+      ],
+      "desc": "Outil interne relié à Notion pour gérer le site du club sans toucher au code.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "union-oasis-forest"
+    },
+    {
+      "id": "oasis-strategie-sponsoring",
+      "title": "Stratégie de sponsoring",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "ecrit",
+      "tags": [
+        "Sponsoring"
+      ],
+      "desc": "Stratégie et page partenaires pour trouver des sponsors au club.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "union-oasis-forest"
+    },
+    {
+      "id": "oasis-rapport-social-media",
+      "title": "Rapport social media",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "social",
+      "tags": [
+        "Réseaux sociaux"
+      ],
+      "desc": "Bilan chiffré de la saison sur les réseaux du club.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "union-oasis-forest"
+    },
+    {
+      "id": "esprit-soolking",
+      "title": "Tournage : concert de Soolking",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Tournage",
+        "Concert"
+      ],
+      "desc": "Cadrage, tournage et montage d'un concert pour En Esprit.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "en-esprit"
+    },
+    {
+      "id": "esprit-la-haine",
+      "title": "Tournage : « La Haine, jusqu'ici rien n'a changé »",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Tournage",
+        "Théâtre"
+      ],
+      "desc": "Captation et montage de la pièce de théâtre pour En Esprit.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "en-esprit"
+    },
+    {
+      "id": "esprit-workshops",
+      "title": "Workshops B2B",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "video",
+      "tags": [
+        "Tournage"
+      ],
+      "desc": "Tournage et montage des workshops B2B d'En Esprit.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "en-esprit"
+    },
+    {
+      "id": "pourquoi-tu-votes",
+      "title": "« Pourquoi tu votes ? »",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "audio",
+      "tags": [
+        "Radio",
+        "Micro-trottoir"
+      ],
+      "desc": "Micro-trottoir radio : montage et mixage, réalisé en cours.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": []
+    },
+    {
+      "id": "feminitea",
+      "title": "Feminitea",
+      "year": 2025,
+      "current": false,
+      "ctx": "academique",
+      "medium": "audio",
+      "tags": [
+        "Jingle"
+      ],
+      "desc": "Jingle et vidéo pour Feminitea.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": []
+    },
+    {
+      "id": "alertesinfos",
+      "title": "AlertesInfos",
+      "year": 2024,
+      "current": false,
+      "ctx": "perso",
+      "medium": "social",
+      "tags": [
+        "Community management",
+        "Discord"
+      ],
+      "desc": "Community management du serveur Discord d'un média (+800 000 abonnés), de juillet 2023 à août 2024.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": []
+    },
+    {
+      "id": "manif-video",
+      "title": "Manifestation à Bruxelles",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "video",
+      "tags": [
+        "Tournage"
+      ],
+      "desc": "Vidéo tournée pendant les manifestations du 9 octobre à Bruxelles.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": true,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": []
+    },
+    {
+      "id": "tristejeu",
+      "title": "TristeJeu",
+      "year": 2026,
+      "current": true,
+      "ctx": "perso",
+      "medium": "web",
+      "tags": [
+        "Jeu",
+        "Développement web"
+      ],
+      "desc": "Projet de jeux web en cours : party games, arcade et quiz réunis sur une seule plateforme.",
+      "longDesc": "",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
       "subProjects": []
     }
   ]

@@ -524,6 +524,15 @@ body.visual-mode .wrap{ max-width: 1400px; }
             <option value="ecrit">Écrit</option>
           </select>
         </div>
+        <div style="max-width:180px;">
+          <label for="filter-status" style="margin-top:0;">Statut</label>
+          <select id="filter-status">
+            <option value="">Tous</option>
+            <option value="visible">Visibles</option>
+            <option value="secondary">Secondaires</option>
+            <option value="hidden">Masqués</option>
+          </select>
+        </div>
         <div style="flex:0;">
           <button class="ghost" id="filter-reset-btn" type="button" style="margin-top:0; white-space:nowrap;">Réinitialiser</button>
         </div>
@@ -595,6 +604,10 @@ body.visual-mode .wrap{ max-width: 1400px; }
         <div class="check-row">
           <input type="checkbox" id="pf-hidden">
           <label for="pf-hidden">Masquer ce projet (invisible sur le site, conservé ici)</label>
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="pf-secondary">
+          <label for="pf-secondary">Secondaire (absent de l'accueil et des groupes, visible seulement dans un filtre : Web, Vidéo…)</label>
         </div>
 
         <p class="small" style="margin:18px 0 4px;">Ce qui suit est optionnel — affiché uniquement sur la page détail du projet (accessible en cliquant sur sa vignette).</p>
@@ -774,6 +787,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       (extra || '') + '>' + paths + '</svg>';
   }
   var ICON = {
+    dim: svg('<circle cx="12" cy="12" r="8" stroke-dasharray="3 3"/>'),
     eye: svg('<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/>'),
     eyeOff: svg('<path d="M10.6 6.1A9.9 9.9 0 0 1 12 5.5c6.4 0 10 6.5 10 6.5a17.7 17.7 0 0 1-3.3 4.1M6.2 7.9A17.6 17.6 0 0 0 2 12s3.6 6.5 10 6.5c1.5 0 2.8-.3 4-.9"/><path d="M3 3l18 18"/>'),
     starFilled: svg('<path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="currentColor"/>'),
@@ -1138,8 +1152,12 @@ body.visual-mode .wrap{ max-width: 1400px; }
     var ctx = $('filter-ctx').value;
     var medium = $('filter-medium').value;
     var q = $('filter-search').value.trim().toLowerCase();
+    var status = $('filter-status').value;
     if (ctx && p.ctx !== ctx) return false;
     if (medium && p.medium !== medium) return false;
+    if (status === 'hidden' && !p.hidden) return false;
+    if (status === 'secondary' && (!p.secondary || p.hidden)) return false;
+    if (status === 'visible' && (p.hidden || p.secondary)) return false;
     if (q){
       var haystack = (p.title + ' ' + (p.tags||[]).join(' ') + ' ' + (p.desc||'')).toLowerCase();
       if (haystack.indexOf(q) === -1) return false;
@@ -1170,7 +1188,8 @@ body.visual-mode .wrap{ max-width: 1400px; }
       row.innerHTML =
         '<div>' +
           '<div class="title">' + (p.featured ? '<span class="star">' + ICON.starFilled + '</span>' : '') + escapeHtml(p.title) +
-            (p.hidden ? ' <span class="hidden-badge">masqué</span>' : '') + '</div>' +
+            (p.hidden ? ' <span class="hidden-badge">masqué</span>' : '') +
+            (p.secondary && !p.hidden ? ' <span class="hidden-badge">secondaire</span>' : '') + '</div>' +
           '<div class="meta">' + p.year + ' · ' + (CTX_LABEL[p.ctx]||p.ctx) + ' · ' + (MEDIUM_LABEL[p.medium]||p.medium) + '</div>' +
           '<div class="tags-inline">' + (p.tags||[]).map(function(t){ return '<span>#'+escapeHtml(t)+'</span>'; }).join('') + '</div>' +
         '</div>' +
@@ -1646,7 +1665,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       $('pf-ctx').value = 'perso'; $('pf-medium').value = 'graphisme';
       refreshGroupOptions('');
       $('pf-tags').value = ''; $('pf-desc').value = ''; $('pf-featured').checked = false;
-      $('pf-hidden').checked = false;
+      $('pf-hidden').checked = false; $('pf-secondary').checked = false;
       $('pf-longdesc').value = ''; $('pf-link').value = ''; $('pf-embed').checked = false;
       currentSubProjects = [];
       currentAssets = [];
@@ -1661,7 +1680,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       refreshGroupOptions(p.group || '');
       $('pf-tags').value = (p.tags||[]).join(', '); $('pf-desc').value = p.desc || '';
       $('pf-featured').checked = !!p.featured;
-      $('pf-hidden').checked = !!p.hidden;
+      $('pf-hidden').checked = !!p.hidden; $('pf-secondary').checked = !!p.secondary;
       $('pf-longdesc').value = p.longDesc || '';
       $('pf-link').value = p.link || '';
       $('pf-embed').checked = !!p.embed;
@@ -1696,6 +1715,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       desc: $('pf-desc').value.trim(),
       featured: $('pf-featured').checked,
       hidden: $('pf-hidden').checked,
+      secondary: $('pf-secondary').checked,
       longDesc: $('pf-longdesc').value.trim(),
       assets: currentAssets,
       link: $('pf-link').value.trim(),
@@ -2291,8 +2311,9 @@ body.visual-mode .wrap{ max-width: 1400px; }
   $('filter-search').addEventListener('input', renderProjectList);
   $('filter-ctx').addEventListener('change', renderProjectList);
   $('filter-medium').addEventListener('change', renderProjectList);
+  $('filter-status').addEventListener('change', renderProjectList);
   $('filter-reset-btn').addEventListener('click', function(){
-    $('filter-search').value = ''; $('filter-ctx').value = ''; $('filter-medium').value = '';
+    $('filter-search').value = ''; $('filter-ctx').value = ''; $('filter-medium').value = ''; $('filter-status').value = '';
     renderProjectList();
   });
 
@@ -2751,7 +2772,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
         '.card{ cursor:pointer; position:relative; }' +
         '.card:hover{ outline:2px solid var(--accent-sky); outline-offset:2px; }' +
         // hidden things stay visible in the editor, visibly dimmed
-        '[data-project-hidden], [data-group-hidden], [data-asset-hidden], [data-stage-cta-hidden]{ opacity:0.42; }' +
+        '[data-project-hidden], [data-project-secondary], [data-group-hidden], [data-asset-hidden], [data-stage-cta-hidden]{ opacity:0.42; }' +
         '.ed-badge{ position:absolute; top:8px; left:8px; z-index:5; font-size:10px; font-weight:700;' +
           'letter-spacing:0.06em; text-transform:uppercase; background:rgba(4,6,26,0.85); color:#fff;' +
           'border:1px solid rgba(255,255,255,0.25); border-radius:999px; padding:2px 8px; }' +
@@ -3233,6 +3254,10 @@ body.visual-mode .wrap{ max-width: 1400px; }
           p.hidden = !p.hidden;
           applyAndRefresh();
         }),
+        edButton(doc, 'dim', p.secondary ? 'Remettre ce projet sur l\'accueil et dans son groupe' : 'Rendre secondaire (hors accueil et groupes, visible dans un filtre)', false, function(){
+          p.secondary = !p.secondary;
+          applyAndRefresh();
+        }),
         edButton(doc, p.featured ? 'starFilled' : 'star', p.featured ? 'Retirer des projets mis en avant' : 'Mettre en avant sur l\'accueil', false, function(){
           p.featured = !p.featured;
           applyAndRefresh();
@@ -3254,6 +3279,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
         })
       ]);
       if (p.hidden) edBadge(doc, card, 'masqué');
+      else if (p.secondary) edBadge(doc, card, 'secondaire');
     });
 
     wireGroupCardEditing(doc);
@@ -3415,7 +3441,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       while (state.projects.some(function(x){ return x.id === id; })){ id = base + '-' + n; n++; }
       state.projects.push({
         id: id, title: title.trim(), year: new Date().getFullYear(), ctx: scope,
-        medium: 'graphisme', tags: [], desc: '', featured: false, hidden: false,
+        medium: 'graphisme', tags: [], desc: '', featured: false, hidden: false, secondary: false,
         longDesc: '', assets: [], link: '', thumb: '', subProjects: []
       });
       applyAndRefresh();
