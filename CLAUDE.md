@@ -60,7 +60,7 @@ Projet : `id`, `title`, `year`, `current`, `ctx` (`perso` | `academique` | `stag
 (`image` | `video` | `audio` | `doc` | `web` | `text` | `carousel`), `thumb`, `subProjects[]`, `group`.
 
 Groupe (`site.groups[]`) : `id`, `kicker`, `title`, `desc`, `thumb`, `featured`, `hidden`,
-`socialLinks`. Un projet appartient à au plus un groupe (`project.group`).
+`socialLinks`, `parent` (id du groupe parent, facultatif). Un projet appartient à au plus un groupe (`project.group`).
 Autres clés de `site` : `skills[{group,name,detail}]`, `timeline[]`, `stageCta`, `socialLinks`,
 `favoriProjectId`, `theme`, textes d'accueil.
 
@@ -108,7 +108,7 @@ Statuts d'un projet :
 
 ## État au moment de ce fichier
 
-47 projets (23 visibles, 24 masqués), 6 groupes : Union Oasis Forest, Stage chez En Esprit,
+47 projets (23 visibles, 24 masqués), 7 groupes (dont le sous-groupe Vidéos d’En Esprit) : Union Oasis Forest, Stage chez En Esprit,
 Chloé Ly, Nocturnz, NGC Hub, Daybreak.
 
 **Masqués par choix d'Adam** (laisser masqués) : `ilonka-club`, `montage-video-style-youtube`,
@@ -130,8 +130,7 @@ démasquer) : `ngc-dock-obs`, `ngc-regie-irl-srt`, `daybreak-smp`, `lg-le-villag
 - à terme : rattacher les miniatures et reels
   aux projets de tournage correspondants ; ranger les projets Ilonka (vidéo à part, graphisme à masquer).
 
-**Visibles sans miniature** : `union-oasis-forest-tiktok`, `nocturnz-review`, `nocturnz-todo`,
-`tristejeu` (fond avec icône par défaut).
+**Visibles sans miniature** : `union-oasis-forest-tiktok` (fond avec icône par défaut).
 
 ## Pistes non faites (audit du 31 oct. 2026)
 
@@ -170,7 +169,7 @@ Pièges rencontrés :
 
 - Ajustements locaux demandés après publication : retrait du titre Compétences,
   libellés Graphisme et Vibecoding, groupes et pastilles centrés, espacement augmenté.
-  Versions : CSS `v=28`, script `v=19`. Publication demandée par Adam.
+  Versions : CSS `v=29`, script `v=19`. Publication demandée par Adam.
 - Pastilles de compétences de taille identique : 240 × 52 px, largeur limitée
   au conteneur sur petit écran, texte centré horizontalement et verticalement.
 - Titres Hard skills / Soft skills en Schoolbell (`--font-title`), comme « Curieux de nature »,
@@ -186,3 +185,48 @@ Pièges rencontrés :
   format masquée, médias conservés pour référence. La Haine et Workshops restent masqués.
 - Correction précisée par Adam : la police des titres de skills est celle du titre
   « Curieux de nature, touche-à-tout par passion » (Schoolbell), pas Homemade Apple.
+
+- Relecture locale des descriptions : Nocturnz décrit désormais l’usage des outils
+  (sites de présentation, annotation vidéo, listes partagées, extension Premiere Pro).
+  Descriptions vagues précisées à partir des informations existantes ; VEO développé,
+  Cinematek recentré sur les visuels, tournages En Esprit différenciés.
+  Tous les projets et groupes restent sous 62 caractères. Mise à jour non publiée.
+- Ajustement local suivant : Hard skills à gauche et Soft skills à droite, en deux
+  colonnes ; pastilles de largeur naturelle conservées. Community management retiré
+  des compétences uniquement, à la demande d’Adam. Non publié.
+
+- Groupes imbriqués en local : `parent` relie un groupe à son parent. En Esprit
+  contient le sous-groupe Vidéos, qui contient les cinq tournages visibles.
+  Les cartes du niveau principal restent au niveau racine ; compteurs et aperçus
+  incluent les descendants. Filtres par tag toujours à plat. Retour du sous-groupe
+  vers son parent ; masquage hérité des ancêtres.
+- Admin visuel : création de sous-groupes depuis une page groupe, choix du parent
+  sur les cartes et les pages groupe, cycles interdits. Supprimer un groupe
+  conserve ses sous-groupes et les remonte au niveau supérieur.
+  Script local `v=20`, CSS `v=29`. Non publié.
+- Miniatures : zoom systématique de 15 % dans le cadre, avec débordement masqué,
+  pour remplir les cartes et couper les bandes intégrées aux images YouTube.
+  Même recadrage pour les aperçus animés et les cartes favorites. CSS local `v=30`.
+
+- Miniatures web : format de référence Nocturnz, capture du site dans un cadre
+  arrondi gris, marges et fond noir (1200 × 675 px). Oasis Forest, Review, Todo et
+  TristeJeu disposent de nouvelles captures WebP. Les cartes web et groupes web
+  conservent ces marges (sans zoom ni dégradé par-dessus la capture).
+  Les outils masqués sans URL ni interface fournie restent à illustrer.
+- TristeJeu reste une seule fiche, lien https://tristejeu.web.app/ fourni par Adam,
+  avec cinq sections : TristeParty, Qui De Nous ?, Loup-Garou, Qui suis-je ?, WA7AD.
+  Liste et règles vérifiées dans le catalogue public de la version en ligne ;
+  aucune modification du dépôt TristeJeu. Captures de jeux à fournir ensuite.
+  Versions locales CSS `v=31`, script `v=21`. Non publié.
+- Vérification locale : les cinq projets web visibles ont une miniature ; la fiche
+  TristeJeu affiche les cinq jeux et leur description. Aucun salon créé et aucun
+  son déclenché pendant les captures.
+
+## Lot de publication autorisé — 31 octobre 2026
+
+Descriptions clarifiées, skills en deux colonnes sans Community management,
+En Esprit → Vidéos, zoom des miniatures hors Web, captures web encadrées,
+fiche TristeJeu avec cinq jeux. Versions finales : CSS `v=32`, script `v=21`.
+Fetch sans divergence ; syntaxe, données, versions HTML et scénarios de groupes
+vérifiés. Rendu public vérifié en local ; enregistrement GitHub de l’admin non testé.
+Ce lot remplace le statut « non publié » des étapes locales ci-dessus.

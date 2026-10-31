@@ -97,6 +97,16 @@
         ]
       },
       {
+        "id": "en-esprit-videos",
+        "parent": "en-esprit",
+        "kicker": "Stage chez En Esprit",
+        "title": "Vidéos",
+        "desc": "Tournages et montage · interviews, concerts, coulisses",
+        "thumb": "images/thumbs/esprit-soolking.webp",
+        "featured": false,
+        "hidden": false
+      },
+      {
         "id": "chloe-ly-videos",
         "kicker": "Créatrice de contenu",
         "title": "Chloé Ly",
@@ -108,7 +118,7 @@
         "id": "nocturnz",
         "kicker": "Produit",
         "title": "Nocturnz",
-        "desc": "Portfolio, review vidéo, todo, extension de montage",
+        "desc": "Outils pour présenter, organiser et partager ses projets",
         "thumb": "images/thumbs/nocturnz-portfolio-en-ligne-miniature-1790900861949-0.webp",
         "featured": false
       },
@@ -171,11 +181,6 @@
         "group": "Hard skills",
         "name": "Mixage audio",
         "detail": "Écriture, enregistrement, mixage chant/rap, podcast."
-      },
-      {
-        "group": "Hard skills",
-        "name": "Community management",
-        "detail": "Ligne éditoriale, publications, veille et animation de communautés."
       },
       {
         "group": "Hard skills",
@@ -307,7 +312,7 @@
         "Réseaux sociaux",
         "Stratégie digitale"
       ],
-      "desc": "+2 M de vues cumulées · saison 25-26",
+      "desc": "Création de vidéos · +2 M de vues cumulées en 2025-2026",
       "featured": false,
       "assets": [
         {
@@ -390,7 +395,7 @@
       "group": "union-oasis-forest",
       "link": "https://oasisforest.be",
       "embed": true,
-      "thumb": "images/thumbs/union-oasis-forest-site-web.webp"
+      "thumb": "images/thumbs/union-oasis-forest-site-web-web-frame.webp"
     },
     {
       "id": "nocturnz-portfolio",
@@ -403,7 +408,7 @@
         "Développement web",
         "Produit"
       ],
-      "desc": "En ligne · sans abonnement, sans code",
+      "desc": "Création de sites pour présenter ses réalisations · sans code",
       "longDesc": "Service qui permet à chacun d'avoir son portfolio en ligne, sans abonnement et sans une ligne de code.",
       "featured": false,
       "link": "https://nocturnz.xyz",
@@ -434,7 +439,7 @@
       "tags": [
         "Événementiel"
       ],
-      "desc": "Organisation et animation",
+      "desc": "Animation de tournois · accueil et information du public",
       "featured": false,
       "assets": [
         {
@@ -558,7 +563,7 @@
         "Graphisme",
         "Miniature"
       ],
-      "desc": "Pensées pour le taux de clic",
+      "desc": "Visuels de couverture pour vidéos",
       "featured": false,
       "longDesc": "",
       "link": "",
@@ -666,7 +671,7 @@
       "tags": [
         "Campagne 360"
       ],
-      "desc": "Campagne de sensibilisation aux VEO",
+      "desc": "Sensibilisation aux violences supposément éducatives",
       "featured": false,
       "hidden": false,
       "longDesc": "Dans le cadre du projet 2 à l'ISFSC, nous avons dû réaliser une campagne 360° fictive pour un émetteur donné. Nous avons travaillé sur une campagne de sensibilisation aux violences supposément éducatives pour la DEI-Belgique.",
@@ -781,7 +786,7 @@
         "Graphisme",
         "Identité visuelle"
       ],
-      "desc": "Design graphique",
+      "desc": "Identité graphique · support de contact",
       "featured": false,
       "thumb": "images/thumbs/carte-de-visite-echo-nexus-miniature-1787840494032-0.webp",
       "assets": [
@@ -847,7 +852,7 @@
       "tags": [
         "Événementiel"
       ],
-      "desc": "Conception d'un événement",
+      "desc": "Visuels de communication pour un événement culturel",
       "featured": false,
       "thumb": "images/thumbs/projet-evenementiel-cinematek-miniature-1787835145937-0.webp",
       "assets": [
@@ -986,7 +991,7 @@
       "tags": [
         "Montage vidéo"
       ],
-      "desc": "Montage vidéo · stage",
+      "desc": "Montage vidéo · présentation de l’EP",
       "longDesc": "",
       "featured": false,
       "hidden": false,
@@ -1001,7 +1006,7 @@
       ],
       "thumb": "images/thumbs/esprit-meesyz.webp",
       "subProjects": [],
-      "group": "en-esprit"
+      "group": "en-esprit-videos"
     },
     {
       "id": "esprit-sins-sdm",
@@ -1013,7 +1018,7 @@
       "tags": [
         "Montage vidéo"
       ],
-      "desc": "Montage vidéo · stage",
+      "desc": "Montage vidéo · immersion dans les coulisses",
       "longDesc": "",
       "featured": false,
       "hidden": false,
@@ -1028,7 +1033,7 @@
       ],
       "thumb": "images/thumbs/esprit-sins-sdm.webp",
       "subProjects": [],
-      "group": "en-esprit"
+      "group": "en-esprit-videos"
     },
     {
       "id": "esprit-mallaury",
@@ -1040,7 +1045,7 @@
       "tags": [
         "Montage vidéo"
       ],
-      "desc": "Montage vidéo · stage",
+      "desc": "Montage vidéo · parcours d’une artiste dans la musique",
       "longDesc": "",
       "featured": false,
       "hidden": false,
@@ -1055,7 +1060,7 @@
       ],
       "thumb": "images/thumbs/esprit-mallaury.webp",
       "subProjects": [],
-      "group": "en-esprit"
+      "group": "en-esprit-videos"
     },
     {
       "id": "esprit-udeyfa",
@@ -1067,7 +1072,7 @@
       "tags": [
         "Montage vidéo"
       ],
-      "desc": "Montage vidéo · stage",
+      "desc": "Montage vidéo · parcours personnel et musical",
       "longDesc": "",
       "featured": false,
       "hidden": false,
@@ -1082,7 +1087,7 @@
       ],
       "thumb": "images/thumbs/esprit-udeyfa.webp",
       "subProjects": [],
-      "group": "en-esprit"
+      "group": "en-esprit-videos"
     },
     {
       "id": "montage-video-long-format",
@@ -1347,7 +1352,7 @@
         "Graphisme",
         "Logo"
       ],
-      "desc": "Pour un besoin interne",
+      "desc": "Identité graphique · usage interne",
       "featured": false,
       "hidden": false,
       "longDesc": "",
@@ -1450,7 +1455,7 @@
         "Graphisme",
         "Pochette d'album"
       ],
-      "desc": "Visuels pour projets rap",
+      "desc": "Visuels destinés aux sorties musicales",
       "featured": false,
       "assets": [
         {
@@ -1657,14 +1662,14 @@
         "Outil",
         "Développement web"
       ],
-      "desc": "Retours à l'image près · clients sans compte",
+      "desc": "Outil d’annotation vidéo · commentaires clients sans compte",
       "longDesc": "Retours à l'image près sur des vidéos : les clients commentent sans créer de compte, les fichiers restent dans le stockage de l'utilisateur.",
       "featured": false,
       "hidden": false,
       "link": "https://nocturnz.xyz/review/",
       "embed": false,
       "assets": [],
-      "thumb": "",
+      "thumb": "images/thumbs/nocturnz-review-web-frame.webp",
       "subProjects": [],
       "group": "nocturnz"
     },
@@ -1679,14 +1684,14 @@
         "Outil",
         "Développement web"
       ],
-      "desc": "Todo et wishlist partagées · tous appareils",
+      "desc": "Listes de tâches et d’envies · partage et synchronisation",
       "longDesc": "Todo et Wishlist rangées par catégories, synchronisées sur tous les appareils et partageables par e-mail. Faite d'abord pour ma propre organisation.",
       "featured": false,
       "hidden": false,
       "link": "https://nocturnz.xyz/todo/",
       "embed": false,
       "assets": [],
-      "thumb": "",
+      "thumb": "images/thumbs/nocturnz-todo-web-frame.webp",
       "subProjects": [],
       "group": "nocturnz"
     },
@@ -1701,7 +1706,7 @@
         "Outil",
         "Montage vidéo"
       ],
-      "desc": "Extension Premiere Pro · silences, sous-titres, local",
+      "desc": "Extension Premiere Pro · coupe des silences et sous-titrage",
       "longDesc": "Extension open source pour Adobe Premiere Pro, en développement : nettoyage des silences, transcription, sous-titres et réalisation dans un seul outil, avec traitements locaux.",
       "featured": false,
       "hidden": true,
@@ -1745,7 +1750,7 @@
         "Outil",
         "Stream"
       ],
-      "desc": "Flux SRT vers OBS · stream Twitch",
+      "desc": "Transmission vidéo vers OBS pour diffuser sur Twitch",
       "longDesc": "Régie pour streamer en IRL : flux SRT vers OBS, utilisée sur ma chaîne Twitch.",
       "featured": false,
       "hidden": true,
@@ -1811,7 +1816,7 @@
         "Outil",
         "Développement web"
       ],
-      "desc": "Relié à Notion · sans toucher au code",
+      "desc": "Gestion des contenus du club · connexion à Notion",
       "longDesc": "Outil interne relié à Notion pour gérer le site du club sans toucher au code.",
       "featured": false,
       "hidden": true,
@@ -1890,7 +1895,7 @@
       ],
       "thumb": "images/thumbs/esprit-soolking.webp",
       "subProjects": [],
-      "group": "en-esprit"
+      "group": "en-esprit-videos"
     },
     {
       "id": "esprit-la-haine",
@@ -2028,15 +2033,56 @@
         "Jeu",
         "Développement web"
       ],
-      "desc": "Party games, arcade et quiz réunis",
-      "longDesc": "Projet de jeux web en cours : party games, arcade et quiz réunis sur une seule plateforme.",
+      "desc": "Jeux multijoueurs en ligne · salons entre amis",
+      "longDesc": "Plateforme de jeux multijoueurs en ligne, avec création de salons pour jouer entre amis. Chaque jeu dispose de ses règles et de ses paramètres.",
       "featured": false,
       "hidden": false,
-      "link": "",
+      "link": "https://tristejeu.web.app/",
       "embed": false,
       "assets": [],
-      "thumb": "",
-      "subProjects": []
+      "thumb": "images/thumbs/tristejeu-web-frame.webp",
+      "subProjects": [
+        {
+          "id": "tristeparty",
+          "title": "TristeParty",
+          "medium": "",
+          "desc": "Quiz, swipe et dessin · correction en groupe",
+          "assets": [],
+          "link": ""
+        },
+        {
+          "id": "quidenous",
+          "title": "Qui De Nous ?",
+          "medium": "",
+          "desc": "Notes de 0 à 10 · deviner la moyenne du groupe",
+          "assets": [],
+          "link": ""
+        },
+        {
+          "id": "loupgarou",
+          "title": "Loup-Garou",
+          "medium": "",
+          "desc": "Rôles secrets · composition du paquet et règles intégrées",
+          "assets": [],
+          "link": ""
+        },
+        {
+          "id": "quiestce",
+          "title": "Qui suis-je ?",
+          "medium": "",
+          "desc": "Duel de personnages à deviner · élimination de cartes",
+          "assets": [],
+          "link": ""
+        },
+        {
+          "id": "wa7ad",
+          "title": "WA7AD",
+          "medium": "",
+          "desc": "Jeu de cartes · règles et extensions configurables",
+          "assets": [],
+          "link": ""
+        }
+      ]
     }
   ]
 }

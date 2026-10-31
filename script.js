@@ -80,6 +80,35 @@
     return (site && Array.isArray(site.groups)) ? site.groups : [];
   }
 
+  // Parcours borné des parents : les cycles restent sans effet sur le rendu.
+  function groupWithin(site, id, ancestor){
+    var seen = {};
+    while (id && !seen[id]){
+      if (id === ancestor) return true;
+      seen[id] = true;
+      var g = groupsOf(site).filter(function(x){ return x.id === id; })[0];
+      id = g && g.parent;
+    }
+    return false;
+  }
+
+  function groupVisible(site, id){
+    var seen = {};
+    while (id){
+      if (seen[id]) return false;
+      seen[id] = true;
+      var g = groupsOf(site).filter(function(x){ return x.id === id; })[0];
+      if (!g) return true;
+      if (g.hidden) return false;
+      id = g.parent;
+    }
+    return true;
+  }
+
+  function groupProjects(site, projects, id){
+    return projects.filter(function(p){ return groupWithin(site, p.group, id); });
+  }
+
   // the thumbnail image: an explicitly chosen one wins, otherwise the first
   // image of the project, otherwise nothing (the generated CSS pattern shows).
   // Assets are the unified model (images / videos / audio, each hideable).
@@ -153,7 +182,7 @@
         tipAttr(p.desc) +
         (p.preview ? ' data-preview="' + String(p.preview).replace(/"/g, '&quot;') + '"' : '') +
         ' style="transition-delay:' + ((i % 8) * 40) + 'ms">' +
-        '<div class="thumb' + (thumb ? ' has-img' : '') + '">' +
+        '<div class="thumb' + (thumb ? ' has-img' : '') + (thumb && p.medium === 'web' ? ' web-frame' : '') + '">' +
           (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy">' : '') +
           '<span class="year">' + projectPeriod(p) + '</span>' +
           (thumb ? '' : '<span class="icon">' + (icons[p.medium] || '') + '</span>') +
@@ -337,13 +366,13 @@
     if (!container) return;
     // un groupe favori prime sur un projet favori — les deux champs sont
     // mutuellement exclusifs, voir admin.html
-    var g = groupsOf(site).filter(function(x){ return x.id === site.favoriGroupId && !x.hidden; })[0];
+    var g = groupsOf(site).filter(function(x){ return x.id === site.favoriGroupId && groupVisible(site, x.id); })[0];
     if (g){
-      var membres = projects.filter(function(x){ return enAccueil(x) && x.group === g.id; });
+      var membres = groupProjects(site, projects.filter(function(x){ return enAccueil(x) && groupVisible(site, x.group); }), g.id);
       applyFavoriGroup(container, g, membres);
       return;
     }
-    var shown = projects.filter(function(x){ return !x.hidden; });
+    var shown = projects.filter(function(x){ return !x.hidden && groupVisible(site, x.group); });
     var p = shown.filter(function(x){ return x.id === site.favoriProjectId; })[0] || shown.filter(enAccueil)[0] || shown[0];
     if (!p){ container.closest('.projects-section').style.display = 'none'; return; }
     var thumb = thumbSrc(p);
@@ -353,7 +382,7 @@
     container.setAttribute('data-project-id', p.id);
     container.removeAttribute('data-group-id');
     container.innerHTML =
-      '<div class="thumb' + (thumb ? ' has-img' : '') + '">' +
+      '<div class="thumb' + (thumb ? ' has-img' : '') + (thumb && p.medium === 'web' ? ' web-frame' : '') + '">' +
         (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy">' : '') +
         '<span class="year">' + projectPeriod(p) + '</span>' +
         (thumb ? '' : '<span class="icon">' + (icons[p.medium] || '') + '</span>') +
@@ -377,7 +406,7 @@
     container.setAttribute('data-group-id', g.id);
     container.removeAttribute('data-project-id');
     container.innerHTML =
-      '<div class="thumb' + (thumb ? ' has-img' : '') + '">' +
+      '<div class="thumb' + (thumb ? ' has-img' : '') + (thumb && list.some(function(p){ return p.medium === 'web'; }) && list.every(function(p){ return p.hidden || p.medium === 'web'; }) ? ' web-frame' : '') + '">' +
         (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + g.title + '" loading="lazy">' : '') +
         '<span class="period">' + groupPeriod(list) + '</span>' +
         '<span class="year">' + n + ' projet' + (n > 1 ? 's' : '') + '</span>' +
@@ -758,7 +787,7 @@
     // normally the id comes from the query string; a preview frame with no
     // URL of its own (the admin's visual editor) passes it in directly.
     var id = window.__PROJECT_ID__ || new URLSearchParams(window.location.search).get('id');
-    var p = projects.filter(function(x){ return x.id === id; })[0];
+    var p = projects.filter(function(x){ return x.id === id && (window.__EDIT_MODE__ || (!x.hidden && groupVisible(site, x.group))); })[0];
 
     if (!p){
       document.title = 'Projet introuvable';
@@ -1155,7 +1184,7 @@
         (g.hidden ? ' data-group-hidden="1"' : '') +
         tipAttr(g.desc) +
         ' style="transition-delay:' + ((i % 8) * 40) + 'ms">' +
-        '<div class="thumb' + (thumb ? ' has-img' : '') + '">' +
+        '<div class="thumb' + (thumb ? ' has-img' : '') + (thumb && list.some(function(p){ return p.medium === 'web'; }) && list.every(function(p){ return p.hidden || p.medium === 'web'; }) ? ' web-frame' : '') + '">' +
           (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + g.title + '" loading="lazy">' : '') +
           '<span class="period">' + groupPeriod(list) + '</span>' +
           '<span class="year"' + membersAttr(list) + '>' + list.length + ' projet' + (list.length > 1 ? 's' : '') + '</span>' +
@@ -1213,9 +1242,7 @@
 
       // un groupe masque disparait du site public avec ses projets — en
       // edition il reste visible (dimme) pour pouvoir le demasquer
-      var groupesCaches = {};
-      groupsOf(site).forEach(function(g){ if (g.hidden) groupesCaches[g.id] = true; });
-      if (!window.__EDIT_MODE__) base = base.filter(function(p){ return !(p.group && groupesCaches[p.group]); });
+      if (!window.__EDIT_MODE__) base = base.filter(function(p){ return groupVisible(site, p.group); });
 
       renderTagFilters(site, base);
 
@@ -1236,21 +1263,21 @@
       var pris = {};
       var cartes = [];
       groupsOf(site).forEach(function(g){
-        var tous = shown.filter(function(p){ return p.group === g.id; });
+        var tous = groupProjects(site, shown, g.id);
         // toujours retires des "libres", caches ou non
         tous.forEach(function(p){ pris[p.id] = true; });
-        if (g.hidden && !window.__EDIT_MODE__) return;
+        if (g.parent || (!window.__EDIT_MODE__ && !groupVisible(site, g.id))) return;
         if (!tous.length){
           // des membres existent, juste pas dans ce filtre : le groupe n'a rien
           // a faire ici
-          var existeAilleurs = projects.some(function(p){ return p.group === g.id && !p.hidden; });
+          var existeAilleurs = groupProjects(site, projects, g.id).some(function(p){ return !p.hidden; });
           if (existeAilleurs) return;
           // sinon, groupe vraiment vide : reste visible dans l'editeur
           if (!window.__EDIT_MODE__) return;
         }
         cartes.push({ g: g, list: tous });
       });
-      var libres = shown.filter(function(p){ return !pris[p.id]; });
+      var libres = shown.filter(function(p){ return !p.group && !pris[p.id]; });
 
       host.innerHTML = '<div class="grid">' +
         cartes.map(function(c, i){ return groupCardHTML(c.g, c.list, i); }).join('') +
@@ -1387,28 +1414,35 @@
     var id = window.__GROUP_ID__ ||
       new URLSearchParams(window.location.search).get('id');
     var g = groupsOf(site).filter(function(x){ return x.id === id; })[0];
-    if (!g){
+    if (!g || (!window.__EDIT_MODE__ && !groupVisible(site, g.id))){
       container.innerHTML = '<div class="wrap" style="padding:60px 0;text-align:center;color:var(--text-dim);">Groupe introuvable.</div>';
       return;
     }
     document.title = g.title;
-    var shown = window.__EDIT_MODE__ ? projects : projects.filter(enAccueil);
+    var shown = window.__EDIT_MODE__ ? projects : projects.filter(function(p){ return enAccueil(p) && groupVisible(site, p.group); });
     var list = shown.filter(function(p){ return p.group === g.id; });
+    var children = groupsOf(site).filter(function(child){
+      return child.parent === g.id && (window.__EDIT_MODE__ ||
+        (groupVisible(site, child.id) && groupProjects(site, shown, child.id).length));
+    });
+    var parent = groupsOf(site).filter(function(x){ return x.id === g.parent; })[0];
+    var backHref = parent ? 'groupe.html?id=' + encodeURIComponent(parent.id) : 'projets.html';
+    var backLabel = parent ? 'Retour — ' + parent.title : 'Tous les projets';
     container.innerHTML =
       '<div class="wrap">' +
-        '<a class="pill-btn back-link" href="projets.html">' + UI_ICON.arrowLeft + ' Tous les projets</a>' +
+        '<a class="pill-btn back-link" href="' + backHref + '">' + UI_ICON.arrowLeft + ' ' + backLabel + '</a>' +
         '<div class="section-head">' +
           '<span class="kicker" data-group-kicker>' + (g.kicker || 'Groupe') + '</span>' +
           '<h1 data-group-title>' + titleWithAccent(g.title) + '</h1>' +
           '<p data-group-desc>' + (g.desc || '') + '</p>' +
           ownerSocialHTML(g) +
         '</div>' +
-        '<div class="grid">' + list.map(cardHTML).join('') + '</div>' +
+        '<div class="grid">' + children.map(function(child, i){ return groupCardHTML(child, groupProjects(site, shown, child.id), i); }).join('') + list.map(function(p, i){ return cardHTML(p, children.length + i); }).join('') + '</div>' +
       '</div>';
   }
 
   function renderGrids(site, projects){
-    var shown = window.__EDIT_MODE__ ? projects : projects.filter(enAccueil);
+    var shown = window.__EDIT_MODE__ ? projects : projects.filter(function(p){ return enAccueil(p) && groupVisible(site, p.group); });
     document.querySelectorAll('.grid[data-group]').forEach(function(grid){
       var group = grid.dataset.group;
       if (group === 'featured'){
@@ -1416,8 +1450,8 @@
         // entiers (carte "paquet de cartes") dans l'ordre ou ils sont marques
         var entries = [];
         groupsOf(site).forEach(function(g){
-          if (!g.featured || (g.hidden && !window.__EDIT_MODE__)) return;
-          entries.push({ g: g, list: shown.filter(function(p){ return p.group === g.id; }) });
+          if (!g.featured || (!window.__EDIT_MODE__ && !groupVisible(site, g.id))) return;
+          entries.push({ g: g, list: groupProjects(site, shown, g.id) });
         });
         var featuredProjects = shown.filter(function(p){ return p.featured; });
         grid.innerHTML =

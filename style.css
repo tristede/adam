@@ -374,7 +374,7 @@ section.projects-section{
 .card.in{ opacity:1; transform:none; }
 .card:hover{ transform: scale(1.03); box-shadow: 0 22px 44px -22px rgba(0,0,10,0.9); border-color: transparent; }
 .card .thumb{
-  aspect-ratio: 16/10; position:relative;
+  aspect-ratio: 16/10; position:relative; overflow:hidden;
   background: repeating-linear-gradient(90deg, #10164a 0 11%, #0c1140 11% 22%, #10164a 22% 33%, #161d5c 33% 44%, #10164a 44% 55%, #0c1140 55% 66%, #10164a 66% 77%, #161d5c 77% 88%, #10164a 88% 100%);
   display:flex; align-items:center; justify-content:center;
   border-bottom: 1px solid var(--card-border);
@@ -387,11 +387,16 @@ section.projects-section{
 /* a real thumbnail image sits under the same dark gradient the generated
    pattern gets, so the year/medium chips stay readable on any photo */
 .thumb-img{
-  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.15); z-index:0;
 }
 .thumb.has-img::before{
   background: linear-gradient(180deg, rgba(8,11,48,0.05), rgba(8,11,48,0.62));
 }
+/* Les captures web ont déjà leur cadre et leurs marges dans la miniature. */
+.card .thumb.web-frame, .favori-card .thumb.web-frame{ background:#000; }
+.thumb.web-frame .thumb-img, .thumb.web-frame .thumb-preview{ object-fit:contain; transform:none; }
+.card .thumb.web-frame::before, .favori-card .thumb.web-frame::before{ background:none; }
+
 .card .thumb .medium-label{
   position:absolute; bottom:10px; left:12px; z-index:2;
   font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; font-weight:600;
@@ -426,7 +431,7 @@ section.projects-section{
   transition: opacity .15s ease, transform .15s ease;
 }
 .card-tip.is-on{ opacity: 1; transform: none; }
-.thumb-preview{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+.thumb-preview{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.15); display:block; }
 .card-group .year[data-members]{ cursor: default; }
 .group-preview{
   position: fixed; z-index: 300; width: 270px; padding: 12px 14px;
@@ -854,7 +859,7 @@ section.projects-section{
 }
 .favori-card:hover .pill-btn{ background: var(--accent-soft); }
 .favori-card .thumb{
-  position:relative; min-height:280px;
+  position:relative; min-height:280px; overflow:hidden;
   background: repeating-linear-gradient(90deg, #10164a 0 11%, #0c1140 11% 22%, #10164a 22% 33%, #161d5c 33% 44%, #10164a 44% 55%, #0c1140 55% 66%, #10164a 66% 77%, #161d5c 77% 88%, #10164a 88% 100%);
   display:flex; align-items:center; justify-content:center;
 }
@@ -888,6 +893,7 @@ section.projects-section{
 .about-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items:start; }
 .about-lede{ font-family: var(--font-script); font-weight:400; font-size: 22px; color: var(--text); line-height:1.4; }
 .about-lede + .about-lede{ margin-top: 14px; color: var(--text-dim); font-size:19px; }
+#js-skills{ display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:24px; min-width:0; }
 .skill-block{ margin-bottom: 18px; }
 .skill-block h4{ font-family:var(--font-title); font-size:20px; font-weight:400; letter-spacing:0; text-transform:none; line-height:1.6; color: var(--accent-sky); margin: 0 0 12px; }
 .skill-card{
@@ -898,6 +904,7 @@ section.projects-section{
 .skill-card .detail{ font-size: 13px; color: var(--text-dim); line-height:1.5; }
 .skill-chips{ display:flex; flex-direction:column; align-items:flex-start; gap:10px; }
 .skill-chip{
+  box-sizing:border-box; max-width:100%;
   background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);
   padding: 10px 18px; font-weight:600; font-size: 14.5px;
 }

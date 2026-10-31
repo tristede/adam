@@ -1635,11 +1635,46 @@ body.visual-mode .wrap{ max-width: 1400px; }
     return state.site.groups;
   }
 
+  function groupPath(g){
+    var titles = [], seen = {};
+    while (g && !seen[g.id]){
+      seen[g.id] = true; titles.unshift(g.title || g.id);
+      var parent = g.parent;
+      g = siteGroups().filter(function(x){ return x.id === parent; })[0];
+    }
+    return titles.join(' / ');
+  }
+
+  function canParentGroup(g, candidate){
+    var seen = {};
+    while (candidate){
+      if (candidate.id === g.id || seen[candidate.id]) return false;
+      seen[candidate.id] = true;
+      var parent = candidate.parent;
+      candidate = siteGroups().filter(function(x){ return x.id === parent; })[0];
+    }
+    return true;
+  }
+
+  function editGroupParent(g){
+    var choices = siteGroups().filter(function(x){ return canParentGroup(g, x); });
+    var value = prompt('Ranger « ' + g.title + ' » dans quel groupe ?\n0. Aucun — groupe principal\n' +
+      choices.map(function(x, i){ return (i + 1) + '. ' + groupPath(x); }).join('\n'),
+      String(g.parent ? choices.findIndex(function(x){ return x.id === g.parent; }) + 1 : 0));
+    if (value === null) return;
+    if (!/^\d+$/.test(value.trim())) return;
+    var n = Number(value);
+    if (n === 0) delete g.parent;
+    else if (choices[n - 1]) g.parent = choices[n - 1].id;
+    else return;
+    applyAndRefresh();
+  }
+
   function refreshGroupOptions(selected){
     var sel = $('pf-group');
     var html = '<option value="">Aucun — projet indépendant</option>' +
       siteGroups().map(function(g){
-        return '<option value="' + escapeHtml(g.id) + '">' + escapeHtml(g.title || g.id) + '</option>';
+        return '<option value="' + escapeHtml(g.id) + '">' + escapeHtml(groupPath(g)) + '</option>';
       }).join('');
     sel.innerHTML = html;
     sel.value = selected || '';
@@ -3399,6 +3434,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
           pendingUpload = { owner: g, hint: g.title + '-miniature', thumbOnly: true };
           $('visual-image-upload').click();
         }),
+        edButton(doc, 'folder', 'Changer le groupe parent', false, function(){ editGroupParent(g); }),
         edButton(doc, 'close', 'Supprimer ce groupe', true, function(){
           deleteGroup(g);
         })
@@ -3413,10 +3449,13 @@ body.visual-mode .wrap{ max-width: 1400px; }
   function deleteGroup(g, afterDelete){
     var groups = siteGroups();
     var membres = state.projects.filter(function(p){ return p.group === g.id; });
+    var enfants = groups.filter(function(x){ return x.parent === g.id; });
     var msg = membres.length
       ? 'Supprimer le groupe « ' + g.title + ' » ?\n\n' + membres.length + ' projet(s) redeviendront indépendants (retirés du groupe, pas supprimés).'
       : 'Supprimer le groupe « ' + g.title + ' » ?';
+    if (enfants.length) msg += '\n' + enfants.length + ' sous-groupe(s) seront conservés et remontés au niveau supérieur.';
     if (!confirm(msg)) return;
+    enfants.forEach(function(child){ if (g.parent) child.parent = g.parent; else delete child.parent; });
     membres.forEach(function(p){ delete p.group; });
     groups.splice(groups.indexOf(g), 1);
     if (afterDelete) afterDelete();
@@ -3485,8 +3524,26 @@ body.visual-mode .wrap{ max-width: 1400px; }
       function(){ return g.desc || ''; }, function(v){ g.desc = v; }, true);
     wireOwnerSocial(doc, g);
 
+    var bar = doc.createElement('div');
+    bar.className = 'ed-addbar';
+    var add = doc.createElement('button');
+    add.type = 'button'; add.className = 'ed-add'; add.textContent = '+ Sous-groupe';
+    add.addEventListener('click', function(e){
+      e.preventDefault();
+      var title = prompt('Titre du sous-groupe :', '');
+      if (!title || !title.trim()) return;
+      title = title.trim();
+      var base = slugify(title) || 'groupe', id = base, n = 2;
+      while (groups.some(function(x){ return x.id === id; })) id = base + '-' + n++;
+      groups.push({ id: id, parent: g.id, kicker: '', title: title, desc: '', thumb: '' });
+      applyAndRefresh();
+    });
+    bar.appendChild(add);
+    doc.querySelector('#js-group-detail .wrap').appendChild(bar);
+
     var head = doc.querySelector('.section-head');
     edTools(doc, head, [
+      edButton(doc, 'folder', 'Changer le groupe parent', false, function(){ editGroupParent(g); }),
       edButton(doc, 'close', 'Supprimer ce groupe', true, function(){
         deleteGroup(g, function(){ visualNav = { page: 'projets.html', projectId: null }; });
       })

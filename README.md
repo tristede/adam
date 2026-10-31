@@ -28,6 +28,11 @@ avec effet de décryptage. Positionnement : créatif volatile / enfant d’inter
   l'admin (sur la fiche d'un projet, ou dans sa propre page en vue visuelle) —
   supprimer un groupe ne supprime jamais ses projets, qui redeviennent
   indépendants.
+  Les groupes peuvent être imbriqués via leur champ `parent` : par exemple
+  En Esprit → Vidéos → une fiche par tournage. Le retour remonte au parent,
+  les compteurs incluent les descendants et les filtres par tag restent à plat.
+  La vue visuelle permet de créer un sous-groupe et de changer son parent ;
+  une suppression conserve les sous-groupes et les remonte au niveau supérieur.
 - **`projet.html`** — la page détail d'un projet (`projet.html?id=...`),
   ouverte en cliquant sur n'importe quelle vignette — voir plus bas.
 - **`admin.html`** — le panneau d'édition (voir plus bas).
