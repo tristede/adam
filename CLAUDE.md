@@ -108,7 +108,7 @@ Statuts d'un projet :
 
 ## État au moment de ce fichier
 
-60 projets (37 visibles, 23 masqués), 11 groupes :
+69 projets (42 visibles, 27 masqués), 11 groupes :
 Union Oasis Forest, En Esprit et Vidéos, Chloé Ly, Nocturnz, NGC Hub, Daybreak,
 Projet 360° : DEI-Belgique, TristeJeu, Identité visuelle d’Echo Nexus, AdamXBC.
 
