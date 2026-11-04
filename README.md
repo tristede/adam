@@ -65,6 +65,8 @@ d'édition. Il te permet de :
   perso / académique / stage —, médium — graphisme, vidéo, audio, **site web**,
   réseaux sociaux, événementiel, écrit —, tags, description, et s'il est "mis
   en avant" sur l'accueil).
+- Les nouveaux projets et groupes portent automatiquement un badge **NEW**
+  pendant 30 jours ; la date `newUntil` est conservée quand tu modifies la fiche.
 
 ### Deux vues : Formulaire et Vue visuelle
 

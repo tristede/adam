@@ -175,6 +175,17 @@
     return desc ? ' data-tip="' + String(desc).replace(/&/g, '&amp;').replace(/"/g, '&quot;') + '"' : '';
   }
 
+  function recentlyAdded(item){
+    if (!item || !/^\d{4}-\d{2}-\d{2}$/.test(item.newUntil || '')) return false;
+    var now = new Date();
+    var today = [now.getFullYear(), String(now.getMonth() + 1).padStart(2, '0'), String(now.getDate()).padStart(2, '0')].join('-');
+    return item.newUntil >= today;
+  }
+
+  function newBadge(item){
+    return recentlyAdded(item) ? '<span class="card-new-badge" aria-label="Projet récemment ajouté">NEW</span>' : '';
+  }
+
   function cardHTML(p, i){
     var thumb = thumbSrc(p);
     return (
@@ -191,6 +202,7 @@
           '<span class="medium-label">' + (mediumLabel[p.medium] || p.medium) + '</span>' +
         '</div>' +
         '<div class="card-body">' +
+          newBadge(p) +
           (p.id === favoriId
             ? '<span class="card-featured-label is-favori">' + UI_ICON.heart + ' Projet favori</span>'
             : (p.featured ? '<span class="card-featured-label">' + UI_ICON.star + ' Mis en avant</span>' : '')) +
@@ -1256,6 +1268,7 @@
           '<span class="medium-label">Groupe</span>' +
         '</div>' +
         '<div class="card-body">' +
+          newBadge(g) +
           (g.id === favoriGroupId
             ? '<span class="card-featured-label is-favori">' + UI_ICON.heart + ' Groupe favori</span>'
             : (g.featured ? '<span class="card-featured-label">' + UI_ICON.star + ' Mis en avant</span>' : '')) +
@@ -1514,7 +1527,6 @@
     grid.setAttribute('aria-label', 'Projets mis en avant');
     grid.setAttribute('tabindex', '0');
     if (window.__EDIT_MODE__) return;
-
     var originals = Array.prototype.slice.call(grid.children);
     // Rien à faire défiler si toutes les cartes tiennent dans la grille.
     if (!originals.length || grid.scrollWidth <= grid.clientWidth + 1) return;
@@ -1523,6 +1535,8 @@
       clone.setAttribute('aria-hidden', 'true');
       if (clone.matches('a, button, input, [tabindex]')) clone.setAttribute('tabindex', '-1');
       clone.querySelectorAll('a, button, input, [tabindex]').forEach(function(el){ el.setAttribute('tabindex', '-1'); });
+      if (clone.matches('.card')) clone.classList.add('in');
+      clone.querySelectorAll('.card').forEach(function(card){ card.classList.add('in'); });
       return clone;
     }
     var before = document.createDocumentFragment(), after = document.createDocumentFragment();
@@ -1535,7 +1549,7 @@
     var cycle = cycleWidth();
     grid.scrollLeft = cycle;
     var startX = 0, startScroll = 0, active = false, moved = false;
-    var autoPos = cycle, previous = 0, resumeAfter = 0, touching = false;
+    var autoPos = cycle, previous = 0, resumeAfter = 0, touching = false, touchActive = false;
     function normalize(){
       var width = cycleWidth();
       if (!width) return;
@@ -1548,7 +1562,7 @@
     function suspendAuto(){ resumeAfter = performance.now() + 4000; }
     grid.addEventListener('scroll', normalize, { passive:true });
     grid.addEventListener('pointerdown', function(e){
-      touching = true; suspendAuto();
+      touching = true; if (e.pointerType === 'touch') touchActive = true; suspendAuto();
       if (e.pointerType !== 'mouse' || e.button !== 0) return;
       active = true; moved = false; startX = e.clientX; startScroll = grid.scrollLeft;
     });
@@ -1562,9 +1576,13 @@
     });
     window.addEventListener('pointerup', function(){
       active = false; grid.classList.remove('is-dragging');
-      if (touching){ touching = false; suspendAuto(); }
+      if (touching){ touching = touchActive; suspendAuto(); }
     });
-    window.addEventListener('pointercancel', function(){ active = false; touching = false; grid.classList.remove('is-dragging'); suspendAuto(); });
+    window.addEventListener('pointercancel', function(){ active = false; touching = touchActive; grid.classList.remove('is-dragging'); suspendAuto(); });
+    grid.addEventListener('touchstart', function(){ touchActive = true; touching = true; suspendAuto(); }, { passive:true });
+    function finishTouch(){ touchActive = false; touching = false; suspendAuto(); }
+    grid.addEventListener('touchend', finishTouch, { passive:true });
+    grid.addEventListener('touchcancel', finishTouch, { passive:true });
     grid.addEventListener('wheel', suspendAuto, { passive:true });
     grid.addEventListener('keydown', suspendAuto);
     grid.addEventListener('dragstart', function(e){ e.preventDefault(); });

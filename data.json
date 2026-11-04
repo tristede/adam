@@ -177,6 +177,16 @@
         "thumb": "images/dei-echonexus-logo.webp",
         "featured": false,
         "hidden": false
+      },
+      {
+        "id": "adamxbc",
+        "kicker": "Création en ligne",
+        "title": "AdamXBC",
+        "desc": "Streaming · TikTok · page de liens",
+        "thumb": "",
+        "featured": false,
+        "pageDesc": "Mes activités en ligne autour du streaming et des formats courts.",
+        "newUntil": "2026-12-04"
       }
     ],
     "theme": {
@@ -2128,15 +2138,23 @@
       "tags": [
         "Vidéo"
       ],
-      "desc": "Tournée le 9 octobre",
-      "longDesc": "",
+      "desc": "Tournage · 9 octobre 2026",
+      "longDesc": "Images tournées à Bruxelles pendant la manifestation du 9 octobre 2026.",
       "featured": false,
-      "hidden": true,
+      "hidden": false,
       "link": "",
       "embed": false,
-      "assets": [],
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=4NEu4Gj9F0c",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
       "thumb": "",
-      "subProjects": []
+      "subProjects": [],
+      "newUntil": "2026-12-04"
     },
     {
       "id": "tristejeu-tristeparty",
@@ -2638,6 +2656,103 @@
       "thumb": "images/dei-echonexus-logo.webp",
       "subProjects": [],
       "group": "dei-identite-visuelle"
+    },
+    {
+      "id": "adamxbc-linktree",
+      "title": "Linktree",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "social",
+      "tags": [
+        "Linktree"
+      ],
+      "desc": "Réseaux et projets · liens réunis sur une page",
+      "longDesc": "Page qui rassemble mes comptes et mes espaces en ligne.",
+      "featured": false,
+      "hidden": false,
+      "link": "https://adamxbc.be/",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "adamxbc",
+      "newUntil": "2026-12-04"
+    },
+    {
+      "id": "adamxbc-twitch",
+      "title": "Twitch",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "social",
+      "tags": [
+        "Twitch",
+        "Streaming"
+      ],
+      "desc": "Chaîne affiliée · streaming en direct",
+      "longDesc": "Chaîne Twitch affiliée sous le nom AdamXBC.",
+      "featured": false,
+      "hidden": false,
+      "link": "https://twitch.tv/adamxbc",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "adamxbc",
+      "newUntil": "2026-12-04"
+    },
+    {
+      "id": "adamxbc-tiktok-quick",
+      "title": "TikTok Quick",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "social",
+      "tags": [
+        "TikTok",
+        "Format court"
+      ],
+      "desc": "Vidéo courte · 30 000 vues",
+      "longDesc": "Une vidéo TikTok Quick a atteint 30 000 vues.",
+      "featured": false,
+      "hidden": false,
+      "link": "https://www.tiktok.com/@adamxbc",
+      "embed": false,
+      "assets": [],
+      "thumb": "",
+      "subProjects": [],
+      "group": "adamxbc",
+      "newUntil": "2026-12-04"
+    },
+    {
+      "id": "chloe-ly-lossa",
+      "title": "ITW : LOSSA",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "video",
+      "tags": [
+        "Vidéo"
+      ],
+      "desc": "Interview · 23 octobre 2026",
+      "longDesc": "Interview de Lossa publiée sur la chaîne YouTube de Chloé Ly le 23 octobre 2026.",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=gB0IrfJxV0c",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
+      "thumb": "",
+      "subProjects": [],
+      "group": "chloe-ly-videos",
+      "newUntil": "2026-12-04"
     }
   ]
 }

@@ -1143,6 +1143,11 @@ body.visual-mode .wrap{ max-width: 1400px; }
       .normalize('NFD').replace(/[̀-ͯ]/g, '')
       .replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'projet';
   }
+  function newUntilDate(){
+    var date = new Date();
+    date.setDate(date.getDate() + 30);
+    return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-');
+  }
   function uniqueId(base){
     var id = base, n = 2;
     var existingIds = state.projects.map(function(p){ return p.id; });
@@ -1700,7 +1705,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
     var groups = siteGroups();
     var base = slugify(title) || 'groupe', id = base, n = 2;
     while (groups.some(function(g){ return g.id === id; })){ id = base + '-' + (n++); }
-    groups.push({ id: id, kicker: '', title: title, desc: '', thumb: '' });
+    groups.push({ id: id, kicker: '', title: title, desc: '', thumb: '', newUntil: newUntilDate() });
     refreshGroupOptions(id);
   });
 
@@ -1774,6 +1779,8 @@ body.visual-mode .wrap{ max-width: 1400px; }
       thumb: $('pf-thumb').value,
       subProjects: currentSubProjects
     };
+    if (editingIndex === -1) p.newUntil = newUntilDate();
+    else if (state.projects[editingIndex].newUntil) p.newUntil = state.projects[editingIndex].newUntil;
     // absent plutot que vide : un projet sans groupe n'a jamais porte ce
     // champ (voir data.json), et group === '' passerait quand meme le test
     // groupsOf(site).filter(p => p.group === g.id) pour un id vide accidentel
@@ -3508,7 +3515,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       state.projects.push({
         id: id, title: title.trim(), year: new Date().getFullYear(), ctx: scope,
         medium: 'graphisme', tags: [], desc: '', featured: false, hidden: false, secondary: false,
-        longDesc: '', assets: [], link: '', thumb: '', subProjects: []
+        longDesc: '', assets: [], link: '', thumb: '', subProjects: [], newUntil: newUntilDate()
       });
       applyAndRefresh();
     });
@@ -3523,7 +3530,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       var groups = siteGroups();
       var base = slugify(title) || 'groupe', id = base, n = 2;
       while (groups.some(function(g){ return g.id === id; })){ id = base + '-' + (n++); }
-      groups.push({ id: id, kicker: '', title: title, desc: '', thumb: '' });
+      groups.push({ id: id, kicker: '', title: title, desc: '', thumb: '', newUntil: newUntilDate() });
       applyAndRefresh();
     });
 
@@ -3561,7 +3568,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
       title = title.trim();
       var base = slugify(title) || 'groupe', id = base, n = 2;
       while (groups.some(function(x){ return x.id === id; })) id = base + '-' + n++;
-      groups.push({ id: id, parent: g.id, kicker: '', title: title, desc: '', thumb: '' });
+      groups.push({ id: id, parent: g.id, kicker: '', title: title, desc: '', thumb: '', newUntil: newUntilDate() });
       applyAndRefresh();
     });
     bar.appendChild(add);

@@ -57,10 +57,10 @@ Particularités à connaître :
 Projet : `id`, `title`, `year`, `current`, `ctx` (`perso` | `academique` | `stage`), `medium`
 (`web` | `video` | `graphisme` | `audio` | `social` | `event` | `ecrit`), `tags[]`, `desc` (courte),
 `longDesc`, `featured`, `hidden`, `secondary`, `preview`, `link`, `embed`, `assets[]`
-(`image` | `video` | `audio` | `doc` | `web` | `text` | `carousel` | `beforeafter`), `thumb`, `subProjects[]`, `group`.
+(`image` | `video` | `audio` | `doc` | `web` | `text` | `carousel` | `beforeafter`), `thumb`, `subProjects[]`, `group`, `newUntil` (date d'expiration du badge NEW, facultatif).
 
 Groupe (`site.groups[]`) : `id`, `kicker`, `title`, `desc`, `thumb`, `featured`, `hidden`,
-`socialLinks`, `parent` (id du groupe parent, facultatif). Un projet appartient à au plus un groupe (`project.group`).
+`socialLinks`, `parent` (id du groupe parent, facultatif), `newUntil` (date d'expiration du badge NEW, facultatif). Un projet appartient à au plus un groupe (`project.group`).
 Autres clés de `site` : `skills[{group,name,detail}]`, `timeline[]`, `stageCta`, `socialLinks`,
 `favoriProjectId`, `theme`, textes d'accueil.
 
@@ -108,8 +108,9 @@ Statuts d'un projet :
 
 ## État au moment de ce fichier
 
-56 projets (32 visibles, 24 masqués), 9 groupes :
-Chloé Ly, Nocturnz, NGC Hub, Daybreak.
+60 projets (37 visibles, 23 masqués), 11 groupes :
+Union Oasis Forest, En Esprit et Vidéos, Chloé Ly, Nocturnz, NGC Hub, Daybreak,
+Projet 360° : DEI-Belgique, TristeJeu, Identité visuelle d’Echo Nexus, AdamXBC.
 
 **Masqués par choix d'Adam** (laisser masqués) : `ilonka-club`, `montage-video-style-youtube`,
 `miniatures-youtube`, `episode-podcast`, `melo-de-la-semaine`, `post-actualite`,
@@ -117,11 +118,10 @@ Chloé Ly, Nocturnz, NGC Hub, Daybreak.
 
 **Créés masqués, en attente de matière** (descriptions courtes déjà écrites, à compléter puis
 démasquer) : `ngc-dock-obs`, `ngc-regie-irl-srt`, `daybreak-smp`,
-`oasis-outil-admin`, `oasis-strategie-sponsoring`, `oasis-rapport-social-media`, `esprit-la-haine`, `esprit-workshops`, `pourquoi-tu-votes`, `feminitea`, `alertesinfos`,
-`manif-video`.
+`oasis-outil-admin`, `oasis-strategie-sponsoring`, `oasis-rapport-social-media`, `esprit-la-haine`, `esprit-workshops`, `pourquoi-tu-votes`, `feminitea`, `alertesinfos`.
 
 **Matière qu'Adam doit fournir** (ne pas l'inventer) :
-- vidéos d'autres projets pour Chloé Ly ; vidéo de la manifestation du 9 octobre ; vidéos Oasis en
+- vidéos d'autres projets pour Chloé Ly ; vidéos Oasis en
   fichier (pas d'embed TikTok) ;
 - noms des coéquipiers sur le reportage de BAC 2 ;
 - clips d'aperçu (champ `preview`) pour les projets vidéo ;
@@ -450,3 +450,5 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
 - Format avant / après : deux images comparées par un curseur ; ajout et inversion dans l’éditeur. Fiche logo En Esprit mise à jour. CSS `v=72`, JS `v=56`, non publié.
 
 - Modules texte centrés par défaut, alignement gauche / centre / droite éditable ; comparaison du logo centrée et recadrée en 16:9. CSS `v=73`, JS `v=57`, non publié.
+
+- 4 novembre 2026 : boucle et défilement automatique du carrousel conservés sur mobile ; pause pendant tout le geste tactile, inertie native et clones sans animation d'apparition. Double-tape zoom désactivé, pincement conservé. Badge NEW auto-expirant après 30 jours (`newUntil`), posé par l'admin sur les nouveaux projets et groupes. Groupe AdamXBC ajouté avec Linktree, Twitch affilié et TikTok Quick (30 000 vues). `manif-video`, déjà créé mais masqué, rendu visible avec la vidéo YouTube du 9 octobre à Bruxelles. ITW : LOSSA ajouté au groupe Chloé Ly avec le lien YouTube fourni. Modifications locales, non publiées.
