@@ -292,7 +292,7 @@ ly = entry(LX, ly, "2024 — Aujourd'hui", "Responsable communication & digital"
             "Conception du site web et d'un outil d'administration sur mesure ; structuration "
             "de l'ASBL (Google Workspace for Nonprofits)."],
            link="https://adam.nocturnz.xyz/groupe.html?id=union-oasis-forest")
-ly = entry(LX, ly, "2025 (3 mois)", "Stage — Production & communication", "Média En Esprit (Chloé Levy)",
+ly = entry(LX, ly, "Avril — Juin 2025", "Stage — Production & communication", "Média En Esprit (Chloé Levy)",
            ["Tournage et gestion de plateau (concert, théâtre), montage long format et formats "
             "courts, direction artistique (miniatures, logo), dans les locaux de RMB Slice."],
            link="https://adam.nocturnz.xyz/groupe.html?id=en-esprit")

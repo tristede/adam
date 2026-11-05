@@ -452,3 +452,11 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
 - Modules texte centrés par défaut, alignement gauche / centre / droite éditable ; comparaison du logo centrée et recadrée en 16:9. CSS `v=73`, JS `v=57`, non publié.
 
 - 4 novembre 2026 : boucle et défilement automatique du carrousel conservés sur mobile ; pause pendant tout le geste tactile, inertie native et clones sans animation d'apparition. Double-tape zoom désactivé, pincement conservé. Badge NEW auto-expirant après 30 jours (`newUntil`), posé par l'admin sur les nouveaux projets et groupes. Groupe AdamXBC ajouté avec Linktree, Twitch affilié et TikTok Quick (30 000 vues). `manif-video`, déjà créé mais masqué, rendu visible avec la vidéo YouTube du 9 octobre à Bruxelles. ITW : LOSSA ajouté au groupe Chloé Ly avec le lien YouTube fourni. Modifications locales, non publiées.
+
+- 5 novembre 2026 — CV publié (`cv.pdf` + `cv-clair.pdf`), tous deux générés par
+  `tools/generate_cv.py` (`CV_THEME=clair` pour la version imprimable, liée en bas
+  à droite de la version couleur). Nom en Schoolbell, phrase de recherche de stage
+  dictée par Adam, bio courte sous les projets, Instagram `adamkarr_` (voulu).
+  Photo essayée puis abandonnée à la demande d'Adam. Chloé Levy reste nommée.
+  Pas de langue autre que français/anglais. Stage En Esprit : « Avril — Juin 2025 » (22 avril → 13 juin).
+  Boutons CV du site réactivés (liens `cv.pdf` avec `download`).
