@@ -477,6 +477,7 @@ section.projects-section{
 }
 .card-new-badge{
   display:inline-flex; align-items:center; justify-content:center;
+  align-self:flex-start; width:max-content; max-width:100%;
   margin:0 0 5px; padding:1px 6px; border:1px solid rgba(255,255,255,.2);
   border-radius:999px; color:var(--text-dim); background:rgba(126,77,202,.2);
   font-size:9px; font-weight:700; letter-spacing:.08em; line-height:1.35;
