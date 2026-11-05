@@ -477,9 +477,9 @@ section.projects-section{
 }
 .card-new-badge{
   display:inline-flex; align-items:center; justify-content:center;
-  margin:0 0 7px; padding:2px 8px; border:1px solid rgba(255,255,255,.38);
-  border-radius:999px; color:#fff; background:rgba(126,77,202,.72);
-  font-size:10px; font-weight:800; letter-spacing:.1em; line-height:1.4;
+  margin:0 0 5px; padding:1px 6px; border:1px solid rgba(255,255,255,.2);
+  border-radius:999px; color:var(--text-dim); background:rgba(126,77,202,.2);
+  font-size:9px; font-weight:700; letter-spacing:.08em; line-height:1.35;
 }
 /* le favori est unique, « mis en avant » ne l'est pas : une couleur distincte
    évite qu'on les confonde d'un coup d'œil */
