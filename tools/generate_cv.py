@@ -316,10 +316,9 @@ ry = project(RX, ry, "Projet 360° : DEI-Belgique",
              "Campagne de sensibilisation aux VEO pour la DEI-Belgique.",
              ["Vidéo 360°", "Stratégie créative"], "Voir »")
 ry = project(RX, ry, "Nocturnz — Portfolio en ligne",
-             "Service qui permet à chacun d'avoir son portfolio en ligne, sans abonnement "
-             "et sans une ligne de code : moteur, panneau d'édition visuel, sous-domaine "
-             "personnalisé.",
-             ["HTML/CSS/JS", "Cloudflare Workers"], "Voir »")
+             "Ne trouvant aucun service de portfolio à mon image, j'ai créé le mien : "
+             "moteur de rendu, panneau d'édition visuel, sous-domaine personnalisé.",
+             ["HTML/CSS/JS", "Claude Code"], "Voir »")
 
 c.setFillColorRGB(*ACCENT)
 c.setFont("Helvetica-Bold", 9)
@@ -336,7 +335,7 @@ icon_size = 30
 icon_gap = 22
 socials = [
     ("linkedin", "https://www.linkedin.com/in/adamxbc/"),
-    ("instagram", "https://www.instagram.com/_adamdrk"),
+    ("instagram", "https://www.instagram.com/adamkarr_"),
 ]
 icons_w = len(socials) * icon_size + (len(socials) - 1) * icon_gap
 icon_x0 = RX + COL_W / 2 - icons_w / 2
