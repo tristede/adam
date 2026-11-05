@@ -183,8 +183,6 @@ nav.links a:hover, nav.links a.current{ color: var(--text); }
 .pill-btn:hover{ background: var(--accent-soft); }
 /* le menu du header garde son style pilule, seul endroit du site qui la conserve */
 .site-nav .pill-btn{ border-radius: 100px; }
-.cv-disabled{ opacity:.55; cursor:not-allowed; }
-.cv-disabled:hover{ background:transparent; }
 
 .tag{
   font-size: 12px; font-weight:500; color: var(--accent-sky);
@@ -1134,3 +1132,70 @@ footer{ border-top: 1px solid var(--line); padding: 92px 0 40px; position:relati
 .detail-gallery-centered{ justify-content: center; }
 .detail-comparison.is-wide .comparison-viewer{ aspect-ratio: 16 / 9; }
 .detail-comparison.is-wide .comparison-viewer img{ position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+
+/* ---------- Visionneuse du CV (plein écran) ---------- */
+.cv-viewer{
+  position: fixed; inset:0; z-index: 210;
+  display:flex; flex-direction:column;
+  opacity:0; visibility:hidden; pointer-events:none;
+  transition:opacity .25s ease, visibility .25s ease;
+  background: rgba(4,6,26,0.94);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.cv-viewer.is-open{ opacity:1; visibility:visible; pointer-events:auto; }
+.cv-viewer-bar{
+  flex:none; display:flex; align-items:center; justify-content:flex-end; gap:10px;
+  padding: 16px 20px;
+}
+.cv-viewer-bar .pill-btn{ background: rgba(18,22,80,0.7); cursor:pointer; }
+.cv-viewer-bar .pill-btn:hover{ background: var(--accent); border-color: var(--accent-sky); }
+.cv-viewer-bar .pill-btn svg{ width:14px; height:14px; flex:none; }
+.cv-viewer-bar .lightbox-close{ position:static; margin-left:6px; }
+.cv-viewer-scroll{
+  flex:1; min-height:0; overflow:auto; overscroll-behavior:contain;
+  display:flex; justify-content:center; align-items:flex-start;
+  padding: 0 20px 28px;
+}
+.cv-viewer-page{
+  position:relative; flex:none;
+  /* page entière visible sur ordinateur : hauteur dispo, ratio A4 */
+  height: calc(100vh - 76px - 28px); height: calc(100dvh - 76px - 28px);
+  aspect-ratio: 210 / 297; max-width: 100%;
+  box-shadow: 0 24px 60px -18px rgba(0,0,6,0.9), 0 0 0 1px var(--card-border);
+  transform: translateY(12px) scale(.98); transition: transform .3s cubic-bezier(.22,1,.36,1);
+}
+.cv-viewer.is-open .cv-viewer-page{ transform:none; }
+.cv-viewer-page img{
+  display:block; width:100%; height:100%;
+  user-select:none; -webkit-user-select:none; -webkit-touch-callout:none;
+}
+.cv-viewer-link{ position:absolute; display:block; }
+/* en version blanche (avant impression) : les adresses sont écrites, pas de zones cliquables */
+.cv-viewer.is-print .cv-viewer-link{ display:none; }
+.cv-viewer.is-print .cv-viewer-print{ background: var(--accent); border-color: var(--accent-sky); }
+.cv-viewer-link:hover, .cv-viewer-link:focus-visible{
+  outline: 1px solid var(--accent-sky); outline-offset: 2px; background: rgba(163,174,255,0.12);
+}
+@media (prefers-reduced-motion:reduce){ .cv-viewer, .cv-viewer-page{ transition:none; } }
+/* téléphone / fenêtre étroite : le CV prend la largeur et on fait défiler */
+@media (max-width: 760px), (max-aspect-ratio: 3/4){
+  .cv-viewer-bar{ padding: 12px; gap:8px; }
+  .cv-viewer-bar .pill-btn{ padding: 7px 12px; }
+  .cv-viewer-scroll{ padding: 0 10px 20px; }
+  .cv-viewer-page{ width:100%; height:auto; }
+  .cv-viewer-page img{ height:auto; }
+}
+@media (max-width: 420px){
+  .cv-viewer-bar .pill-btn span{ display:none; }
+  .cv-viewer-bar .pill-btn{ padding: 9px 11px; }
+}
+
+/* impression depuis la visionneuse : seule la version claire sort */
+.cv-print-sheet{ display:none; }
+@media print{
+  html.cv-printing body > *:not(.cv-print-sheet){ display:none !important; }
+  html.cv-printing .cv-print-sheet{ display:block; height:100vh; overflow:hidden; break-after:avoid; }
+  html.cv-printing .cv-print-sheet img{ display:block; width:100%; height:100%; object-fit:contain; }
+  html.cv-printing, html.cv-printing body{ background:#fff !important; margin:0; padding:0; min-height:0 !important; height:auto !important; }
+}
+@page{ size: A4; margin: 0; }

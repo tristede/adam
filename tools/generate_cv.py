@@ -16,7 +16,7 @@ l'admin (data.json) — voir CONTEXTE.md si ça change.
 Écrit cv.pdf. Le bouton "CV" du site (cv.pdf, avec `download`) le sert
 déjà sur toutes les pages — rien d'autre à brancher.
 """
-import os, io, re
+import os, io, re, json, shutil, subprocess, tempfile
 from PIL import Image
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
@@ -48,6 +48,7 @@ LINE = (0.25, 0.28, 0.45)
 # Version claire pour l'impression : CV_THEME=clair (fond blanc, textes
 # foncés, même accent). Sortie dans cv-clair.pdf.
 THEME = os.environ.get("CV_THEME", "sombre")
+PRINT = THEME == "clair"   # sur papier rien n'est cliquable : on écrit les adresses
 if THEME == "clair":
     WHITE = (0.07, 0.09, 0.24)        # texte principal : bleu nuit
     TEXT_DIM = (0.30, 0.32, 0.43)
@@ -67,6 +68,23 @@ LX = MARGIN
 RX = MARGIN + COL_W + COL_GAP
 
 c = canvas.Canvas(OUT, pagesize=A4)
+# Nom proposé quand on enregistre le PDF depuis le lecteur du navigateur
+# (le bouton du site force le même nom via l'attribut download).
+DOC_NAME = "CV Etudiant COM - Adam Karroum - ISFSC"
+c.setTitle(DOC_NAME + (" (version imprimable)" if THEME == "clair" else ""))
+c.setAuthor("Adam Karroum")
+
+# Les liens du PDF sont aussi relevés (en % de la page, origine en haut à
+# gauche) : la visionneuse du site les pose en zones cliquables sur l'image.
+LINKS = []
+_link_url = c.linkURL
+def _record_link(url, rect, **kw):
+    x1, y1, x2, y2 = rect
+    LINKS.append({"url": url,
+                  "x": round(x1 / W * 100, 3), "y": round((H - y2) / H * 100, 3),
+                  "w": round((x2 - x1) / W * 100, 3), "h": round((y2 - y1) / H * 100, 3)})
+    return _link_url(url, rect, **kw)
+c.linkURL = _record_link
 
 
 # Fond exact fourni par Adam (capture de son propre montage Photoshop) —
@@ -115,7 +133,7 @@ c.drawString(LX, y, "Adam Karroum")
 
 c.setFillColorRGB(*ACCENT_SKY)
 c.setFont("Helvetica-Bold", 10.5)
-c.drawString(LX, y - 20, "Étudiant en communication, spécialisation audiovisuel")
+c.drawString(LX, y - 20, "Étudiant en communication, spécialisation audiovisuel à l'ISFSC")
 
 # bloc contact, aligné à droite
 contact = [
@@ -123,10 +141,12 @@ contact = [
     "0486 53 37 15",
     "Bruxelles, Belgique",
 ]
+if PRINT:
+    contact.append("adam.karroum.be")
 c.setFont("Helvetica", 10)
 cy = y
 for i, line in enumerate(contact):
-    c.setFillColorRGB(*(WHITE if i == 0 else TEXT_DIM))
+    c.setFillColorRGB(*(WHITE if i == 0 else ACCENT_SKY if line == "adam.karroum.be" else TEXT_DIM))
     c.drawRightString(W - MARGIN, cy, line)
     cy -= 14
 
@@ -168,6 +188,25 @@ for line in lines:
 y = ty - 26
 
 
+def draw_qr(url, x, y_top, size):
+    """QR code carré de `size` pt, coin haut-gauche en (x, y_top)."""
+    from reportlab.graphics.barcode.qr import QrCodeWidget
+    from reportlab.graphics.shapes import Drawing
+    from reportlab.lib import colors
+    # sur papier, l'adresse courte (redirige vers adam.nocturnz.xyz en gardant
+    # le chemin) : QR moins dense, donc plus facile à scanner
+    url = url.replace("https://adam.nocturnz.xyz", "https://adam.karroum.be")
+    w = QrCodeWidget(url, barLevel="M")
+    w.barFillColor = colors.Color(*ACCENT_SKY)   # bleu de la DA
+    x1, y1, x2, y2 = w.getBounds()
+    d = Drawing(size, size, transform=[size / (x2 - x1), 0, 0, size / (y2 - y1), 0, 0])
+    d.add(w)
+    renderPDF.draw(d, c, x, y_top - size)
+
+
+ITEM_QR = 30   # QR des expériences / projets sur la version papier
+
+
 def section_title(x, y, title):
     c.setFillColorRGB(*ACCENT_SKY)
     c.setFont("Helvetica-Bold", 10.5)
@@ -179,6 +218,8 @@ def section_title(x, y, title):
 
 
 def entry(x, y, date, title, place, desc_lines, link=None, gap_after=22):
+    if PRINT and link:
+        draw_qr(link, x + COL_W - ITEM_QR, y + 9, ITEM_QR)
     c.setFillColorRGB(*TEXT_FAINT)
     c.setFont("Helvetica", 8.5)
     c.drawString(x, y, date)
@@ -191,7 +232,7 @@ def entry(x, y, date, title, place, desc_lines, link=None, gap_after=22):
         c.setFillColorRGB(*ACCENT_SKY)
         c.setFont("Helvetica", 9.5)
         c.drawString(x, y, place)
-        if link:
+        if link and not PRINT:
             c.setFillColorRGB(*ACCENT)
             c.setFont("Helvetica-Bold", 8.5)
             voir = "Voir »"
@@ -223,6 +264,10 @@ def skill_group(x, y, title, items):
 
 
 def project(x, y, title, desc, tags, link_label=None, link=None):
+    text_w = COL_W
+    if PRINT and link:
+        draw_qr(link, x + COL_W - ITEM_QR, y + 9, ITEM_QR)
+        text_w = COL_W - ITEM_QR - 10
     c.setFillColorRGB(*WHITE)
     c.setFont("Helvetica-Bold", 10.5)
     c.drawString(x, y, title)
@@ -230,14 +275,14 @@ def project(x, y, title, desc, tags, link_label=None, link=None):
     if desc:
         c.setFillColorRGB(*TEXT_DIM)
         c.setFont("Helvetica", 9.5)
-        for wrapped in wrap(desc, "Helvetica", 9.5, COL_W):
+        for wrapped in wrap(desc, "Helvetica", 9.5, text_w):
             c.drawString(x, y, wrapped)
             y -= 12.5
     if tags or link_label:
         c.setFillColorRGB(*ACCENT_SKY)
         c.setFont("Helvetica", 8.5)
         c.drawString(x, y, " · ".join(tags))
-        if link_label:
+        if link_label and not PRINT:
             c.setFillColorRGB(*ACCENT)
             c.setFont("Helvetica-Bold", 8.5)
             c.drawRightString(x + COL_W, y, link_label)
@@ -346,14 +391,18 @@ ry = project(RX, ry, "Nocturnz — Portfolio en ligne",
              ["HTML/CSS/JS", "Claude Code"], "Voir »",
              link="https://adam.nocturnz.xyz/groupe.html?id=nocturnz")
 
-c.setFillColorRGB(*ACCENT)
-c.setFont("Helvetica-Bold", 9)
-voir_plus = "Voir plus →"
-c.drawString(RX, ry, voir_plus)
-voir_plus_w = c.stringWidth(voir_plus, "Helvetica-Bold", 9)
-c.linkURL("https://adam.nocturnz.xyz/projets.html",
-          (RX, ry - 2, RX + voir_plus_w, ry + 9), relative=0)
-ry -= 13
+# « Voir plus » : à l'écran seulement (sur papier, le QR « Projets » le remplace)
+if not PRINT:
+    c.setFillColorRGB(*ACCENT)
+    c.setFont("Helvetica-Bold", 9)
+    voir_plus = "Voir plus →"
+    c.drawString(RX, ry, voir_plus)
+    voir_plus_w = c.stringWidth(voir_plus, "Helvetica-Bold", 9)
+    c.linkURL("https://adam.nocturnz.xyz/projets.html",
+              (RX, ry - 2, RX + voir_plus_w, ry + 9), relative=0)
+    ry -= 13
+else:
+    ry += 18
 
 # ---- pitch compact (police cursive du site), sous les projets, avant les réseaux
 ry -= 18
@@ -377,8 +426,31 @@ icons_w = len(socials) * icon_size + (len(socials) - 1) * icon_gap
 icon_x0 = RX + COL_W / 2 - icons_w / 2
 # centrées dans l'espace libre entre la bio et le bas de l'encart Jobs
 icon_cy = (ry + 8 + jobs_card_bottom + 10) / 2
-for i, (platform, url) in enumerate(socials):
-    social_icon(icon_x0 + i * (icon_size + icon_gap), icon_cy, icon_size, url, platform)
+if not PRINT:
+    for i, (platform, url) in enumerate(socials):
+        social_icon(icon_x0 + i * (icon_size + icon_gap), icon_cy, icon_size, url, platform)
+else:
+    # version papier : QR codes (portfolio, LinkedIn, Instagram) avec l'adresse
+    # écrite dessous, centrés sous la colonne de droite
+    qrs = [("https://adam.karroum.be", "Portfolio", "adam.karroum.be"),
+           ("https://www.linkedin.com/in/adamxbc/", "LinkedIn", "in/adamxbc"),
+           ("https://www.instagram.com/adamkarr_", "Instagram", "@adamkarr_")]
+    qsz, qgap = 42, 34
+    total = len(qrs) * qsz + (len(qrs) - 1) * qgap
+    qx0 = RX + COL_W / 2 - total / 2
+    # bloc (QR + 2 lignes) centré dans l'espace entre la bio et le bas de page
+    block_h = qsz + 22
+    qtop = (ry + 6 + jobs_card_bottom) / 2 + block_h / 2
+    for i, (url, label, short) in enumerate(qrs):
+        qx = qx0 + i * (qsz + qgap)
+        draw_qr(url, qx, qtop, qsz)
+        cxq = qx + qsz / 2
+        c.setFillColorRGB(*WHITE)
+        c.setFont("Helvetica-Bold", 8.5)
+        c.drawCentredString(cxq, qtop - qsz - 11, label)
+        c.setFillColorRGB(*ACCENT_SKY)
+        c.setFont("Helvetica", 7.5)
+        c.drawCentredString(cxq, qtop - qsz - 21, short)
 
 # lien vers la version imprimable (sur la version couleur seulement),
 # en bas à droite, aligné sur le bas de l'encart Jobs
@@ -393,3 +465,48 @@ if THEME != "clair":
 
 c.save()
 print("Écrit :", OUT, "—", os.path.getsize(OUT) // 1024, "Ko")
+
+
+# ---- images pour la visionneuse du site (images/cv/) ----
+# Rendu vectoriel par Quick Look (macOS) à la taille voulue, puis WebP.
+# Écran : 2400 px de haut (net sur écran Retina). Impression : 3508 px
+# (A4 à 300 dpi). Sans qlmanage, on garde le PDF et on prévient.
+IMG_DIR = os.path.join(ROOT, "images", "cv")
+os.makedirs(IMG_DIR, exist_ok=True)
+name = "cv-clair" if THEME == "clair" else "cv"
+size = 3508 if THEME == "clair" else 2400
+if shutil.which("qlmanage"):
+    with tempfile.TemporaryDirectory() as tmp:
+        subprocess.run(["qlmanage", "-t", "-s", str(size), "-o", tmp, OUT],
+                       check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        png = os.path.join(tmp, os.path.basename(OUT) + ".png")
+        img = Image.open(png).convert("RGB")
+        # Quick Look arrondit la hauteur et comble l'excédent par une bande
+        # blanche en haut (1 à 3 px) : on la coupe, puis on revient au ratio A4.
+        iw, ih = img.size
+        exact_h = round(iw * H / W)
+        cut = max(0, ih - exact_h) + 2
+        img = img.crop((0, cut, iw, ih)).resize((iw, exact_h), Image.LANCZOS)
+        dest = os.path.join(IMG_DIR, name + ".webp")
+        img.save(dest, "WEBP", quality=88, method=6)
+        print("Écrit :", dest, img.size, os.path.getsize(dest) // 1024, "Ko")
+else:
+    print("qlmanage absent : images de la visionneuse non régénérées")
+# cv.json : liens + empreinte des images (la visionneuse s'en sert pour
+# contourner le cache du navigateur quand le CV change)
+import hashlib
+meta_path = os.path.join(IMG_DIR, "cv.json")
+meta = {}
+if os.path.exists(meta_path):
+    with open(meta_path) as f:
+        meta = json.load(f)
+def _digest(fn):
+    fp = os.path.join(IMG_DIR, fn)
+    return hashlib.sha1(open(fp, "rb").read()).hexdigest()[:10] if os.path.exists(fp) else ""
+meta["v"] = _digest("cv.webp")
+meta["vPrint"] = _digest("cv-clair.webp")
+if THEME != "clair":
+    meta["links"] = LINKS
+with open(meta_path, "w") as f:
+    json.dump(meta, f, ensure_ascii=False, indent=2)
+    f.write("\n")

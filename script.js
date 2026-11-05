@@ -1186,6 +1186,174 @@
     return lightboxAPI;
   }
 
+  // ---------- Visionneuse du CV ----------
+  // Les boutons « CV » (a[data-cv-viewer]) ouvrent le CV en plein écran au
+  // lieu de le télécharger : image du CV avec ses liens cliquables posés
+  // dessus (images/cv/cv.json, relevés par tools/generate_cv.py),
+  // et trois actions : télécharger (nom de fichier propre), imprimer (la
+  // version claire, imprimée seule) et fermer. #cv dans l'URL l'ouvre aussi.
+  var CV_FILE_NAME = 'CV Etudiant COM - Adam Karroum - ISFSC.pdf';
+  var cvViewerAPI = null;
+  function cvViewer(){
+    if (cvViewerAPI) return cvViewerAPI;
+    var DL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>';
+    var PRINT_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg>';
+
+    var box = document.createElement('div');
+    box.className = 'cv-viewer';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    box.setAttribute('aria-label', 'CV d’Adam');
+    box.setAttribute('aria-hidden', 'true');
+    box.innerHTML =
+      '<div class="cv-viewer-bar">' +
+        '<a class="pill-btn cv-viewer-dl" href="cv.pdf" download="' + CV_FILE_NAME + '" aria-label="Télécharger le CV (PDF)">' + DL_ICON + '<span>Télécharger</span></a>' +
+        '<button class="pill-btn cv-viewer-print" type="button" aria-label="Imprimer le CV">' + PRINT_ICON + '<span>Imprimer</span></button>' +
+        '<button class="lightbox-close cv-viewer-close" type="button" aria-label="Fermer">' + UI_ICON.close + '</button>' +
+      '</div>' +
+      '<div class="cv-viewer-scroll">' +
+        '<div class="cv-viewer-page">' +
+          '<img src="" alt="CV d’Adam : expériences, formations, compétences et projets" draggable="false">' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(box);
+
+    // feuille d'impression : seule chose imprimée quand on passe par le bouton
+    var sheet = document.createElement('div');
+    sheet.className = 'cv-print-sheet';
+    sheet.innerHTML = '<img alt="" src="">';
+    document.body.appendChild(sheet);
+
+    var page = box.querySelector('.cv-viewer-page');
+    var img = page.querySelector('img');
+    var closeBtn = box.querySelector('.cv-viewer-close');
+    var opener = null;
+    
+    // images/cv/cv.json : liens du PDF (en % de la page) + empreintes des
+    // images, écrits par tools/generate_cv.py
+    var metaPromise = null;
+    function loadMeta(){
+      if (metaPromise) return metaPromise;
+      metaPromise = fetch('images/cv/cv.json', { cache: 'no-cache' })
+        .then(function(r){ return r.ok ? r.json() : {}; })
+        .catch(function(){ return {}; });
+      metaPromise.then(function(meta){
+        (meta.links || []).forEach(function(l){
+          var a = document.createElement('a');
+          a.className = 'cv-viewer-link';
+          // liens du site : relatifs, même onglet ; le reste : nouvel onglet
+          var local = l.url.replace(/^https:\/\/adam\.nocturnz\.xyz\//, '');
+          a.href = local;
+          if (local === l.url){ a.target = '_blank'; a.rel = 'noopener'; }
+          a.style.left = l.x + '%'; a.style.top = l.y + '%';
+          a.style.width = l.w + '%'; a.style.height = l.h + '%';
+          a.setAttribute('aria-label', local === l.url ? l.url : 'Voir sur le site');
+          // le lien « Version imprimable » du PDF imprime directement ici
+          if (/cv-clair\.pdf$/.test(local)){
+            a.setAttribute('data-cv-print-link', '');
+            a.addEventListener('click', function(e){ e.preventDefault(); print(); });
+          }
+          page.appendChild(a);
+        });
+      });
+      return metaPromise;
+    }
+
+    // Imprimer : la visionneuse passe d'abord à la version blanche (ce qui
+    // sortira vraiment de l'imprimante, toutes les fenêtres d'impression
+    // n'ont pas d'aperçu), puis la fenêtre d'impression s'ouvre. Elle reste
+    // en blanc jusqu'à la fermeture ; la prochaine ouverture repart en couleur.
+    function whenLoaded(el, cb){
+      if (el.complete && el.naturalWidth) return cb();
+      el.addEventListener('load', cb, { once: true });
+      el.addEventListener('error', cb, { once: true });
+    }
+    function print(){
+      var sImg = sheet.querySelector('img');
+      loadMeta().then(function(meta){
+        var src = 'images/cv/cv-clair.webp?v=' + (meta.vPrint || '');
+        if (sImg.getAttribute('src') !== src) sImg.src = src;
+        box.classList.add('is-print');
+        if (img.getAttribute('src') !== src) img.src = src;
+        whenLoaded(img, function(){
+          whenLoaded(sImg, function(){
+            // laisse le navigateur peindre la version blanche avant la fenêtre
+            requestAnimationFrame(function(){ requestAnimationFrame(function(){
+              document.documentElement.classList.add('cv-printing');
+              window.print();
+            }); });
+          });
+        });
+      });
+    }
+    window.addEventListener('afterprint', function(){
+      document.documentElement.classList.remove('cv-printing');
+    });
+
+    function close(){
+      if (!box.classList.contains('is-open')) return;
+      if (box.classList.contains('is-print')){
+        box.classList.remove('is-print');
+        loadMeta().then(function(meta){ img.src = 'images/cv/cv.webp?v=' + (meta.v || ''); });
+      }
+      box.classList.remove('is-open');
+      box.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (location.hash === '#cv' && history.replaceState){
+        history.replaceState(null, '', location.pathname + location.search);
+      }
+      if (opener && opener.focus) opener.focus();
+      opener = null;
+    }
+
+    closeBtn.addEventListener('click', close);
+    box.querySelector('.cv-viewer-print').addEventListener('click', print);
+    box.addEventListener('click', function(e){
+      if (e.target === box || e.target.classList.contains('cv-viewer-scroll')) close();
+    });
+    img.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+    document.addEventListener('keydown', function(e){
+      if (!box.classList.contains('is-open')) return;
+      if (e.key === 'Escape'){ e.preventDefault(); close(); return; }
+      if (e.key === 'Tab'){
+        // garde le focus dans la visionneuse
+        var f = [].slice.call(box.querySelectorAll('a[href], button'));
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      }
+    });
+
+    cvViewerAPI = {
+      open: function(from){
+        opener = from || document.activeElement;
+        loadMeta().then(function(meta){
+          if (!img.getAttribute('src')) img.src = 'images/cv/cv.webp?v=' + (meta.v || '');
+        });
+        box.classList.add('is-open');
+        box.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        box.querySelector('.cv-viewer-scroll').scrollTop = 0;
+        closeBtn.focus({ preventScroll: true });
+        if (location.hash !== '#cv' && history.replaceState){
+          history.replaceState(null, '', '#cv');
+        }
+      },
+      close: close
+    };
+    return cvViewerAPI;
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[data-cv-viewer]');
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    e.preventDefault();
+    cvViewer().open(a);
+  });
+  if (location.hash === '#cv') cvViewer().open();
+  window.addEventListener('hashchange', function(){
+    if (location.hash === '#cv') cvViewer().open();
+  });
+
   // Click any gallery image to view it full-screen.
   function initLightbox(scope){
     // in the editor a click on an image belongs to the editing controls

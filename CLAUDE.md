@@ -460,3 +460,14 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
   Photo essayée puis abandonnée à la demande d'Adam. Chloé Levy reste nommée.
   Pas de langue autre que français/anglais. Stage En Esprit : « Avril — Juin 2025 » (22 avril → 13 juin).
   Boutons CV du site réactivés (liens `cv.pdf` avec `download`).
+
+- 5 novembre 2026 (suite) — **Visionneuse du CV** : les boutons CV (`a[data-cv-viewer]`,
+  « Voir mon CV » sur l'accueil) ouvrent le CV en plein écran au lieu de le télécharger.
+  Image `images/cv/cv.webp` + zones cliquables lues dans `images/cv/cv.json` (liens +
+  empreintes anti-cache), Télécharger (nom « CV Etudiant COM - Adam Karroum - ISFSC.pdf »),
+  Imprimer (la visionneuse passe d'abord à la version blanche, puis impression de
+  `images/cv/cv-clair.webp` seule, 1 page A4), Fermer / Échap. `#cv` ouvre la visionneuse.
+  Tout est régénéré par `tools/generate_cv.py` (macOS : qlmanage pour les images).
+  Version papier : adresses écrites (adam.karroum.be, redirige vers adam.nocturnz.xyz
+  en gardant le chemin), QR codes bleus à la place des « Voir » + Portfolio / LinkedIn /
+  Instagram en bas. CSS `v=81`, JS `v=61`.
