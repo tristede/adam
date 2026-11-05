@@ -10,7 +10,8 @@ Contenu et coordonnées : à jour manuellement ici, pas encore piloté par
 l'admin (data.json) — voir CONTEXTE.md si ça change.
 
     pip3 install --user reportlab pillow
-    python3 tools/generate_cv.py
+    python3 tools/generate_cv.py                    # cv.pdf (couleur)
+    CV_THEME=clair python3 tools/generate_cv.py     # cv-clair.pdf (impression)
 
 Écrit cv.pdf. Le bouton "CV" du site (cv.pdf, avec `download`) le sert
 déjà sur toutes les pages — rien d'autre à brancher.
@@ -31,6 +32,8 @@ OUT = os.path.join(ROOT, "cv.pdf")
 # Police cursive du site (adam/style.css : --font-script, "Homemade Apple"),
 # pour que la bio du CV soit dans la même main que celle de la page d'accueil.
 pdfmetrics.registerFont(TTFont("HomemadeApple", os.path.join(ROOT, "tools", "fonts", "HomemadeApple-Regular.ttf")))
+# Police des titres du site (--font-title, "Schoolbell"), pour le nom
+pdfmetrics.registerFont(TTFont("Schoolbell", os.path.join(ROOT, "tools", "fonts", "Schoolbell-Regular.ttf")))
 
 W, H = A4  # 595 x 842 pt
 
@@ -41,6 +44,21 @@ WHITE = (1, 1, 1)
 TEXT_DIM = (0.72, 0.74, 0.85)
 TEXT_FAINT = (0.55, 0.57, 0.7)
 LINE = (0.25, 0.28, 0.45)
+
+# Version claire pour l'impression : CV_THEME=clair (fond blanc, textes
+# foncés, même accent). Sortie dans cv-clair.pdf.
+THEME = os.environ.get("CV_THEME", "sombre")
+if THEME == "clair":
+    WHITE = (0.07, 0.09, 0.24)        # texte principal : bleu nuit
+    TEXT_DIM = (0.30, 0.32, 0.43)
+    TEXT_FAINT = (0.46, 0.48, 0.60)
+    LINE = (0.80, 0.82, 0.92)
+    ACCENT_SKY = (0.33, 0.37, 0.86)   # accent lisible sur blanc
+    OUT = os.path.join(ROOT, "cv-clair.pdf")
+
+# Espace vertical ajouté à chaque bloc pour remplir la page : réglé pour que
+# la marge du bas (sous l'encart Jobs) égale celle du haut (au-dessus du nom).
+SPREAD = float(os.environ.get("CV_SPREAD", "8"))
 
 MARGIN = 42
 COL_GAP = 24
@@ -75,10 +93,14 @@ def make_background(w_pt, h_pt, scale=3):
 
 
 # ---- fond ----
-bg_buf = io.BytesIO()
-make_background(W, H).save(bg_buf, format="PNG")
-bg_buf.seek(0)
-c.drawImage(ImageReader(bg_buf), 0, 0, width=W, height=H)
+if THEME == "clair":
+    c.setFillColorRGB(1, 1, 1)
+    c.rect(0, 0, W, H, stroke=0, fill=1)
+else:
+    bg_buf = io.BytesIO()
+    make_background(W, H).save(bg_buf, format="PNG")
+    bg_buf.seek(0)
+    c.drawImage(ImageReader(bg_buf), 0, 0, width=W, height=H)
 
 
 def wrap(text, font, size, max_w):
@@ -86,14 +108,14 @@ def wrap(text, font, size, max_w):
 
 
 # ---- en-tête (juste le nom et le rôle — pas de 3e ligne, déjà redit en Formations) ----
-y = H - 56
+y = H - 64
 c.setFillColorRGB(*WHITE)
-c.setFont("Helvetica-Bold", 27)
+c.setFont("Schoolbell", 34)
 c.drawString(LX, y, "Adam Karroum")
 
 c.setFillColorRGB(*ACCENT_SKY)
 c.setFont("Helvetica-Bold", 10.5)
-c.drawString(LX, y - 20, "Communication · Audiovisuel")
+c.drawString(LX, y - 20, "Étudiant en communication, spécialisation audiovisuel")
 
 # bloc contact, aligné à droite
 contact = [
@@ -133,14 +155,11 @@ def social_icon(x, cy, size, url, platform):
 # Icônes réseaux : plus bas sur la page (voir bloc après l'encart "Jobs
 # étudiants"), pas dans l'en-tête.
 
-# ---- pitch (bordure gauche façon citation ; police cursive du site, comme
-# la bio de la page d'accueil) ----
-y -= 80
-pitch = ("Depuis petit, je suis passionné par la création de contenu et l'influence sur le web. "
-         "Autodidacte, j'ai développé des compétences en graphisme, montage vidéo et mixage audio.")
-lines = wrap(pitch, "HomemadeApple", 10.5, W - 2 * MARGIN)
-c.setFont("HomemadeApple", 10.5)
-c.setFillColorRGB(*TEXT_DIM)
+# ---- recherche de stage (police lisible) ----
+y -= 58
+lines = ["À la recherche d'un stage de BAC 3 en communication du 18 janvier au 8 avril 2027."]
+c.setFont("Helvetica", 11)
+c.setFillColorRGB(*WHITE)
 ty = y
 for line in lines:
     c.drawString(LX, ty, line)
@@ -156,7 +175,7 @@ def section_title(x, y, title):
     c.setStrokeColorRGB(*LINE)
     c.setLineWidth(0.6)
     c.line(x, y - 7, x + COL_W, y - 7)
-    return y - 24
+    return y - 24 - SPREAD * 0.5
 
 
 def entry(x, y, date, title, place, desc_lines, link=None, gap_after=22):
@@ -187,7 +206,7 @@ def entry(x, y, date, title, place, desc_lines, link=None, gap_after=22):
             for wrapped in wrap(dl, "Helvetica", 9, COL_W):
                 c.drawString(x, y, wrapped)
                 y -= 12.5
-    return y - gap_after
+    return y - gap_after - SPREAD
 
 
 def skill_group(x, y, title, items):
@@ -200,10 +219,10 @@ def skill_group(x, y, title, items):
     for wrapped in wrap(items, "Helvetica", 9.5, COL_W):
         c.drawString(x, y, wrapped)
         y -= 12
-    return y - 13
+    return y - 13 - SPREAD * 0.5
 
 
-def project(x, y, title, desc, tags, link_label=None):
+def project(x, y, title, desc, tags, link_label=None, link=None):
     c.setFillColorRGB(*WHITE)
     c.setFont("Helvetica-Bold", 10.5)
     c.drawString(x, y, title)
@@ -222,8 +241,11 @@ def project(x, y, title, desc, tags, link_label=None):
             c.setFillColorRGB(*ACCENT)
             c.setFont("Helvetica-Bold", 8.5)
             c.drawRightString(x + COL_W, y, link_label)
+            if link:
+                lw = c.stringWidth(link_label, "Helvetica-Bold", 8.5)
+                c.linkURL(link, (x + COL_W - lw, y - 2, x + COL_W, y + 9), relative=0)
         y -= 13
-    return y - 13
+    return y - 13 - SPREAD
 
 
 def insert_card(x, top_y, title, items):
@@ -299,26 +321,30 @@ ry = y
 ry = section_title(RX, ry, "Compétences")
 ry = skill_group(RX, ry, "Montage vidéo", "Premiere Pro, After Effects, DaVinci Resolve, CapCut")
 ry = skill_group(RX, ry, "Design graphique", "Photoshop, InDesign, Illustrator, Lightroom")
-ry = skill_group(RX, ry, "Outils (Administratif)", "Meta Business Suite, Google Workspace, Notion")
+ry = skill_group(RX, ry, "Développement web", "HTML, CSS, JavaScript, Claude Code")
+ry = skill_group(RX, ry, "Outils", "Meta Business Suite, Google Workspace, Notion")
 ry = skill_group(RX, ry, "Langues", "Français, Anglais B1")
 
 ry = section_title(RX, ry, "Soft skills")
 c.setFillColorRGB(*TEXT_DIM)
 c.setFont("Helvetica", 9.5)
-for wrapped in wrap("Créativité · Autonomie · Stratégie RS · Montage",
+for wrapped in wrap("Créativité · Autonomie · Curiosité · Adaptabilité",
                      "Helvetica", 9.5, COL_W):
     c.drawString(RX, ry, wrapped)
     ry -= 12.5
-ry -= 13
+ry -= 13 + SPREAD
 
 ry = section_title(RX, ry, "Projets mis en avant")
 ry = project(RX, ry, "Projet 360° : DEI-Belgique",
-             "Campagne de sensibilisation aux VEO pour la DEI-Belgique.",
-             ["Vidéo 360°", "Stratégie créative"], "Voir »")
+             "Campagne de sensibilisation aux violences éducatives ordinaires pour "
+             "Défense des Enfants International – Belgique.",
+             ["Vidéo 360°", "Stratégie créative"], "Voir »",
+             link="https://adam.nocturnz.xyz/groupe.html?id=projet-360-dei-belgique")
 ry = project(RX, ry, "Nocturnz — Portfolio en ligne",
              "Ne trouvant aucun service de portfolio à mon image, j'ai créé le mien : "
              "moteur de rendu, panneau d'édition visuel, sous-domaine personnalisé.",
-             ["HTML/CSS/JS", "Claude Code"], "Voir »")
+             ["HTML/CSS/JS", "Claude Code"], "Voir »",
+             link="https://adam.nocturnz.xyz/groupe.html?id=nocturnz")
 
 c.setFillColorRGB(*ACCENT)
 c.setFont("Helvetica-Bold", 9)
@@ -328,6 +354,16 @@ voir_plus_w = c.stringWidth(voir_plus, "Helvetica-Bold", 9)
 c.linkURL("https://adam.nocturnz.xyz/projets.html",
           (RX, ry - 2, RX + voir_plus_w, ry + 9), relative=0)
 ry -= 13
+
+# ---- pitch compact (police cursive du site), sous les projets, avant les réseaux
+ry -= 18
+pitch = ("Passionné depuis petit par la création de contenu, j'ai appris en "
+         "autodidacte le graphisme, le montage vidéo et le mixage audio.")
+c.setFont("HomemadeApple", 9)
+c.setFillColorRGB(*TEXT_DIM)
+for line in wrap(pitch, "HomemadeApple", 9, COL_W):
+    c.drawString(RX, ry, line)
+    ry -= 14
 
 # ---- icônes réseaux : grandes, au niveau de l'encart "Jobs étudiants"
 # (colonne de gauche), centrées sous la colonne de droite
@@ -339,9 +375,21 @@ socials = [
 ]
 icons_w = len(socials) * icon_size + (len(socials) - 1) * icon_gap
 icon_x0 = RX + COL_W / 2 - icons_w / 2
-icon_cy = (jobs_card_top + jobs_card_bottom) / 2
+# centrées dans l'espace libre entre la bio et le bas de l'encart Jobs
+icon_cy = (ry + 8 + jobs_card_bottom + 10) / 2
 for i, (platform, url) in enumerate(socials):
     social_icon(icon_x0 + i * (icon_size + icon_gap), icon_cy, icon_size, url, platform)
+
+# lien vers la version imprimable (sur la version couleur seulement),
+# en bas à droite, aligné sur le bas de l'encart Jobs
+if THEME != "clair":
+    label = "Version imprimable →"
+    c.setFillColorRGB(*ACCENT_SKY)
+    c.setFont("Helvetica", 8.5)
+    lw = c.stringWidth(label, "Helvetica", 8.5)
+    c.drawRightString(W - MARGIN, jobs_card_bottom, label)
+    c.linkURL("https://adam.nocturnz.xyz/cv-clair.pdf",
+              (W - MARGIN - lw, jobs_card_bottom - 2, W - MARGIN, jobs_card_bottom + 9), relative=0)
 
 c.save()
 print("Écrit :", OUT, "—", os.path.getsize(OUT) // 1024, "Ko")
