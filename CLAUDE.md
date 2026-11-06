@@ -103,7 +103,8 @@ Statuts d'un projet :
 - Miniatures de cartes : WebP, ≤ 1200 px de large, dans `images/thumbs/`. Aperçus animés prévus dans
   `images/previews/` (dossier à créer) : 4 à 6 s, 480p, sans son, de préférence < 600 Ko. Un GIF
   brut est lourd (3 à 8 Mo) : le convertir en WebP animé.
-- Pas d'embed TikTok (Adam n'en veut pas) : héberger/importer les vidéos autrement. Vidéos
+- Pas d'embed TikTok par défaut (Adam n'en veut pas pour les vidéos où c'est le format qui compte,
+  ex. Oasis) ; **exception voulue : TikTok Quick**, où c'est la vidéo TikTok elle-même qui est montrée. Vidéos
   complètes sur YouTube (non répertorié accepté) ; Google Drive ne convient pas comme lecteur.
 
 ## État au moment de ce fichier
@@ -482,3 +483,8 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
   fournies par Adam). NGC Hub masqué (aucun projet visible). Vidéos (iframe/video) non
   inclinées : bords crénelés sinon. Visionneuse CV : retour à la version web dès que la
   fenêtre d'impression se ferme. CSS `v=83`, JS `v=63`.
+
+- 6 novembre 2026 (suite) — Linktree en iframe (`adamxbc.be`, `embed: true`). TikTok Quick :
+  lecteur TikTok de la vidéo à 32 300 vues (@xdxmxbc), lien vers la vidéo. Twitch : lecteur
+  Twitch (chaîne `adamxbc`, écran « hors ligne » hors direct) ; `videoEmbedHTML` reconnaît
+  chaîne / rediffusion `/videos/ID` / clip, avec `parent=` = domaine courant. JS `v=64`.

@@ -2674,7 +2674,7 @@
       "featured": false,
       "hidden": false,
       "link": "https://adamxbc.be/",
-      "embed": false,
+      "embed": true,
       "assets": [],
       "thumb": "",
       "subProjects": [],
@@ -2698,7 +2698,14 @@
       "hidden": false,
       "link": "https://twitch.tv/adamxbc",
       "embed": false,
-      "assets": [],
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.twitch.tv/adamxbc",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
       "thumb": "",
       "subProjects": [],
       "group": "adamxbc",
@@ -2715,13 +2722,20 @@
         "TikTok",
         "Format court"
       ],
-      "desc": "Vidéo courte · 30 000 vues",
-      "longDesc": "Une vidéo TikTok Quick a atteint 30 000 vues.",
+      "desc": "Vidéo courte · +32 000 vues",
+      "longDesc": "Une vidéo TikTok Quick a dépassé les 32 000 vues.",
       "featured": false,
       "hidden": false,
-      "link": "https://www.tiktok.com/@adamxbc",
+      "link": "https://www.tiktok.com/@xdxmxbc/video/7689567653672848672",
       "embed": false,
-      "assets": [],
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.tiktok.com/embed/v2/7689567653672848672",
+          "hidden": false,
+          "size": "md"
+        }
+      ],
       "thumb": "",
       "subProjects": [],
       "group": "adamxbc",

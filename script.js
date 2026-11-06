@@ -580,6 +580,19 @@
       return '<iframe src="https://www.youtube.com/embed/' + yt[1] + '" title="Vidéo du projet" ' +
         'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>';
     }
+    // Twitch : chaîne (direct, ou écran « hors ligne »), rediffusion ou clip.
+    // Le lecteur exige le nom du site qui l'affiche (parent=), sinon il refuse.
+    if (/twitch\.tv/.test(url)){
+      var parent = 'parent=' + encodeURIComponent(location.hostname || 'adam.nocturnz.xyz');
+      var clip = url.match(/(?:clips\.twitch\.tv\/|\/clip\/)([\w-]+)/);
+      var vod = url.match(/twitch\.tv\/videos\/(\d+)/);
+      var chan = url.match(/twitch\.tv\/([\w]+)\/?(?:$|\?)/);
+      var src = clip ? 'https://clips.twitch.tv/embed?clip=' + clip[1] + '&' + parent
+              : vod ? 'https://player.twitch.tv/?video=' + vod[1] + '&' + parent + '&autoplay=false'
+              : chan ? 'https://player.twitch.tv/?channel=' + chan[1] + '&' + parent + '&autoplay=false&muted=true'
+              : '';
+      if (src) return '<iframe src="' + src + '" title="Vidéo Twitch" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>';
+    }
     var vimeo = url.match(/vimeo\.com\/(\d+)/);
     if (vimeo){
       return '<iframe src="https://player.vimeo.com/video/' + vimeo[1] + '" title="Vidéo du projet" ' +
