@@ -1785,10 +1785,18 @@
       var width = cycleWidth();
       if (!width) return;
       cycle = width;
-      var delta = 0;
-      if (grid.scrollLeft < width * 0.5) delta = width;
-      else if (grid.scrollLeft >= width * 1.5) delta = -width;
-      if (delta){ grid.scrollLeft += delta; startScroll += delta; autoPos += delta; }
+      // Un grand geste tactile peut franchir plusieurs cycles avant le prochain
+      // événement scroll. Recaler d'un seul cycle laisse alors le carrousel hors
+      // de sa zone clonée, où les cartes semblent disparaître.
+      var current = grid.scrollLeft;
+      var offset = ((current - width * 0.5) % width + width) % width;
+      var normalized = width * 0.5 + offset;
+      var delta = normalized - current;
+      if (Math.abs(delta) > 0.5){
+        grid.scrollLeft = normalized;
+        startScroll += delta;
+        autoPos += delta;
+      }
     }
     function suspendAuto(){ resumeAfter = performance.now() + 4000; }
     grid.addEventListener('scroll', normalize, { passive:true });
