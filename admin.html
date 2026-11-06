@@ -801,6 +801,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
     star: svg('<path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>'),
     heart: svg('<path d="M12 20s-7-4.4-7-9.2A4 4 0 0 1 12 8a4 4 0 0 1 7 2.8C19 15.6 12 20 12 20z"/>'),
     image: svg('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M3 16l5-4 4 3.5 3-2.5 6 5"/>'),
+    crop: svg('<path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/>'),
     close: svg('<path d="M6 6l12 12M18 6L6 18"/>'),
     up: svg('<path d="M12 19V5M6 11l6-6 6 6"/>'),
     down: svg('<path d="M12 5v14M18 13l-6 6-6-6"/>'),
@@ -1790,6 +1791,12 @@ body.visual-mode .wrap{ max-width: 1400px; }
     // gerent en vue visuelle, il faut donc les reporter sinon ils sautent
     if (editingIndex !== -1 && state.projects[editingIndex].socialLinks){
       p.socialLinks = state.projects[editingIndex].socialLinks;
+    }
+    // cadrage de la miniature (réglé en vue visuelle) : gardé tant que la
+    // miniature ne change pas
+    if (editingIndex !== -1 && state.projects[editingIndex].thumbPos &&
+        state.projects[editingIndex].thumb === p.thumb){
+      p.thumbPos = state.projects[editingIndex].thumbPos;
     }
     // idem pour l'annee de fin : seule une periode explicite en porte une,
     // et "en cours" la calcule a l'affichage plutot que de la figer ici
@@ -2848,6 +2855,13 @@ body.visual-mode .wrap{ max-width: 1400px; }
         // floating control clusters injected by the editor
         '.ed-tools{ position:absolute; top:8px; right:8px; z-index:6; display:flex; gap:6px; opacity:0; transition:opacity .15s ease; }' +
         '.ed-host{ position:relative; }' +
+        '.thumb.is-cropping{ cursor:grab; outline:2px dashed var(--accent-sky); outline-offset:-2px; touch-action:none; }' +
+        '.thumb.is-cropping:active{ cursor:grabbing; }' +
+        '.thumb.is-cropping::before{ display:none; }' +
+        '.thumb.is-cropping .thumb-img{ transition:none !important; }' +
+        '.ed-crop-hint{ position:absolute; left:8px; right:8px; bottom:8px; z-index:7; pointer-events:none;' +
+          'font:600 11px/1.4 system-ui,sans-serif; color:#fff; text-align:center;' +
+          'background:rgba(4,6,26,0.82); border:1px solid rgba(255,255,255,0.25); border-radius:8px; padding:6px 8px; }' +
         '.ed-host:hover .ed-tools, .ed-tools:focus-within{ opacity:1; }' +
         '.ed-btn{ width:30px; height:30px; border-radius:50%; border:1px solid rgba(255,255,255,0.28);' +
           'background:rgba(4,6,26,0.88); color:#fff; font-size:13px; line-height:1; cursor:pointer;' +
@@ -3341,6 +3355,9 @@ body.visual-mode .wrap{ max-width: 1400px; }
           pendingUpload = { owner: p, hint: p.title + '-miniature', thumbOnly: true };
           $('visual-image-upload').click();
         }),
+        card.querySelector('.thumb-img') ? edButton(doc, 'crop', 'Recadrer la miniature (glisser, molette pour zoomer)', false, function(){
+          startThumbCrop(doc, card, p);
+        }) : null,
         edButton(doc, 'close', 'Supprimer ce projet', true, function(){
           if (!confirm('Supprimer définitivement « ' + p.title + ' » ?\n(pour le retirer du site sans le perdre, utilise plutot le bouton oeil)')) return;
           state.projects = state.projects.filter(function(x){ return x.id !== p.id; });
@@ -3465,6 +3482,9 @@ body.visual-mode .wrap{ max-width: 1400px; }
           pendingUpload = { owner: g, hint: g.title + '-miniature', thumbOnly: true };
           $('visual-image-upload').click();
         }),
+        card.querySelector('.thumb-img') ? edButton(doc, 'crop', 'Recadrer la miniature (glisser, molette pour zoomer)', false, function(){
+          startThumbCrop(doc, card, g.thumb ? g : (groupFirstProject(g) || g));
+        }) : null,
         edButton(doc, 'folder', 'Changer le groupe parent', false, function(){ editGroupParent(g); }),
         edButton(doc, 'close', 'Supprimer ce groupe', true, function(){
           deleteGroup(g);
@@ -3581,6 +3601,95 @@ body.visual-mode .wrap{ max-width: 1400px; }
         deleteGroup(g, function(){ visualNav = { page: 'projets.html', projectId: null }; });
       })
     ]);
+  }
+
+  // ---- recadrage d'une miniature ----
+  // Mode actif sur une carte : glisser l'image la déplace dans son cadre, la
+  // molette zoome (1× à 3×), double-clic recentre ; Entrée / Échap / clic
+  // hors de la carte termine. Enregistre owner.thumbPos = { x, y, z } (voir
+  // thumbStyle dans script.js), supprimé quand il revient au réglage par défaut.
+  function groupFirstProject(g){
+    var list = state.projects.filter(function(x){ return x.group === g.id && !x.hidden; });
+    return list.filter(function(x){ return x.thumb || (x.assets || []).some(function(a){ return a.type === 'image'; }); })[0] || list[0] || null;
+  }
+  function startThumbCrop(doc, card, owner){
+    var thumb = card.querySelector('.thumb');
+    var img = thumb && thumb.querySelector('.thumb-img');
+    if (!img || thumb.classList.contains('is-cropping')) return;
+    var isWeb = thumb.classList.contains('web-frame');
+    var pos = owner.thumbPos || {};
+    var x = isFinite(pos.x) ? +pos.x : 50, y = isFinite(pos.y) ? +pos.y : 50, z = isFinite(pos.z) ? +pos.z : 1;
+    var win = doc.defaultView;
+
+    var hint = doc.createElement('div');
+    hint.className = 'ed-crop-hint';
+    hint.innerHTML = 'Glisse pour recadrer · molette : zoom · double-clic : recentrer<br><b>Entrée</b> ou clic dehors pour valider';
+    thumb.appendChild(hint);
+    thumb.classList.add('is-cropping');
+
+    function apply(){
+      img.style.objectPosition = x + '% ' + y + '%';
+      img.style.transformOrigin = x + '% ' + y + '%';
+      if (!isWeb) img.style.transform = 'scale(' + (1.15 * z).toFixed(3) + ')';
+    }
+    apply();
+
+    var drag = null;
+    function down(e){
+      if (e.button) return;
+      e.preventDefault(); e.stopPropagation();
+      drag = { sx: e.clientX, sy: e.clientY, x: x, y: y };
+      thumb.setPointerCapture && thumb.setPointerCapture(e.pointerId);
+    }
+    function move(e){
+      if (!drag) return;
+      var r = thumb.getBoundingClientRect();
+      // l'image suit le doigt : la tirer vers le bas montre le haut (y diminue).
+      // Facteur : l'ampleur dépend du débord de l'image, ~1,6 donne une
+      // sensation « collée » sur les photos usuelles.
+      x = Math.max(0, Math.min(100, drag.x - (e.clientX - drag.sx) / r.width * 160 / z));
+      y = Math.max(0, Math.min(100, drag.y - (e.clientY - drag.sy) / r.height * 160 / z));
+      apply();
+    }
+    function up(){ drag = null; }
+    function wheel(e){
+      e.preventDefault(); e.stopPropagation();
+      z = Math.max(1, Math.min(3, z * (e.deltaY < 0 ? 1.06 : 1 / 1.06)));
+      apply();
+    }
+    function dbl(e){ e.preventDefault(); e.stopPropagation(); x = 50; y = 50; z = 1; apply(); }
+    function stopClick(e){ e.preventDefault(); e.stopPropagation(); }
+    function key(e){ if (e.key === 'Enter' || e.key === 'Escape'){ e.preventDefault(); finish(); } }
+    function outside(e){ if (!card.contains(e.target)) finish(); }
+
+    thumb.addEventListener('pointerdown', down);
+    thumb.addEventListener('pointermove', move);
+    thumb.addEventListener('pointerup', up);
+    thumb.addEventListener('pointercancel', up);
+    thumb.addEventListener('wheel', wheel, { passive: false });
+    thumb.addEventListener('dblclick', dbl);
+    thumb.addEventListener('click', stopClick, true);
+    doc.addEventListener('keydown', key);
+    setTimeout(function(){ doc.addEventListener('pointerdown', outside, true); }, 0);
+
+    function finish(){
+      thumb.removeEventListener('pointerdown', down);
+      thumb.removeEventListener('pointermove', move);
+      thumb.removeEventListener('pointerup', up);
+      thumb.removeEventListener('pointercancel', up);
+      thumb.removeEventListener('wheel', wheel);
+      thumb.removeEventListener('dblclick', dbl);
+      thumb.removeEventListener('click', stopClick, true);
+      doc.removeEventListener('keydown', key);
+      doc.removeEventListener('pointerdown', outside, true);
+      thumb.classList.remove('is-cropping');
+      hint.remove();
+      var r1 = function(v){ return Math.round(v * 10) / 10; };
+      var before = JSON.stringify(owner.thumbPos || null);
+      if (r1(x) === 50 && r1(y) === 50 && Math.abs(z - 1) < 0.005) delete owner.thumbPos;
+      else owner.thumbPos = { x: r1(x), y: r1(y), z: Math.round(z * 100) / 100 };
+      if (JSON.stringify(owner.thumbPos || null) !== before) applyAndRefresh();
+    }
   }
 
   // ---- floating controls injected over the rendered site ----
@@ -4267,6 +4376,7 @@ body.visual-mode .wrap{ max-width: 1400px; }
     }).then(function(paths){
       if (target.thumbOnly){
         target.owner.thumb = paths[0];
+        delete target.owner.thumbPos;   // nouvelle image : cadrage remis au centre
       } else if (target.addTo){
         // photos ajoutées à un carrousel existant
         target.addTo.urls = (target.addTo.urls || []).concat(paths);

@@ -399,6 +399,21 @@ section.projects-section{
   background: linear-gradient(180deg, rgba(8,11,48,0.1), rgba(8,11,48,0.78));
 }
 .card .thumb .icon{ position:relative; z-index:2; width:32px; height:32px; color: var(--accent-sky); opacity:0.9; }
+/* Miniature générée quand il n'y en a pas : fond bleu nuit et titre en
+   Schoolbell (--font-title), comme les titres du site. */
+.card .thumb:not(.has-img), .favori-card .thumb:not(.has-img){
+  background: radial-gradient(120% 90% at 30% 15%, #141c63 0%, #0a0f3f 50%, #05071f 100%);
+}
+.thumb-title{
+  position:relative; z-index:2; max-width: 84%;
+  font-family: var(--font-title); font-weight:400; color: var(--text);
+  font-size: clamp(22px, 2.3vw, 30px); line-height:1.12; text-align:center;
+  text-wrap: balance; overflow-wrap: anywhere;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+  text-shadow: 0 2px 14px rgba(70,80,255,0.35);
+  margin-top: -6px;
+}
+.favori-card .thumb-title{ font-size: clamp(28px, 3.4vw, 44px); }
 /* a real thumbnail image sits under the same dark gradient the generated
    pattern gets, so the year/medium chips stay readable on any photo */
 .thumb-img{
@@ -643,6 +658,10 @@ section.projects-section{
 /* videos get the same taped treatment, minus the zoom cursor and the hover
    straighten (an iframe you're about to click shouldn't move under the mouse) */
 .detail-embed{ margin-top: 46px; }
+/* Une vidéo inclinée (iframe YouTube, <video>) a des bords en escalier :
+   Chrome ne lisse pas le contour d'un lecteur tourné. Les vidéos restent
+   donc droites, avec leur scotch ; seules les photos gardent l'inclinaison. */
+.detail-gallery .detail-embed.photo, .detail-gallery .detail-embed.photo:hover{ transform:none; }
 .detail-embed iframe, .detail-embed video{
   width:100%; aspect-ratio: 16/9; border-radius: 0;
   border: none; background: #000;

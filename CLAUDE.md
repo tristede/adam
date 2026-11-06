@@ -471,3 +471,14 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
   Version papier : adresses écrites (adam.karroum.be, redirige vers adam.nocturnz.xyz
   en gardant le chemin), QR codes bleus à la place des « Voir » + Portfolio / LinkedIn /
   Instagram en bas. CSS `v=81`, JS `v=61`.
+
+- 6 novembre 2026 — **Recadrage des miniatures** : bouton « Recadrer » (vue visuelle,
+  cartes projet et groupe) → glisser / molette / double-clic, enregistre `thumbPos`
+  `{x, y, z}` (projet ou groupe ; rendu par `thumbStyle` dans script.js), remis à zéro
+  quand la miniature change, conservé par le formulaire. **Miniature générée** quand il
+  n'y en a pas : fond bleu nuit + titre en Schoolbell (`.thumb-title`). Flyers = dépliant
+  ouvert ; le groupe Oasis a désormais sa propre miniature (photo d'équipe) au lieu de
+  reprendre celle des Flyers. Manif : miniature BXL + stats (X, Instagram, TikTok, données
+  fournies par Adam). NGC Hub masqué (aucun projet visible). Vidéos (iframe/video) non
+  inclinées : bords crénelés sinon. Visionneuse CV : retour à la version web dès que la
+  fenêtre d'impression se ferme. CSS `v=83`, JS `v=63`.

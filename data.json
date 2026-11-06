@@ -68,7 +68,7 @@
         "kicker": "Club",
         "title": "Union Oasis Forest",
         "desc": "Club de futsal D2 · communication, site web, outils numériques",
-        "thumb": "",
+        "thumb": "images/thumbs/union-oasis-forest-miniature-1787866364017-0.webp",
         "featured": true,
         "pageDesc": "Au sein de l’Union Oasis Forest, club de futsal bruxellois, je travaille sur la communication et les outils numériques : identité visuelle, contenus pour les réseaux et site web du club."
       },
@@ -127,7 +127,8 @@
         "desc": "Outils construits autour de mon stream",
         "thumb": "",
         "featured": false,
-        "pageDesc": "Une collection d’outils pensés pour faciliter la régie et les usages autour du streaming."
+        "pageDesc": "Une collection d’outils pensés pour faciliter la régie et les usages autour du streaming.",
+        "hidden": true
       },
       {
         "id": "daybreak",
@@ -327,7 +328,7 @@
       ],
       "desc": "Dépliant du club · horaires, tarifs, stages",
       "featured": false,
-      "thumb": "images/thumbs/union-oasis-forest-miniature-1787866364017-0.webp",
+      "thumb": "images/thumbs/union-oasis-forest-flyers-miniature.webp",
       "assets": [
         {
           "type": "image",
@@ -2139,8 +2140,8 @@
       "tags": [
         "Vidéo"
       ],
-      "desc": "Tournage · 9 octobre 2026",
-      "longDesc": "Images tournées à Bruxelles pendant la manifestation du 9 octobre 2026.",
+      "desc": "Tournage · +25 000 vues sur X, Instagram et TikTok",
+      "longDesc": "Images tournées à Bruxelles pendant la manifestation du 9 octobre 2026.\nPrès de 26 000 vues cumulées sur X, Instagram et TikTok.\nX : 6 909 vues (5 411 uniques), 15 639 impressions, 1 784 engagements.\nInstagram (reel) : 10 560 vues, 734 j'aime, 80 republications, 58 enregistrements.\nTikTok : 8 408 vues, 768 j'aime, 98 partages, 83 enregistrements.",
       "featured": false,
       "hidden": false,
       "link": "",
@@ -2153,7 +2154,7 @@
           "size": "lg"
         }
       ],
-      "thumb": "",
+      "thumb": "images/thumbs/manif-video-miniature.webp",
       "subProjects": [],
       "newUntil": "2026-12-04"
     },

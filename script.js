@@ -164,6 +164,25 @@
     return minY === maxY ? String(minY) : (minY + '-' + maxY);
   }
 
+  // Cadrage d'une miniature (`thumbPos` sur un projet ou un groupe, réglé dans
+  // l'admin par glisser / molette) : x, y = point de l'image gardé au centre du
+  // cadre, en % (50/50 = centré) ; z = zoom en plus du 115 % de base.
+  function thumbStyle(pos, isWeb){
+    if (!pos || typeof pos !== 'object') return '';
+    var x = isFinite(pos.x) ? +pos.x : 50, y = isFinite(pos.y) ? +pos.y : 50;
+    var z = isFinite(pos.z) && pos.z > 0 ? +pos.z : 1;
+    var css = 'object-position:' + x + '% ' + y + '%;transform-origin:' + x + '% ' + y + '%;';
+    if (!isWeb && z !== 1) css += 'transform:scale(' + (1.15 * z).toFixed(3) + ');';
+    return ' style="' + css + '"';
+  }
+  // Pas de miniature : la carte en fabrique une, fond bleu nuit et titre dans
+  // la police des titres du site (Schoolbell), au lieu d'un cadre vide.
+  function titleThumb(title){
+    return '<span class="thumb-title" aria-hidden="true">' + title + '</span>';
+  }
+  // cadrage qui va avec la miniature affichée : celui du projet dont elle vient
+  function thumbPosOf(p){ return p.thumbPos || null; }
+
   function thumbSrc(p){
     if (p.thumb) return p.thumb;
     var firstImg = visibleAssets(p).filter(function(a){ return a.type === 'image'; })[0];
@@ -196,9 +215,9 @@
         (p.preview ? ' data-preview="' + String(p.preview).replace(/"/g, '&quot;') + '"' : '') +
         ' style="transition-delay:' + ((i % 8) * 40) + 'ms">' +
         '<div class="thumb' + (thumb ? ' has-img' : '') + (thumb && p.medium === 'web' ? ' web-frame' : '') + '">' +
-          (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy">' : '') +
+          (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy"' + thumbStyle(thumbPosOf(p), p.medium === 'web') + '>' : '') +
           '<span class="year">' + projectPeriod(p) + '</span>' +
-          (thumb ? '' : '<span class="icon">' + (icons[p.medium] || '') + '</span>') +
+          (thumb ? '' : titleThumb(p.title)) +
           '<span class="medium-label">' + (mediumLabel[p.medium] || p.medium) + '</span>' +
         '</div>' +
         '<div class="card-body">' +
@@ -397,9 +416,9 @@
     container.removeAttribute('data-group-id');
     container.innerHTML =
       '<div class="thumb' + (thumb ? ' has-img' : '') + (thumb && p.medium === 'web' ? ' web-frame' : '') + '">' +
-        (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy">' : '') +
+        (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy"' + thumbStyle(thumbPosOf(p), p.medium === 'web') + '>' : '') +
         '<span class="year">' + projectPeriod(p) + '</span>' +
-        (thumb ? '' : '<span class="icon">' + (icons[p.medium] || '') + '</span>') +
+        (thumb ? '' : titleThumb(p.title)) +
       '</div>' +
       '<div class="body">' +
         '<span class="kicker" style="color:#86efac;font-size:13px;font-weight:600;letter-spacing:0.04em;">Projet favori</span>' +
@@ -421,7 +440,8 @@
     container.removeAttribute('data-project-id');
     container.innerHTML =
       '<div class="thumb' + (thumb ? ' has-img' : '') + (thumb && list.some(function(p){ return p.medium === 'web'; }) && list.every(function(p){ return p.hidden || p.medium === 'web'; }) ? ' web-frame' : '') + '">' +
-        (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + g.title + '" loading="lazy">' : '') +
+        (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + g.title + '" loading="lazy"' + thumbStyle(g.thumb ? g.thumbPos : (list[0] ? thumbPosOf(list[0]) : null)) + '>' : '') +
+        (thumb ? '' : titleThumb(g.title)) +
         '<span class="period">' + groupPeriod(list) + '</span>' +
         '<span class="year">' + n + ' projet' + (n > 1 ? 's' : '') + '</span>' +
       '</div>' +
@@ -1261,8 +1281,8 @@
 
     // Imprimer : la visionneuse passe d'abord à la version blanche (ce qui
     // sortira vraiment de l'imprimante, toutes les fenêtres d'impression
-    // n'ont pas d'aperçu), puis la fenêtre d'impression s'ouvre. Elle reste
-    // en blanc jusqu'à la fermeture ; la prochaine ouverture repart en couleur.
+    // n'ont pas d'aperçu), puis la fenêtre d'impression s'ouvre. Dès qu'elle
+    // se ferme (imprimé ou annulé), retour à la version web.
     function whenLoaded(el, cb){
       if (el.complete && el.naturalWidth) return cb();
       el.addEventListener('load', cb, { once: true });
@@ -1281,21 +1301,29 @@
             requestAnimationFrame(function(){ requestAnimationFrame(function(){
               document.documentElement.classList.add('cv-printing');
               window.print();
+              // window.print() rend la main quand la fenêtre se ferme (imprimé
+              // ou annulé) ; afterprint fait pareil là où print() ne bloque pas
+              setTimeout(afterPrint, 300);
             }); });
           });
         });
       });
     }
-    window.addEventListener('afterprint', function(){
+    // fenêtre d'impression fermée (imprimé ou annulé) : retour à la version web
+    function backToWeb(){
+      if (!box.classList.contains('is-print')) return;
+      box.classList.remove('is-print');
+      loadMeta().then(function(meta){ img.src = 'images/cv/cv.webp?v=' + (meta.v || ''); });
+    }
+    function afterPrint(){
       document.documentElement.classList.remove('cv-printing');
-    });
+      backToWeb();
+    }
+    window.addEventListener('afterprint', afterPrint);
 
     function close(){
       if (!box.classList.contains('is-open')) return;
-      if (box.classList.contains('is-print')){
-        box.classList.remove('is-print');
-        loadMeta().then(function(meta){ img.src = 'images/cv/cv.webp?v=' + (meta.v || ''); });
-      }
+      backToWeb();
       box.classList.remove('is-open');
       box.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
@@ -1430,7 +1458,8 @@
         tipAttr(g.desc) +
         ' style="transition-delay:' + ((i % 8) * 40) + 'ms">' +
         '<div class="thumb' + (thumb ? ' has-img' : '') + (thumb && list.some(function(p){ return p.medium === 'web'; }) && list.every(function(p){ return p.hidden || p.medium === 'web'; }) ? ' web-frame' : '') + '">' +
-          (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + g.title + '" loading="lazy">' : '') +
+          (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + g.title + '" loading="lazy"' + thumbStyle(g.thumb ? g.thumbPos : (list[0] ? thumbPosOf(list[0]) : null)) + '>' : '') +
+        (thumb ? '' : titleThumb(g.title)) +
           '<span class="period">' + groupPeriod(list) + '</span>' +
           '<span class="year"' + membersAttr(list) + '>' + list.length + ' projet' + (list.length > 1 ? 's' : '') + '</span>' +
           '<span class="medium-label">Groupe</span>' +
