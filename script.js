@@ -46,18 +46,19 @@
     ecrit: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20l1-4L16 5l3 3-11 11-4 1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>',
     web: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.8 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.8-3.8-9s1.3-6.4 3.8-9z" stroke="currentColor" stroke-width="1.6"/></svg>'
   };
+  icons.journalisme = '<svg viewBox="0 0 24 24" fill="none"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M17 9h3v8a2 2 0 0 1-2 2h-1M7 9h7M7 12.5h7M7 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
   icons.jeu = '<svg viewBox="0 0 24 24" fill="none"><path d="M7 7h10c3 0 5 10 2 11-2 1-3-3-5-3h-4c-2 0-3 4-5 3-3-1-1-11 2-11Z" stroke="currentColor" stroke-width="1.6"/><path d="M6 11h4M8 9v4" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="10" r="1" fill="currentColor"/><circle cx="18" cy="13" r="1" fill="currentColor"/></svg>';
   var mediumLabel = {
     video: 'Vidéo', audio: 'Audio', graphisme: 'Graphisme',
-    social: 'Réseaux sociaux', event: 'Événementiel', ecrit: 'Écrit', web: 'Site web', jeu: 'Jeu'
+    social: 'Réseaux sociaux', event: 'Événementiel', ecrit: 'Écrit', journalisme: 'Journalisme', web: 'Site web', jeu: 'Jeu'
   };
 
   // Presets de la page Projets : un clic ouvre tous les projets d'un meme
   // medium (ou portant ce tag), groupes depliés. L'ordre est celui des pastilles.
-  var presetOrder = ['web', 'video', 'graphisme', 'audio', 'social', 'event', 'ecrit', 'jeu'];
+  var presetOrder = ['web', 'video', 'graphisme', 'audio', 'social', 'event', 'ecrit', 'journalisme', 'jeu'];
   var presetLabel = {
     web: 'Web', video: 'Vidéo', graphisme: 'Graphisme', audio: 'Audio',
-    social: 'Réseaux', event: 'Événementiel', ecrit: 'Écrit', jeu: 'Jeux'
+    social: 'Réseaux', event: 'Événementiel', ecrit: 'Écrit', journalisme: 'Journalisme', jeu: 'Jeux'
   };
   function porteLeTagOuMedium(p, t){
     return !t || p.medium === t || (p.tags || []).indexOf(t) !== -1;
@@ -180,6 +181,19 @@
   function titleThumb(title){
     return '<span class="thumb-title" aria-hidden="true">' + title + '</span>';
   }
+  // Une carte de groupe garde le « cadre web » (capture encadrée, sans zoom)
+  // quand son image est la capture d'un de ses projets web — pas seulement
+  // quand tous ses projets sont des sites (Daybreak mélange web et jeux).
+  // projet : capture encadrée si c'est un site, ou si l'image est une capture
+  // encadrée (fichier *-web-frame), quel que soit le médium (ex. Linktree)
+  function isWebFrame(p, thumb){
+    return !!thumb && (p.medium === 'web' || /web-frame/.test(thumb));
+  }
+  function groupWebFrame(thumb, list){
+    if (!thumb) return false;
+    if (/web-frame/.test(thumb)) return true;
+    return list.some(function(p){ return p.medium === 'web' && thumbSrc(p) === thumb; });
+  }
   // cadrage qui va avec la miniature affichée : celui du projet dont elle vient
   function thumbPosOf(p){ return p.thumbPos || null; }
 
@@ -214,8 +228,8 @@
         tipAttr(p.desc) +
         (p.preview ? ' data-preview="' + String(p.preview).replace(/"/g, '&quot;') + '"' : '') +
         ' style="transition-delay:' + ((i % 8) * 40) + 'ms">' +
-        '<div class="thumb' + (thumb ? ' has-img' : '') + (thumb && p.medium === 'web' ? ' web-frame' : '') + '">' +
-          (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy"' + thumbStyle(thumbPosOf(p), p.medium === 'web') + '>' : '') +
+        '<div class="thumb' + (thumb ? ' has-img' : '') + (isWebFrame(p, thumb) ? ' web-frame' : '') + '">' +
+          (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy"' + thumbStyle(thumbPosOf(p), isWebFrame(p, thumb)) + '>' : '') +
           '<span class="year">' + projectPeriod(p) + '</span>' +
           (thumb ? '' : titleThumb(p.title)) +
           '<span class="medium-label">' + (mediumLabel[p.medium] || p.medium) + '</span>' +
@@ -415,8 +429,8 @@
     container.setAttribute('data-project-id', p.id);
     container.removeAttribute('data-group-id');
     container.innerHTML =
-      '<div class="thumb' + (thumb ? ' has-img' : '') + (thumb && p.medium === 'web' ? ' web-frame' : '') + '">' +
-        (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy"' + thumbStyle(thumbPosOf(p), p.medium === 'web') + '>' : '') +
+      '<div class="thumb' + (thumb ? ' has-img' : '') + (isWebFrame(p, thumb) ? ' web-frame' : '') + '">' +
+        (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + p.title + '" loading="lazy"' + thumbStyle(thumbPosOf(p), isWebFrame(p, thumb)) + '>' : '') +
         '<span class="year">' + projectPeriod(p) + '</span>' +
         (thumb ? '' : titleThumb(p.title)) +
       '</div>' +
@@ -439,7 +453,7 @@
     container.setAttribute('data-group-id', g.id);
     container.removeAttribute('data-project-id');
     container.innerHTML =
-      '<div class="thumb' + (thumb ? ' has-img' : '') + (thumb && list.some(function(p){ return p.medium === 'web'; }) && list.every(function(p){ return p.hidden || p.medium === 'web'; }) ? ' web-frame' : '') + '">' +
+      '<div class="thumb' + (thumb ? ' has-img' : '') + (groupWebFrame(thumb, list) ? ' web-frame' : '') + '">' +
         (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + g.title + '" loading="lazy"' + thumbStyle(g.thumb ? g.thumbPos : (list[0] ? thumbPosOf(list[0]) : null)) + '>' : '') +
         (thumb ? '' : titleThumb(g.title)) +
         '<span class="period">' + groupPeriod(list) + '</span>' +
@@ -1458,6 +1472,13 @@
     }).join('') + '</div>';
   }
 
+  // Libellé en bas de la miniature d'un groupe : « Web » quand tous ses
+  // projets visibles sont des sites (Nocturnz, TristeJeu), sinon « Groupe ».
+  function groupMediumLabel(list){
+    var shown = list.filter(function(p){ return !p.hidden; });
+    if (shown.length && shown.every(function(p){ return p.medium === 'web'; })) return presetLabel.web;
+    return 'Groupe';
+  }
   function groupCardHTML(g, list, i){
     var thumb = g.thumb || (list[0] ? thumbSrc(list[0]) : '');
     // Un groupe se lit comme un paquet de cartes : deux feuilles decalees
@@ -1470,12 +1491,12 @@
         (g.hidden ? ' data-group-hidden="1"' : '') +
         tipAttr(g.desc) +
         ' style="transition-delay:' + ((i % 8) * 40) + 'ms">' +
-        '<div class="thumb' + (thumb ? ' has-img' : '') + (thumb && list.some(function(p){ return p.medium === 'web'; }) && list.every(function(p){ return p.hidden || p.medium === 'web'; }) ? ' web-frame' : '') + '">' +
+        '<div class="thumb' + (thumb ? ' has-img' : '') + (groupWebFrame(thumb, list) ? ' web-frame' : '') + '">' +
           (thumb ? '<img class="thumb-img" src="' + thumb + '" alt="' + g.title + '" loading="lazy"' + thumbStyle(g.thumb ? g.thumbPos : (list[0] ? thumbPosOf(list[0]) : null)) + '>' : '') +
         (thumb ? '' : titleThumb(g.title)) +
           '<span class="period">' + groupPeriod(list) + '</span>' +
           '<span class="year"' + membersAttr(list) + '>' + list.length + ' projet' + (list.length > 1 ? 's' : '') + '</span>' +
-          '<span class="medium-label">Groupe</span>' +
+          '<span class="medium-label">' + groupMediumLabel(list) + '</span>' +
         '</div>' +
         '<div class="card-body">' +
           newBadge(g) +

@@ -488,3 +488,15 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
   lecteur TikTok de la vidéo à 32 300 vues (@xdxmxbc), lien vers la vidéo. Twitch : lecteur
   Twitch (chaîne `adamxbc`, écran « hors ligne » hors direct) ; `videoEmbedHTML` reconnaît
   chaîne / rediffusion `/videos/ID` / clip, avec `parent=` = domaine courant. JS `v=64`.
+
+- 6 novembre 2026 (fin) — Cadre web (capture encadrée, sans zoom) : sur un groupe dès que
+  son image est la capture d'un projet web (`groupWebFrame`, Daybreak) ; sur un projet si
+  médium web **ou** fichier `*-web-frame` (`isWebFrame`, Linktree). Capture Linktree
+  `adamxbc-linktree-web-frame.webp` (même gabarit : 1200×675, cadre #454546 de 5 px à
+  x 177–1022 / y 60–591, rayon 10). Libellé de groupe « Web » si tous ses projets visibles
+  sont web (Nocturnz, TristeJeu), sinon « Groupe ». Nouveau médium `journalisme`
+  (Journalisme) pour la presse seulement ; « Écrit » reste pour DEI. NEW en haut à droite
+  de l'encart bleu, couleur de « Mis en avant ». Tags : Linktree/Streaming retirés ; Web
+  (Linktree), Événementiel (Zennit), Écriture (presse, chant/rap), Montage (manif),
+  Graphisme (Chloé Ly x BASE). Description du Linktree (raisons données par Adam).
+  CSS `v=84`, JS `v=67`.

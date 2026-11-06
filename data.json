@@ -271,7 +271,8 @@
       "medium": "video",
       "tags": [
         "Vidéo",
-        "Montage"
+        "Montage",
+        "Graphisme"
       ],
       "desc": "Coulisses de clip · montage vidéo",
       "featured": false,
@@ -476,7 +477,9 @@
       "year": 2022,
       "ctx": "perso",
       "medium": "event",
-      "tags": [],
+      "tags": [
+        "Événementiel"
+      ],
       "desc": "Animation de tournois · accueil et information du public",
       "featured": false,
       "assets": [
@@ -540,7 +543,8 @@
       "medium": "audio",
       "tags": [
         "Audio",
-        "Mixage audio"
+        "Mixage audio",
+        "Écriture"
       ],
       "desc": "Du premier texte au mix final",
       "featured": false,
@@ -1026,8 +1030,10 @@
       "title": "Écriture d'articles de presse",
       "year": 2025,
       "ctx": "academique",
-      "medium": "ecrit",
-      "tags": [],
+      "medium": "journalisme",
+      "tags": [
+        "Écriture"
+      ],
       "desc": "Interviews et rédaction journalistique",
       "featured": false,
       "assets": [
@@ -2138,7 +2144,8 @@
       "ctx": "perso",
       "medium": "video",
       "tags": [
-        "Vidéo"
+        "Vidéo",
+        "Montage"
       ],
       "desc": "Tournage · +25 000 vues sur X, Instagram et TikTok",
       "longDesc": "Images tournées à Bruxelles pendant la manifestation du 9 octobre 2026.\nPrès de 26 000 vues cumulées sur X, Instagram et TikTok.\nX : 6 909 vues (5 411 uniques), 15 639 impressions, 1 784 engagements.\nInstagram (reel) : 10 560 vues, 734 j'aime, 80 republications, 58 enregistrements.\nTikTok : 8 408 vues, 768 j'aime, 98 partages, 83 enregistrements.",
@@ -2667,16 +2674,16 @@
       "ctx": "perso",
       "medium": "social",
       "tags": [
-        "Linktree"
+        "Web"
       ],
-      "desc": "Réseaux et projets · liens réunis sur une page",
-      "longDesc": "Page qui rassemble mes comptes et mes espaces en ligne.",
+      "desc": "Page de liens maison · domaine perso adamxbc.be",
+      "longDesc": "Page qui rassemble mes comptes et mes espaces en ligne.\nLes services existants ne me convenaient pas : abonnements payants, peu de personnalisation, pas de domaine à moi. J'ai donc créé la mienne, sur adamxbc.be.",
       "featured": false,
       "hidden": false,
       "link": "https://adamxbc.be/",
       "embed": true,
       "assets": [],
-      "thumb": "",
+      "thumb": "images/thumbs/adamxbc-linktree-web-frame.webp",
       "subProjects": [],
       "group": "adamxbc",
       "newUntil": "2026-12-04"
@@ -2689,8 +2696,7 @@
       "ctx": "perso",
       "medium": "social",
       "tags": [
-        "Twitch",
-        "Streaming"
+        "Twitch"
       ],
       "desc": "Chaîne affiliée · streaming en direct",
       "longDesc": "Chaîne Twitch affiliée sous le nom AdamXBC.",
