@@ -500,3 +500,7 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
   (Linktree), Événementiel (Zennit), Écriture (presse, chant/rap), Montage (manif),
   Graphisme (Chloé Ly x BASE). Description du Linktree (raisons données par Adam).
   CSS `v=84`, JS `v=67`.
+
+- 8 novembre 2026 — Groupe Daybreak masqué (`hidden`, ses projets disparaissent avec lui).
+  Manif déplacée en tête des projets perso hors groupe (ordre de `data.json`) : elle
+  s'affiche juste après les cartes de groupes. Non publié sur `main`.

@@ -137,7 +137,7 @@
         "desc": "LeVillage · site web · Discord · Aeterna",
         "thumb": "images/thumbs/daybreak-site-web-frame.webp",
         "featured": false,
-        "hidden": false,
+        "hidden": true,
         "pageDesc": "Daybreak est une plateforme sociale autour d’événements multijoueurs temporaires. Lancée avec des serveurs Minecraft, elle a vocation à s’étendre à d’autres jeux et à proposer aussi des serveurs permanents. LeVillage est notre mode de jeu propriétaire en développement."
       },
       {
@@ -470,6 +470,35 @@
       "subProjects": [],
       "thumb": "images/thumbs/nocturnz-portfolio-en-ligne-miniature-1790900861949-0.webp",
       "group": "nocturnz"
+    },
+    {
+      "id": "manif-video",
+      "title": "Manifestation à Bruxelles",
+      "year": 2026,
+      "current": false,
+      "ctx": "perso",
+      "medium": "video",
+      "tags": [
+        "Vidéo",
+        "Montage"
+      ],
+      "desc": "Tournage · +25 000 vues sur X, Instagram et TikTok",
+      "longDesc": "Images tournées à Bruxelles pendant la manifestation du 9 octobre 2026.\nPrès de 26 000 vues cumulées sur X, Instagram et TikTok.\nX : 6 909 vues (5 411 uniques), 15 639 impressions, 1 784 engagements.\nInstagram (reel) : 10 560 vues, 734 j'aime, 80 republications, 58 enregistrements.\nTikTok : 8 408 vues, 768 j'aime, 98 partages, 83 enregistrements.",
+      "featured": false,
+      "hidden": false,
+      "link": "",
+      "embed": false,
+      "assets": [
+        {
+          "type": "video",
+          "url": "https://www.youtube.com/watch?v=4NEu4Gj9F0c",
+          "hidden": false,
+          "size": "lg"
+        }
+      ],
+      "thumb": "images/thumbs/manif-video-miniature.webp",
+      "subProjects": [],
+      "newUntil": "2026-12-04"
     },
     {
       "id": "evenementiel-stand-zennit",
@@ -2135,35 +2164,6 @@
       "assets": [],
       "thumb": "",
       "subProjects": []
-    },
-    {
-      "id": "manif-video",
-      "title": "Manifestation à Bruxelles",
-      "year": 2026,
-      "current": false,
-      "ctx": "perso",
-      "medium": "video",
-      "tags": [
-        "Vidéo",
-        "Montage"
-      ],
-      "desc": "Tournage · +25 000 vues sur X, Instagram et TikTok",
-      "longDesc": "Images tournées à Bruxelles pendant la manifestation du 9 octobre 2026.\nPrès de 26 000 vues cumulées sur X, Instagram et TikTok.\nX : 6 909 vues (5 411 uniques), 15 639 impressions, 1 784 engagements.\nInstagram (reel) : 10 560 vues, 734 j'aime, 80 republications, 58 enregistrements.\nTikTok : 8 408 vues, 768 j'aime, 98 partages, 83 enregistrements.",
-      "featured": false,
-      "hidden": false,
-      "link": "",
-      "embed": false,
-      "assets": [
-        {
-          "type": "video",
-          "url": "https://www.youtube.com/watch?v=4NEu4Gj9F0c",
-          "hidden": false,
-          "size": "lg"
-        }
-      ],
-      "thumb": "images/thumbs/manif-video-miniature.webp",
-      "subProjects": [],
-      "newUntil": "2026-12-04"
     },
     {
       "id": "tristejeu-tristeparty",
