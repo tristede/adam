@@ -503,4 +503,4 @@ Ce lot remplace le statut « non publié » des étapes locales ci-dessus.
 
 - 8 novembre 2026 — Groupe Daybreak masqué (`hidden`, ses projets disparaissent avec lui).
   Manif déplacée en tête des projets perso hors groupe (ordre de `data.json`) : elle
-  s'affiche juste après les cartes de groupes. Non publié sur `main`.
+  s'affiche juste après les cartes de groupes. Publié sur `main` à la demande d'Adam.
